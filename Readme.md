@@ -18,7 +18,7 @@ Users can browse through a vast range of products 📚👗👟, view detailed de
 
 ### Maintainers and contributors
 
-**Students of RSSchool**: Viktoriya Kryuchkova, Valeriy Matskevich, Alexey Gorbenko.
+**Students of RSSchool**: Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko.
 
 **Mentor**: Marina Golubeva.
 
