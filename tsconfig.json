@@ -6,5 +6,5 @@
     "target": "es2022",
     "noImplicitAny": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "__tests__/**/*"],
 }

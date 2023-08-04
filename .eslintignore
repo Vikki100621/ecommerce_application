@@ -1,8 +1,10 @@
+__mocks__/
 dist/
 node_modules/
 .prettierignore
 .prettierrc.json
 .stylelintrc.js
+jest.config.js
 package.json
 package-lock.json
 tsconfig.eslint.json
