@@ -6,7 +6,8 @@
   "scripts": {
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "author": "Alexey Gorbenko",
   "license": "ISC",
