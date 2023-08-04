@@ -1,6 +1,7 @@
 dist/
 node_modules/
 .prettierignore
+.prettierrc.json
 .stylelintrc.js
 package.json
 package-lock.json
