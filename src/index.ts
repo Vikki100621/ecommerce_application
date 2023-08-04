@@ -1,3 +1,4 @@
 import './assets/scss/style.scss';
 
-console.log("Hello!");
+// eslint-disable-next-line no-console
+console.log('Hello!');
