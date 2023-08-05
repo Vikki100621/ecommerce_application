@@ -52,26 +52,80 @@ Tools, using in project development:
 
 - [Jest](https://jestjs.io/).
 
-## Maintainers and contributors
-
-**Students of RSSchool**: Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko.
-
-**Mentor**: Marina Golubeva.
-
 ## How to develop, use, and test the code
 
 For using project on Your machine:
-- clone this project
+- clone this project to your machine using git:
+
   ```
   git clone https://github.com/Vikki100621/ecommerce_application
   ```
 
-- install
+- install packets using npm
+
   ```
   npm i
   ```
 
-Useful scripts for developing, testing and building the application You can find in `package.json` file in the root of the project.
+Project files are in `src` directory. Main branch is `develop`. If You want to add some feature, create new branch from `main` and code. After You end adding the functional, create pull request for merging your code to `develop` branch, but **don't merge it** before all reviewers approve.
+
+## Scripts for development
+
+For better coding we add some scripts.
+
+When You develop, you can use script
+
+```
+npm run serve
+```
+
+This will start dev-server and open browser with running project. Every time You save the code will reload opened page in browser.
+
+Also you can build project in two ways:
+
+1. Development mode:
+
+    ```
+    npm run build:dev
+    ```
+
+2. Production mode:
+
+    ```
+    npm run build:prod
+    ```
+
+When You build the application, it will be built in `distr` catalog.
+
+For linting use
+
+```
+npm run lint
+```
+
+You will see all the code, needed to be changed.
+
+Prettier can be started by command 
+
+```
+npm run pret
+```
+
+Anyway, eslint and prettier will be started every time You'll make the commit.
+
+Jest You can use in two ways:
+
+1. For only test your code:
+
+    ```
+    npm run test
+    ```
+
+2. For getting information about test coverage all over the project code:
+
+    ```
+    npm run test-cover
+    ```
 
 ## The licensing information
 
@@ -93,6 +147,12 @@ Except as contained in this notice, the name of the X Consortium shall not be us
 X Window System is a trademark of X Consortium, Inc.
 ```
 
+## Maintainers and contributors
+
+**Students of RSSchool**: Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko.
+
+**Mentor**: Marina Golubeva.
+
 ## Contact information
 
-[Here should be contact information]
+E-mail: [a.v.gor@mail.ru](a.v.gor@mail.ru).
