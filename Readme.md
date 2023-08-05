@@ -6,17 +6,53 @@
 
 This project is study project, [SPA](https://en.wikipedia.org/wiki/Single-page_application), is making by students of [Rolling Scopes School](https://rs.school/).
 
-This platform replicates real-world shopping experiences in a digital environment 🏪. It's a comprehensive online shopping portal that provides an interactive and seamless experience to users. From product discovery to checkout, the application ensures a smooth journey for the user, enhancing their engagement and boosting their purchasing confidence 🚀.
+### What does application do?
+
+This platform replicates real-world shopping experiences in a digital environment 🏪. It's a comprehensive online shopping portal, that provides an interactive and seamless experience to users. From product discovery to checkout, the application ensures a smooth journey for the user, enhancing their engagement and boosting their purchasing confidence 🚀.
 
 ### How does it work
 
 Users can browse through a vast range of products 📚👗👟, view detailed descriptions, add their favorite items to the basket 🛒, and proceed to checkout 💳. It includes features such as user registration and login 📝🔐, product search 🔍, product categorization, and sorting to make the shopping experience more streamlined and convenient.
 
-### How users can get started with the project
+### Technical details
 
-[It will be information here after deploy.]
+An important aspect of our application is that it's responsive 📲, ensuring it looks great on various devices with a minimum resolution of 390px.
 
-### Maintainers and contributors
+Key pages in the application include:
+
+- Login and Registration pages 🖥️
+
+- Main page 🏠
+
+- Catalog Product page 📋
+
+- Detailed Product page 🔎
+
+- User Profile page 👤
+
+- Basket page 🛒
+
+- About Us page 🙋‍♂️🙋‍♀️
+
+The application is powered by CommerceTools 🌐.
+
+## Used technology stack
+
+Tools, using in project development:
+
+- [Git](https://git-scm.com/);
+
+- [Webpack](https://webpack.js.org/);
+
+- [Typescript](https://www.typescriptlang.org/);
+
+- [Eslint](https://eslint.org/);
+
+- [Prettier](https://prettier.io/);
+
+- [Jest](https://jestjs.io/).
+
+## Maintainers and contributors
 
 **Students of RSSchool**: Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko.
 
