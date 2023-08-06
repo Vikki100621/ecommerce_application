@@ -1,0 +1,14 @@
+__mocks__/
+coverage/
+dist/
+node_modules/
+.eslintrc.js
+.prettierignore
+.stylelintrc.js
+jest.config.js
+package.json
+package-lock.json
+tsconfig.eslint.json
+tsconfig.json
+webpack.config.js
+*.html
