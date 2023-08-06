@@ -6,36 +6,126 @@
 
 This project is study project, [SPA](https://en.wikipedia.org/wiki/Single-page_application), is making by students of [Rolling Scopes School](https://rs.school/).
 
-This platform replicates real-world shopping experiences in a digital environment 🏪. It's a comprehensive online shopping portal that provides an interactive and seamless experience to users. From product discovery to checkout, the application ensures a smooth journey for the user, enhancing their engagement and boosting their purchasing confidence 🚀.
+### What does application do?
+
+This platform replicates real-world shopping experiences in a digital environment 🏪. It's a comprehensive online shopping portal, that provides an interactive and seamless experience to users. From product discovery to checkout, the application ensures a smooth journey for the user, enhancing their engagement and boosting their purchasing confidence 🚀.
 
 ### How does it work
 
 Users can browse through a vast range of products 📚👗👟, view detailed descriptions, add their favorite items to the basket 🛒, and proceed to checkout 💳. It includes features such as user registration and login 📝🔐, product search 🔍, product categorization, and sorting to make the shopping experience more streamlined and convenient.
 
-### How users can get started with the project
+### Technical details
 
-[It will be information here after deploy.]
+An important aspect of our application is that it's responsive 📲, ensuring it looks great on various devices with a minimum resolution of 390px.
 
-### Maintainers and contributors
+Key pages in the application include:
 
-**Students of RSSchool**: Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko.
+- Login and Registration pages 🖥️
 
-**Mentor**: Marina Golubeva.
+- Main page 🏠
+
+- Catalog Product page 📋
+
+- Detailed Product page 🔎
+
+- User Profile page 👤
+
+- Basket page 🛒
+
+- About Us page 🙋‍♂️🙋‍♀️
+
+The application is powered by CommerceTools 🌐.
+
+## Used technology stack
+
+Tools, using in project development:
+
+- [Git](https://git-scm.com/);
+
+- [Webpack](https://webpack.js.org/);
+
+- [Typescript](https://www.typescriptlang.org/);
+
+- [Eslint](https://eslint.org/);
+
+- [Prettier](https://prettier.io/);
+
+- [Jest](https://jestjs.io/).
 
 ## How to develop, use, and test the code
 
 For using project on Your machine:
-- clone this project
+- clone this project to your machine using git:
+
   ```
   git clone https://github.com/Vikki100621/ecommerce_application
   ```
 
-- install
+- install packets using npm
+
   ```
   npm i
   ```
 
-Useful scripts for developing, testing and building the application You can find in `package.json` file in the root of the project.
+Project files are in `src` directory. Main branch is `develop`. If You want to add some feature, create new branch from `main` and code. After You end adding the functional, create pull request for merging your code to `develop` branch, but **don't merge it** before all reviewers approve.
+
+## Scripts for development
+
+For better coding we add some scripts.
+
+When You develop, you can use script
+
+```
+npm run serve
+```
+
+This will start dev-server and open browser with running project. Every time You save the code will reload opened page in browser.
+
+Also you can build project in two ways:
+
+1. Development mode:
+
+    ```
+    npm run build:dev
+    ```
+
+2. Production mode:
+
+    ```
+    npm run build:prod
+    ```
+
+When You build the application, it will be built in `distr` catalog.
+
+For linting use
+
+```
+npm run lint
+```
+
+You will see all the code, needed to be changed.
+
+Prettier can be started by command 
+
+```
+npm run pret
+```
+
+Anyway, eslint and prettier will be started every time You'll make the commit.
+
+Jest You can use in two ways:
+
+1. For only test your code:
+
+    ```
+    npm run test
+    ```
+
+2. For getting information about test coverage all over the project code:
+
+    ```
+    npm run test-cover
+    ```
 
 ## The licensing information
 
@@ -57,6 +147,12 @@ Except as contained in this notice, the name of the X Consortium shall not be us
 X Window System is a trademark of X Consortium, Inc.
 ```
 
+## Maintainers and contributors
+
+**Students of RSSchool**: Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko.
+
+**Mentor**: Marina Golubeva.
+
 ## Contact information
 
-[Here should be contact information]
+E-mail: [a.v.gor@mail.ru](a.v.gor@mail.ru).
