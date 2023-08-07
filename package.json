@@ -1,5 +1,5 @@
 {
-  "name": "async-race",
+  "name": "ecommerce_application",
   "version": "1.0.0",
   "description": "Study project RSSchool",
   "main": "./src/index.ts",
@@ -13,8 +13,8 @@
     "test": "jest",
     "test-cover": "jest --coverage"
   },
-  "author": "Alexey Gorbenko",
-  "license": "ISC",
+  "author": "Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko",
+  "license": "x11",
   "devDependencies": {
     "@types/jest": "^29.5.3",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
