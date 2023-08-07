@@ -1,0 +1,63 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
+$bg: #1a1f25;
+$button: #e6b333;
+$border: #22272d;
+
+.section__login {
+  width: 300px;
+  margin: 12% auto;
+}
+
+form {
+  position: relative;
+}
+
+.sign-in {
+  float: left;
+  color: white;
+  font-size: 1.3em;
+}
+
+.password,
+.user {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
+  padding: 7px;
+  left: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  height: 40px;
+  border-radius: 3px;
+  margin: 5px 0;
+  outline: none;
+}
+
+input[type='email']:focus,
+input[type='password']:focus {
+  border: 1px solid white;
+  box-shadow: none;
+}
+
+.user-input:focus .user {
+  background: white !important;
+}
+
+input[type='password'],
+input[type='email'] {
+  background: transparent;
+  border: 2px solid $border;
+  padding-left: 45px;
+  color: $button;
+}
+
+.label__user,
+.label__password {
+  width: 20px;
+  height: 20px;
+}
