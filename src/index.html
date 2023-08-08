@@ -6,8 +6,32 @@
 </head>
 <body>
   <header class="header">
-    <h1>Hello!</h1>
-    <div class="wrapper"></div>
+    <div class="wrapper">
+      <h1 class="header-title">Registration</h1>
+    </div>
   </header>
+  <main class="main">
+    <div class="wrapper">
+      <form class="reg-form">
+        <label for="email">E-mail</label>
+        <input class="reg-form__input" type="email" name="email" id="email" value="123@123.123">
+        <label for="pass">Password</label>
+        <input class="reg-form__input" type="password" name="pass" id="pass" value="QWEasd123">
+        <label for="fname">First name</label>
+        <input type="text" name="fname" id="fname">
+        <label for="lname">Last name</label>
+        <input type="text" name="lname" id="lname">
+        <label for="bdate">Birthday</label>
+        <input type="date" name="bdate" id="bdate">
+        <input type="submit" value="Submit">
+      </form>
+      <section class="error">
+        <h2 class="error__title">Error</h2>
+        <p class="error__text"></p>
+      </section>
+    </div>
+    
+  </main>
+  <footer class="footer"></footer>
 </body>
 </html>
