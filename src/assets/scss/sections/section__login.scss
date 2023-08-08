@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+@import 'https://fonts.googleapis.com/css?family=Roboto:400,300,500';
 
 $bg: #1a1f25;
 $button: #e6b333;
@@ -15,45 +15,45 @@ form {
 
 .sign-in {
   float: left;
-  color: white;
   font-size: 1.3em;
+  color: #ffffff;
 }
 
 .password,
 .user {
   position: absolute;
+  left: 5px;
   width: 30px;
   height: 30px;
-  margin-top: 10px;
   padding: 7px;
-  left: 5px;
+  margin-top: 10px;
 }
 
 input {
   width: 100%;
-  padding: 5px;
   height: 40px;
-  border-radius: 3px;
+  padding: 5px;
   margin: 5px 0;
+  border-radius: 3px;
   outline: none;
 }
 
 input[type='email']:focus,
 input[type='password']:focus {
-  border: 1px solid white;
+  border: 1px solid #ffffff;
   box-shadow: none;
 }
 
 .user-input:focus .user {
-  background: white !important;
+  background: #ffffff !important;
 }
 
 input[type='password'],
 input[type='email'] {
-  background: transparent;
-  border: 2px solid $border;
   padding-left: 45px;
   color: $button;
+  background: transparent;
+  border: 2px solid $border;
 }
 
 .label__user,
