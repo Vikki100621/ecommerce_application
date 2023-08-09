@@ -3,7 +3,7 @@ import './assets/scss/style.scss';
 const registrationForm: HTMLFormElement = <HTMLFormElement>document.querySelector('.reg-form');
 
 function showError(msg: string): void {
-  const errorBlock: HTMLElement = <HTMLElement> document.querySelector('.error');
+  const errorBlock: HTMLElement = <HTMLElement>document.querySelector('.error');
   const errorText: HTMLParagraphElement = <HTMLParagraphElement>errorBlock.querySelector('.error__text');
   errorText.innerHTML = msg;
   errorBlock.classList.add('error_active');
@@ -41,13 +41,24 @@ function checkPassword(): void {
 
 function checkName(): void {
   const firstNameInput: HTMLInputElement = <HTMLInputElement>document.getElementById('fname');
-  const firstName: string = <string> firstNameInput.value;
+  const firstName: string = <string>firstNameInput.value;
   const lastNameInput: HTMLInputElement = <HTMLInputElement>document.getElementById('lname');
-  const lastName: string = <string> lastNameInput.value;
+  const lastName: string = <string>lastNameInput.value;
   if (firstName.match(/[^a-z]/i) || !firstName.length) {
     showError('First name must contain at least one character and no special characters or numbers');
   } else if (lastName.match(/[^a-z]/i) || !lastName.length) {
     showError('Last name must contain at least one character and no special characters or numbers');
+  }
+}
+
+function checkAge(): void {
+  const bDateInput: HTMLInputElement = <HTMLInputElement>document.getElementById('bdate');
+  const bDateStr: string = <string>bDateInput.value;
+  const bDate = Date.parse(bDateStr);
+  const nowDate = new Date();
+  const minBDate = Date.parse(`${nowDate.getFullYear() - 13}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`);
+  if ((minBDate - bDate) < 0) {
+    showError('13 is the minimum age to be registered user.');
   }
 }
 
@@ -57,6 +68,7 @@ function checkForm(event: Event) {
   checkEmail();
   checkPassword();
   checkName();
+  checkAge();
 }
 
 registrationForm.addEventListener('submit', checkForm);
