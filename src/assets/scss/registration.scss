@@ -1,13 +1,32 @@
-.wrapper {
+.registration-wrapper {
   width: min-content;
   margin: 0 auto;
 }
 
 .reg-form {
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  grid-template-columns: 100px 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 15px;
   width: fit-content;
+
+  &__label {
+    align-self: center;
+    min-width: 170px;
+  }
+}
+
+.fieldset {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) 1fr;
+  gap: 10px;
+
+  &__legend {
+    padding: 0 5px;
+  }
+
+  [type='checkbox'] {
+    justify-self: start;
+  }
 }
 
 .error {
