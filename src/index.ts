@@ -1,9 +1,9 @@
 import './assets/scss/style.scss';
-import img from './assets/img/pic.jpg';
+import App from './components/app';
+import Routing from './components/routing';
 
-const wrapper: HTMLDivElement = <HTMLDivElement>document.querySelector('.wrapper');
+const app = new App('en');
 
-wrapper.innerHTML = `<img src=${img}>`;
+const routing = new Routing(app);
 
-// eslint-disable-next-line no-console
-console.log('Hello!');
+routing.init();
