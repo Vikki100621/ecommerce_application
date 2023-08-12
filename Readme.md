@@ -55,6 +55,7 @@ Tools, using in project development:
 ## How to develop, use, and test the code
 
 For using project on Your machine:
+
 - clone this project to your machine using git:
 
   ```
@@ -85,15 +86,15 @@ Also you can build project in two ways:
 
 1. Development mode:
 
-    ```
-    npm run build:dev
-    ```
+   ```
+   npm run build:dev
+   ```
 
 2. Production mode:
 
-    ```
-    npm run build:prod
-    ```
+   ```
+   npm run build:prod
+   ```
 
 When You build the application, it will be built in `distr` catalog.
 
@@ -105,7 +106,7 @@ npm run lint
 
 You will see all the code, needed to be changed.
 
-Prettier can be started by command 
+Prettier can be started by command
 
 ```
 npm run pret
@@ -117,15 +118,15 @@ Jest You can use in two ways:
 
 1. For only test your code:
 
-    ```
-    npm run test
-    ```
+   ```
+   npm run test
+   ```
 
 2. For getting information about test coverage all over the project code:
 
-    ```
-    npm run test-cover
-    ```
+   ```
+   npm run test-cover
+   ```
 
 ## The licensing information
 

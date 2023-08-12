@@ -22,5 +22,7 @@ module.exports = {
   ignorePatterns: ['webpack.config.js'],
   rules: {
     '@typescript-eslint/no-explicit-any': 2,
+    'keyword-spacing': 'off',
+    '@typescript-eslint/keyword-spacing': 'off',
   },
 };
