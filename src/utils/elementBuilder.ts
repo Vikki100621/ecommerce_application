@@ -1,9 +1,10 @@
-import { CallBackType, ElementParametrs } from './interface';
+/* eslint-disable object-curly-newline */
+import { CallBackType, ParametrsWithAttributes, TagsAttributes } from './interface';
 
 export default class ElementBuilder {
   element: HTMLElement;
 
-  constructor(parametrs: ElementParametrs) {
+  constructor(parametrs: ParametrsWithAttributes) {
     this.element = document.createElement(parametrs.tag);
     this.addAttributes(parametrs);
   }
@@ -12,11 +13,17 @@ export default class ElementBuilder {
     return this.element;
   }
 
-  addInnerElement(element: HTMLElement) {
-    this.element.append(element);
+  addInnerElement(elementArray: Array<HTMLElement | ElementBuilder>) {
+    elementArray.forEach((element) => {
+      if (element instanceof ElementBuilder) {
+        this.element.append(element.getElement());
+      } else {
+        this.element.append(element);
+      }
+    });
   }
 
-  addAttributes(parametrs: ElementParametrs) {
+  addAttributes(parametrs: ParametrsWithAttributes) {
     if (parametrs.classNames !== undefined) {
       this.setCssClasses(parametrs.classNames);
     }
@@ -25,6 +32,9 @@ export default class ElementBuilder {
     }
     if (parametrs.callback !== undefined && parametrs.event !== undefined) {
       this.setCallback(parametrs.event, parametrs.callback);
+    }
+    if (parametrs.attributes !== undefined) {
+      this.setAttributes(parametrs.attributes);
     }
   }
 
@@ -38,5 +48,11 @@ export default class ElementBuilder {
 
   setCallback(event: string, callback: CallBackType) {
     this.element.addEventListener(event, (e) => callback(e));
+  }
+
+  setAttributes(attributes: TagsAttributes) {
+    Object.keys(attributes).forEach((key) => {
+      this.element.setAttribute(key, attributes[key]);
+    });
   }
 }

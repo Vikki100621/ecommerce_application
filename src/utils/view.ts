@@ -2,14 +2,14 @@ import ElementBuilder from './elementBuilder';
 import { ViewParametrs } from './interface';
 
 export default class View {
-  viewElementCreator: ElementBuilder;
+  viewElement: ElementBuilder;
 
   constructor(parametrs: ViewParametrs) {
-    this.viewElementCreator = this.createView(parametrs);
+    this.viewElement = this.createView(parametrs);
   }
 
   getHtmlElement() {
-    return this.viewElementCreator.getElement();
+    return this.viewElement.getElement();
   }
 
   createView(parametrs: ViewParametrs) {
@@ -17,8 +17,8 @@ export default class View {
       tag: parametrs.tag,
       classNames: parametrs.classNames,
     };
-    this.viewElementCreator = new ElementBuilder(elementParams);
+    this.viewElement = new ElementBuilder(elementParams);
 
-    return this.viewElementCreator;
+    return this.viewElement;
   }
 }

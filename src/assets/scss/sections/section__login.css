@@ -1,22 +1,44 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:400,300,500';
-
-.section__login {
+.login__section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   width: 300px;
   margin: 12% auto;
 }
-
-form {
+.login__form {
   position: relative;
 }
-
-.sign-in {
-  float: left;
+.login__title {
   font-size: 1.3em;
+  color: #000000;
+}
+.login__button {
+  padding: 10px;
+  font-size: 16px;
   color: #ffffff;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+}
+.login__button:hover {
+  background-color: #0062cc;
+}
+.login__link {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #007bff;
+}
+.login__link:hover {
+  text-decoration: underline;
 }
 
-.password,
-.user {
+label {
   position: absolute;
   left: 5px;
   width: 30px;
@@ -34,26 +56,17 @@ input {
   outline: none;
 }
 
-input[type='email']:focus,
-input[type='password']:focus {
+input[type=email]:focus,
+input[type=password]:focus {
   border: 1px solid #ffffff;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
-.user-input:focus .user {
-  background: #ffffff !important;
-}
-
-input[type='password'],
-input[type='email'] {
+input[type=password],
+input[type=email] {
   padding-left: 45px;
   color: #e6b333;
   background: transparent;
   border: 2px solid #22272d;
 }
-
-.label__user,
-.label__password {
-  width: 20px;
-  height: 20px;
-} /*# sourceMappingURL=section__login.css.map */

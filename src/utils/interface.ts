@@ -14,6 +14,13 @@ export interface ElementParametrs extends ViewParametrs {
   event?: string;
 }
 
-export interface InputParametrs extends ElementParametrs {
-  attributes?: { type?: string; placeholder?: string; id?: string };
+export interface ParametrsWithAttributes extends ElementParametrs {
+  attributes?: {
+    type?: string;
+    placeholder?: string;
+    id?: string;
+    name?: string;
+    href?: string;
+    for?: string;
+  };
 }
