@@ -26,27 +26,9 @@ export default class Registration {
           <label class="reg-form__label" for="bdate">Birthday</label>
           <input type="date" name="bdate" id="bdate">
         </fieldset>
-        <fieldset class="reg-form__address fieldset">
-          <legend class="fieldset__legend">Address</legend>
-          <label class="reg-form__label" for="street">Street</label>
-          <input type="text" name="street" id="street">
-          <label class="reg-form__label" for="city">City</label>
-          <input type="text" name="city" id="city">
-          <label class="reg-form__label" for="pcode">Postal code</label>
-          <input type="text" name="pcode" id="pcode">
-          <label class="reg-form__label" for="country">Country</label>
-          <input type="text" name="country" id="country" value="US" disabled>
-          <label class="reg-form__label" for="baddress">Billing Address</label>
-          <input type="checkbox" name="baddress" id="baddress">
-          <label class="reg-form__label" for="saddress">Shipping Address</label>
-          <input type="checkbox" name="saddress" id="saddress">
-          <label class="reg-form__label" for="dbaddress">Default Billing Address</label>
-          <input type="checkbox" name="dbaddress" id="dbaddress">
-          <label class="reg-form__label" for="dsaddress">Default Shipping Address</label>
-          <input type="checkbox" name="dsaddress" id="dsaddress">
-          
-        </fieldset>
-        
+        <div class="reg-form__address-wrap">
+        </div>
+        <input class="reg-form__addAddrr" type="button" value="Add address">
         <input type="submit" value="Submit">
       </form>
       <section class="error">
@@ -54,6 +36,38 @@ export default class Registration {
         <p class="error__text"></p>
       </section>
     </section>`;
+  }
+
+  addAddressListener() {
+    const addressBtn: HTMLButtonElement = <HTMLButtonElement>this.main.querySelector('.reg-form__addAddrr');
+    const addressWrap: HTMLDivElement = <HTMLDivElement>this.main.querySelector('.reg-form__address-wrap');
+
+    function addAddress() {
+      const addressNum = document.querySelectorAll('.reg-form__address').length;
+      const newAddress = `
+          <fieldset class="reg-form__address fieldset" id="address-${addressNum}">
+            <legend class="fieldset__legend">Address</legend>
+            <label class="reg-form__label" for="street">Street</label>
+            <input type="text" name="street" id="street">
+            <label class="reg-form__label" for="city">City</label>
+            <input type="text" name="city" id="city">
+            <label class="reg-form__label" for="pcode">Postal code</label>
+            <input type="text" name="pcode" id="pcode">
+            <label class="reg-form__label" for="country">Country</label>
+            <input type="text" name="country" id="country" value="US" disabled>
+            <label class="reg-form__label" for="baddress">Billing Address</label>
+            <input type="checkbox" name="baddress" id="baddress">
+            <label class="reg-form__label" for="saddress">Shipping Address</label>
+            <input type="checkbox" name="saddress" id="saddress">
+            <label class="reg-form__label" for="dbaddress">Default Billing Address</label>
+            <input type="checkbox" name="dbaddress" id="dbaddress">
+            <label class="reg-form__label" for="dsaddress">Default Shipping Address</label>
+            <input type="checkbox" name="dsaddress" id="dsaddress">
+          </fieldset>`;
+      addressWrap.innerHTML += newAddress;
+    }
+    addAddress();
+    addressBtn.addEventListener('click', addAddress);
   }
 
   checkInput(): void {

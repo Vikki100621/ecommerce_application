@@ -347,5 +347,6 @@ export default class App {
   showRegisterPage() {
     this.registration.draw();
     this.registration.checkInput();
+    this.registration.addAddressListener();
   }
 }
