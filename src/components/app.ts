@@ -2,6 +2,7 @@ import translations from './translations';
 import userImg from '../assets/img/user.png';
 import passwordImg from '../assets/img/password.png';
 import basketImageSrc from '../assets/img/shopping-cart.png';
+import Registration from './registration';
 
 export default class App {
   public header: HTMLElement;
@@ -14,12 +15,15 @@ export default class App {
 
   public templates: { [key: string]: () => void } = {};
 
+  private registration: Registration;
+
   constructor(public language: 'en' | 'ru') {
     this.language = language;
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
+    this.registration = new Registration();
   }
 
   // создаем header(он не будет меняться больше)
@@ -341,9 +345,8 @@ export default class App {
 
   // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
   showRegisterPage() {
-    this.main.innerHTML = '';
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
+    this.registration.draw();
+    this.registration.checkInput();
+    this.registration.addAddressListener();
   }
 }
