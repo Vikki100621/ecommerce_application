@@ -273,6 +273,7 @@ export default class App {
   showSignInPage() {
     this.main.innerHTML = '';
     const loginPage = new LoginView().getHtmlElement();
+    console.log('loginPage: ', loginPage);
     this.main.appendChild(loginPage);
     // const section = document.createElement('div');
     // section.classList.add('section__login');

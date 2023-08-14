@@ -1,3 +1,4 @@
+import { togglePassword, validateEmail, validatePassword } from './callBacks';
 import ElementBuilder from './elementBuilder';
 import InputFieldBuilder from './inputBuilder';
 import View from './view';
@@ -14,7 +15,9 @@ const param = {
   },
   emailParametrs: {
     tag: 'div',
-    classNames: ['input__container'],
+    classNames: ['input__container', 'email'],
+    event: 'blur',
+    callback: validateEmail,
     attributes: {
       type: 'email',
       placeholder: 'email',
@@ -24,7 +27,9 @@ const param = {
   },
   passwordParametrs: {
     tag: 'div',
-    classNames: ['input__container'],
+    classNames: ['input__container', 'password'],
+    event: 'blur',
+    callback: validatePassword,
     attributes: {
       type: 'password',
       placeholder: 'password',
@@ -56,6 +61,26 @@ const param = {
       href: 'какая то линка',
     },
   },
+  showPasswordImgParametrs: {
+    tag: 'div',
+    classNames: ['closePassword'],
+    event: 'click',
+    callback: togglePassword,
+  },
+  emailError: {
+    tag: 'div',
+    classNames: ['emailError'],
+    attributes: {
+      id: 'emailError',
+    },
+  },
+  passwordError: {
+    tag: 'div',
+    classNames: ['passwordError'],
+    attributes: {
+      id: 'passwordError',
+    },
+  },
 };
 
 export default class LoginView extends View {
@@ -74,10 +99,15 @@ export default class LoginView extends View {
     const form = new ElementBuilder(param.formParametrs);
 
     const emailInput = new InputFieldBuilder(param.emailParametrs);
+    const emailErr = new ElementBuilder(param.emailError);
     const passwordInput = new InputFieldBuilder(param.passwordParametrs);
+    const passwordErr = new ElementBuilder(param.passwordError);
+    const eyeImg = new ElementBuilder(param.showPasswordImgParametrs);
+
+    passwordInput.addInnerElement([eyeImg]);
     const loginBtn = new ElementBuilder(param.buttonParametrs);
 
-    form.addInnerElement([emailInput, passwordInput, loginBtn]);
+    form.addInnerElement([emailInput, emailErr, passwordInput, passwordErr, loginBtn]);
 
     const registationLink = new ElementBuilder(param.registationLinkParametrs);
 

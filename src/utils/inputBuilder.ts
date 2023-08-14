@@ -1,5 +1,5 @@
 import ElementBuilder from './elementBuilder';
-import { ParametrsWithAttributes, TagsAttributes } from './interface';
+import { CallBackType, ParametrsWithAttributes, TagsAttributes } from './interface';
 
 export default class InputFieldBuilder extends ElementBuilder {
   inputElement: HTMLInputElement;
@@ -17,9 +17,6 @@ export default class InputFieldBuilder extends ElementBuilder {
     if (parametrs.classNames !== undefined) {
       this.setCssClasses(parametrs.classNames);
     }
-    if (parametrs.callback !== undefined && parametrs.event !== undefined) {
-      this.setCallback(parametrs.event, parametrs.callback);
-    }
   }
 
   addInputAndLabel(parametrs: ParametrsWithAttributes) {
@@ -31,6 +28,9 @@ export default class InputFieldBuilder extends ElementBuilder {
     }
     if (parametrs.attributes?.name) {
       this.setLabelAttributes(parametrs.attributes.name);
+    }
+    if (parametrs.callback !== undefined && parametrs.event !== undefined) {
+      this.setCallback(parametrs.event, parametrs.callback);
     }
 
     this.element.append(this.labelElement, this.inputElement);
@@ -52,5 +52,9 @@ export default class InputFieldBuilder extends ElementBuilder {
 
   setLabelAttributes(attribute: string) {
     this.labelElement.setAttribute('for', attribute);
+  }
+
+  setCallback(event: string, callback: CallBackType) {
+    this.inputElement.addEventListener(event, (e) => callback(e));
   }
 }
