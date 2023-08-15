@@ -14,29 +14,34 @@ export default class Registration {
           <legend class="fieldset__legend">User</legend>
           <label class="reg-form__label" for="email">E-mail</label>
           <input class="reg-form__input" type="email" name="email" id="email">
-          <p class="error err-email"></p>
+          <p class="error"></p>
           <label class="reg-form__label" for="pass">Password</label>
           <input class="reg-form__input" type="password" name="pass" id="pass">
-          <p class="error err-pass"></p>
+          <p class="error"></p>
         </fieldset>
         <fieldset class="reg-form__person fieldset">
           <legend class="fieldset__legend">Person</legend>
           <label class="reg-form__label" for="fname">First name</label>
           <input type="text" name="fname" id="fname">
-          <p class="error err-fname"></p>
+          <p class="error"></p>
           <label class="reg-form__label" for="lname">Last name</label>
           <input type="text" name="lname" id="lname">
-          <p class="error err-lname"></p>
+          <p class="error"></p>
           <label class="reg-form__label" for="bdate">Birthday</label>
           <input type="date" name="bdate" id="bdate">
-          <p class="error err-bdate"></p>
+          <p class="error"></p>
         </fieldset>
         <div class="reg-form__address-wrap">
         </div>
         <input class="reg-form__addAddrr" type="button" value="Add address">
-        <input type="submit" value="Submit">
+        <input id="submit" type="submit" value="Submit">
+        <p class="error"></p>
       </form>
     </section>`;
+  }
+
+  returnRegistrationForm(): HTMLFormElement {
+    return <HTMLFormElement>this.main.querySelector('.reg-form');
   }
 
   addAddressListener() {
@@ -48,41 +53,44 @@ export default class Registration {
       const newAddress = `
           <fieldset class="reg-form__address fieldset" id="address-${addressNum}">
             <legend class="fieldset__legend">Address</legend>
-            <label class="reg-form__label" for="street">Street</label>
-            <input type="text" name="street" id="street">
-            <p class="error err-street"></p>
-            <label class="reg-form__label" for="city">City</label>
-            <input type="text" name="city" id="city">
-            <p class="error err-city"></p>
-            <label class="reg-form__label" for="pcode">Postal code</label>
-            <input type="text" name="pcode" id="pcode">
-            <p class="error err-pcode"></p>
-            <label class="reg-form__label" for="country">Country</label>
-            <input type="text" name="country" id="country" value="US" disabled>
-            <p class="error err-country"></p>
-            <label class="reg-form__label" for="baddress">Billing Address</label>
-            <input type="checkbox" name="baddress" id="baddress">
-            <p class="error err-baddress"></p>
-            <label class="reg-form__label" for="saddress">Shipping Address</label>
-            <input type="checkbox" name="saddress" id="saddress">
-            <p class="error err-saddress"></p>
-            <label class="reg-form__label" for="dbaddress">Default Billing Address</label>
-            <input type="checkbox" name="dbaddress" id="dbaddress">
-            <p class="error err-dbaddress"></p>
-            <label class="reg-form__label" for="dsaddress">Default Shipping Address</label>
-            <input type="checkbox" name="dsaddress" id="dsaddress">
-            <p class="error err-dsaddress"></p>
+            <label class="reg-form__label" for="street-${addressNum}">Street</label>
+            <input type="text" name="street" id="street-${addressNum}">
+            <p class="error"></p>
+            <label class="reg-form__label" for="city-${addressNum}">City</label>
+            <input type="text" name="city" id="city-${addressNum}">
+            <p class="error"></p>
+            <label class="reg-form__label" for="pcode-${addressNum}">Postal code</label>
+            <input type="text" name="pcode" id="pcode-${addressNum}">
+            <p class="error"></p>
+            <label class="reg-form__label" for="country-${addressNum}">Country</label>
+            <input type="text" name="country" id="country-${addressNum}" value="US" disabled>
+            <p class="error"></p>
+            <label class="reg-form__label" for="baddress-${addressNum}">Billing Address</label>
+            <input type="checkbox" name="baddress" id="baddress-${addressNum}">
+            <p class="error"></p>
+            <label class="reg-form__label" for="saddress-${addressNum}">Shipping Address</label>
+            <input type="checkbox" name="saddress" id="saddress-${addressNum}">
+            <p class="error"></p>
+            <label class="reg-form__label" for="dbaddress-${addressNum}">Default Billing Address</label>
+            <input type="checkbox" name="dbaddress" id="dbaddress-${addressNum}">
+            <p class="error"></p>
+            <label class="reg-form__label" for="dsaddress-${addressNum}">Default Shipping Address</label>
+            <input type="checkbox" name="dsaddress" id="dsaddress-${addressNum}">
+            <p class="error"></p>
           </fieldset>`;
       addressWrap.innerHTML += newAddress;
     }
+
     addAddress();
     addressBtn.addEventListener('click', addAddress);
   }
 
-  checkInput(): void {
-    // const registrationForm: HTMLFormElement =
-    // <HTMLFormElement>this.main.querySelector('.reg-form');
-    const inputs: NodeListOf<HTMLInputElement> = this.main.querySelectorAll('input');
+  checkForm(): void {
+    const registrationForm: HTMLFormElement = this.returnRegistrationForm();
+
+    function returnNumAddresses(): number {
+      return document.querySelectorAll('.reg-form__address').length;
+    }
 
     function showError(msg: string, errPar: HTMLParagraphElement): void {
       const par = errPar;
@@ -167,35 +175,45 @@ export default class Registration {
       }
     }
 
-    function checkAddress(): void {
-      const street: string = returnInputValue('street');
-      const city: string = returnInputValue('city');
-      const postalCode: string = returnInputValue('pcode');
-      const errParStreet: HTMLParagraphElement = returnErrPar('street');
-      const errParCity: HTMLParagraphElement = returnErrPar('city');
-      const errParPCode: HTMLParagraphElement = returnErrPar('pcode');
-      if (!(street.match(/[^a-zA-Z0-9-]/i) || street.length)) {
-        console.log('street');
-        showError('Street field must contain at least one character.', errParStreet);
-      } else {
-        hideError(errParStreet);
+    function checkStreet(): void {
+      for (let i = 0; i < returnNumAddresses(); i += 1) {
+        const street: string = returnInputValue(`street-${i}`);
+        const errPar: HTMLParagraphElement = returnErrPar(`street-${i}`);
+        if (!(street.match(/[^a-zA-Z0-9-]/i) || street.length)) {
+          showError('Street field must contain at least one character.', errPar);
+        } else {
+          hideError(errPar);
+        }
       }
-      if (checkNotOnlyChar(city)) {
-        showError('City field must contain at least one character and no special characters or numbers.', errParCity);
-      } else {
-        hideError(errParCity);
+    }
+
+    function checkCity(): void {
+      for (let i = 0; i < returnNumAddresses(); i += 1) {
+        const city: string = returnInputValue(`city-${i}`);
+        const errPar: HTMLParagraphElement = returnErrPar(`city-${i}`);
+        if (checkNotOnlyChar(city)) {
+          showError('City field must contain at least one character and no special characters or numbers.', errPar);
+        } else {
+          hideError(errPar);
+        }
       }
-      if (postalCode.match(/\D/) || !(postalCode.length === 5)) {
-        showError('Postal code field must follow the format for the country (e.g., 12345 for the U.S.).', errParPCode);
-      } else {
-        hideError(errParPCode);
+    }
+
+    function checkPCode(): void {
+      for (let i = 0; i < returnNumAddresses(); i += 1) {
+        const postalCode: string = returnInputValue(`pcode-${i}`);
+        const errPar: HTMLParagraphElement = returnErrPar(`pcode-${i}`);
+        if (postalCode.match(/\D/) || !(postalCode.length === 5)) {
+          showError('Postal code field must follow the format for the country (e.g., 12345 for the U.S.).', errPar);
+        } else {
+          hideError(errPar);
+        }
       }
     }
 
     function checkEvtTarget(evt: Event) {
       const input: HTMLInputElement = <HTMLInputElement>evt.target;
       const currentID: string = input.id;
-      const addressIDs = ['street', 'city', 'pcode'];
       if (currentID === 'email') {
         checkEmail();
       } else if (currentID === 'pass') {
@@ -206,31 +224,42 @@ export default class Registration {
         checkLastName();
       } else if (currentID === 'bdate') {
         checkAge();
-      } else if (addressIDs.includes(currentID)) {
-        checkAddress();
+      } else if (currentID.startsWith('street')) {
+        checkStreet();
+      } else if (currentID.startsWith('city')) {
+        checkCity();
+      } else if (currentID.startsWith('pcode')) {
+        checkPCode();
       }
     }
 
-    // function checkForm(event: Event) {
-    //   event.preventDefault();
-    //   hideError();
-    //   checkEmail();
-    //   checkPassword();
-    //   checkFirstName();
-    //   checkLastName();
-    //   checkAge();
-    //   checkAddress();
-    //   const errorPar: HTMLParagraphElement = 
-    // <HTMLParagraphElement>document.querySelector('.error__text');
-    //   const errorText: string = <string>errorPar.textContent;
-    //   if (!errorText.length) {
-    //     console.log("it's ok");
-    //   }
-    // }
+    function checkAll() {
+      checkEmail();
+      checkPassword();
+      checkFirstName();
+      checkLastName();
+      checkAge();
+      checkStreet();
+      checkCity();
+      checkPCode();
+    }
 
-    // registrationForm.addEventListener('submit', checkForm);
-    inputs.forEach((i) => {
-      i.addEventListener('focusout', checkEvtTarget);
-    });
+    function checkForm(evt: Event) {
+      checkAll();
+      const activeError = document.querySelector('.error_active');
+      if (activeError !== null) {
+        evt.preventDefault();
+        const errPar: HTMLParagraphElement = returnErrPar('submit');
+        showError("It's at least one error on page. Change input values and try submit again.", errPar);
+        setTimeout(() => hideError(errPar), 5000);
+      } else {
+        registrationForm.removeEventListener('focusout', checkEvtTarget);
+        registrationForm.removeEventListener('submit', checkForm);
+      }
+    }
+
+    registrationForm.addEventListener('focusout', checkEvtTarget);
+    registrationForm.addEventListener('input', checkEvtTarget);
+    registrationForm.addEventListener('submit', checkForm);
   }
 }

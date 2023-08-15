@@ -346,7 +346,7 @@ export default class App {
   // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
   showRegisterPage() {
     this.registration.draw();
-    this.registration.checkInput();
     this.registration.addAddressListener();
+    this.registration.checkForm();
   }
 }
