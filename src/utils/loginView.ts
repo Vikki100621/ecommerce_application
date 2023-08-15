@@ -1,7 +1,8 @@
-import { togglePassword, validateEmail, validatePassword } from './callBacks';
+import { validateEmail, validatePassword } from './validation';
 import ElementBuilder from './elementBuilder';
 import InputFieldBuilder from './inputBuilder';
 import View from './view';
+import togglePassword from './callBacks';
 
 const param = {
   titleParametrs: {
@@ -28,7 +29,7 @@ const param = {
   passwordParametrs: {
     tag: 'div',
     classNames: ['input__container', 'password'],
-    event: 'blur',
+    event: 'input',
     callback: validatePassword,
     attributes: {
       type: 'password',
@@ -68,14 +69,14 @@ const param = {
     callback: togglePassword,
   },
   emailError: {
-    tag: 'div',
+    tag: 'span',
     classNames: ['emailError'],
     attributes: {
       id: 'emailError',
     },
   },
   passwordError: {
-    tag: 'div',
+    tag: 'span',
     classNames: ['passwordError'],
     attributes: {
       id: 'passwordError',
