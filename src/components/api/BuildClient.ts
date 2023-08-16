@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import fetch from 'node-fetch';
 import {
   ClientBuilder,
@@ -7,16 +9,18 @@ import {
   type HttpMiddlewareOptions, // Required for sending HTTP requests
 } from '@commercetools/sdk-client-v2';
 
-const projectKey = '{projectKey}';
-const scopes = ['{scope}'];
+const projectKey = 'rs-school-ecommerce-application';
+const scopes = [
+  'manage_my_quote_requests:rs-school-ecommerce-application manage_my_orders:rs-school-ecommerce-application manage_my_profile:rs-school-ecommerce-application manage_my_shopping_lists:rs-school-ecommerce-application create_anonymous_token:rs-school-ecommerce-application view_categories:rs-school-ecommerce-application manage_my_payments:rs-school-ecommerce-application view_published_products:rs-school-ecommerce-application',
+];
 
 // Configure authMiddlewareOptions
 const authMiddlewareOptions: AuthMiddlewareOptions = {
-  host: 'https://auth.{region}.commercetools.com',
+  host: 'https://auth.europe-west1.gcp.commercetools.com',
   projectKey,
   credentials: {
-    clientId: '{clientID}',
-    clientSecret: '{clientSecret}',
+    clientId: 'PdesxBia-bIS_y4Hotpx4EJ3',
+    clientSecret: 'qD0R_DhGpTziqQclaauZO209fk-ml3zP',
   },
   scopes,
   fetch,
@@ -24,7 +28,7 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
 
 // Configure httpMiddlewareOptions
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
-  host: 'https://api.{region}.commercetools.com',
+  host: 'https://api.europe-west1.gcp.commercetools.com',
   fetch,
 };
 
