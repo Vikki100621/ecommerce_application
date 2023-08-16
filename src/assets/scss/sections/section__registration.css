@@ -1,0 +1,58 @@
+.registration {
+  width: min-content;
+  padding-top: 150px;
+  margin: 0 auto;
+}
+.registration__title {
+  padding-top: 50px;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.reg-form {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 15px;
+  width: fit-content;
+  padding: 50px 0;
+}
+
+.fieldset {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) 1fr;
+  gap: 10px;
+}
+.fieldset input {
+  height: 30px;
+  padding: 0;
+  background: transparent;
+  border: 2px solid #171616;
+  border-radius: 3px;
+  outline: none;
+}
+.fieldset input:focus {
+  color: #ffffff;
+  border: 2px solid #efece5;
+  box-shadow: none;
+}
+.fieldset label {
+  align-self: center;
+  min-width: 170px;
+}
+.fieldset legend {
+  padding-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+.fieldset [type=checkbox] {
+  justify-self: start;
+}
+
+.error {
+  display: none;
+  color: #ff0000;
+}
+.error_active {
+  display: block;
+}/*# sourceMappingURL=section__registration.css.map */

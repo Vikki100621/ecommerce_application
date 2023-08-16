@@ -41,6 +41,11 @@ export default class Routing {
     }
   }
 
+  registerClick() {
+    const element = document.querySelector('.login__section .link_to_register');
+    element?.addEventListener('click', () => this.navigateTo('/register'));
+  }
+
   // отрисовываем шаблон
   registerTemplates() {
     this.routes.forEach(({ template, path }) => {
@@ -70,16 +75,6 @@ export default class Routing {
     }
   }
 
-  init() {
-    this.registerTemplates();
-    this.addMenuClickHandlers();
-
-    window.addEventListener('load', () => this.router());
-
-    // Используйте popstate вместо hashchange
-    window.addEventListener('popstate', () => this.router());
-  }
-
   // ловим ошибку если путь неверный
   router() {
     const url = window.location.pathname || '/';
@@ -101,5 +96,16 @@ export default class Routing {
     } catch (error) {
       throw new Error(`Route ${route} not found`);
     }
+  }
+
+  init() {
+    this.registerTemplates();
+    this.addMenuClickHandlers();
+    this.registerClick();
+
+    window.addEventListener('load', () => this.router());
+
+    // Используй popstate вместо hashchange
+    window.addEventListener('popstate', () => this.router());
   }
 }

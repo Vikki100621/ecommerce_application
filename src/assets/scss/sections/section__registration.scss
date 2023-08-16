@@ -17,15 +17,6 @@
   row-gap: 15px;
   width: fit-content;
   padding: 50px 0;
-
-  &__label {
-    align-self: center;
-    min-width: 170px;
-  }
-
-  &__input {
-    padding: 0;
-  }
 }
 
 .fieldset {
@@ -33,8 +24,27 @@
   grid-template-columns: minmax(170px, 1fr) 1fr;
   gap: 10px;
 
-  &__legend {
-    padding: 0 5px;
+  input {
+    height: 30px;
+    padding: 0;
+    background: transparent;
+    border: 2px solid #171616;
+    border-radius: 3px;
+    outline: none;
+    &:focus {
+      color: #ffffff;
+      border: 2px solid #efece5;
+      box-shadow: none;
+    }
+  }
+
+  label {
+    align-self: center;
+    min-width: 170px;
+  }
+
+  legend {
+    padding-bottom: 20px;
     font-size: 24px;
     text-align: center;
   }

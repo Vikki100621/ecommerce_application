@@ -48,19 +48,13 @@ const param = {
   },
   registationLinkParametrs: {
     tag: 'a',
-    classNames: ['login__link'],
+    classNames: ['login__link', 'link_to_register'],
     textContent: 'Register now',
-    attributes: {
-      href: 'какая то линка',
-    },
   },
   forgotLinkParametrs: {
     tag: 'a',
     classNames: ['login__link'],
     textContent: "I don't remember the password",
-    attributes: {
-      href: 'какая то линка',
-    },
   },
   showPasswordImgParametrs: {
     tag: 'div',
