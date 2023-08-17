@@ -11,7 +11,7 @@ import {
 
 const projectKey = 'rs-school-ecommerce-application';
 const scopes = [
-  'manage_my_quote_requests:rs-school-ecommerce-application manage_my_orders:rs-school-ecommerce-application manage_my_profile:rs-school-ecommerce-application manage_my_shopping_lists:rs-school-ecommerce-application create_anonymous_token:rs-school-ecommerce-application view_categories:rs-school-ecommerce-application manage_my_payments:rs-school-ecommerce-application view_published_products:rs-school-ecommerce-application',
+  'manage_project:rs-school-ecommerce-application',
 ];
 
 // Configure authMiddlewareOptions
@@ -19,8 +19,8 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: 'https://auth.europe-west1.gcp.commercetools.com',
   projectKey,
   credentials: {
-    clientId: 'PdesxBia-bIS_y4Hotpx4EJ3',
-    clientSecret: 'qD0R_DhGpTziqQclaauZO209fk-ml3zP',
+    clientId: 'n6NhHNp-SoFneLzkbs6qXWuu',
+    clientSecret: 'xnIExDv_L553zLUH71kjVzANZ_7bfwyn',
   },
   scopes,
   fetch,
