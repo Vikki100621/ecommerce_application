@@ -55,14 +55,16 @@ export default class Registration {
             <input type="text" name="pcode" id="pcode">
             <label class="reg-form__label" for="country">Country</label>
             <input type="text" name="country" id="country" value="US" disabled>
+            <div class="check-box">
             <label class="reg-form__label" for="baddress">Billing Address</label>
             <input type="checkbox" name="baddress" id="baddress">
-            <label class="reg-form__label" for="saddress">Shipping Address</label>
+            <label class="reg-form__label " for="saddress">Shipping Address</label>
             <input type="checkbox" name="saddress" id="saddress">
             <label class="reg-form__label" for="dbaddress">Default Billing Address</label>
             <input type="checkbox" name="dbaddress" id="dbaddress">
             <label class="reg-form__label" for="dsaddress">Default Shipping Address</label>
             <input type="checkbox" name="dsaddress" id="dsaddress">
+            </div>
           </fieldset>`;
       addressWrap.innerHTML += newAddress;
     }

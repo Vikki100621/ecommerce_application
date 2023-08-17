@@ -1,7 +1,6 @@
 import translations from './translations';
-// import userImg from '../assets/img/user.png';
-// import passwordImg from '../assets/img/password.png';
 import basketImageSrc from '../assets/img/shopping-cart.png';
+import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
 import LoginView from '../utils/loginView';
 import Registration from './registration';
 
@@ -121,6 +120,12 @@ export default class App {
 
     const element = document.querySelector('.burger__menu-icon');
     element?.classList.add('dark__color');
+
+    const img = document.querySelector('.item-basket img') as HTMLImageElement;
+    const div = document.querySelector('.item-basket div') as HTMLElement;
+
+    img.src = basketImageSrcBlack;
+    div.style.border = '2px solid rgb(16, 14, 14)';
   }
 
   // создаем footer(он не будет меняться больше)
@@ -197,6 +202,12 @@ export default class App {
   showHomePage() {
     const element = document.querySelector('.burger__menu-icon');
     element?.classList.remove('dark__color');
+
+    const img = document.querySelector('.item-basket img') as HTMLImageElement;
+    const div = document.querySelector('.item-basket div') as HTMLElement;
+
+    img.src = basketImageSrc;
+    div.style.border = '2px solid #e4d4be';
 
     this.main.innerHTML = '';
     this.header.style.color = '#e4d4be';

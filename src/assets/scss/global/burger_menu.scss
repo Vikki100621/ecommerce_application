@@ -33,11 +33,10 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    padding: 40px;
     overflow: auto;
     font-size: 20px;
     font-weight: 700;
-    background-color: rgb(169 141 59 / 64%);
+    background-color: rgb(169 141 59);
     transition: all 0.3s ease 0s;
     transform: translate(100%, 0);
   }
@@ -104,4 +103,18 @@
 
 body._lock {
   overflow: hidden;
+}
+
+
+
+@media (width <= 500px) {
+  .menu {
+    left: 50%;
+  }
+}
+
+@media (width <= 350px) {
+  .menu {
+    left: 0;
+  }
 }

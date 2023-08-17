@@ -127,6 +127,10 @@ body {
   .menu-list {
     flex-direction: column;
     row-gap: 30px;
-    padding-top: 150px;
+  }
+}
+@media (width <= 500px) {
+  .left-content {
+    font-size: 35px;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -13,10 +13,19 @@
 
 .reg-form {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   row-gap: 15px;
   width: fit-content;
   padding: 50px 0;
+  input {
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    background-color: #433636;
+    border: none;
+    border-radius: 5px;
+  }
 }
 
 .fieldset {
@@ -24,9 +33,15 @@
   grid-template-columns: minmax(170px, 1fr) 1fr;
   gap: 10px;
 
+  .check-box {
+    display: grid;
+    grid-template-columns: minmax(170px, 1fr) 1fr;
+    gap: 10px;
+  }
+
   input {
     height: 30px;
-    padding: 0;
+    padding: 5px;
     background: transparent;
     border: 2px solid #171616;
     border-radius: 3px;
@@ -37,7 +52,6 @@
       box-shadow: none;
     }
   }
-
   label {
     align-self: center;
     min-width: 170px;
@@ -60,5 +74,13 @@
 
   &_active {
     display: block;
+  }
+}
+
+@media (width <= 500px) {
+  .reg-form__user.fieldset,
+  .reg-form__person.fieldset,
+  .reg-form__address.fieldset {
+    grid-template-columns: 1fr;
   }
 }
