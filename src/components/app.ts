@@ -1,8 +1,13 @@
+import {
+  // ApiRoot,
+  createApiBuilderFromCtpClient,
+} from '@commercetools/platform-sdk';
 import translations from './translations';
 import userImg from '../assets/img/user.png';
 import passwordImg from '../assets/img/password.png';
 import basketImageSrc from '../assets/img/shopping-cart.png';
 import Registration from './registration';
+import ctpClient from './api/BuildClient';
 
 export default class App {
   public header: HTMLElement;
@@ -344,9 +349,22 @@ export default class App {
   }
 
   // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
+  // eslint-disable-next-line class-methods-use-this
   showRegisterPage() {
-    this.registration.draw();
-    this.registration.addAddressListener();
-    this.registration.checkForm();
+    // this.registration.draw();
+    // this.registration.checkInput();
+    // this.registration.addAddressListener();
+    // Create apiRoot from the imported ClientBuilder and include your Project key
+    const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+      projectKey: 'rs-school-ecommerce-application',
+    });
+
+    // Example call to return Project information
+    // This code has the same effect as sending a GET request to the commercetools
+    // Composable Commerce API without any endpoints.
+    const getProject = () => apiRoot.get().execute();
+
+    // Retrieve Project information and output the result to the log
+    getProject().then(console.log).catch(console.error);
   }
 }
