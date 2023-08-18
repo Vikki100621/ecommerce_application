@@ -5,6 +5,14 @@ import {
 
 import ctpClient from './api/BuildClient';
 
+interface IUsrObj {
+  email: string,
+  pass: string,
+  firstName: string,
+  lastName: string,
+  bDateStr: string
+}
+
 export default class Registration {
   main: HTMLElement;
 
@@ -251,6 +259,32 @@ export default class Registration {
       checkPCode();
     }
 
+    async function createUser() {
+      const email: string = returnInputValue('email');
+      const pass: string = returnInputValue('pass');
+      const firstName: string = returnInputValue('fname');
+      const lastName: string = returnInputValue('lname');
+      const bDateStr: string = returnInputValue('bdate');
+      const usrObj: IUsrObj = {
+        email,
+        pass,
+        firstName,
+        lastName,
+        bDateStr,
+      };
+      const customerDraft = {
+        email: usrObj.email,
+        password: usrObj.pass,
+      };
+      const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+        projectKey: 'rs-school-ecommerce-application',
+      });
+      const func = () => apiRoot.customers().post({ body: customerDraft }).execute();
+      const newCustomer = await func();
+      const newCustomerID = newCustomer.body.customer.id;
+      console.log(newCustomerID);
+    }
+
     function checkForm(evt: Event) {
       evt.preventDefault();
       checkAll();
@@ -262,20 +296,7 @@ export default class Registration {
       } else {
         registrationForm.removeEventListener('focusout', checkEvtTarget);
         registrationForm.removeEventListener('submit', checkForm);
-        // Create apiRoot from the imported ClientBuilder and include your Project key
-        const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-          projectKey: 'rs-school-ecommerce-application',
-        });
-
-        // Example call to return Project information
-        // This code has the same effect as sending a GET request to the commercetools
-        // Composable Commerce API without any endpoints.
-        // const getProject = () => apiRoot.get().execute();
-        const func = () => apiRoot.customers().get().execute();
-
-        // Retrieve Project information and output the result to the log
-        // getProject().then(console.log).catch(console.error);
-        func().then(console.log).catch(console.error);
+        createUser().catch((err) => console.log('err', err));
       }
     }
 
