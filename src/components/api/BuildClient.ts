@@ -10,9 +10,7 @@ import {
 } from '@commercetools/sdk-client-v2';
 
 const projectKey = 'rs-school-ecommerce-application';
-const scopes = [
-  'manage_project:rs-school-ecommerce-application',
-];
+const scopes = ['manage_project:rs-school-ecommerce-application'];
 
 // Configure authMiddlewareOptions
 const authMiddlewareOptions: AuthMiddlewareOptions = {
