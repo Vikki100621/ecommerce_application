@@ -108,22 +108,26 @@ body {
 .footer-wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 50px 0;
+  padding: 50px;
+
   .footer__contact {
     width: 30%;
+    line-height: 1.5;
+    text-align: justify;
   }
-  .footer__languages {
+  .footer__social {
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+    align-items: center;
+  }
+  .footer__questions {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     align-items: center;
-    .buttons__block {
-      display: flex;
-      column-gap: 5px;
-      button {
-        max-width: 40px;
-        cursor: pointer;
-      }
+    a {
+      color: inherit;
     }
   }
 }
@@ -132,6 +136,18 @@ body {
   .menu-list {
     flex-direction: column;
     row-gap: 30px;
+  }
+}
+
+@media (width <= 800px) {
+  .footer-wrapper {
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    text-align: center;
+    .footer__contact {
+      width: 100%;
+    }
   }
 }
 

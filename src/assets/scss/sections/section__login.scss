@@ -70,14 +70,12 @@ $border: #22272d;
   padding: 5px;
   padding-left: 55px;
   margin: 5px 0;
-  color: #e6b333;
   background: transparent;
   border: 2px solid #171616;
   border-radius: 3px;
   outline: none;
   &:focus {
-    border: 2px solid #ffffff;
-    box-shadow: none;
+    box-shadow: 0 0 5px 2px rgb(169  141 59);
   }
 }
 

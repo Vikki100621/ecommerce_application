@@ -50,11 +50,17 @@ const param = {
     tag: 'a',
     classNames: ['login__link', 'link_to_register'],
     textContent: 'Register now',
+    attributes: {
+      href: '/register',
+    },
   },
   forgotLinkParametrs: {
     tag: 'a',
     classNames: ['login__link'],
     textContent: "I don't remember the password",
+    attributes: {
+      href: 'какая то линка',
+    },
   },
   showPasswordImgParametrs: {
     tag: 'div',

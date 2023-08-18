@@ -41,9 +41,14 @@ export default class Routing {
     }
   }
 
-  registerClick() {
-    const element = document.querySelector('.login__section .link_to_register');
-    element?.addEventListener('click', () => this.navigateTo('/register'));
+  addNestedLinkClickHandlers() {
+    const nestedLinks = document.querySelectorAll('.link_to_register');
+    nestedLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.navigateTo(link.getAttribute('data-route') || ''); // Используйте атрибут data-route
+      });
+    });
   }
 
   // отрисовываем шаблон
@@ -101,7 +106,6 @@ export default class Routing {
   init() {
     this.registerTemplates();
     this.addMenuClickHandlers();
-    this.registerClick();
 
     window.addEventListener('load', () => this.router());
 

@@ -169,6 +169,7 @@ export default class Registration {
       const errorText: string = <string>errorPar.textContent;
       if (!errorText.length) {
         console.log("it's ok");
+        window.location.href = '/';
       }
     }
 

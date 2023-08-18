@@ -32,6 +32,9 @@
   display: grid;
   grid-template-columns: minmax(170px, 1fr) 1fr;
   gap: 10px;
+  legend {
+    font-weight: 700;
+  }
 
   .check-box {
     display: grid;
@@ -42,14 +45,13 @@
   input {
     height: 30px;
     padding: 5px;
+    color: #433636;
     background: transparent;
     border: 2px solid #171616;
     border-radius: 3px;
     outline: none;
     &:focus {
-      color: #ffffff;
-      border: 2px solid #efece5;
-      box-shadow: none;
+      box-shadow: 0 0 5px 2px rgb(169 141 59);
     }
   }
   label {

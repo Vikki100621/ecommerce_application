@@ -32,6 +32,9 @@
   grid-template-columns: minmax(170px, 1fr) 1fr;
   gap: 10px;
 }
+.fieldset legend {
+  font-weight: 700;
+}
 .fieldset .check-box {
   display: grid;
   grid-template-columns: minmax(170px, 1fr) 1fr;
@@ -40,15 +43,14 @@
 .fieldset input {
   height: 30px;
   padding: 5px;
+  color: #433636;
   background: transparent;
   border: 2px solid #171616;
   border-radius: 3px;
   outline: none;
 }
 .fieldset input:focus {
-  color: #ffffff;
-  border: 2px solid #efece5;
-  box-shadow: none;
+  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
 }
 .fieldset label {
   align-self: center;
@@ -59,7 +61,7 @@
   font-size: 24px;
   text-align: center;
 }
-.fieldset [type='checkbox'] {
+.fieldset [type=checkbox] {
   justify-self: start;
 }
 
@@ -77,4 +79,4 @@
   .reg-form__address.fieldset {
     grid-template-columns: 1fr;
   }
-} /*# sourceMappingURL=section__registration.css.map */
+}/*# sourceMappingURL=section__registration.css.map */

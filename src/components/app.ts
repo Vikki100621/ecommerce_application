@@ -1,8 +1,11 @@
-import translations from './translations';
+import content from './content';
 import basketImageSrc from '../assets/img/shopping-cart.png';
 import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
 import LoginView from '../utils/loginView';
 import Registration from './registration';
+import NewCollection from '../assets/img/new-collection.jpg';
+import Special from '../assets/img/special-offer.jpg';
+import Instagram from '../assets/img/instagram.png';
 
 export default class App {
   public header: HTMLElement;
@@ -17,8 +20,7 @@ export default class App {
 
   private registration: Registration;
 
-  constructor(public language: 'en' | 'ru') {
-    this.language = language;
+  constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
@@ -42,7 +44,7 @@ export default class App {
 
     const leftContent = document.createElement('div');
     leftContent.classList.add('left-content');
-    leftContent.textContent = translations[this.language].title;
+    leftContent.textContent = content.title;
     wrapper.appendChild(leftContent);
     const rightContent = document.createElement('div');
     rightContent.classList.add('right-content');
@@ -57,7 +59,7 @@ export default class App {
     nav.classList.add('menu');
     const ul = document.createElement('ul');
     ul.classList.add('menu-list');
-    const menuItems = translations[this.language].menuItems as string[];
+    const menuItems = content.menuItems as string[];
 
     menuItems.forEach((itemText) => {
       const li = document.createElement('li');
@@ -74,8 +76,8 @@ export default class App {
     const register = document.createElement('div');
     signIn.classList.add('login');
     register.classList.add('register');
-    signIn.textContent = translations[this.language].login;
-    register.textContent = translations[this.language].register;
+    signIn.textContent = content.login;
+    register.textContent = content.register;
     separator.textContent = '|';
     clientLi.appendChild(signIn);
     clientLi.appendChild(separator);
@@ -146,42 +148,37 @@ export default class App {
     const contactInfo = document.createElement('div');
     contactInfo.classList.add('footer__contact');
     const contactInfoTitle = document.createElement('div');
-    contactInfoTitle.innerText = translations[this.language].footer.contactInfo.contactTitle;
+    contactInfoTitle.innerText = content.footer.contactInfo.contactTitle;
     contactInfo.appendChild(contactInfoTitle);
     const contactInfoText = document.createElement('div');
-    contactInfo.innerText = translations[this.language].footer.contactInfo.contactContent;
+    contactInfo.innerText = content.footer.contactInfo.contactContent;
     contactInfo.appendChild(contactInfoText);
 
     const socialInfo = document.createElement('div');
     socialInfo.classList.add('footer__social');
     const socialInfoTitle = document.createElement('div');
-    socialInfo.innerText = translations[this.language].footer.socialInfo.socialTitle;
-    contactInfo.appendChild(socialInfoTitle);
-    const socialInfoText = document.createElement('div');
-    socialInfoText.innerText = translations[this.language].footer.socialInfo.socialContent;
-    contactInfo.appendChild(socialInfoText);
+    socialInfoTitle.innerText = content.footer.socialInfo.socialTitle;
+    const link = document.createElement('a');
+    link.href = 'https://www.instagram.com/your_favorite_antique_shop/?igshid=OGQ5ZDc2ODk2ZA%3D%3D';
+    const img = document.createElement('img');
+    img.src = Instagram;
+    link.appendChild(img);
+    socialInfo.appendChild(socialInfoTitle);
+    socialInfo.appendChild(link);
 
-    const languages = document.createElement('div');
-    languages.classList.add('footer__languages');
-    const languagesInfoTitle = document.createElement('div');
-    languagesInfoTitle.innerText = translations[this.language].footer.langauges;
-    languages.appendChild(languagesInfoTitle);
-    const buttons = document.createElement('div');
-    buttons.classList.add('buttons__block');
-    const enBtn = document.createElement('button');
-    enBtn.classList.add('language__button');
-    enBtn.setAttribute('data-language', 'en');
-    enBtn.innerText = 'EN';
-    const ruBtn = document.createElement('button');
-    ruBtn.setAttribute('data-language', 'ru');
-    ruBtn.classList.add('language__button');
-    ruBtn.innerText = 'RU';
-    buttons.appendChild(enBtn);
-    buttons.appendChild(ruBtn);
-    languages.appendChild(buttons);
+    const questions = document.createElement('div');
+    questions.classList.add('footer__questions');
+    const questionsTitle = document.createElement('div');
+    questionsTitle.innerText = content.footer.questions.questionstitle;
+
+    const emailLink = document.createElement('a');
+    emailLink.href = 'mailto:kruckovaviktoria421@gmail.com';
+    emailLink.textContent = 'kruckovaviktoria421@gmail.com';
+    questions.appendChild(questionsTitle);
+    questions.appendChild(emailLink);
     wrapper.appendChild(socialInfo);
     wrapper.appendChild(contactInfo);
-    wrapper.appendChild(languages);
+    wrapper.appendChild(questions);
 
     return this.footer;
   }
@@ -219,8 +216,8 @@ export default class App {
       'contact__section',
     ];
     const sectionTexts = [
-      `${translations[this.language].welcome}`,
-      `${translations[this.language].collection}`,
+      `${content.welcome}`,
+      `${content.collection}`,
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
     ];
 
@@ -246,8 +243,9 @@ export default class App {
       if (section.classList.contains('new-collection__section')) {
         const newCollectionDiv = document.createElement('div');
         newCollectionDiv.classList.add('newCollection__content');
-        const newCollectionImage = document.createElement('div');
+        const newCollectionImage = document.createElement('img');
         newCollectionImage.classList.add('newCollectionDiv__img');
+        newCollectionImage.src = NewCollection;
         newCollectionDiv.appendChild(newCollectionImage);
 
         const newCollctionText = document.createElement('p');
@@ -267,8 +265,9 @@ export default class App {
         const offerText = document.createElement('p');
         offerText.textContent = sectionTexts[i];
         offerDiv.appendChild(offerText);
-        const offerImage = document.createElement('div');
+        const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');
+        offerImage.src = Special;
         offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
