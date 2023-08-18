@@ -22,7 +22,7 @@
 }
 .new-collection__section .newCollection__content .newCollectionDiv__img {
   flex: 2;
-  background-image: url("../../img/new-collection.jpg");
+  background-image: url('../../img/new-collection.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 10px;
@@ -57,7 +57,7 @@
 }
 .special-offer__section .special-offer__content .special-offer__img {
   flex: 2;
-  background-image: url("../../img/special-offer.jpg");
+  background-image: url('../../img/special-offer.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 10px;
@@ -73,4 +73,4 @@
   font-weight: 500;
   line-height: 100%;
   text-align: left;
-}/*# sourceMappingURL=homepage.css.map */
+} /*# sourceMappingURL=homepage.css.map */
