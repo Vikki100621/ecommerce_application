@@ -6,6 +6,7 @@ import Registration from './registration';
 import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
+import Clock from '../assets/img/clock.png';
 
 export default class App {
   public header: HTMLElement;
@@ -321,5 +322,18 @@ export default class App {
     this.registration.draw();
     this.registration.checkInput();
     this.registration.addAddressListener();
+  }
+
+  show404Page() {
+    this.clearMain();
+    const errorSection = document.createElement('section');
+    errorSection.classList.add('section__error');
+    const notFoundContent = `
+    <h1>4<img src="${Clock}" alt="Clock" width="100">4</h1>
+    <p>The page you're looking for could not be found.</p>
+    <a href="/">Return to Main Page</a>
+  `;
+    errorSection.innerHTML = notFoundContent;
+    this.main.appendChild(errorSection);
   }
 }

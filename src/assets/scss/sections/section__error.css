@@ -1,0 +1,39 @@
+.section__error {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  align-items: center;
+  padding: 150px 20px 0;
+  margin: 0 auto;
+}
+.section__error h1 {
+  font-size: 135px;
+}
+.section__error img {
+  animation: rotateclock 5s linear infinite;
+}
+.section__error p {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+.section__error a {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+.section__error a:hover {
+  font-weight: 900;
+  color: rgb(70, 64, 21);
+  transform: scale(1.2);
+}
+
+@keyframes rotateclock {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}/*# sourceMappingURL=section__error.css.map */

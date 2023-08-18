@@ -3,6 +3,7 @@
 @import './homepage/homepage.css';
 @import './sections/section__login.css';
 @import './sections/section__registration.css';
+@import './sections/section__error.css';
 @import './global/burger_menu.css';
 @import 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap';
 @font-face {

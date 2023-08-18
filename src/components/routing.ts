@@ -99,6 +99,7 @@ export default class Routing {
       const template = this.routes.find((r) => r.path === route)?.template as string;
       return this.app.getTemplateFunction(template);
     } catch (error) {
+      this.app.show404Page();
       throw new Error(`Route ${route} not found`);
     }
   }
