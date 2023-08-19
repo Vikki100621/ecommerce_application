@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import {
   // ApiRoot,
   createApiBuilderFromCtpClient,
@@ -52,7 +53,9 @@ export default class Registration {
         <input id="submit" type="submit" value="Submit">
         <p class="error"></p>
       </form>
-    </section>`;
+    </section>
+    <div class="message">
+    </div>`;
   }
 
   returnRegistrationForm(): HTMLFormElement {
@@ -259,7 +262,24 @@ export default class Registration {
       checkPCode();
     }
 
-    async function createUser() {
+    function displayMessage(msg: string) {
+      const messageBlock: HTMLDivElement = <HTMLDivElement>document.querySelector('.message');
+      messageBlock.textContent = msg;
+      messageBlock.classList.add('message_active');
+    }
+
+    function hideMessage() {
+      const messageBlock: HTMLDivElement = <HTMLDivElement>document.querySelector('.message_active');
+      if (messageBlock !== null) {
+        messageBlock.textContent = '';
+        messageBlock.classList.remove('message_active');
+      }
+    }
+
+    function updateCustomerInfo(ID: string) {
+      const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+        projectKey: 'rs-school-ecommerce-application',
+      });
       const email: string = returnInputValue('email');
       const pass: string = returnInputValue('pass');
       const firstName: string = returnInputValue('fname');
@@ -272,44 +292,72 @@ export default class Registration {
         lastName,
         bDateStr,
       };
+      apiRoot
+        .customers()
+        .withId({ ID })
+        .post({
+          body: {
+            version: 1,
+            actions: [
+              {
+                action: 'setFirstName',
+                firstName: usrObj.firstName,
+              },
+              {
+                action: 'setLastName',
+                lastName: usrObj.lastName,
+              },
+              {
+                action: 'setDateOfBirth',
+                dateOfBirth: usrObj.bDateStr,
+              },
+            ],
+          },
+        })
+        .execute();
+    }
+
+    function clearForm() {
+      function clearInput(inp: HTMLInputElement) {
+        if (
+          inp.type === 'email'
+          || inp.type === 'password'
+          || (inp.type === 'text' && !inp.id.startsWith('country'))
+          || inp.type === 'date'
+        ) {
+          // eslint-disable-next-line no-param-reassign
+          inp.value = '';
+        } else if (inp.type === 'checkbox') {
+          // eslint-disable-next-line no-param-reassign
+          inp.checked = false;
+        }
+      }
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach((i) => clearInput(i));
+    }
+
+    function createUser() {
+      const email: string = returnInputValue('email');
+      const pass: string = returnInputValue('pass');
       const customerDraft = {
-        email: usrObj.email,
-        password: usrObj.pass,
+        email,
+        password: pass,
       };
       const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
         projectKey: 'rs-school-ecommerce-application',
       });
       const func = () => apiRoot.customers().post({ body: customerDraft }).execute();
-      const newCustomer = await func();
-      const newCustomerID = newCustomer.body.customer.id;
-      const updateCustomerInfo = () => {
-        apiRoot
-          .customers()
-          .withId({ ID: newCustomerID })
-          .post(
-            {
-              body: {
-                version: 1,
-                actions: [
-                  {
-                    action: 'setFirstName',
-                    firstName: usrObj.firstName,
-                  },
-                  {
-                    action: 'setLastName',
-                    lastName: usrObj.lastName,
-                  },
-                  {
-                    action: 'setDateOfBirth',
-                    dateOfBirth: usrObj.bDateStr,
-                  },
-                ],
-              },
-            },
-          )
-          .execute();
-      };
-      updateCustomerInfo();
+      func()
+        .then((response) => {
+          updateCustomerInfo(response.body.customer.id);
+          displayMessage('User successfully created.');
+          clearForm();
+          setTimeout(() => hideMessage(), 5000);
+        })
+        .catch((err: Error) => {
+          displayMessage(err.message);
+          setTimeout(() => hideMessage(), 5000);
+        });
     }
 
     function checkForm(evt: Event) {
@@ -321,14 +369,19 @@ export default class Registration {
         showError("It's at least one error on page. Change input values and try submit again.", errPar);
         setTimeout(() => hideError(errPar), 5000);
       } else {
-        registrationForm.removeEventListener('focusout', checkEvtTarget);
-        registrationForm.removeEventListener('submit', checkForm);
-        createUser().catch((err) => console.log('err', err));
+        createUser();
       }
+    }
+
+    function removeListeners() {
+      registrationForm.removeEventListener('focusout', checkEvtTarget);
+      registrationForm.removeEventListener('submit', checkForm);
+      window.removeEventListener('beforeunload', removeListeners);
     }
 
     registrationForm.addEventListener('focusout', checkEvtTarget);
     registrationForm.addEventListener('input', checkEvtTarget);
     registrationForm.addEventListener('submit', checkForm);
+    window.addEventListener('beforeunload', removeListeners);
   }
 }

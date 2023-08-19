@@ -53,3 +53,19 @@
     display: block;
   }
 }
+
+.message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  padding-top: 45vh;
+  text-align: center;
+
+  &_active {
+    display: block;
+    background-color: #ffffff;
+  }
+}
