@@ -6,11 +6,11 @@ import {
 import ctpClient from './api/BuildClient';
 
 interface IUsrObj {
-  email: string,
-  pass: string,
-  firstName: string,
-  lastName: string,
-  bDateStr: string
+  email: string;
+  pass: string;
+  firstName: string;
+  lastName: string;
+  bDateStr: string;
 }
 
 export default class Registration {
@@ -282,7 +282,34 @@ export default class Registration {
       const func = () => apiRoot.customers().post({ body: customerDraft }).execute();
       const newCustomer = await func();
       const newCustomerID = newCustomer.body.customer.id;
-      console.log(newCustomerID);
+      const updateCustomerInfo = () => {
+        apiRoot
+          .customers()
+          .withId({ ID: newCustomerID })
+          .post(
+            {
+              body: {
+                version: 1,
+                actions: [
+                  {
+                    action: 'setFirstName',
+                    firstName: usrObj.firstName,
+                  },
+                  {
+                    action: 'setLastName',
+                    lastName: usrObj.lastName,
+                  },
+                  {
+                    action: 'setDateOfBirth',
+                    dateOfBirth: usrObj.bDateStr,
+                  },
+                ],
+              },
+            },
+          )
+          .execute();
+      };
+      updateCustomerInfo();
     }
 
     function checkForm(evt: Event) {
