@@ -2,6 +2,7 @@
 .login__section {
   width: 300px;
   padding-top: 150px;
+  padding-bottom: 20px;
   margin: 0 auto;
 }
 .login__form {
@@ -64,7 +65,7 @@
   outline: none;
 }
 .input__container input:focus {
-  box-shadow: 0 0 5px 2px rgb(169 141 59);
+  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
 }
 
 .email label,

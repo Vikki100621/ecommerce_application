@@ -32,23 +32,13 @@ export default class Routing {
     const clickedElement = event.target as HTMLElement;
 
     if (clickedElement.classList.contains('register')) {
-      this.navigateTo('/register');
+      window.location.hash = '/register';
     } else if (clickedElement.classList.contains('login')) {
-      this.navigateTo('/login');
+      window.location.hash = '/login';
     } else {
       const selectedRoute = this.routes[index].path;
-      this.navigateTo(selectedRoute);
+      window.location.hash = selectedRoute;
     }
-  }
-
-  addNestedLinkClickHandlers() {
-    const nestedLinks = document.querySelectorAll('.link_to_register');
-    nestedLinks.forEach((link) => {
-      link.addEventListener('click', (event) => {
-        event.preventDefault();
-        this.navigateTo(link.getAttribute('data-route') || ''); // Используйте атрибут data-route
-      });
-    });
   }
 
   // отрисовываем шаблон
@@ -80,18 +70,19 @@ export default class Routing {
     }
   }
 
-  // ловим ошибку если путь неверный
-  router() {
-    const url = window.location.pathname || '/';
-    const route = this.resolveRoute(url);
-    route();
+  init() {
+    this.registerTemplates();
+    this.addMenuClickHandlers();
+
+    window.addEventListener('load', () => this.router());
+    window.addEventListener('hashchange', () => this.router());
   }
 
-  // функция для изменения URL без перезагрузки
-  navigateTo(route: string) {
-    const fullPath = route;
-    window.history.pushState({}, '', fullPath);
-    this.router(); // вызываем router() для обновления контента
+  // ловим ошибку если путь неверный
+  router() {
+    const url = window.location.hash.slice(1) || '/';
+    const route = this.resolveRoute(url);
+    route();
   }
 
   resolveRoute(route: string) {
@@ -102,15 +93,5 @@ export default class Routing {
       this.app.show404Page();
       throw new Error(`Route ${route} not found`);
     }
-  }
-
-  init() {
-    this.registerTemplates();
-    this.addMenuClickHandlers();
-
-    window.addEventListener('load', () => this.router());
-
-    // Используй popstate вместо hashchange
-    window.addEventListener('popstate', () => this.router());
   }
 }

@@ -320,7 +320,7 @@ export default class App {
   showRegisterPage() {
     this.clearMain();
     this.registration.draw();
-    this.registration.checkInput();
+    this.registration.checkForm();
     this.registration.addAddressListener();
   }
 

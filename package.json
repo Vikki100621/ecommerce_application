@@ -23,6 +23,7 @@
     "eslint": "^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.25.2",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.3",
@@ -45,5 +46,10 @@
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "@commercetools/platform-sdk": "^5.0.0",
+    "@commercetools/sdk-client-v2": "^2.2.0",
+    "node-fetch": "^2.6.1"
   }
 }
