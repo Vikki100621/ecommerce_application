@@ -1,17 +1,6 @@
-import {
-  // ApiRoot,
-  createApiBuilderFromCtpClient,
-} from '@commercetools/platform-sdk';
+import { CustomerUpdate, CustomerUpdateAction, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 import ctpClient from './api/BuildClient';
-
-interface IUsrObj {
-  email: string;
-  pass: string;
-  firstName: string;
-  lastName: string;
-  bDateStr: string;
-}
 
 export default class Registration {
   main: HTMLElement;
@@ -67,9 +56,11 @@ export default class Registration {
 
     function addAddress() {
       const addressNum = document.querySelectorAll('.reg-form__address').length;
-      const newAddress = `
-          <fieldset class="reg-form__address fieldset" id="address-${addressNum}">
-            <legend class="fieldset__legend">Address</legend>
+      const newAddress = document.createElement('fieldset');
+      newAddress.setAttribute('id', `address-${addressNum}`);
+      newAddress.classList.add('reg-form__address', 'fieldset');
+      newAddress.innerHTML = `
+      <legend class="fieldset__legend">Address</legend>
             <label class="reg-form__label" for="street-${addressNum}">Street</label>
             <input type="text" name="street" id="street-${addressNum}">
             <p class="error"></p>
@@ -83,19 +74,18 @@ export default class Registration {
             <input type="text" name="country" id="country-${addressNum}" value="US" disabled>
             <p class="error"></p>
             <label class="reg-form__label" for="baddress-${addressNum}">Billing Address</label>
-            <input type="checkbox" name="baddress" id="baddress-${addressNum}" checked>
+            <input type="checkbox" name="baddress" id="baddress-${addressNum}">
             <p class="error"></p>
             <label class="reg-form__label" for="saddress-${addressNum}">Shipping Address</label>
-            <input type="checkbox" name="saddress" id="saddress-${addressNum}" checked>
+            <input type="checkbox" name="saddress" id="saddress-${addressNum}">
             <p class="error"></p>
             <label class="reg-form__label" for="dbaddress-${addressNum}">Default Billing Address</label>
             <input type="checkbox" name="dbaddress" id="dbaddress-${addressNum}">
             <p class="error"></p>
             <label class="reg-form__label" for="dsaddress-${addressNum}">Default Shipping Address</label>
             <input type="checkbox" name="dsaddress" id="dsaddress-${addressNum}">
-            <p class="error"></p>
-          </fieldset>`;
-      addressWrap.innerHTML += newAddress;
+            <p class="error"></p>`;
+      addressWrap.appendChild(newAddress);
     }
 
     addAddress();
@@ -248,25 +238,31 @@ export default class Registration {
       } else if (currentID.startsWith('pcode')) {
         checkPCode();
       } else if (currentID.startsWith('dbaddress-')) {
-        const inp: HTMLInputElement = <HTMLInputElement>evt.target;
         const checked: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+        const bAddress: HTMLInputElement = <HTMLInputElement>(
+          document.getElementById(`baddress-${currentID.match(/\d+/)}`)
+        );
         checked.forEach((el) => {
           if (el.id.startsWith('dbaddress-') && el.checked) {
             // eslint-disable-next-line no-param-reassign
             el.checked = false;
           }
         });
-        inp.checked = true;
+        bAddress.checked = true;
+        input.checked = true;
       } else if (currentID.startsWith('dsaddress-')) {
-        const inp: HTMLInputElement = <HTMLInputElement>evt.target;
         const checked: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+        const sAddress: HTMLInputElement = <HTMLInputElement>(
+          document.getElementById(`saddress-${currentID.match(/\d+/)}`)
+        );
+        sAddress.checked = true;
         checked.forEach((el) => {
           if (el.id.startsWith('dsaddress-') && el.checked) {
             // eslint-disable-next-line no-param-reassign
             el.checked = false;
           }
         });
-        inp.checked = true;
+        input.checked = true;
       }
     }
 
@@ -299,56 +295,110 @@ export default class Registration {
       const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
         projectKey: 'rs-school-ecommerce-application',
       });
-      const email: string = returnInputValue('email');
-      const pass: string = returnInputValue('pass');
       const firstName: string = returnInputValue('fname');
       const lastName: string = returnInputValue('lname');
-      const bDateStr: string = returnInputValue('bdate');
-      const usrObj: IUsrObj = {
-        email,
-        pass,
-        firstName,
-        lastName,
-        bDateStr,
+      const dateOfBirth = returnInputValue('bdate');
+      const body: CustomerUpdate = {
+        version: 1,
+        actions: [
+          {
+            action: 'setFirstName',
+            firstName,
+          },
+          {
+            action: 'setLastName',
+            lastName,
+          },
+          {
+            action: 'setDateOfBirth',
+            dateOfBirth,
+          },
+        ],
       };
+
+      const addresses: NodeListOf<HTMLFieldSetElement> = document.querySelectorAll('.reg-form__address');
+      for (let i = 0; i < addresses.length; i += 1) {
+        const streetInp: HTMLInputElement = <HTMLInputElement>document.getElementById(`street-${i}`);
+        const streetName = streetInp.value;
+        const cityInp: HTMLInputElement = <HTMLInputElement>document.getElementById(`city-${i}`);
+        const city = cityInp.value;
+        const pCodeInp: HTMLInputElement = <HTMLInputElement>document.getElementById(`pcode-${i}`);
+        const postalCode = pCodeInp.value;
+        const actionObj: CustomerUpdateAction = {
+          action: 'addAddress',
+          address: {
+            streetName,
+            postalCode,
+            city,
+            country: 'US',
+          },
+        };
+        body.actions.push(actionObj);
+      }
+
       apiRoot
         .customers()
         .withId({ ID })
         .post({
-          body: {
-            version: 1,
-            actions: [
-              {
-                action: 'setFirstName',
-                firstName: usrObj.firstName,
-              },
-              {
-                action: 'setLastName',
-                lastName: usrObj.lastName,
-              },
-              {
-                action: 'setDateOfBirth',
-                dateOfBirth: usrObj.bDateStr,
-              },
-            ],
-          },
+          body,
         })
-        .execute();
+        .execute()
+        .then((response) => {
+          const userAddresses = response.body.addresses;
+          const versNum = response.body.version;
+          const checkBoxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+          const addrBody: CustomerUpdate = {
+            version: versNum,
+            actions: [],
+          };
+          checkBoxes.forEach((input) => {
+            const addressId = userAddresses[+`${input.id.match(/\d+/)}`].id;
+            if (input.checked) {
+              let updAction: CustomerUpdateAction = {
+                action: 'addBillingAddressId',
+                addressId: `{{${addressId}}}`,
+              };
+
+              if (input.id.startsWith('saddress')) {
+                updAction = {
+                  action: 'addBillingAddressId',
+                  addressId: `{{${addressId}}}`,
+                };
+              } else if (input.id.startsWith('dbaddress')) {
+                updAction = {
+                  action: 'setDefaultBillingAddress',
+                  addressId: `{{${addressId}}}`,
+                };
+              } else if (input.id.startsWith('dsaddress')) {
+                updAction = {
+                  action: 'setDefaultShippingAddress',
+                  addressId: `{{${addressId}}}`,
+                };
+              }
+              addrBody.actions.push(updAction);
+            }
+          });
+          apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+              body: addrBody,
+            })
+            .execute();
+        });
     }
 
     function clearForm() {
-      function clearInput(inp: HTMLInputElement) {
+      function clearInput(input: HTMLInputElement) {
         if (
-          inp.type === 'email' ||
-          inp.type === 'password' ||
-          (inp.type === 'text' && !inp.id.startsWith('country')) ||
-          inp.type === 'date'
+          ['email', 'password', 'date'].includes(input.type) ||
+          (input.type === 'text' && !input.id.startsWith('country'))
         ) {
           // eslint-disable-next-line no-param-reassign
-          inp.value = '';
-        } else if (inp.type === 'checkbox') {
+          input.value = '';
+        } else if (input.type === 'checkbox') {
           // eslint-disable-next-line no-param-reassign
-          inp.checked = false;
+          input.checked = false;
         }
       }
       const inputs = document.querySelectorAll('input');
@@ -373,7 +423,7 @@ export default class Registration {
           clearForm();
           setTimeout(() => {
             hideMessage();
-            window.location.href = '/';
+            // window.location.href = '/';
           }, 5000);
         })
         .catch((err: Error) => {
