@@ -3,9 +3,10 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import translations from './translations';
-import userImg from '../assets/img/user.png';
-import passwordImg from '../assets/img/password.png';
+// import userImg from '../assets/img/user.png';
+// import passwordImg from '../assets/img/password.png';
 import basketImageSrc from '../assets/img/shopping-cart.png';
+import LoginView from '../utils/loginView';
 import Registration from './registration';
 import ctpClient from './api/BuildClient';
 
@@ -280,72 +281,74 @@ export default class App {
   // Использовать в работе Валере для реализации входа
   showSignInPage() {
     this.main.innerHTML = '';
-    const section = document.createElement('div');
-    section.classList.add('section__login');
+    const loginPage = new LoginView().getHtmlElement();
+    this.main.appendChild(loginPage);
+    // const section = document.createElement('div');
+    // section.classList.add('section__login');
 
-    const headerDiv = document.createElement('div');
-    headerDiv.classList.add('header');
+    // const headerDiv = document.createElement('div');
+    // headerDiv.classList.add('header');
 
-    const signInH3 = document.createElement('h3');
-    signInH3.classList.add('sign-in');
-    signInH3.textContent = 'Sign in';
+    // const signInH3 = document.createElement('h3');
+    // signInH3.classList.add('sign-in');
+    // signInH3.textContent = 'Sign in';
 
-    headerDiv.appendChild(signInH3);
-    section.appendChild(headerDiv);
+    // headerDiv.appendChild(signInH3);
+    // section.appendChild(headerDiv);
 
-    const form = document.createElement('form');
-    form.setAttribute('action', '#');
+    // const form = document.createElement('form');
+    // form.setAttribute('action', '#');
 
-    const userDiv = document.createElement('div');
+    // const userDiv = document.createElement('div');
 
-    const userLabel = document.createElement('label');
-    userLabel.classList.add('user');
-    userLabel.setAttribute('for', 'email');
-    const userImgEl = document.createElement('img');
-    userImgEl.classList.add('label__user');
-    userImgEl.src = userImg;
-    userLabel.appendChild(userImgEl);
+    // const userLabel = document.createElement('label');
+    // userLabel.classList.add('user');
+    // userLabel.setAttribute('for', 'email');
+    // const userImgEl = document.createElement('img');
+    // userImgEl.classList.add('label__user');
+    // userImgEl.src = userImg;
+    // userLabel.appendChild(userImgEl);
 
-    const userEmailInput = document.createElement('input');
-    userEmailInput.classList.add('user-input');
-    userEmailInput.setAttribute('type', 'email');
-    userEmailInput.setAttribute('name', 'email');
-    userEmailInput.setAttribute('id', 'email');
-    userEmailInput.setAttribute('placeholder', 'My e-mail');
+    // const userEmailInput = document.createElement('input');
+    // userEmailInput.classList.add('user-input');
+    // userEmailInput.setAttribute('type', 'email');
+    // userEmailInput.setAttribute('name', 'email');
+    // userEmailInput.setAttribute('id', 'email');
+    // userEmailInput.setAttribute('placeholder', 'My e-mail');
 
-    userDiv.appendChild(userLabel);
-    userDiv.appendChild(userEmailInput);
-    form.appendChild(userDiv);
+    // userDiv.appendChild(userLabel);
+    // userDiv.appendChild(userEmailInput);
+    // form.appendChild(userDiv);
 
-    const passwordDiv = document.createElement('div');
+    // const passwordDiv = document.createElement('div');
 
-    const passwordLabel = document.createElement('label');
-    passwordLabel.classList.add('password');
-    passwordLabel.setAttribute('for', 'password');
-    const passwordImgEl = document.createElement('img');
-    passwordImgEl.classList.add('label__password');
-    passwordImgEl.src = passwordImg;
-    passwordLabel.appendChild(passwordImgEl);
+    // const passwordLabel = document.createElement('label');
+    // passwordLabel.classList.add('password');
+    // passwordLabel.setAttribute('for', 'password');
+    // const passwordImgEl = document.createElement('img');
+    // passwordImgEl.classList.add('label__password');
+    // passwordImgEl.src = passwordImg;
+    // passwordLabel.appendChild(passwordImgEl);
 
-    const passwordInput = document.createElement('input');
-    passwordInput.classList.add('password-input');
-    passwordInput.setAttribute('type', 'password');
-    passwordInput.setAttribute('name', 'password');
-    passwordInput.setAttribute('id', 'password');
-    passwordInput.setAttribute('placeholder', 'Password');
+    // const passwordInput = document.createElement('input');
+    // passwordInput.classList.add('password-input');
+    // passwordInput.setAttribute('type', 'password');
+    // passwordInput.setAttribute('name', 'password');
+    // passwordInput.setAttribute('id', 'password');
+    // passwordInput.setAttribute('placeholder', 'Password');
 
-    passwordDiv.appendChild(passwordLabel);
-    passwordDiv.appendChild(passwordInput);
-    form.appendChild(passwordDiv);
+    // passwordDiv.appendChild(passwordLabel);
+    // passwordDiv.appendChild(passwordInput);
+    // form.appendChild(passwordDiv);
 
-    const forgotLabel = document.createElement('span');
-    forgotLabel.classList.add('forgot-label');
-    forgotLabel.textContent = 'Lost your password?';
+    // const forgotLabel = document.createElement('span');
+    // forgotLabel.classList.add('forgot-label');
+    // forgotLabel.textContent = 'Lost your password?';
 
-    form.appendChild(forgotLabel);
-    section.appendChild(form);
+    // form.appendChild(forgotLabel);
+    // section.appendChild(form);
 
-    this.main.appendChild(section);
+    // this.main.appendChild(section);
   }
 
   // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
