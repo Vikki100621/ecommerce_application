@@ -331,7 +331,7 @@ export default class App {
     const notFoundContent = `
     <h1>4<img src="${Clock}" alt="Clock" width="100">4</h1>
     <p>The page you're looking for could not be found.</p>
-    <a href="/">Return to Main Page</a>
+    <a href="#/">Return to Main Page</a>
   `;
     errorSection.innerHTML = notFoundContent;
     this.main.appendChild(errorSection);

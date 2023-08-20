@@ -61,7 +61,7 @@
   font-size: 24px;
   text-align: center;
 }
-.fieldset [type=checkbox] {
+.fieldset [type='checkbox'] {
   justify-self: start;
 }
 .fieldset .message {
@@ -97,4 +97,4 @@
   .error {
     grid-column: 1;
   }
-}/*# sourceMappingURL=section__registration.css.map */
+} /*# sourceMappingURL=section__registration.css.map */

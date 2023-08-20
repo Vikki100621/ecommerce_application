@@ -51,7 +51,7 @@ const param = {
     classNames: ['login__link', 'link_to_register'],
     textContent: 'Register now',
     attributes: {
-      href: '/#/register',
+      href: '#/register',
     },
   },
   forgotLinkParametrs: {

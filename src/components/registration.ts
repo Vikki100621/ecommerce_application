@@ -355,7 +355,7 @@ export default class Registration {
           clearForm();
           setTimeout(() => {
             hideMessage();
-            window.location.href = '/#/';
+            window.location.hash = '/';
           }, 5000);
         })
         .catch((err: Error) => {
