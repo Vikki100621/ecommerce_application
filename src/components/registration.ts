@@ -319,10 +319,10 @@ export default class Registration {
     function clearForm() {
       function clearInput(inp: HTMLInputElement) {
         if (
-          inp.type === 'email'
-          || inp.type === 'password'
-          || (inp.type === 'text' && !inp.id.startsWith('country'))
-          || inp.type === 'date'
+          inp.type === 'email' ||
+          inp.type === 'password' ||
+          (inp.type === 'text' && !inp.id.startsWith('country')) ||
+          inp.type === 'date'
         ) {
           // eslint-disable-next-line no-param-reassign
           inp.value = '';
@@ -351,7 +351,10 @@ export default class Registration {
           updateCustomerInfo(response.body.customer.id);
           displayMessage('User successfully created.');
           clearForm();
-          setTimeout(() => hideMessage(), 5000);
+          setTimeout(() => {
+            hideMessage();
+            window.location.href = '/';
+          }, 5000);
         })
         .catch((err: Error) => {
           displayMessage(err.message);
