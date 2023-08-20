@@ -117,3 +117,4 @@ export default class LoginView extends View {
     this.viewElement.addInnerElement([title, form, registationLink, forgotLink]);
   }
 }
+
