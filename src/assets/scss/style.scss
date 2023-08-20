@@ -2,7 +2,9 @@
 @import './global/reset.css';
 @import './homepage/homepage.css';
 @import './sections/section__login.css';
-@import './sections/section__registration';
+@import './sections/section__registration.css';
+@import './sections/section__error.css';
+@import './global/burger_menu.css';
 @import 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap';
 
 @font-face {
@@ -81,6 +83,7 @@ body {
 
     .products__numbres {
       display: flex;
+      align-items: center;
       justify-content: center;
       width: 16px;
       height: 16px;
@@ -106,22 +109,51 @@ body {
 .footer-wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 50px 0;
+  padding: 50px;
+
   .footer__contact {
     width: 30%;
+    line-height: 1.5;
+    text-align: justify;
   }
-  .footer__languages {
+  .footer__social {
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+    align-items: center;
+  }
+  .footer__questions {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     align-items: center;
-    .buttons__block {
-      display: flex;
-      column-gap: 5px;
-      button {
-        max-width: 40px;
-        cursor: pointer;
-      }
+    a {
+      color: inherit;
     }
+  }
+}
+
+@media (width <= 1250px) {
+  .menu-list {
+    flex-direction: column;
+    row-gap: 30px;
+  }
+}
+
+@media (width <= 800px) {
+  .footer-wrapper {
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    text-align: center;
+    .footer__contact {
+      width: 100%;
+    }
+  }
+}
+
+@media (width <= 500px) {
+  .left-content {
+    font-size: 35px;
   }
 }

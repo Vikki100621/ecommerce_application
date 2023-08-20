@@ -1,14 +1,12 @@
-import {
-  // ApiRoot,
-  createApiBuilderFromCtpClient,
-} from '@commercetools/platform-sdk';
-import translations from './translations';
-// import userImg from '../assets/img/user.png';
-// import passwordImg from '../assets/img/password.png';
+import content from './content';
 import basketImageSrc from '../assets/img/shopping-cart.png';
+import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
 import LoginView from '../utils/loginView';
 import Registration from './registration';
-import ctpClient from './api/BuildClient';
+import NewCollection from '../assets/img/new-collection.jpg';
+import Special from '../assets/img/special-offer.jpg';
+import Instagram from '../assets/img/instagram.png';
+import Clock from '../assets/img/clock.png';
 
 export default class App {
   public header: HTMLElement;
@@ -23,8 +21,7 @@ export default class App {
 
   private registration: Registration;
 
-  constructor(public language: 'en' | 'ru') {
-    this.language = language;
+  constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
@@ -48,17 +45,22 @@ export default class App {
 
     const leftContent = document.createElement('div');
     leftContent.classList.add('left-content');
-    leftContent.textContent = translations[this.language].title;
+    leftContent.textContent = content.title;
     wrapper.appendChild(leftContent);
     const rightContent = document.createElement('div');
     rightContent.classList.add('right-content');
     wrapper.appendChild(rightContent);
-
+    const burgerMenu = document.createElement('div');
+    burgerMenu.classList.add('burger__menu');
+    const burgerIcon = document.createElement('div');
+    burgerIcon.classList.add('burger__menu-icon');
+    const burgerLine = document.createElement('span');
+    burgerLine.classList.add('burger__menu-line');
     const nav = document.createElement('nav');
     nav.classList.add('menu');
     const ul = document.createElement('ul');
     ul.classList.add('menu-list');
-    const menuItems = translations[this.language].menuItems as string[];
+    const menuItems = content.menuItems as string[];
 
     menuItems.forEach((itemText) => {
       const li = document.createElement('li');
@@ -75,8 +77,8 @@ export default class App {
     const register = document.createElement('div');
     signIn.classList.add('login');
     register.classList.add('register');
-    signIn.textContent = translations[this.language].login;
-    register.textContent = translations[this.language].register;
+    signIn.textContent = content.login;
+    register.textContent = content.register;
     separator.textContent = '|';
     clientLi.appendChild(signIn);
     clientLi.appendChild(separator);
@@ -94,8 +96,15 @@ export default class App {
     basketLi.appendChild(numbersOfProducts);
     ul.appendChild(basketLi);
 
+    const overLay = document.createElement('div');
+    overLay.classList.add('burger__menu-overlay');
+
     nav.appendChild(ul);
-    rightContent.appendChild(nav);
+    burgerIcon.appendChild(burgerLine);
+    burgerMenu.appendChild(burgerIcon);
+    burgerMenu.appendChild(nav);
+    rightContent.appendChild(burgerMenu);
+    rightContent.appendChild(overLay);
     return this.header;
   }
 
@@ -105,6 +114,21 @@ export default class App {
     this.main.id = 'main';
     this.body?.appendChild(this.main);
     return this.main;
+  }
+
+  clearMain() {
+    this.main.innerHTML = '';
+    this.main.classList.add('light-background');
+    this.header.style.color = '#100e0e';
+
+    const element = document.querySelector('.burger__menu-icon');
+    element?.classList.add('dark__color');
+
+    const img = document.querySelector('.item-basket img') as HTMLImageElement;
+    const div = document.querySelector('.item-basket div') as HTMLElement;
+
+    img.src = basketImageSrcBlack;
+    div.style.border = '2px solid rgb(16, 14, 14)';
   }
 
   // создаем footer(он не будет меняться больше)
@@ -125,42 +149,37 @@ export default class App {
     const contactInfo = document.createElement('div');
     contactInfo.classList.add('footer__contact');
     const contactInfoTitle = document.createElement('div');
-    contactInfoTitle.innerText = translations[this.language].footer.contactInfo.contactTitle;
+    contactInfoTitle.innerText = content.footer.contactInfo.contactTitle;
     contactInfo.appendChild(contactInfoTitle);
     const contactInfoText = document.createElement('div');
-    contactInfo.innerText = translations[this.language].footer.contactInfo.contactContent;
+    contactInfo.innerText = content.footer.contactInfo.contactContent;
     contactInfo.appendChild(contactInfoText);
 
     const socialInfo = document.createElement('div');
     socialInfo.classList.add('footer__social');
     const socialInfoTitle = document.createElement('div');
-    socialInfo.innerText = translations[this.language].footer.socialInfo.socialTitle;
-    contactInfo.appendChild(socialInfoTitle);
-    const socialInfoText = document.createElement('div');
-    socialInfoText.innerText = translations[this.language].footer.socialInfo.socialContent;
-    contactInfo.appendChild(socialInfoText);
+    socialInfoTitle.innerText = content.footer.socialInfo.socialTitle;
+    const link = document.createElement('a');
+    link.href = 'https://www.instagram.com/your_favorite_antique_shop/?igshid=OGQ5ZDc2ODk2ZA%3D%3D';
+    const img = document.createElement('img');
+    img.src = Instagram;
+    link.appendChild(img);
+    socialInfo.appendChild(socialInfoTitle);
+    socialInfo.appendChild(link);
 
-    const languages = document.createElement('div');
-    languages.classList.add('footer__languages');
-    const languagesInfoTitle = document.createElement('div');
-    languagesInfoTitle.innerText = translations[this.language].footer.langauges;
-    languages.appendChild(languagesInfoTitle);
-    const buttons = document.createElement('div');
-    buttons.classList.add('buttons__block');
-    const enBtn = document.createElement('button');
-    enBtn.classList.add('language__button');
-    enBtn.setAttribute('data-language', 'en');
-    enBtn.innerText = 'EN';
-    const ruBtn = document.createElement('button');
-    ruBtn.setAttribute('data-language', 'ru');
-    ruBtn.classList.add('language__button');
-    ruBtn.innerText = 'RU';
-    buttons.appendChild(enBtn);
-    buttons.appendChild(ruBtn);
-    languages.appendChild(buttons);
+    const questions = document.createElement('div');
+    questions.classList.add('footer__questions');
+    const questionsTitle = document.createElement('div');
+    questionsTitle.innerText = content.footer.questions.questionstitle;
+
+    const emailLink = document.createElement('a');
+    emailLink.href = 'mailto:kruckovaviktoria421@gmail.com';
+    emailLink.textContent = 'kruckovaviktoria421@gmail.com';
+    questions.appendChild(questionsTitle);
+    questions.appendChild(emailLink);
     wrapper.appendChild(socialInfo);
     wrapper.appendChild(contactInfo);
-    wrapper.appendChild(languages);
+    wrapper.appendChild(questions);
 
     return this.footer;
   }
@@ -179,7 +198,17 @@ export default class App {
 
   // рисуем домашнюю страницу
   showHomePage() {
+    const element = document.querySelector('.burger__menu-icon');
+    element?.classList.remove('dark__color');
+
+    const img = document.querySelector('.item-basket img') as HTMLImageElement;
+    const div = document.querySelector('.item-basket div') as HTMLElement;
+
+    img.src = basketImageSrc;
+    div.style.border = '2px solid #e4d4be';
+
     this.main.innerHTML = '';
+    this.header.style.color = '#e4d4be';
     const backgroundClasses = ['img-background', 'dark-background', 'light-background', 'dark-background'];
     const sectionClasses = [
       'welcome__section',
@@ -188,8 +217,8 @@ export default class App {
       'contact__section',
     ];
     const sectionTexts = [
-      `${translations[this.language].welcome}`,
-      `${translations[this.language].collection}`,
+      `${content.welcome}`,
+      `${content.collection}`,
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
     ];
 
@@ -215,8 +244,9 @@ export default class App {
       if (section.classList.contains('new-collection__section')) {
         const newCollectionDiv = document.createElement('div');
         newCollectionDiv.classList.add('newCollection__content');
-        const newCollectionImage = document.createElement('div');
+        const newCollectionImage = document.createElement('img');
         newCollectionImage.classList.add('newCollectionDiv__img');
+        newCollectionImage.src = NewCollection;
         newCollectionDiv.appendChild(newCollectionImage);
 
         const newCollctionText = document.createElement('p');
@@ -236,8 +266,9 @@ export default class App {
         const offerText = document.createElement('p');
         offerText.textContent = sectionTexts[i];
         offerDiv.appendChild(offerText);
-        const offerImage = document.createElement('div');
+        const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');
+        offerImage.src = Special;
         offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
@@ -248,7 +279,7 @@ export default class App {
 
   // здесь будет отрисовываться страница о магазине
   showAboutPage() {
-    this.main.innerHTML = '';
+    this.clearMain();
     const section = document.createElement('section');
     section.innerText = 'Not completed yet';
     this.main.appendChild(section);
@@ -256,7 +287,7 @@ export default class App {
 
   // здесь будет отрисовываться каталог
   showCatalogPage() {
-    this.main.innerHTML = '';
+    this.clearMain();
     const section = document.createElement('section');
     section.innerText = 'Not completed yet';
     this.main.appendChild(section);
@@ -264,7 +295,7 @@ export default class App {
 
   // здесь будет отрисовываться инфо о доставке
   showDeliveryPage() {
-    this.main.innerHTML = '';
+    this.clearMain();
     const section = document.createElement('section');
     section.innerText = 'Not completed yet';
     this.main.appendChild(section);
@@ -272,7 +303,7 @@ export default class App {
 
   // здесь будет отрисовываться инфо с контактами
   showContactsPage() {
-    this.main.innerHTML = '';
+    this.clearMain();
     const section = document.createElement('section');
     section.innerText = 'Not completed yet';
     this.main.appendChild(section);
@@ -280,94 +311,29 @@ export default class App {
 
   // Использовать в работе Валере для реализации входа
   showSignInPage() {
-    this.main.innerHTML = '';
+    this.clearMain();
     const loginPage = new LoginView().getHtmlElement();
     this.main.appendChild(loginPage);
-    // const section = document.createElement('div');
-    // section.classList.add('section__login');
-
-    // const headerDiv = document.createElement('div');
-    // headerDiv.classList.add('header');
-
-    // const signInH3 = document.createElement('h3');
-    // signInH3.classList.add('sign-in');
-    // signInH3.textContent = 'Sign in';
-
-    // headerDiv.appendChild(signInH3);
-    // section.appendChild(headerDiv);
-
-    // const form = document.createElement('form');
-    // form.setAttribute('action', '#');
-
-    // const userDiv = document.createElement('div');
-
-    // const userLabel = document.createElement('label');
-    // userLabel.classList.add('user');
-    // userLabel.setAttribute('for', 'email');
-    // const userImgEl = document.createElement('img');
-    // userImgEl.classList.add('label__user');
-    // userImgEl.src = userImg;
-    // userLabel.appendChild(userImgEl);
-
-    // const userEmailInput = document.createElement('input');
-    // userEmailInput.classList.add('user-input');
-    // userEmailInput.setAttribute('type', 'email');
-    // userEmailInput.setAttribute('name', 'email');
-    // userEmailInput.setAttribute('id', 'email');
-    // userEmailInput.setAttribute('placeholder', 'My e-mail');
-
-    // userDiv.appendChild(userLabel);
-    // userDiv.appendChild(userEmailInput);
-    // form.appendChild(userDiv);
-
-    // const passwordDiv = document.createElement('div');
-
-    // const passwordLabel = document.createElement('label');
-    // passwordLabel.classList.add('password');
-    // passwordLabel.setAttribute('for', 'password');
-    // const passwordImgEl = document.createElement('img');
-    // passwordImgEl.classList.add('label__password');
-    // passwordImgEl.src = passwordImg;
-    // passwordLabel.appendChild(passwordImgEl);
-
-    // const passwordInput = document.createElement('input');
-    // passwordInput.classList.add('password-input');
-    // passwordInput.setAttribute('type', 'password');
-    // passwordInput.setAttribute('name', 'password');
-    // passwordInput.setAttribute('id', 'password');
-    // passwordInput.setAttribute('placeholder', 'Password');
-
-    // passwordDiv.appendChild(passwordLabel);
-    // passwordDiv.appendChild(passwordInput);
-    // form.appendChild(passwordDiv);
-
-    // const forgotLabel = document.createElement('span');
-    // forgotLabel.classList.add('forgot-label');
-    // forgotLabel.textContent = 'Lost your password?';
-
-    // form.appendChild(forgotLabel);
-    // section.appendChild(form);
-
-    // this.main.appendChild(section);
   }
 
   // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
-  // eslint-disable-next-line class-methods-use-this
   showRegisterPage() {
-    // this.registration.draw();
-    // this.registration.checkInput();
-    // this.registration.addAddressListener();
-    // Create apiRoot from the imported ClientBuilder and include your Project key
-    const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-      projectKey: 'rs-school-ecommerce-application',
-    });
+    this.clearMain();
+    this.registration.draw();
+    this.registration.checkForm();
+    this.registration.addAddressListener();
+  }
 
-    // Example call to return Project information
-    // This code has the same effect as sending a GET request to the commercetools
-    // Composable Commerce API without any endpoints.
-    const getProject = () => apiRoot.get().execute();
-
-    // Retrieve Project information and output the result to the log
-    getProject().then(console.log).catch(console.error);
+  show404Page() {
+    this.clearMain();
+    const errorSection = document.createElement('section');
+    errorSection.classList.add('section__error');
+    const notFoundContent = `
+    <h1>4<img src="${Clock}" alt="Clock" width="100">4</h1>
+    <p>The page you're looking for could not be found.</p>
+    <a href="#/">Return to Main Page</a>
+  `;
+    errorSection.innerHTML = notFoundContent;
+    this.main.appendChild(errorSection);
   }
 }

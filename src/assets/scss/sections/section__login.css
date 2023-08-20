@@ -1,44 +1,50 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:400,300,500';
 .login__section {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
   width: 300px;
-  margin: 12% auto;
+  padding-top: 150px;
+  padding-bottom: 20px;
+  margin: 0 auto;
 }
 .login__form {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 15px;
+  width: fit-content;
+  padding: 50px 0 0;
 }
 .login__title {
-  font-size: 1.3em;
-  color: #000000;
+  padding-top: 50px;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
 }
 .login__button {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   color: #ffffff;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #433636;
   border: none;
   border-radius: 5px;
 }
-.login__button:hover {
-  background-color: #0062cc;
-}
 .login__link {
+  display: block;
   margin-top: 10px;
   font-size: 14px;
-  color: #007bff;
+  color: #433636;
+  cursor: pointer;
 }
 .login__link:hover {
   text-decoration: underline;
 }
 
-label {
+.input__container {
+  width: 79%;
+}
+
+.input__container label {
   position: absolute;
   left: 5px;
   width: 30px;
@@ -47,24 +53,39 @@ label {
   margin-top: 10px;
 }
 
-input {
+.input__container input {
   width: 100%;
   height: 40px;
   padding: 5px;
-  padding-left: 45px;
+  padding-left: 55px;
   margin: 5px 0;
-  color: #e6b333;
   background: transparent;
-  border: 2px solid #22272d;
+  border: 2px solid #171616;
   border-radius: 3px;
   outline: none;
 }
+.input__container input:focus {
+  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+}
 
-input[type=email]:focus,
-input[type=password]:focus {
-  border: 1px solid #ffffff;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+.email label,
+.password label {
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  background-size: 30px;
+}
+
+.email label {
+  background-image: url('../../img/email.png');
+}
+
+.email label:focus {
+  background-image: url('../../img/password.png');
+}
+
+.password label {
+  background-image: url('../../img/password.png');
 }
 
 .password {
@@ -79,24 +100,24 @@ input[type=password]:focus {
   height: 20px;
   color: #000000;
   cursor: pointer;
-  background: url("../../img/close-eye.png") no-repeat;
+  background: url('../../img/close-eye.png') no-repeat;
   background-size: 20px 20px;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .openPassword {
-  background: url("../../img/open-eye.png") no-repeat;
+  background: url('../../img/open-eye.png') no-repeat;
   background-size: 20px 20px;
 }
 
 .emailError,
 .passwordError {
+  display: block;
   height: 20px;
   color: #ff0000;
 }
 
 .invalid {
   border: 3px solid #ff0000;
-}
+} /*# sourceMappingURL=section__login.css.map */
+
