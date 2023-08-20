@@ -371,7 +371,10 @@ export default class Registration {
           updateCustomerInfo(response.body.customer.id);
           displayMessage('User successfully created.');
           clearForm();
-          setTimeout(() => hideMessage(), 5000);
+          setTimeout(() => {
+            hideMessage();
+            window.location.href = '/';
+          }, 5000);
         })
         .catch((err: Error) => {
           displayMessage(err.message);
