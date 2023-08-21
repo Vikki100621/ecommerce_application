@@ -85,10 +85,10 @@ export default class Registration {
             <label class="reg-form__label" for="saddress-${addressNum}">Shipping Address</label>
             <input type="checkbox" name="saddress" id="saddress-${addressNum}">
             <p class="error"></p>
-            <label class="reg-form__label" for="dbaddress-${addressNum}">Default Billing Address</label>
+            <label class="reg-form__label" id="defualt" for="dbaddress-${addressNum}">Default Billing Address</label>
             <input type="checkbox" name="dbaddress" id="dbaddress-${addressNum}">
             <p class="error"></p>
-            <label class="reg-form__label" for="dsaddress-${addressNum}">Default Shipping Address</label>
+            <label class="reg-form__label" id="defualt" for="dsaddress-${addressNum}">Default Shipping Address</label>
             <input type="checkbox" name="dsaddress" id="dsaddress-${addressNum}">
             <p class="error"></p>`;
       addressWrap.appendChild(newAddress);

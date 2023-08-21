@@ -7,14 +7,9 @@
 }
 .login__form {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   row-gap: 15px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   padding: 50px 0 0;
 }
@@ -70,7 +65,6 @@
   outline: none;
 }
 .input__container input:focus {
-  -webkit-box-shadow: 0 0 5px 2px rgb(169, 141, 59);
   box-shadow: 0 0 5px 2px rgb(169, 141, 59);
 }
 
@@ -78,7 +72,6 @@
   border: 2px solid #ff0000;
 }
 .input__container input.invalid:focus {
-  -webkit-box-shadow: 0 0 5px 2px #ff0000;
   box-shadow: 0 0 5px 2px #ff0000;
 }
 
@@ -116,8 +109,6 @@
   cursor: pointer;
   background: url('../../img/close-eye.png') no-repeat;
   background-size: 20px 20px;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
 
@@ -130,9 +121,9 @@
 .passwordError {
   display: block;
   color: #ff0000;
+  text-align: justify;
 }
 
 .invalid {
   border: 3px solid #ff0000;
-  text-align: justify;
-}
+} /*# sourceMappingURL=section__login.css.map */

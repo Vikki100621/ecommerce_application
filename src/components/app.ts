@@ -335,4 +335,11 @@ export default class App {
     errorSection.innerHTML = notFoundContent;
     this.main.appendChild(errorSection);
   }
+
+  showUserPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.innerText = 'Not completed yet';
+    this.main.appendChild(section);
+  }
 }

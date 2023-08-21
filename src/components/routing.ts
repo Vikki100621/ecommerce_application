@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 import App from './app';
 
 export default class Routing {
@@ -16,6 +17,8 @@ export default class Routing {
       { path: '/contacts', template: 'contacts' },
       { path: '/login', template: 'login' },
       { path: '/register', template: 'register' },
+      { path: '/user', template: 'user' },
+      { path: '/logout', template: 'log' },
     ];
   }
 
@@ -28,22 +31,6 @@ export default class Routing {
   }
 
   // роутинг(для register/login так как они в одном родителе)
-  handleMenuItemClick(index: number, event: Event) {
-    const clickedElement = event.target as HTMLElement;
-
-    if (clickedElement.classList.contains('register')) {
-      window.location.hash = '/register';
-    } else if (clickedElement.classList.contains('login')) {
-      if (!(localStorage.getItem('isLoggedIn') === 'true')) {
-        window.location.hash = '/login';
-      } else {
-        window.location.hash = '/';
-      }
-    } else {
-      const selectedRoute = this.routes[index].path;
-      window.location.hash = selectedRoute;
-    }
-  }
 
   // отрисовываем шаблон
   registerTemplates() {
@@ -60,21 +47,17 @@ export default class Routing {
       case '/catalog':
         return () => this.app.showCatalogPage();
       case '/delivery':
-        return () => this.app.showDeliveryPage();
+        return () => this.app.showRegisterPage();
       case '/about':
         return () => this.app.showAboutPage();
       case '/contacts':
         return () => this.app.showContactsPage();
       case '/login':
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-          window.location.hash = '/';
-          return () => this.app.showHomePage();
-          // eslint-disable-next-line no-else-return
-        } else {
-          return () => this.app.showSignInPage();
-        }
+        return () => this.app.showSignInPage();
       case '/register':
         return () => this.app.showRegisterPage();
+      case '/user':
+        return () => this.app.showUserPage();
       default:
         return () => this.app.showHomePage();
     }
@@ -87,8 +70,6 @@ export default class Routing {
     window.addEventListener('load', () => this.router());
     window.addEventListener('hashchange', () => this.router());
   }
-
-  // ловим ошибку если путь неверный
   router() {
     const url = window.location.hash.slice(1) || '/';
     const route = this.resolveRoute(url);
@@ -102,6 +83,40 @@ export default class Routing {
     } catch (error) {
       this.app.show404Page();
       throw new Error(`Route ${route} not found`);
+    }
+  }
+
+  handleMenuItemClick(index: number, event: Event) {
+    const clickedElement = event.target as HTMLElement;
+
+    if (clickedElement.classList.contains('register')) {
+      if (clickedElement.textContent === 'LogOut') {
+        localStorage.setItem('isLoggedIn', 'false');
+        window.location.hash = '/';
+        const itemuser = document.querySelector('.item-client .login');
+        const itemlogout = document.querySelector('.item-client .register');
+        if (itemuser && itemlogout) {
+          const elUser = itemuser as HTMLElement;
+          elUser.textContent = 'Login';
+          const elLogOut = itemlogout as HTMLElement;
+          elLogOut.textContent = 'Register';
+        }
+      } else {
+        if (!(localStorage.getItem('isLoggedIn') === 'true')) {
+          window.location.hash = '/register';
+        } else {
+          window.location.hash = '/';
+        }
+      }
+    } else if (clickedElement.classList.contains('login')) {
+      if (!(localStorage.getItem('isLoggedIn') === 'true')) {
+        window.location.hash = '/login';
+      } else {
+        window.location.hash = '/';
+      }
+    } else {
+      const selectedRoute = this.routes[index].path;
+      window.location.hash = selectedRoute;
     }
   }
 }

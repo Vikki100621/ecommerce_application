@@ -60,6 +60,14 @@ export function getClientData(event: Event) {
     .then(() => {
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
+      const itemuser = document.querySelector('.item-client .login');
+      const itemlogout = document.querySelector('.item-client .register');
+      if (itemuser && itemlogout) {
+        const elUser = itemuser as HTMLElement;
+        elUser.textContent = 'Profile';
+        const elLogOut = itemlogout as HTMLElement;
+        elLogOut.textContent = 'LogOut';
+      }
       showModal('Login successfully completed', 200);
       setTimeout(hideModal, 3000);
       return data;
