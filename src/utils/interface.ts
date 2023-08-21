@@ -15,12 +15,5 @@ export interface ElementParametrs extends ViewParametrs {
 }
 
 export interface ParametrsWithAttributes extends ElementParametrs {
-  attributes?: {
-    type?: string;
-    placeholder?: string;
-    id?: string;
-    name?: string;
-    href?: string;
-    for?: string;
-  };
+  attributes?: TagsAttributes;
 }

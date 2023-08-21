@@ -272,9 +272,9 @@ export default class App {
         offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
-
       this.main.appendChild(background);
     }
+
   }
 
   // здесь будет отрисовываться страница о магазине
