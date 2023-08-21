@@ -2,7 +2,7 @@ import { validateEmail, validatePassword } from './validation';
 import ElementBuilder from './elementBuilder';
 import InputFieldBuilder from './inputBuilder';
 import View from './view';
-import togglePassword from './callBacks';
+import { getClientData, togglePassword } from './callBacks';
 
 const param = {
   titleParametrs: {
@@ -13,6 +13,11 @@ const param = {
   formParametrs: {
     tag: 'form',
     classNames: ['login__form'],
+    event: 'submit',
+    callback: getClientData,
+    attributes: {
+      novalidate: '',
+    },
   },
   emailParametrs: {
     tag: 'div',
@@ -54,14 +59,14 @@ const param = {
       href: '#/register',
     },
   },
-  forgotLinkParametrs: {
-    tag: 'a',
-    classNames: ['login__link'],
-    textContent: "I don't remember the password",
-    attributes: {
-      href: 'какая то линка',
-    },
-  },
+  // forgotLinkParametrs: {
+  //   tag: 'a',
+  //   classNames: ['login__link'],
+  //   textContent: "I don't remember the password",
+  //   attributes: {
+  //     href: 'какая то линка',
+  //   },
+  // },
   showPasswordImgParametrs: {
     tag: 'div',
     classNames: ['closePassword'],
@@ -80,6 +85,13 @@ const param = {
     classNames: ['passwordError'],
     attributes: {
       id: 'passwordError',
+    },
+  },
+  loginError: {
+    tag: 'span',
+    classNames: ['loginError'],
+    attributes: {
+      id: 'loginError',
     },
   },
 };
@@ -111,10 +123,10 @@ export default class LoginView extends View {
     form.addInnerElement([emailInput, emailErr, passwordInput, passwordErr, loginBtn]);
 
     const registationLink = new ElementBuilder(param.registationLinkParametrs);
+    const loginErr = new ElementBuilder(param.loginError);
 
-    const forgotLink = new ElementBuilder(param.forgotLinkParametrs);
+    // const forgotLink = new ElementBuilder(param.forgotLinkParametrs);
 
-    this.viewElement.addInnerElement([title, form, registationLink, forgotLink]);
+    this.viewElement.addInnerElement([title, form, registationLink, loginErr]);
   }
 }
-

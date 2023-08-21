@@ -82,6 +82,32 @@ $font-montserrat: 'Montserrat', sans-serif;
   }
 }
 
+.modal {
+  position: fixed;
+  inset: 50% 0 0 50%;
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00000030;
+  transform: translate(-50%, -50%);
+}
+
+.modal::before {
+  position: absolute;
+  inset: -10px;
+  content: '';
+  border: 5px solid #cccccc;
+}
+
+.modal::after {
+  position: absolute;
+  inset: -15px;
+  content: '';
+  border: 10px solid #ffffff;
+}
+
 @media (width <= 1100px) {
   .new-collection__section,
   .special-offer__section {

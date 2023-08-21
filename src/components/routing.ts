@@ -62,7 +62,14 @@ export default class Routing {
       case '/contacts':
         return () => this.app.showContactsPage();
       case '/login':
-        return () => this.app.showSignInPage();
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          window.location.hash = '/';
+          return () => this.app.showHomePage();
+        }
+        if (localStorage.getItem('isLoggedIn') === 'false') {
+          return () => this.app.showSignInPage();
+        };
+      // eslint-disable-next-line no-fallthrough
       case '/register':
         return () => this.app.showRegisterPage();
       default:
