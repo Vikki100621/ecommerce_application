@@ -34,7 +34,8 @@ export default class Routing {
     if (clickedElement.classList.contains('register')) {
       window.location.hash = '/register';
     } else if (clickedElement.classList.contains('login')) {
-      window.location.hash = '/login';
+      if (!(localStorage.getItem('isLoggedIn') === 'true')) {window.location.hash = '/login';}
+      else {window.location.hash = '/';}
     } else {
       const selectedRoute = this.routes[index].path;
       window.location.hash = selectedRoute;
@@ -62,7 +63,13 @@ export default class Routing {
       case '/contacts':
         return () => this.app.showContactsPage();
       case '/login':
-        return () => this.app.showSignInPage();
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          window.location.hash = '/';
+          return () => this.app.showHomePage();
+        // eslint-disable-next-line no-else-return
+        } else {
+          return () => this.app.showSignInPage();
+        }
       case '/register':
         return () => this.app.showRegisterPage();
       default:

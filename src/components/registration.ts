@@ -84,10 +84,10 @@ export default class Registration {
             <p class="error"></p>
             <div class="check-box">
             <label class="reg-form__label" for="baddress-${addressNum}">Billing Address</label>
-            <input type="checkbox" name="baddress" id="baddress-${addressNum}">
+            <input type="checkbox" name="baddress" id="baddress-${addressNum}" checked>
             <p class="error"></p>
             <label class="reg-form__label" for="saddress-${addressNum}">Shipping Address</label>
-            <input type="checkbox" name="saddress" id="saddress-${addressNum}">
+            <input type="checkbox" name="saddress" id="saddress-${addressNum}" checked>
             <p class="error"></p>
             <label class="reg-form__label" for="dbaddress-${addressNum}">Default Billing Address</label>
             <input type="checkbox" name="dbaddress" id="dbaddress-${addressNum}">
@@ -249,6 +249,26 @@ export default class Registration {
         checkCity();
       } else if (currentID.startsWith('pcode')) {
         checkPCode();
+      } else if (currentID.startsWith('dbaddress-')) {
+        const inp: HTMLInputElement = <HTMLInputElement>evt.target;
+        const checked: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+        checked.forEach((el) => {
+          if (el.id.startsWith('dbaddress-') && el.checked) {
+            // eslint-disable-next-line no-param-reassign
+            el.checked = false;
+          }
+        });
+        inp.checked = true;
+      } else if (currentID.startsWith('dsaddress-')) {
+        const inp: HTMLInputElement = <HTMLInputElement>evt.target;
+        const checked: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+        checked.forEach((el) => {
+          if (el.id.startsWith('dsaddress-') && el.checked) {
+            // eslint-disable-next-line no-param-reassign
+            el.checked = false;
+          }
+        });
+        inp.checked = true;
       }
     }
 
@@ -364,7 +384,7 @@ export default class Registration {
         });
     }
 
-    function checkForm(evt: Event) {
+    function checkFormInputs(evt: Event) {
       evt.preventDefault();
       checkAll();
       const activeError = document.querySelector('.error_active');
@@ -379,13 +399,13 @@ export default class Registration {
 
     function removeListeners() {
       registrationForm.removeEventListener('focusout', checkEvtTarget);
-      registrationForm.removeEventListener('submit', checkForm);
+      registrationForm.removeEventListener('submit', checkFormInputs);
       window.removeEventListener('beforeunload', removeListeners);
     }
 
     registrationForm.addEventListener('focusout', checkEvtTarget);
     registrationForm.addEventListener('input', checkEvtTarget);
-    registrationForm.addEventListener('submit', checkForm);
+    registrationForm.addEventListener('submit', checkFormInputs);
     window.addEventListener('beforeunload', removeListeners);
   }
 }
