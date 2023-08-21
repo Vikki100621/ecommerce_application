@@ -116,7 +116,7 @@ export default class LoginView extends View {
 
     const registationLink = new ElementBuilder(param.registationLinkParametrs);
     const loginErr = new ElementBuilder(param.loginError);
-    
+
     this.viewElement.addInnerElement([title, form, registationLink, loginErr]);
   }
 }
