@@ -84,14 +84,14 @@
 .modal::before {
   position: absolute;
   inset: -10px;
-  content: '';
+  content: "";
   border: 5px solid #cccccc;
 }
 
 .modal::after {
   position: absolute;
   inset: -15px;
-  content: '';
+  content: "";
   border: 10px solid #ffffff;
 }
 
@@ -127,4 +127,4 @@
   .welcome__section p {
     font-size: 16px;
   }
-} /*# sourceMappingURL=homepage.css.map */
+}/*# sourceMappingURL=homepage.css.map */

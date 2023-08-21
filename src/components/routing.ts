@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable no-lonely-if */
 import App from './app';
 
@@ -47,7 +48,7 @@ export default class Routing {
       case '/catalog':
         return () => this.app.showCatalogPage();
       case '/delivery':
-        return () => this.app.showRegisterPage();
+        return () => this.app.showDeliveryPage();
       case '/about':
         return () => this.app.showAboutPage();
       case '/contacts':
@@ -70,6 +71,7 @@ export default class Routing {
     window.addEventListener('load', () => this.router());
     window.addEventListener('hashchange', () => this.router());
   }
+
   router() {
     const url = window.location.hash.slice(1) || '/';
     const route = this.resolveRoute(url);
