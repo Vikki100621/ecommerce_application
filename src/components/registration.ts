@@ -444,6 +444,7 @@ export default class Registration {
           apiRoot.login().post({ body: customerDraft });
           displayMessage('User successfully created and logged in.');
           clearForm();
+          localStorage.setItem('isLoggedIn', 'true');
           setTimeout(() => {
             hideMessage();
             window.location.hash = '/';
