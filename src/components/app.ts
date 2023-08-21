@@ -7,7 +7,6 @@ import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
-import { showLoginModal } from '../utils/callBacks';
 
 export default class App {
   public header: HTMLElement;
@@ -276,7 +275,6 @@ export default class App {
       this.main.appendChild(background);
     }
 
-    showLoginModal();
   }
 
   // здесь будет отрисовываться страница о магазине

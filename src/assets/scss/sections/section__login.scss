@@ -80,10 +80,10 @@ $border: #22272d;
   }
 }
 .input__container input.invalid {
-  border: 2px solid rgb(230, 3, 3);
+  border: 2px solid #ff0000;
 
   &:focus {
-    box-shadow: 0 0 5px 2px rgb(230, 3, 3);
+    box-shadow: 0 0 5px 2px #ff0000;
   }
 }
 
@@ -132,10 +132,6 @@ $border: #22272d;
 .emailError,
 .passwordError {
   display: block;
-  text-align: justify;
   color: #ff0000;
-}
-
-.invalid {
-  border: 3px solid #ff0000;
+  text-align: justify;
 }

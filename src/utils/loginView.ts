@@ -59,14 +59,6 @@ const param = {
       href: '#/register',
     },
   },
-  // forgotLinkParametrs: {
-  //   tag: 'a',
-  //   classNames: ['login__link'],
-  //   textContent: "I don't remember the password",
-  //   attributes: {
-  //     href: 'какая то линка',
-  //   },
-  // },
   showPasswordImgParametrs: {
     tag: 'div',
     classNames: ['closePassword'],
@@ -124,9 +116,7 @@ export default class LoginView extends View {
 
     const registationLink = new ElementBuilder(param.registationLinkParametrs);
     const loginErr = new ElementBuilder(param.loginError);
-
-    // const forgotLink = new ElementBuilder(param.forgotLinkParametrs);
-
+    
     this.viewElement.addInnerElement([title, form, registationLink, loginErr]);
   }
 }

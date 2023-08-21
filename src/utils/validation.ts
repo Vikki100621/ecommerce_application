@@ -20,7 +20,8 @@ export function validatePassword() {
   if (passwordInput instanceof HTMLInputElement && passwordError) {
     if (!template.test(passwordInput.value)) {
       passwordInput.classList.add('invalid');
-      passwordError.innerHTML = 'Password must contain at least 8 characters, at least one uppercase letter (A-Z) and one lowercase letter (a-z), one digit (0-9) and must not contain leading or trailing whitespace.';
+      passwordError.innerHTML =
+        'Password must contain at least 8 characters, at least one uppercase letter (A-Z) and one lowercase letter (a-z), one digit (0-9) and must not contain leading or trailing whitespace.';
     } else {
       passwordInput.classList.remove('invalid');
       passwordError.innerHTML = '';

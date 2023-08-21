@@ -5,10 +5,20 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: 'rs-school-ecommerce-application',
 });
 
-export function showModal() {
+export function showModal(text: string, status: number) {
   const modal = document.createElement('div');
   modal.classList.add('modal');
-  modal.textContent = 'Вы успешно вошли!';
+  const firstline = document.createElement('p');
+  const secondline = document.createElement('p');
+  modal.append(firstline, secondline)
+  if (status === 200) {
+    firstline.innerText = '✔️Login successfully completed'
+    secondline.innerText = 'Welcome'
+  }
+  else {
+    firstline.innerText = `❌${text}`
+    secondline.innerText = 'Incorrect email or password'
+  }
   document.body.appendChild(modal);
 }
 
@@ -17,7 +27,6 @@ function hideModal() {
   if (modal) {
     modal.remove();
   }
-  localStorage.setItem('showModal', 'false');
 }
 
 export function togglePassword() {
@@ -51,13 +60,14 @@ export function getClientData(event: Event) {
   response
     .then(() => {
       localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('showModal', 'true');
       window.location.hash = '/';
+      showModal('Login successfully completed', 200);
+      setTimeout(hideModal, 3000)
       return data;
     })
-    .catch(() => {
-      // const loginError = document.getElementById('loginError');
-      // loginError!.innerHTML = 'НЕ СУЩЕСТВУЕТ';
+    .catch((error) => {
+      showModal(`${error.message}`, error.code);
+      setTimeout(hideModal, 3000);
     });
 
   // function returnCustomerByEmail(email: string) {
@@ -76,10 +86,3 @@ export function getClientData(event: Event) {
   // });
 }
 
-export function showLoginModal() {
-  if (localStorage.getItem('showModal') === 'true') {
-    showModal();
-    setTimeout(hideModal, 2000);
-    localStorage.setItem('showModal', 'false');
-  }
-}
