@@ -7,9 +7,14 @@
 }
 .login__form {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   row-gap: 15px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   padding: 50px 0 0;
 }
@@ -65,7 +70,16 @@
   outline: none;
 }
 .input__container input:focus {
-  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+  -webkit-box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+          box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+}
+
+.input__container input.invalid {
+  border: 2px solid rgb(230, 3, 3);
+}
+.input__container input.invalid:focus {
+  -webkit-box-shadow: 0 0 5px 2px rgb(230, 3, 3);
+          box-shadow: 0 0 5px 2px rgb(230, 3, 3);
 }
 
 .email label,
@@ -77,15 +91,15 @@
 }
 
 .email label {
-  background-image: url('../../img/email.png');
+  background-image: url("../../img/email.png");
 }
 
 .email label:focus {
-  background-image: url('../../img/password.png');
+  background-image: url("../../img/password.png");
 }
 
 .password label {
-  background-image: url('../../img/password.png');
+  background-image: url("../../img/password.png");
 }
 
 .password {
@@ -100,23 +114,25 @@
   height: 20px;
   color: #000000;
   cursor: pointer;
-  background: url('../../img/close-eye.png') no-repeat;
+  background: url("../../img/close-eye.png") no-repeat;
   background-size: 20px 20px;
-  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .openPassword {
-  background: url('../../img/open-eye.png') no-repeat;
+  background: url("../../img/open-eye.png") no-repeat;
   background-size: 20px 20px;
 }
 
 .emailError,
 .passwordError {
   display: block;
-  height: 20px;
+  text-align: justify;
   color: #ff0000;
 }
 
 .invalid {
   border: 3px solid #ff0000;
-} /*# sourceMappingURL=section__login.css.map */
+}

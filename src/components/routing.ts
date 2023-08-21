@@ -66,10 +66,8 @@ export default class Routing {
           window.location.hash = '/';
           return () => this.app.showHomePage();
         }
-        if (localStorage.getItem('isLoggedIn') === 'false') {
           return () => this.app.showSignInPage();
-        };
-      // eslint-disable-next-line no-fallthrough
+        ;
       case '/register':
         return () => this.app.showRegisterPage();
       default:

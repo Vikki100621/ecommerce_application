@@ -22,7 +22,7 @@ const param = {
   emailParametrs: {
     tag: 'div',
     classNames: ['input__container', 'email'],
-    event: 'blur',
+    event: 'input',
     callback: validateEmail,
     attributes: {
       type: 'email',
