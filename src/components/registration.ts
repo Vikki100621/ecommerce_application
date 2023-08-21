@@ -1,4 +1,9 @@
-import { CustomerUpdate, CustomerUpdateAction, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import {
+  Address,
+  CustomerUpdate,
+  CustomerUpdateAction,
+  createApiBuilderFromCtpClient,
+} from '@commercetools/platform-sdk';
 
 import ctpClient from './api/BuildClient';
 
@@ -335,6 +340,16 @@ export default class Registration {
         };
         body.actions.push(actionObj);
       }
+      const checkBoxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+      const checkedCheckboxes: string[] = [];
+      checkBoxes.forEach((input) => {
+        if (input.checked) {
+          checkedCheckboxes.push(input.id);
+        }
+      });
+
+      let userAddresses: Address[] = [];
+      let versNum: number = 0;
 
       apiRoot
         .customers()
@@ -344,48 +359,52 @@ export default class Registration {
         })
         .execute()
         .then((response) => {
-          const userAddresses = response.body.addresses;
-          const versNum = response.body.version;
-          const checkBoxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[type="checkbox"]');
+          userAddresses = response.body.addresses;
+          versNum = response.body.version;
+        })
+        .then(() => {
           const addrBody: CustomerUpdate = {
             version: versNum,
             actions: [],
           };
-          checkBoxes.forEach((input) => {
-            const addressId = userAddresses[+`${input.id.match(/\d+/)}`].id;
-            if (input.checked) {
-              let updAction: CustomerUpdateAction = {
-                action: 'addBillingAddressId',
-                addressId: `{{${addressId}}}`,
-              };
 
-              if (input.id.startsWith('saddress')) {
-                updAction = {
-                  action: 'addBillingAddressId',
-                  addressId: `{{${addressId}}}`,
-                };
-              } else if (input.id.startsWith('dbaddress')) {
-                updAction = {
-                  action: 'setDefaultBillingAddress',
-                  addressId: `{{${addressId}}}`,
-                };
-              } else if (input.id.startsWith('dsaddress')) {
-                updAction = {
-                  action: 'setDefaultShippingAddress',
-                  addressId: `{{${addressId}}}`,
-                };
-              }
-              addrBody.actions.push(updAction);
+          checkedCheckboxes.forEach((checkboxID: string) => {
+            const addressId = userAddresses[+`${checkboxID.match(/\d+/)}`].id;
+
+            let updAction: CustomerUpdateAction = {
+              action: 'addBillingAddressId',
+              addressId,
+            };
+
+            if (checkboxID.startsWith('saddress')) {
+              updAction = {
+                action: 'addShippingAddressId',
+                addressId,
+              };
+            } else if (checkboxID.startsWith('dbaddress')) {
+              updAction = {
+                action: 'setDefaultBillingAddress',
+                addressId,
+              };
+            } else if (checkboxID.startsWith('dsaddress')) {
+              updAction = {
+                action: 'setDefaultShippingAddress',
+                addressId,
+              };
             }
+            addrBody.actions.push(updAction);
           });
+
           apiRoot
             .customers()
             .withId({ ID })
             .post({
               body: addrBody,
             })
-            .execute();
-        });
+            .execute()
+            .catch((err: Error) => displayMessage(err.message));
+        })
+        .catch((err: Error) => displayMessage(err.message));
     }
 
     function clearForm() {
@@ -423,7 +442,7 @@ export default class Registration {
           clearForm();
           setTimeout(() => {
             hideMessage();
-            // window.location.href = '/';
+            window.location.href = '/';
           }, 5000);
         })
         .catch((err: Error) => {
