@@ -1,22 +1,50 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:400,300,500';
-
-.section__login {
+.login__section {
   width: 300px;
-  margin: 12% auto;
+  padding-top: 150px;
+  padding-bottom: 20px;
+  margin: 0 auto;
 }
-
-form {
+.login__form {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 15px;
+  width: fit-content;
+  padding: 50px 0 0;
 }
-
-.sign-in {
-  float: left;
-  font-size: 1.3em;
+.login__title {
+  padding-top: 50px;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+}
+.login__button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
   color: #ffffff;
+  cursor: pointer;
+  background-color: #433636;
+  border: none;
+  border-radius: 5px;
+}
+.login__link {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #433636;
+  cursor: pointer;
+}
+.login__link:hover {
+  text-decoration: underline;
 }
 
-.password,
-.user {
+.input__container {
+  width: 79%;
+}
+
+.input__container label {
   position: absolute;
   left: 5px;
   width: 30px;
@@ -25,35 +53,70 @@ form {
   margin-top: 10px;
 }
 
-input {
+.input__container input {
   width: 100%;
   height: 40px;
   padding: 5px;
+  padding-left: 55px;
   margin: 5px 0;
+  background: transparent;
+  border: 2px solid #171616;
   border-radius: 3px;
   outline: none;
 }
-
-input[type='email']:focus,
-input[type='password']:focus {
-  border: 1px solid #ffffff;
-  box-shadow: none;
+.input__container input:focus {
+  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
 }
 
-.user-input:focus .user {
-  background: #ffffff !important;
+.email label,
+.password label {
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  background-size: 30px;
 }
 
-input[type='password'],
-input[type='email'] {
-  padding-left: 45px;
-  color: #e6b333;
-  background: transparent;
-  border: 2px solid #22272d;
+.email label {
+  background-image: url('../../img/email.png');
 }
 
-.label__user,
-.label__password {
+.email label:focus {
+  background-image: url('../../img/password.png');
+}
+
+.password label {
+  background-image: url('../../img/password.png');
+}
+
+.password {
+  position: relative;
+}
+
+.closePassword {
+  position: absolute;
+  top: 50%;
+  right: -40px;
   width: 20px;
   height: 20px;
+  color: #000000;
+  cursor: pointer;
+  background: url('../../img/close-eye.png') no-repeat;
+  background-size: 20px 20px;
+  transform: translateY(-50%);
+}
+
+.openPassword {
+  background: url('../../img/open-eye.png') no-repeat;
+  background-size: 20px 20px;
+}
+
+.emailError,
+.passwordError {
+  display: block;
+  height: 20px;
+  color: #ff0000;
+}
+
+.invalid {
+  border: 3px solid #ff0000;
 } /*# sourceMappingURL=section__login.css.map */

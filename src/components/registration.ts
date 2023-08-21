@@ -78,6 +78,7 @@ export default class Registration {
             <label class="reg-form__label" for="country-${addressNum}">Country</label>
             <input type="text" name="country" id="country-${addressNum}" value="US" disabled>
             <p class="error"></p>
+            <div class="check-box">
             <label class="reg-form__label" for="baddress-${addressNum}">Billing Address</label>
             <input type="checkbox" name="baddress" id="baddress-${addressNum}">
             <p class="error"></p>
@@ -442,7 +443,7 @@ export default class Registration {
           clearForm();
           setTimeout(() => {
             hideMessage();
-            window.location.href = '/';
+            window.location.hash = '/';
           }, 5000);
         })
         .catch((err: Error) => {

@@ -32,12 +32,12 @@ export default class Routing {
     const clickedElement = event.target as HTMLElement;
 
     if (clickedElement.classList.contains('register')) {
-      this.navigateTo('/register');
+      window.location.hash = '/register';
     } else if (clickedElement.classList.contains('login')) {
-      this.navigateTo('/login');
+      window.location.hash = '/login';
     } else {
       const selectedRoute = this.routes[index].path;
-      this.navigateTo(selectedRoute);
+      window.location.hash = selectedRoute;
     }
   }
 
@@ -75,23 +75,14 @@ export default class Routing {
     this.addMenuClickHandlers();
 
     window.addEventListener('load', () => this.router());
-
-    // Используйте popstate вместо hashchange
-    window.addEventListener('popstate', () => this.router());
+    window.addEventListener('hashchange', () => this.router());
   }
 
   // ловим ошибку если путь неверный
   router() {
-    const url = window.location.pathname || '/';
+    const url = window.location.hash.slice(1) || '/';
     const route = this.resolveRoute(url);
     route();
-  }
-
-  // функция для изменения URL без перезагрузки
-  navigateTo(route: string) {
-    const fullPath = route;
-    window.history.pushState({}, '', fullPath);
-    this.router(); // вызываем router() для обновления контента
   }
 
   resolveRoute(route: string) {
@@ -99,6 +90,7 @@ export default class Routing {
       const template = this.routes.find((r) => r.path === route)?.template as string;
       return this.app.getTemplateFunction(template);
     } catch (error) {
+      this.app.show404Page();
       throw new Error(`Route ${route} not found`);
     }
   }
