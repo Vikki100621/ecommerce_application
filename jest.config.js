@@ -1,7 +1,7 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
+/**@type {import('ts-jest').JestConfigWithTsJest}*/
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'jsx', "ts", "tsx"],
   moduleDirectories: ['<rootDir>/__tests__', 'node_modules', 'bower_components', 'shared'],
 
