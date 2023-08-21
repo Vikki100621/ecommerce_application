@@ -34,8 +34,11 @@ export default class Routing {
     if (clickedElement.classList.contains('register')) {
       window.location.hash = '/register';
     } else if (clickedElement.classList.contains('login')) {
-      if (!(localStorage.getItem('isLoggedIn') === 'true')) {window.location.hash = '/login';}
-      else {window.location.hash = '/';}
+      if (!(localStorage.getItem('isLoggedIn') === 'true')) {
+        window.location.hash = '/login';
+      } else {
+        window.location.hash = '/';
+      }
     } else {
       const selectedRoute = this.routes[index].path;
       window.location.hash = selectedRoute;
@@ -66,7 +69,7 @@ export default class Routing {
         if (localStorage.getItem('isLoggedIn') === 'true') {
           window.location.hash = '/';
           return () => this.app.showHomePage();
-        // eslint-disable-next-line no-else-return
+          // eslint-disable-next-line no-else-return
         } else {
           return () => this.app.showSignInPage();
         }

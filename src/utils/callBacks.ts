@@ -10,14 +10,13 @@ export function showModal(text: string, status: number) {
   modal.classList.add('modal');
   const firstline = document.createElement('p');
   const secondline = document.createElement('p');
-  modal.append(firstline, secondline)
+  modal.append(firstline, secondline);
   if (status === 200) {
-    firstline.innerText = '✔️Login successfully completed'
-    secondline.innerText = 'Welcome'
-  }
-  else {
-    firstline.innerText = `❌${text}`
-    secondline.innerText = 'Incorrect email or password'
+    firstline.innerText = '✔️Login successfully completed';
+    secondline.innerText = 'Welcome';
+  } else {
+    firstline.innerText = `❌${text}`;
+    secondline.innerText = 'Incorrect email or password';
   }
   document.body.appendChild(modal);
 }
@@ -62,7 +61,7 @@ export function getClientData(event: Event) {
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
       showModal('Login successfully completed', 200);
-      setTimeout(hideModal, 3000)
+      setTimeout(hideModal, 3000);
       return data;
     })
     .catch((error) => {
@@ -85,4 +84,3 @@ export function getClientData(event: Event) {
   //   }
   // });
 }
-

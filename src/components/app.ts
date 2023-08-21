@@ -274,7 +274,6 @@ export default class App {
       }
       this.main.appendChild(background);
     }
-
   }
 
   // здесь будет отрисовываться страница о магазине
