@@ -439,7 +439,10 @@ export default class Registration {
       func()
         .then((response) => {
           updateCustomerInfo(response.body.customer.id);
-          displayMessage('User successfully created.');
+        })
+        .then(() => {
+          apiRoot.login().post({ body: customerDraft });
+          displayMessage('User successfully created and logged in.');
           clearForm();
           setTimeout(() => {
             hideMessage();
