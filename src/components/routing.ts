@@ -104,11 +104,9 @@ export default class Routing {
           elLogOut.textContent = 'Register';
         }
       } else {
-        if (!(localStorage.getItem('isLoggedIn') === 'true')) {
+        if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
           window.location.hash = '/register';
-        } else {
-          window.location.hash = '/';
-        }
+        } 
       }
     } else if (clickedElement.classList.contains('login')) {
       if (!(localStorage.getItem('isLoggedIn') === 'true')) {
