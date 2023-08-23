@@ -268,15 +268,22 @@ export default class App {
         logBtn.classList.add('login_btn');
         logBtn.textContent = 'LOGIN';
         logBtn.onclick = () => {
-          window.location.hash = '/login';
+          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+            window.location.hash = '/login';
+          } else {
+            window.location.hash = '/';
+          }
         };
         const regBtn = document.createElement('button');
         regBtn.classList.add('reg_btn');
         regBtn.textContent = 'REGISTER';
-        regBtn.onclick = () => {
-          window.location.hash = '/register';
-        };
-
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          regBtn.disabled = true; 
+        } else {
+          regBtn.onclick = () => {
+            window.location.hash = '/register';
+          };
+        }
         btnBlock.appendChild(regBtn);
         btnBlock.appendChild(logBtn);
         el.appendChild(title);

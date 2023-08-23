@@ -109,7 +109,7 @@ export default class Routing {
         } 
       }
     } else if (clickedElement.classList.contains('login')) {
-      if (!(localStorage.getItem('isLoggedIn') === 'true')) {
+      if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
         window.location.hash = '/login';
       } else {
         window.location.hash = '/';
