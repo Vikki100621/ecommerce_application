@@ -51,7 +51,7 @@
   outline: none;
 }
 .fieldset input:focus {
-  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+  box-shadow: 0 0 5px 2px rgb(169 141 59);
 }
 .fieldset label {
   align-self: center;
@@ -62,7 +62,7 @@
   font-size: 24px;
   text-align: center;
 }
-.fieldset [type=checkbox] {
+.fieldset [type="checkbox"] {
   justify-self: start;
 }
 
@@ -74,7 +74,7 @@
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1882352941);
+  box-shadow: 0 0 10px rgb(0 0 0 / 18.8%);
   transform: translate(-50%, -50%);
 }
 
@@ -119,4 +119,4 @@
   .error {
     grid-column: 1;
   }
-}/*# sourceMappingURL=section__registration.css.map */
+}

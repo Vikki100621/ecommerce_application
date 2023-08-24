@@ -16,6 +16,8 @@
   "author": "Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko",
   "license": "x11",
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.5.3",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
@@ -51,6 +53,7 @@
   "dependencies": {
     "@commercetools/platform-sdk": "^5.0.0",
     "@commercetools/sdk-client-v2": "^2.2.0",
+    "@testing-library/dom": "^9.3.1",
     "node-fetch": "^2.6.1"
   }
 }
