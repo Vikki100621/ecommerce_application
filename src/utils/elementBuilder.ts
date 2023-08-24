@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import { CallBackType, ParametrsWithAttributes, TagsAttributes } from './interface';
 
 export default class ElementBuilder {

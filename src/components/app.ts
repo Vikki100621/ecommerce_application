@@ -77,8 +77,14 @@ export default class App {
     const register = document.createElement('div');
     signIn.classList.add('login');
     register.classList.add('register');
-    signIn.textContent = content.login;
-    register.textContent = content.register;
+
+    if (!(localStorage.getItem('isLoggedIn') === 'true')) {
+      signIn.textContent = content.login;
+      register.textContent = content.register;
+    } else {
+      signIn.textContent = content.profile;
+      register.textContent = content.logout;
+    }
     separator.textContent = '|';
     clientLi.appendChild(signIn);
     clientLi.appendChild(separator);
@@ -248,10 +254,43 @@ export default class App {
         newCollectionImage.classList.add('newCollectionDiv__img');
         newCollectionImage.src = NewCollection;
         newCollectionDiv.appendChild(newCollectionImage);
-
+        const newCollectionRigth = document.createElement('div');
+        newCollectionRigth.classList.add('newCollection_rigth_content');
         const newCollctionText = document.createElement('p');
         newCollctionText.textContent = sectionTexts[i];
-        newCollectionDiv.appendChild(newCollctionText);
+        const el = document.createElement('div');
+        const title = document.createElement('div');
+        title.textContent = 'TO BUY OUR PRODUCTS';
+        el.classList.add('buy__block');
+        const btnBlock = document.createElement('btn__block');
+        btnBlock.classList.add('btn__block');
+        const logBtn = document.createElement('button');
+        logBtn.classList.add('login_btn');
+        logBtn.textContent = 'LOGIN';
+        logBtn.onclick = () => {
+          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+            window.location.hash = '/login';
+          } else {
+            window.location.hash = '/';
+          }
+        };
+        const regBtn = document.createElement('button');
+        regBtn.classList.add('reg_btn');
+        regBtn.textContent = 'REGISTER';
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          regBtn.disabled = true; 
+        } else {
+          regBtn.onclick = () => {
+            window.location.hash = '/register';
+          };
+        }
+        btnBlock.appendChild(regBtn);
+        btnBlock.appendChild(logBtn);
+        el.appendChild(title);
+        el.appendChild(btnBlock);
+        newCollectionRigth.appendChild(newCollctionText);
+        newCollectionRigth.appendChild(el);
+        newCollectionDiv.appendChild(newCollectionRigth);
 
         section.appendChild(newCollectionDiv);
       }
@@ -272,7 +311,6 @@ export default class App {
         offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
-
       this.main.appendChild(background);
     }
   }
@@ -335,5 +373,12 @@ export default class App {
   `;
     errorSection.innerHTML = notFoundContent;
     this.main.appendChild(errorSection);
+  }
+
+  showUserPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.innerText = 'Not completed yet';
+    this.main.appendChild(section);
   }
 }

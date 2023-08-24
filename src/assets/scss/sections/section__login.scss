@@ -79,6 +79,13 @@ $border: #22272d;
     box-shadow: 0 0 5px 2px rgb(169 141 59);
   }
 }
+.input__container input.invalid {
+  border: 2px solid #ff0000;
+
+  &:focus {
+    box-shadow: 0 0 5px 2px #ff0000;
+  }
+}
 
 .email label,
 .password label {
@@ -125,8 +132,8 @@ $border: #22272d;
 .emailError,
 .passwordError {
   display: block;
-  height: 20px;
   color: #ff0000;
+  text-align: justify;
 }
 
 .invalid {
