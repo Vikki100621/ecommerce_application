@@ -7,6 +7,7 @@ import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
+import View from './view';
 
 export default class App {
   public header: HTMLElement;
@@ -21,12 +22,15 @@ export default class App {
 
   private registration: Registration;
 
+  private view: View;
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
     this.registration = new Registration();
+    this.view = new View();
   }
 
   // создаем header(он не будет меняться больше)
@@ -318,9 +322,10 @@ export default class App {
   // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
   showRegisterPage() {
     this.clearMain();
-    this.registration.draw();
-    this.registration.checkForm();
-    this.registration.addAddressListener();
+    // this.registration.draw();
+    this.view.drawRegistration();
+    // this.registration.checkForm();
+    // this.registration.addAddressListener();
   }
 
   show404Page() {

@@ -446,8 +446,8 @@ export default class Registration {
           clearForm();
           localStorage.setItem('isLoggedIn', 'true');
           setTimeout(() => {
-             hideMessage();
-             window.location.hash = '/';
+            hideMessage();
+            window.location.hash = '/';
             const itemuser = document.querySelector('.item-client .login');
             const itemlogout = document.querySelector('.item-client .register');
             if (itemuser && itemlogout) {
@@ -460,7 +460,7 @@ export default class Registration {
         })
         .catch((err: Error) => {
           displayMessage(err.message);
-           setTimeout(() => hideMessage(), 5000);
+          setTimeout(() => hideMessage(), 5000);
         });
     }
 
