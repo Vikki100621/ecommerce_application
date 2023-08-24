@@ -46,6 +46,7 @@ export default class Registration {
         <input id="submit" type="submit" value="Submit">
         <p class="error"></p>
       </form>
+      <a href="#/login" class="button-link">I already have a login</a>
     </section>
     <div class="message">
     </div>`;

@@ -1,6 +1,7 @@
 .registration {
   width: min-content;
   padding-top: 150px;
+  padding-bottom: 20px;
   margin: 0 auto;
 }
 .registration__title {
@@ -50,7 +51,7 @@
   outline: none;
 }
 .fieldset input:focus {
-  box-shadow: 0 0 5px 2px rgb(169 141 59);
+  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
 }
 .fieldset label {
   align-self: center;
@@ -61,7 +62,7 @@
   font-size: 24px;
   text-align: center;
 }
-.fieldset [type="checkbox"] {
+.fieldset [type=checkbox] {
   justify-self: start;
 }
 
@@ -73,7 +74,7 @@
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 18.8%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1882352941);
   transform: translate(-50%, -50%);
 }
 
@@ -104,6 +105,11 @@
   display: block;
 }
 
+.button-link {
+  color: #433636;
+  cursor: pointer;
+}
+
 @media (width <= 500px) {
   .reg-form__user.fieldset,
   .reg-form__person.fieldset,
@@ -113,4 +119,4 @@
   .error {
     grid-column: 1;
   }
-}
+}/*# sourceMappingURL=section__registration.css.map */
