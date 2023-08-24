@@ -67,11 +67,22 @@ export default class Routing {
   init() {
     this.registerTemplates();
     this.addMenuClickHandlers();
-
-    window.addEventListener('load', () => this.router());
-    window.addEventListener('hashchange', () => this.router());
+  
+    const handleNavigation = () => {
+      if (
+        localStorage.getItem('isLoggedIn') === 'true' &&
+        (window.location.hash === '#/login' || window.location.hash === '#/register')
+      ) {
+        window.location.hash = '/';
+      } else {
+        this.router();
+      }
+    };
+  
+    window.addEventListener('load', handleNavigation);
+    window.addEventListener('hashchange', handleNavigation);
   }
-
+  
   router() {
     const url = window.location.hash.slice(1) || '/';
     const route = this.resolveRoute(url);
