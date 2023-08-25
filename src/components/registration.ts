@@ -14,89 +14,15 @@ export default class Registration {
     this.main = <HTMLElement>document.getElementById('main');
   }
 
-  draw(): void {
-    this.main.innerHTML = `
-    <section class="registration">
-      <h2 class="registration__title">Registration</h2>
-      <form class="registration__form reg-form">
-        <fieldset class="reg-form__user fieldset">
-          <legend class="fieldset__legend">User</legend>
-          <label class="reg-form__label" for="email">E-mail</label>
-          <input class="reg-form__input" type="email" name="email" id="email">
-          <p class="error"></p>
-          <label class="reg-form__label" for="pass">Password</label>
-          <input class="reg-form__input" type="password" name="pass" id="pass">
-          <p class="error"></p>
-        </fieldset>
-        <fieldset class="reg-form__person fieldset">
-          <legend class="fieldset__legend">Person</legend>
-          <label class="reg-form__label" for="fname">First name</label>
-          <input type="text" name="fname" id="fname">
-          <p class="error"></p>
-          <label class="reg-form__label" for="lname">Last name</label>
-          <input type="text" name="lname" id="lname">
-          <p class="error"></p>
-          <label class="reg-form__label" for="bdate">Birthday</label>
-          <input type="date" name="bdate" id="bdate">
-          <p class="error"></p>
-        </fieldset>
-        <div class="reg-form__address-wrap">
-        </div>
-        <input class="reg-form__addAddrr" type="button" value="Add address">
-        <input id="submit" type="submit" value="Submit">
-        <p class="error"></p>
-      </form>
-    </section>
-    <div class="message">
-    </div>`;
-  }
-
   returnRegistrationForm(): HTMLFormElement {
     return <HTMLFormElement>this.main.querySelector('.reg-form');
   }
 
-  addAddressListener() {
-    const addressBtn: HTMLButtonElement = <HTMLButtonElement>this.main.querySelector('.reg-form__addAddrr');
-    const addressWrap: HTMLDivElement = <HTMLDivElement>this.main.querySelector('.reg-form__address-wrap');
+  // addAddressListener() {
+  //   const addressBtn: HTMLButtonElement = <HTMLButtonElement>this.main.querySelector('.reg-form__addAddrr');
 
-    function addAddress() {
-      const addressNum = document.querySelectorAll('.reg-form__address').length;
-      const newAddress = document.createElement('fieldset');
-      newAddress.setAttribute('id', `address-${addressNum}`);
-      newAddress.classList.add('reg-form__address', 'fieldset');
-      newAddress.innerHTML = `
-      <legend class="fieldset__legend">Address</legend>
-            <label class="reg-form__label" for="street-${addressNum}">Street</label>
-            <input type="text" name="street" id="street-${addressNum}">
-            <p class="error"></p>
-            <label class="reg-form__label" for="city-${addressNum}">City</label>
-            <input type="text" name="city" id="city-${addressNum}">
-            <p class="error"></p>
-            <label class="reg-form__label" for="pcode-${addressNum}">Postal code</label>
-            <input type="text" name="pcode" id="pcode-${addressNum}">
-            <p class="error"></p>
-            <label class="reg-form__label" for="country-${addressNum}">Country</label>
-            <input type="text" name="country" id="country-${addressNum}" value="US" disabled>
-            <p class="error"></p>
-            <div class="check-box">
-            <label class="reg-form__label" for="baddress-${addressNum}">Billing Address</label>
-            <input type="checkbox" name="baddress" id="baddress-${addressNum}">
-            <p class="error"></p>
-            <label class="reg-form__label" for="saddress-${addressNum}">Shipping Address</label>
-            <input type="checkbox" name="saddress" id="saddress-${addressNum}">
-            <p class="error"></p>
-            <label class="reg-form__label" id="defualt" for="dbaddress-${addressNum}">Default Billing Address</label>
-            <input type="checkbox" name="dbaddress" id="dbaddress-${addressNum}">
-            <p class="error"></p>
-            <label class="reg-form__label" id="defualt" for="dsaddress-${addressNum}">Default Shipping Address</label>
-            <input type="checkbox" name="dsaddress" id="dsaddress-${addressNum}">
-            <p class="error"></p>`;
-      addressWrap.appendChild(newAddress);
-    }
-
-    addAddress();
-    addressBtn.addEventListener('click', addAddress);
-  }
+  //   addressBtn.addEventListener('click', addAddress);
+  // }
 
   checkForm(): void {
     const registrationForm: HTMLFormElement = this.returnRegistrationForm();
