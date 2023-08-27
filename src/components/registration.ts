@@ -17,22 +17,26 @@ export default class Registration {
 
   addressBtn: HTMLElement;
 
+  numAddresses: number;
+
   constructor() {
     this.view = new View();
     this.main = <HTMLElement>document.getElementById('main');
     this.form = <HTMLElement>document.querySelector('.reg-form');
     this.addressBtn = <HTMLButtonElement>document.querySelector('.reg-form__addAddrr');
+    this.numAddresses = 0;
+  }
+
+  removeAllListeners() {
+    this.addressBtn.removeEventListener('click', this.view.addAddress);
   }
 
   addAddressListener() {
     this.addressBtn.addEventListener('click', this.view.addAddress);
+    this.numAddresses += 1;
   }
 
   // checkForm(): void {
-  //   function returnNumAddresses(): number {
-  //     return document.querySelectorAll('.reg-form__address').length;
-  //   }
-
   //   function showError(msg: string, errPar: HTMLParagraphElement): void {
   //     const par = errPar;
   //     par.innerHTML = msg;

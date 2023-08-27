@@ -324,8 +324,8 @@ export default class App {
     this.clearMain();
     this.view.drawRegistration();
     this.view.addAddress();
-    const registrAddressBtn = <HTMLButtonElement>document.querySelector('.reg-form__addAddrr');
-    registrAddressBtn.addEventListener('click', this.view.addAddress);
+    this.registration.addAddressListener();
+    window.addEventListener('beforeunload', this.registration.removeAllListeners);
     // this.registration.checkForm();
     // this.registration.addAddressListener();
   }
