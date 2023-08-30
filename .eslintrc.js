@@ -8,6 +8,7 @@ module.exports = {
     'airbnb-base',
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -22,5 +23,7 @@ module.exports = {
   ignorePatterns: ['webpack.config.js'],
   rules: {
     '@typescript-eslint/no-explicit-any': 2,
+    'keyword-spacing': 'off',
+    '@typescript-eslint/keyword-spacing': 'off',
   },
 };
