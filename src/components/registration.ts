@@ -1,11 +1,5 @@
-import {
-  Address,
-  CustomerUpdate,
-  CustomerUpdateAction,
-  createApiBuilderFromCtpClient,
-} from '@commercetools/platform-sdk';
-
-import ctpClient from './api/BuildClient';
+import { postCustomer, updateCustomer, loginCustomer } from './api/api';
+import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 
 export default class Registration {
   main: HTMLElement;
@@ -299,13 +293,10 @@ export default class Registration {
     }
 
     function updateCustomerInfo(ID: string) {
-      const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-        projectKey: 'rs-school-ecommerce-application',
-      });
       const firstName: string = returnInputValue('fname');
       const lastName: string = returnInputValue('lname');
       const dateOfBirth = returnInputValue('bdate');
-      const body: CustomerUpdate = {
+      const body: CustomerUpdateBody = {
         version: 1,
         actions: [
           {
@@ -350,22 +341,17 @@ export default class Registration {
         }
       });
 
-      let userAddresses: Address[] = [];
+      let userAddresses: CustomerAddress[] = [];
       let versNum: number = 0;
-
-      apiRoot
-        .customers()
-        .withId({ ID })
-        .post({
-          body,
-        })
-        .execute()
+   
+      updateCustomer(ID, body)
         .then((response) => {
-          userAddresses = response.body.addresses;
-          versNum = response.body.version;
+          const {data} = response;
+          userAddresses = data.addresses;
+          versNum = data.version;
         })
         .then(() => {
-          const addrBody: CustomerUpdate = {
+          const addrBody: CustomerUpdateBody = {
             version: versNum,
             actions: [],
           };
@@ -397,16 +383,8 @@ export default class Registration {
             addrBody.actions.push(updAction);
           });
 
-          apiRoot
-            .customers()
-            .withId({ ID })
-            .post({
-              body: addrBody,
-            })
-            .execute()
-            .catch((err: Error) => displayMessage(err.message));
-        })
-        .catch((err: Error) => displayMessage(err.message));
+          updateCustomer(ID, addrBody).catch((err: Error) => displayMessage(err.message));
+        });
     }
 
     function clearForm() {
@@ -426,43 +404,56 @@ export default class Registration {
       inputs.forEach((i) => clearInput(i));
     }
 
-    function createUser() {
+    async function createUser() {
       const email: string = returnInputValue('email');
       const pass: string = returnInputValue('pass');
-      const customerDraft = {
-        email,
-        password: pass,
-      };
-      const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-        projectKey: 'rs-school-ecommerce-application',
+      const firstName: string = returnInputValue('fname');
+      const lastName: string = returnInputValue('lname');
+
+      let userId: string;
+
+      postCustomer(email, pass, firstName, lastName)
+      .then((response) => {
+        userId = response.data.customer.id;
+        console.log('User data posted successfully!');
+      })
+      .catch((error) => {
+        console.error('An error occurred while posting customer:', error.message);
+        throw error;
+      })
+      .then(() => updateCustomerInfo(userId))
+      .then(() => {
+        console.log('User data updated successfully!');
+      })
+      .catch((error) => {
+        console.error('An error occurred while updating customer info:', error.message);
+        throw error; 
+      })
+      .then(() => loginCustomer(email, pass))
+      .then((response) => {
+        console.log(response);
+        console.log('User logged in successfully after update!');
+        displayMessage('User successfully created and logged in.');
+        clearForm();
+        localStorage.setItem('isLoggedIn', 'true');
+        setTimeout(() => {
+          hideMessage();
+          window.location.hash = '/';
+          const itemuser = document.querySelector('.item-client .login');
+          const itemlogout = document.querySelector('.item-client .register');
+          if (itemuser && itemlogout) {
+            const elUser = itemuser as HTMLElement;
+            elUser.textContent = 'Profile';
+            const elLogOut = itemlogout as HTMLElement;
+            elLogOut.textContent = 'LogOut';
+          }
+        }, 5000);
+      })
+      .catch((error) => {
+        console.error('An error occurred during login:', error.message);
+        displayMessage(error.message);
+        setTimeout(() => hideMessage(), 5000);
       });
-      const func = () => apiRoot.customers().post({ body: customerDraft }).execute();
-      func()
-        .then((response) => {
-          updateCustomerInfo(response.body.customer.id);
-        })
-        .then(() => {
-          apiRoot.login().post({ body: customerDraft });
-          displayMessage('User successfully created and logged in.');
-          clearForm();
-          localStorage.setItem('isLoggedIn', 'true');
-          setTimeout(() => {
-             hideMessage();
-             window.location.hash = '/';
-            const itemuser = document.querySelector('.item-client .login');
-            const itemlogout = document.querySelector('.item-client .register');
-            if (itemuser && itemlogout) {
-              const elUser = itemuser as HTMLElement;
-              elUser.textContent = 'Profile';
-              const elLogOut = itemlogout as HTMLElement;
-              elLogOut.textContent = 'LogOut';
-            }
-          }, 5000);
-        })
-        .catch((err: Error) => {
-          displayMessage(err.message);
-           setTimeout(() => hideMessage(), 5000);
-        });
     }
 
     function checkFormInputs(evt: Event) {

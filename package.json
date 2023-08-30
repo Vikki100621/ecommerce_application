@@ -16,6 +16,8 @@
   "author": "Viktoriya Kryuchkova, Valery Matskevich, Alexey Gorbenko",
   "license": "x11",
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.5.3",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
@@ -30,6 +32,7 @@
     "husky": "^8.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.6.2",
+    "jest-environment-jsdom": "^29.6.2",
     "mini-css-extract-plugin": "^2.7.6",
     "prettier": "3.0.1",
     "sass": "^1.63.6",
@@ -50,6 +53,8 @@
   "dependencies": {
     "@commercetools/platform-sdk": "^5.0.0",
     "@commercetools/sdk-client-v2": "^2.2.0",
+    "@testing-library/dom": "^9.3.1",
+    "axios": "^1.5.0",
     "node-fetch": "^2.6.1"
   }
 }

@@ -7,6 +7,8 @@ import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
+import Categories from './category';
+import Products from './product';
 
 export default class App {
   public header: HTMLElement;
@@ -278,7 +280,7 @@ export default class App {
         regBtn.classList.add('reg_btn');
         regBtn.textContent = 'REGISTER';
         if (localStorage.getItem('isLoggedIn') === 'true') {
-          regBtn.disabled = true; 
+          regBtn.disabled = true;
         } else {
           regBtn.onclick = () => {
             window.location.hash = '/register';
@@ -324,10 +326,53 @@ export default class App {
   }
 
   // здесь будет отрисовываться каталог
-  showCatalogPage() {
+  async showCatalogPage() {
     this.clearMain();
     const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
+    section.classList.add('category__section');
+    const categoriesInstance = new Categories();
+    await categoriesInstance.getСategories();
+    const categoryBox = categoriesInstance.categoryContainer;
+    if (categoryBox) {
+      section.appendChild(categoryBox);
+      this.main.appendChild(section);
+    }
+  }
+
+  async showProductPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.classList.add('product__section');
+
+    const productsInstance = new Products();
+    const productDivs = await productsInstance.createProducts();
+
+    const currentRoute = window.location.hash;
+    const productContainer = document.createElement('div');
+    productContainer.classList.add('product__container');
+
+    let categoryId = '';
+    if (currentRoute === '#/catalog/dishes') {
+      categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
+    } else if (currentRoute === '#/catalog/paintings') {
+      categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
+    } else if (currentRoute === '#/catalog/jewellery') {
+      categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
+    } else if (currentRoute === '#/catalog/allproducts') {
+      productDivs.forEach((productDiv) => {
+        productContainer.appendChild(productDiv);
+      });
+    }
+    productDivs.forEach((productDiv) => {
+      const productCategoryId = productDiv.getAttribute('data-category');
+      if (productCategoryId === categoryId) {
+        productContainer.appendChild(productDiv);
+      }
+    });
+
+    section.appendChild(productContainer);
+
+    // Добавляем секцию на страницу
     this.main.appendChild(section);
   }
 
