@@ -9,6 +9,7 @@ import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
 import Categories from './category';
 import Products from './product';
+import Sorting from './sort';
 
 export default class App {
   public header: HTMLElement;
@@ -346,6 +347,9 @@ export default class App {
 
     const productsInstance = new Products();
     const productDivs = await productsInstance.createProducts();
+    const sort = new Sorting();
+    const {sortBlock} = sort;
+    const rightContent = sort.rightsideSortBlock;
 
     const currentRoute = window.location.hash;
     const productContainer = document.createElement('div');
@@ -369,8 +373,8 @@ export default class App {
         productContainer.appendChild(productDiv);
       }
     });
-
-    section.appendChild(productContainer);
+    rightContent?.appendChild(productContainer);
+   if (sortBlock) section.appendChild(sortBlock);
 
     // Добавляем секцию на страницу
     this.main.appendChild(section);

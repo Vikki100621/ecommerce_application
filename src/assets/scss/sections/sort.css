@@ -1,0 +1,19 @@
+.sort__container {
+  display: flex;
+  margin: 0 auto;
+  padding: 50px;
+}
+.sort__container .sort__container-left {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+.sort__container .sort__container-left .filters__container {
+  max-width: 300px;
+}
+.sort__container .sort__container-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 40px;
+}/*# sourceMappingURL=sort.css.map */

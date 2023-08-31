@@ -39,14 +39,13 @@ export default class Categories {
         this.categoryContainer?.appendChild(categoryBox);
       });
   
-      // Создаем дополнительный categoryBox без ID
       const allProductsCategoryBox = document.createElement('div');
       allProductsCategoryBox.classList.add('product__category', 'category__allproducts');
       allProductsCategoryBox.setAttribute('data-category-path', 'allproducts');
   
       const allProductsTitle = document.createElement('p');
       allProductsTitle.classList.add('category__title');
-      allProductsTitle.textContent = 'All Products'; // Здесь можно использовать любой текст
+      allProductsTitle.textContent = 'All Products'; 
       allProductsCategoryBox.appendChild(allProductsTitle);
   
       this.categoryContainer?.appendChild(allProductsCategoryBox);
