@@ -85,3 +85,16 @@
     text-decoration: line-through;
   }
 }
+
+.filters__container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  input[type="checkbox"] {
+    border: 2px #492f2f solid;
+  }
+  
+  input[type="checkbox"]:checked {
+    background-color: #498334;
+  }
+}

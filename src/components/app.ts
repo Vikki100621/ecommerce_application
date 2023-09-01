@@ -24,11 +24,17 @@ export default class App {
 
   private registration: Registration;
 
+  public sorting: Sorting;
+
+  public products: Products;
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
+    this.products = new Products();
+    this.sorting = new Sorting();
     this.registration = new Registration();
   }
 
@@ -344,17 +350,17 @@ export default class App {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('product__section');
-
-    const productsInstance = new Products();
+  
+    const productsInstance = this.products;
     const productDivs = await productsInstance.createProducts();
-    const sort = new Sorting();
-    const {sortBlock} = sort;
+    const sort = this.sorting;
+    const { sortBlock } = sort;
     const rightContent = sort.rightsideSortBlock;
-
+  
     const currentRoute = window.location.hash;
     const productContainer = document.createElement('div');
     productContainer.classList.add('product__container');
-
+  
     let categoryId = '';
     if (currentRoute === '#/catalog/dishes') {
       categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
@@ -367,16 +373,20 @@ export default class App {
         productContainer.appendChild(productDiv);
       });
     }
+  
     productDivs.forEach((productDiv) => {
       const productCategoryId = productDiv.getAttribute('data-category');
       if (productCategoryId === categoryId) {
         productContainer.appendChild(productDiv);
       }
     });
+  
     rightContent?.appendChild(productContainer);
-   if (sortBlock) section.appendChild(sortBlock);
-
-    // Добавляем секцию на страницу
+  
+    if (sortBlock) {
+      section.appendChild(sortBlock);
+    }
+  
     this.main.appendChild(section);
   }
 

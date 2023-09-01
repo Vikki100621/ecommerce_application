@@ -6,9 +6,14 @@ export default class Products {
 
   public data: Array<Product> 
 
+ public filteredProductdivs: HTMLDivElement[];
+
+
+
   constructor() {
     this.productDivs = [];
     this.data = [];
+    this.filteredProductdivs = [];
   }
 
   async createProducts(): Promise<HTMLDivElement[]> {
@@ -17,6 +22,7 @@ export default class Products {
       const products: Array<Product> = productsResponse.data.results;
       this.data = products;
       console.log(this.data)
+    
       products.forEach((productData: Product) => {
         const categoryId = productData.categories[0].id;
         const productId = productData.id;
