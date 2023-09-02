@@ -1,9 +1,4 @@
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import ctpClient from '../components/api/BuildClient';
-
-const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-  projectKey: 'rs-school-ecommerce-application',
-});
+import { loginCustomer } from '../components/api/api';
 
 export function showModal(text: string, status: number) {
   const modal = document.createElement('div');
@@ -54,9 +49,7 @@ export function getClientData(event: Event) {
     email: returnInputValue('email'),
     password: returnInputValue('password'),
   };
-  const response = apiRoot.login().post({ body: data }).execute();
-
-  response
+  loginCustomer(data.email, data.password)
     .then(() => {
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
@@ -76,19 +69,4 @@ export function getClientData(event: Event) {
       showModal(`${error.message}`, error.code);
       setTimeout(hideModal, 3000);
     });
-
-  // function returnCustomerByEmail(email: string) {
-  //   return apiRoot
-  //     .customers()
-  //     .get({ queryArgs: { where: `email="${email}"` } })
-  //     .execute();
-  // }
-  // const val = returnCustomerByEmail(returnInputValue('email'));
-  // const qwerty = val.then((data) => {
-  //   if (data.body.results.length === 0) {
-  //     console.log('Wrong');
-  //   } else {
-  //     console.log('id', data.body.results[0].id);
-  //   }
-  // });
 }
