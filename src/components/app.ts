@@ -346,21 +346,21 @@ export default class App {
     }
   }
 
-  async showProductPage() {
+  async showProductsPage() {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('product__section');
-  
+
     const productsInstance = this.products;
     const productDivs = await productsInstance.createProducts();
     const sort = this.sorting;
     const { sortBlock } = sort;
     const rightContent = sort.rightsideSortBlock;
-  
+
     const currentRoute = window.location.hash;
     const productContainer = document.createElement('div');
     productContainer.classList.add('product__container');
-  
+
     let categoryId = '';
     if (currentRoute === '#/catalog/dishes') {
       categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
@@ -373,21 +373,26 @@ export default class App {
         productContainer.appendChild(productDiv);
       });
     }
-  
+
     productDivs.forEach((productDiv) => {
       const productCategoryId = productDiv.getAttribute('data-category');
       if (productCategoryId === categoryId) {
         productContainer.appendChild(productDiv);
       }
     });
-  
+
     rightContent?.appendChild(productContainer);
-  
+
     if (sortBlock) {
       section.appendChild(sortBlock);
     }
-  
+
     this.main.appendChild(section);
+  }
+
+  showProductPage(){
+    this.clearMain();
+    console.log('здесь будет один продукт');
   }
 
   // здесь будет отрисовываться инфо о доставке
