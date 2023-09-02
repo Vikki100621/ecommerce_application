@@ -9,7 +9,7 @@ export default class Routing {
 
   constructor(app: App) {
     this.app = app;
-    this.id = null
+    this.id = null;
     this.routes = [
       { path: '/', template: 'home' },
       { path: '/catalog', template: 'catalog' },
@@ -71,16 +71,16 @@ export default class Routing {
 
   private updateIdRoutes() {
     if (this.id !== null) {
-      const productRouteIndex = this.routes.findIndex(route => route.template === 'product');
+      const productRouteIndex = this.routes.findIndex((route) => route.template === 'product');
       if (productRouteIndex !== -1) {
         this.routes[productRouteIndex].path = `/catalog/allproducts/${this.id}`;
       }
     }
   }
-  
+
   updateId(id: string | null): void {
     this.id = id;
-    this.updateIdRoutes(); 
+    this.updateIdRoutes();
   }
 
   init() {
@@ -167,19 +167,15 @@ export default class Routing {
   }
 
   handleProductItemClick(event: Event) {
+    const clickedElement = event.target as HTMLElement;
 
-      const clickedElement = event.target as HTMLElement
-  
-      const {parentElement} = clickedElement;
-      if (parentElement && parentElement.hasAttribute('id')) {
-        this.id = parentElement.getAttribute('id');
-        this.updateId(parentElement.getAttribute('id'))
-        const selectedRoute = this.routes[13].path;
+    const { parentElement } = clickedElement;
+    if (parentElement && parentElement.hasAttribute('id')) {
+      this.id = parentElement.getAttribute('id');
+      this.updateId(parentElement.getAttribute('id'));
+      const selectedRoute = this.routes[13].path;
 
-        window.location.hash = selectedRoute;
-      }
-    
+      window.location.hash = selectedRoute;
+    }
   }
-
-
 }

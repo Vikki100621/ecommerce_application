@@ -39,7 +39,6 @@ export interface CustomerAddress {
   country: string;
 }
 
-
 interface Price {
   value: {
     centAmount: number;
@@ -61,14 +60,14 @@ export interface Product {
   categories: Array<Category>;
   categoryId: string;
   masterVariant: {
-    attributes:Array<{ name: string, value: string[]}>;
+    attributes: Array<{ name: string; value: string[] }>;
     images: Array<{ url: string }>;
     prices: Array<Price>;
     description: string;
   };
   searchKeywords: {
     'en-US': Array<{ text: string }>;
-  }
+  };
 }
 
 export interface Category {
@@ -77,4 +76,3 @@ export interface Category {
     'en-US': string;
   };
 }
-

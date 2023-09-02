@@ -390,9 +390,8 @@ export default class App {
     this.main.appendChild(section);
   }
 
-  showProductPage(){
+  showProductPage() {
     this.clearMain();
-    console.log('здесь будет один продукт');
   }
 
   // здесь будет отрисовываться инфо о доставке
