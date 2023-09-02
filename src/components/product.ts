@@ -19,7 +19,6 @@ export default class Products {
       const productsResponse = await getProducts();
       const products: Array<Product> = productsResponse.data.results;
       this.data = products;
-      console.log(this.data);
 
       products.forEach((productData: Product) => {
         const categoryId = productData.categories[0].id;
@@ -63,7 +62,6 @@ export default class Products {
       });
       return this.productDivs;
     } catch (error) {
-      console.error(error);
       return [];
     }
   }

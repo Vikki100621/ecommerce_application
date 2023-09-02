@@ -10,6 +10,7 @@ import Clock from '../assets/img/clock.png';
 import Categories from './category';
 import Products from './product';
 import Sorting from './sort';
+import ProductPage from './api/productPage/productPage';
 
 export default class App {
   public header: HTMLElement;
@@ -390,8 +391,12 @@ export default class App {
     this.main.appendChild(section);
   }
 
-  showProductPage() {
-    this.clearMain();
+  async showProductPage(id: string | null) {
+    if (id) {
+      this.clearMain();
+      const productPage = new ProductPage(id);
+      productPage.draw();
+    }
   }
 
   // здесь будет отрисовываться инфо о доставке

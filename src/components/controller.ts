@@ -14,7 +14,7 @@ export default class Controller {
     this.app = new App();
     this.routing = new Routing(this.app);
     this.burger = new BurgerMenu();
-    this.init();
+    // this.init();
   }
 
   private addCategoryClickHandlers() {

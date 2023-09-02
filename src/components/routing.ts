@@ -63,7 +63,7 @@ export default class Routing {
       case '/catalog/allproducts':
         return () => this.app.showProductsPage();
       case `/catalog/allproducts/${this.id}`:
-        return () => this.app.showProductPage();
+        return () => this.app.showProductPage(this.id);
       default:
         return () => this.app.showHomePage();
     }
