@@ -9,7 +9,7 @@ export default class Routing {
 
   constructor(app: App) {
     this.app = app;
-    this.id = null
+    this.id = null;
     this.routes = [
       { path: '/', template: 'home' },
       { path: '/catalog', template: 'catalog' },
@@ -23,7 +23,8 @@ export default class Routing {
       { path: '/catalog/dishes', template: 'dishes' },
       { path: '/catalog/paintings', template: 'paintings' },
       { path: '/catalog/jewellery', template: 'jewellery' },
-      { path: '/catalog/allproducts', template: 'jewellery' },
+      { path: '/catalog/coins', template: 'coins' },
+      { path: '/catalog/allproducts', template: 'allproducts' },
       { path: `/catalog/allproducts/${this.id}`, template: 'product' },
     ];
 
@@ -55,13 +56,14 @@ export default class Routing {
       case '/user':
         return () => this.app.showUserPage();
       case '/catalog/dishes':
-        return () => this.app.showProductsPage();
       case '/catalog/paintings':
-        return () => this.app.showProductsPage();
       case '/catalog/jewellery':
-        return () => this.app.showProductsPage();
+      case '/catalog/coins':
       case '/catalog/allproducts':
-        return () => this.app.showProductsPage();
+        return () => {
+          this.app.productContainer.innerHTML = '';
+          this.app.showProductsPage();
+        };
       case `/catalog/allproducts/${this.id}`:
         return () => this.app.showProductPage();
       default:
@@ -71,16 +73,16 @@ export default class Routing {
 
   private updateIdRoutes() {
     if (this.id !== null) {
-      const productRouteIndex = this.routes.findIndex(route => route.template === 'product');
+      const productRouteIndex = this.routes.findIndex((route) => route.template === 'product');
       if (productRouteIndex !== -1) {
         this.routes[productRouteIndex].path = `/catalog/allproducts/${this.id}`;
       }
     }
   }
-  
+
   updateId(id: string | null): void {
     this.id = id;
-    this.updateIdRoutes(); 
+    this.updateIdRoutes();
   }
 
   init() {
@@ -159,27 +161,26 @@ export default class Routing {
       } else if (clickedElement.classList.contains('category__jewellery')) {
         const selectedRoute = this.routes[11].path;
         window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__allproducts')) {
+      } else if (clickedElement.classList.contains('category__coins')) {
         const selectedRoute = this.routes[12].path;
+        window.location.hash = selectedRoute;
+      } else if (clickedElement.classList.contains('category__allproducts')) {
+        const selectedRoute = this.routes[13].path;
         window.location.hash = selectedRoute;
       }
     }
   }
 
   handleProductItemClick(event: Event) {
+    const clickedElement = event.target as HTMLElement;
 
-      const clickedElement = event.target as HTMLElement
-  
-      const {parentElement} = clickedElement;
-      if (parentElement && parentElement.hasAttribute('id')) {
-        this.id = parentElement.getAttribute('id');
-        this.updateId(parentElement.getAttribute('id'))
-        const selectedRoute = this.routes[13].path;
+    const { parentElement } = clickedElement;
+    if (parentElement && parentElement.hasAttribute('id')) {
+      this.id = parentElement.getAttribute('id');
+      this.updateId(parentElement.getAttribute('id'));
+      const selectedRoute = this.routes[14].path;
 
-        window.location.hash = selectedRoute;
-      }
-    
+      window.location.hash = selectedRoute;
+    }
   }
-
-
 }

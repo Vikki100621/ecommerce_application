@@ -28,17 +28,283 @@ export default class App {
 
   public products: Products;
 
+  public productContainer: HTMLElement;
+
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
+    this.productContainer = document.createElement('div');
+    this.productContainer.classList.add('product__container');
     this.products = new Products();
     this.sorting = new Sorting();
     this.registration = new Registration();
   }
 
-  // создаем header(он не будет меняться больше)
+  registerTemplate(name: string, templateFunction: () => void) {
+    this.templates[name] = templateFunction;
+  }
+
+  getTemplateFunction(name: string) {
+    const templateFunction = this.templates[name];
+    if (!templateFunction) {
+      throw new Error(`Template function for "${name}" not found.`);
+    }
+    return templateFunction;
+  }
+
+  // рисуем домашнюю страницу
+  showHomePage() {
+    const element = document.querySelector('.burger__menu-icon');
+    element?.classList.remove('dark__color');
+
+    const img = document.querySelector('.item-basket img') as HTMLImageElement;
+    const div = document.querySelector('.item-basket div') as HTMLElement;
+
+    img.src = basketImageSrc;
+    div.style.border = '2px solid #e4d4be';
+
+    this.main.innerHTML = '';
+    this.header.style.color = '#e4d4be';
+    const backgroundClasses = ['img-background', 'dark-background', 'light-background', 'dark-background'];
+    const sectionClasses = [
+      'welcome__section',
+      'new-collection__section',
+      'special-offer__section',
+      'contact__section',
+    ];
+    const sectionTexts = [
+      `${content.welcome}`,
+      `${content.collection}`,
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
+    ];
+
+    for (let i = 0; i < 4; i += 1) {
+      const background = document.createElement('div');
+      background.classList.add('background', backgroundClasses[i]);
+
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('wrapper');
+      background.appendChild(wrapper);
+
+      const section = document.createElement('section');
+      section.classList.add('section', sectionClasses[i]);
+      wrapper.appendChild(section);
+
+      if (section.classList.contains('welcome__section')) {
+        const welcomeText = document.createElement('p');
+        welcomeText.textContent = sectionTexts[i];
+
+        section.appendChild(welcomeText);
+      }
+
+      if (section.classList.contains('new-collection__section')) {
+        const newCollectionDiv = document.createElement('div');
+        newCollectionDiv.classList.add('newCollection__content');
+        const newCollectionImage = document.createElement('img');
+        newCollectionImage.classList.add('newCollectionDiv__img');
+        newCollectionImage.src = NewCollection;
+        newCollectionDiv.appendChild(newCollectionImage);
+        const newCollectionRigth = document.createElement('div');
+        newCollectionRigth.classList.add('newCollection_rigth_content');
+        const newCollctionText = document.createElement('p');
+        newCollctionText.textContent = sectionTexts[i];
+        const el = document.createElement('div');
+        const title = document.createElement('div');
+        title.textContent = 'TO BUY OUR PRODUCTS';
+        el.classList.add('buy__block');
+        const btnBlock = document.createElement('btn__block');
+        btnBlock.classList.add('btn__block');
+        const logBtn = document.createElement('button');
+        logBtn.classList.add('login_btn');
+        logBtn.textContent = 'LOGIN';
+        logBtn.onclick = () => {
+          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+            window.location.hash = '/login';
+          } else {
+            window.location.hash = '/';
+          }
+        };
+        const regBtn = document.createElement('button');
+        regBtn.classList.add('reg_btn');
+        regBtn.textContent = 'REGISTER';
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          regBtn.disabled = true;
+        } else {
+          regBtn.onclick = () => {
+            window.location.hash = '/register';
+          };
+        }
+        btnBlock.appendChild(regBtn);
+        btnBlock.appendChild(logBtn);
+        el.appendChild(title);
+        el.appendChild(btnBlock);
+        newCollectionRigth.appendChild(newCollctionText);
+        newCollectionRigth.appendChild(el);
+        newCollectionDiv.appendChild(newCollectionRigth);
+
+        section.appendChild(newCollectionDiv);
+      }
+
+      if (section.classList.contains('special-offer__section')) {
+        const offerTitle = document.createElement('h2');
+        offerTitle.textContent = 'Special Offer';
+        section.appendChild(offerTitle);
+
+        const offerDiv = document.createElement('div');
+        offerDiv.classList.add('special-offer__content');
+        const offerText = document.createElement('p');
+        offerText.textContent = sectionTexts[i];
+        offerDiv.appendChild(offerText);
+        const offerImage = document.createElement('img');
+        offerImage.classList.add('special-offer__img');
+        offerImage.src = Special;
+        offerDiv.appendChild(offerImage);
+        section.appendChild(offerDiv);
+      }
+      this.main.appendChild(background);
+    }
+  }
+
+  // здесь будет отрисовываться страница о магазине
+  showAboutPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.innerText = 'Not completed yet';
+    this.main.appendChild(section);
+  }
+
+  // здесь будет отрисовываться каталог
+  async showCatalogPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.classList.add('category__section');
+    const categoriesInstance = new Categories();
+    await categoriesInstance.getСategories();
+    const categoryBox = categoriesInstance.categoryContainer;
+    if (categoryBox) {
+      section.appendChild(categoryBox);
+      if (this.main) this.main.appendChild(section);
+    }
+  }
+
+  async showProductsPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.classList.add('product__section');
+
+    const productsInstance = this.products;
+    const productDivs = await productsInstance.createProducts();
+    const sort = this.sorting;
+    const { sortBlock } = sort;
+    const rightContent = sort.rightsideSortBlock;
+    const leftContent = sort.leftsideSortBlock;
+
+      rightContent?.appendChild(this.productContainer);
+
+      const currentRoute = window.location.hash;
+
+     if (!currentRoute.includes('allproducts')) {
+        const dropdown = leftContent?.querySelector('.category__dropdown');
+        if (dropdown) leftContent?.removeChild(dropdown);
+      }
+      
+      let categoryId = '';
+
+      if (currentRoute.includes('dishes')) {
+        categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
+      } 
+      
+      if (currentRoute.includes('paintings')) {
+        categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
+      }
+      
+      if (currentRoute.includes('jewellery')) {
+        categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
+      }
+
+      if(currentRoute.includes('coins')) {
+        categoryId = '9a31e44b-6f15-4f3c-a633-0d4ebc2ae444';
+      }
+
+      productDivs.forEach((productDiv) => {
+        const productCategoryId = productDiv.getAttribute('data-category');
+        if (productCategoryId === categoryId) {
+          this.productContainer.appendChild(productDiv);
+        }
+      });
+  
+      if (currentRoute.includes('/allproducts')) {
+        productDivs.forEach((productDiv) => {
+          this.productContainer?.appendChild(productDiv);
+        });
+      }
+
+      if (sortBlock) {
+        section.appendChild(sortBlock);
+      }
+
+      this.main.appendChild(section) 
+    }
+  
+  showProductPage() {
+    this.clearMain();
+    console.log('здесь будет один продукт');
+  }
+
+  // здесь будет отрисовываться инфо о доставке
+  showDeliveryPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.innerText = 'Not completed yet';
+    this.main.appendChild(section);
+  }
+
+  // здесь будет отрисовываться инфо с контактами
+  showContactsPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.innerText = 'Not completed yet';
+    this.main.appendChild(section);
+  }
+
+  // Использовать в работе Валере для реализации входа
+  showSignInPage() {
+    this.clearMain();
+    const loginPage = new LoginView().getHtmlElement();
+    this.main.appendChild(loginPage);
+  }
+
+  // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
+  showRegisterPage() {
+    this.clearMain();
+    this.registration.draw();
+    this.registration.checkForm();
+    this.registration.addAddressListener();
+  }
+
+  show404Page() {
+    this.clearMain();
+    const errorSection = document.createElement('section');
+    errorSection.classList.add('section__error');
+    const notFoundContent = `
+    <h1>4<img src="${Clock}" alt="Clock" width="100">4</h1>
+    <p>The page you're looking for could not be found.</p>
+    <a href="#/">Return to Main Page</a>
+  `;
+    errorSection.innerHTML = notFoundContent;
+    this.main.appendChild(errorSection);
+  }
+
+  showUserPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.innerText = 'Not completed yet';
+    this.main.appendChild(section);
+  }
+
   createHeader() {
     this.header = document.createElement('header');
     this.header.id = 'header';
@@ -197,252 +463,5 @@ export default class App {
     wrapper.appendChild(questions);
 
     return this.footer;
-  }
-
-  registerTemplate(name: string, templateFunction: () => void) {
-    this.templates[name] = templateFunction;
-  }
-
-  getTemplateFunction(name: string) {
-    const templateFunction = this.templates[name];
-    if (!templateFunction) {
-      throw new Error(`Template function for "${name}" not found.`);
-    }
-    return templateFunction;
-  }
-
-  // рисуем домашнюю страницу
-  showHomePage() {
-    const element = document.querySelector('.burger__menu-icon');
-    element?.classList.remove('dark__color');
-
-    const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
-
-    img.src = basketImageSrc;
-    div.style.border = '2px solid #e4d4be';
-
-    this.main.innerHTML = '';
-    this.header.style.color = '#e4d4be';
-    const backgroundClasses = ['img-background', 'dark-background', 'light-background', 'dark-background'];
-    const sectionClasses = [
-      'welcome__section',
-      'new-collection__section',
-      'special-offer__section',
-      'contact__section',
-    ];
-    const sectionTexts = [
-      `${content.welcome}`,
-      `${content.collection}`,
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
-    ];
-
-    for (let i = 0; i < 4; i += 1) {
-      const background = document.createElement('div');
-      background.classList.add('background', backgroundClasses[i]);
-
-      const wrapper = document.createElement('div');
-      wrapper.classList.add('wrapper');
-      background.appendChild(wrapper);
-
-      const section = document.createElement('section');
-      section.classList.add('section', sectionClasses[i]);
-      wrapper.appendChild(section);
-
-      if (section.classList.contains('welcome__section')) {
-        const welcomeText = document.createElement('p');
-        welcomeText.textContent = sectionTexts[i];
-
-        section.appendChild(welcomeText);
-      }
-
-      if (section.classList.contains('new-collection__section')) {
-        const newCollectionDiv = document.createElement('div');
-        newCollectionDiv.classList.add('newCollection__content');
-        const newCollectionImage = document.createElement('img');
-        newCollectionImage.classList.add('newCollectionDiv__img');
-        newCollectionImage.src = NewCollection;
-        newCollectionDiv.appendChild(newCollectionImage);
-        const newCollectionRigth = document.createElement('div');
-        newCollectionRigth.classList.add('newCollection_rigth_content');
-        const newCollctionText = document.createElement('p');
-        newCollctionText.textContent = sectionTexts[i];
-        const el = document.createElement('div');
-        const title = document.createElement('div');
-        title.textContent = 'TO BUY OUR PRODUCTS';
-        el.classList.add('buy__block');
-        const btnBlock = document.createElement('btn__block');
-        btnBlock.classList.add('btn__block');
-        const logBtn = document.createElement('button');
-        logBtn.classList.add('login_btn');
-        logBtn.textContent = 'LOGIN';
-        logBtn.onclick = () => {
-          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
-            window.location.hash = '/login';
-          } else {
-            window.location.hash = '/';
-          }
-        };
-        const regBtn = document.createElement('button');
-        regBtn.classList.add('reg_btn');
-        regBtn.textContent = 'REGISTER';
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-          regBtn.disabled = true;
-        } else {
-          regBtn.onclick = () => {
-            window.location.hash = '/register';
-          };
-        }
-        btnBlock.appendChild(regBtn);
-        btnBlock.appendChild(logBtn);
-        el.appendChild(title);
-        el.appendChild(btnBlock);
-        newCollectionRigth.appendChild(newCollctionText);
-        newCollectionRigth.appendChild(el);
-        newCollectionDiv.appendChild(newCollectionRigth);
-
-        section.appendChild(newCollectionDiv);
-      }
-
-      if (section.classList.contains('special-offer__section')) {
-        const offerTitle = document.createElement('h2');
-        offerTitle.textContent = 'Special Offer';
-        section.appendChild(offerTitle);
-
-        const offerDiv = document.createElement('div');
-        offerDiv.classList.add('special-offer__content');
-        const offerText = document.createElement('p');
-        offerText.textContent = sectionTexts[i];
-        offerDiv.appendChild(offerText);
-        const offerImage = document.createElement('img');
-        offerImage.classList.add('special-offer__img');
-        offerImage.src = Special;
-        offerDiv.appendChild(offerImage);
-        section.appendChild(offerDiv);
-      }
-      this.main.appendChild(background);
-    }
-  }
-
-  // здесь будет отрисовываться страница о магазине
-  showAboutPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
-  }
-
-  // здесь будет отрисовываться каталог
-  async showCatalogPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('category__section');
-    const categoriesInstance = new Categories();
-    await categoriesInstance.getСategories();
-    const categoryBox = categoriesInstance.categoryContainer;
-    if (categoryBox) {
-      section.appendChild(categoryBox);
-      this.main.appendChild(section);
-    }
-  }
-
-  async showProductsPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('product__section');
-
-    const productsInstance = this.products;
-    const productDivs = await productsInstance.createProducts();
-    const sort = this.sorting;
-    const { sortBlock } = sort;
-    const rightContent = sort.rightsideSortBlock;
-
-    const currentRoute = window.location.hash;
-    const productContainer = document.createElement('div');
-    productContainer.classList.add('product__container');
-
-    let categoryId = '';
-    if (currentRoute === '#/catalog/dishes') {
-      categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
-    } else if (currentRoute === '#/catalog/paintings') {
-      categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
-    } else if (currentRoute === '#/catalog/jewellery') {
-      categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
-    } else if (currentRoute === '#/catalog/allproducts') {
-      productDivs.forEach((productDiv) => {
-        productContainer.appendChild(productDiv);
-      });
-    }
-
-    productDivs.forEach((productDiv) => {
-      const productCategoryId = productDiv.getAttribute('data-category');
-      if (productCategoryId === categoryId) {
-        productContainer.appendChild(productDiv);
-      }
-    });
-
-    rightContent?.appendChild(productContainer);
-
-    if (sortBlock) {
-      section.appendChild(sortBlock);
-    }
-
-    this.main.appendChild(section);
-  }
-
-  showProductPage(){
-    this.clearMain();
-    console.log('здесь будет один продукт');
-  }
-
-  // здесь будет отрисовываться инфо о доставке
-  showDeliveryPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
-  }
-
-  // здесь будет отрисовываться инфо с контактами
-  showContactsPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
-  }
-
-  // Использовать в работе Валере для реализации входа
-  showSignInPage() {
-    this.clearMain();
-    const loginPage = new LoginView().getHtmlElement();
-    this.main.appendChild(loginPage);
-  }
-
-  // Использовать в работе Леше (сначала нарисовать, можно взять стили из section__login)
-  showRegisterPage() {
-    this.clearMain();
-    this.registration.draw();
-    this.registration.checkForm();
-    this.registration.addAddressListener();
-  }
-
-  show404Page() {
-    this.clearMain();
-    const errorSection = document.createElement('section');
-    errorSection.classList.add('section__error');
-    const notFoundContent = `
-    <h1>4<img src="${Clock}" alt="Clock" width="100">4</h1>
-    <p>The page you're looking for could not be found.</p>
-    <a href="#/">Return to Main Page</a>
-  `;
-    errorSection.innerHTML = notFoundContent;
-    this.main.appendChild(errorSection);
-  }
-
-  showUserPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
   }
 }

@@ -30,8 +30,10 @@ export default class Categories {
         } else if (categoryData.name['en-US'] === 'Jewellery') {
           categoryBox.setAttribute('data-category-path', 'jewellery');
           categoryBox.classList.add('category__jewellery');
+        } else if (categoryData.name['en-US'] === 'Coins') {
+          categoryBox.classList.add('category__coins');
+          categoryBox.setAttribute('data-category-path', 'coins');
         }
-  
         const title = document.createElement('p');
         title.classList.add('category__title');
         title.textContent = categoryData.name['en-US'];

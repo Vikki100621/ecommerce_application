@@ -63,6 +63,10 @@
   background-image: url('../../img/allprod.png');
 }
 
+.category__coins {
+  background-image: url('../../img/coins.jpg');
+
+}
 .product__cart {
   display: flex;
   flex-direction: column;
@@ -76,13 +80,25 @@
   img {
     width: 100%;
   }
-
+.product__title {
+  font-size: 16px;
+  font-weight: 700;
+}
   .product__price {
     display: flex;
     justify-content: space-between;
   }
   .previous__price {
     text-decoration: line-through;
+  }
+
+  .discounted{
+    font-weight: 700;
+    color: #f01616;
+  }
+  .product__description{
+    font-size: 12px;
+    text-align: justify;
   }
 }
 

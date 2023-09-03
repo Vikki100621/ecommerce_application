@@ -4,11 +4,9 @@ import { Product } from './api/interfaces';
 export default class Products {
   public productDivs: HTMLDivElement[];
 
-  public data: Array<Product> 
+  public data: Array<Product>;
 
- public filteredProductdivs: HTMLDivElement[];
-
-
+  public filteredProductdivs: HTMLDivElement[];
 
   constructor() {
     this.productDivs = [];
@@ -18,11 +16,12 @@ export default class Products {
 
   async createProducts(): Promise<HTMLDivElement[]> {
     try {
+      this.productDivs = [];
       const productsResponse = await getProducts();
       const products: Array<Product> = productsResponse.data.results;
       this.data = products;
-      console.log(this.data)
-    
+      console.log(this.data);
+
       products.forEach((productData: Product) => {
         const categoryId = productData.categories[0].id;
         const productId = productData.id;
@@ -43,6 +42,11 @@ export default class Products {
         title.textContent = productData.name['en-US'];
         productBox.appendChild(title);
 
+        const description = document.createElement('p');
+        description.classList.add('product__description');
+        description.textContent = productData.description['en-US'];
+        productBox.appendChild(description);
+
         const priceBlock = document.createElement('div');
         priceBlock.classList.add('product__price');
         const price = document.createElement('p');
@@ -59,6 +63,7 @@ export default class Products {
           discountedPriceElement.textContent = `${discountedPrice}$`;
           priceBlock.appendChild(discountedPriceElement);
         }
+
         productBox.appendChild(priceBlock);
 
         this.productDivs.push(productBox);
