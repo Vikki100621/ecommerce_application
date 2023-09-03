@@ -1,8 +1,8 @@
-import { validateEmail, validatePassword } from './validation';
-import ElementBuilder from './elementBuilder';
-import InputFieldBuilder from './inputBuilder';
-import View from './view';
-import { getClientData, togglePassword } from './callBacks';
+import { validateEmail, validatePassword } from '../utils/validation';
+import ElementBuilder from '../utils/elementBuilder';
+import InputFieldBuilder from '../utils/inputBuilder';
+import View from '../utils/view';
+import { getClientData, togglePassword } from '../utils/callBacks';
 
 const param = {
   titleParametrs: {
@@ -119,4 +119,5 @@ export default class LoginView extends View {
 
     this.viewElement.addInnerElement([title, form, registationLink, loginErr]);
   }
+  
 }

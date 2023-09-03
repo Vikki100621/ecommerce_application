@@ -1,0 +1,74 @@
+.user__section {
+  width: 300px;
+  padding-top: 150px;
+  padding-bottom: 20px;
+  margin: 0 auto;
+}
+
+.profile__container,
+.addresses__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  background-color: #f5e6d7;
+  border: 2px solid #d7b899;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+}
+.profile__header,
+.addresses__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #d7b899;
+}
+
+.profile__infoBlock {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-gap: 10px;
+}
+.profile__firstName, .profile__lastName, .profile__dateOfBirth {
+  font-weight: bold;
+  color: #d7b899;
+}
+.profile__firstNameValue, .profile__lastNameValue, .profile__dateOfBirthValue {
+  color: #5c3c00;
+}
+
+.address__wrapper {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #e6d8c4;
+  border: 2px solid #d7b899;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+}
+
+.default {
+  border: 2px solid #2d03e9;
+}

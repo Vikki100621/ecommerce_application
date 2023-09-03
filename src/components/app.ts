@@ -1,7 +1,7 @@
 import content from './content';
 import basketImageSrc from '../assets/img/shopping-cart.png';
 import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
-import LoginView from '../utils/loginView';
+import LoginView from './login';
 import Registration from './registration';
 import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
@@ -10,6 +10,7 @@ import Clock from '../assets/img/clock.png';
 import Categories from './category';
 import Products from './product';
 import Sorting from './sort';
+import UserView from './user';
 
 export default class App {
   public header: HTMLElement;
@@ -436,8 +437,8 @@ export default class App {
 
   showUserPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
+    const userPage = new UserView();
+
+    this.main.appendChild(userPage.getHtmlElement());
   }
 }

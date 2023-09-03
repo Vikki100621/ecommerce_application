@@ -13,11 +13,7 @@ export default class View {
   }
 
   createView(parametrs: ViewParametrs) {
-    const elementParams = {
-      tag: parametrs.tag,
-      classNames: parametrs.classNames,
-    };
-    this.viewElement = new ElementBuilder(elementParams);
+    this.viewElement = new ElementBuilder(parametrs);
 
     return this.viewElement;
   }

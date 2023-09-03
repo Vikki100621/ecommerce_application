@@ -1,4 +1,5 @@
 import { loginCustomer } from '../components/api/api';
+import State from '../components/state';
 
 export function showModal(text: string, status: number) {
   const modal = document.createElement('div');
@@ -50,7 +51,8 @@ export function getClientData(event: Event) {
     password: returnInputValue('password'),
   };
   loginCustomer(data.email, data.password)
-    .then(() => {
+    .then((customerData) => {
+      State.setCustomer(customerData.data.customer)
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');
