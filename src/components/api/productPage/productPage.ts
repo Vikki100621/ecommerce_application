@@ -1,4 +1,3 @@
-import drawElementInParent from '../../common/drawElemInParent';
 import returnElement from '../../common/returnElem';
 import { getProduct } from '../api';
 
@@ -7,9 +6,22 @@ export default class ProductPage {
 
   id: string;
 
+  prevBtn: HTMLElement;
+
+  nextBtn: HTMLElement;
+
+  sliderImgs: HTMLElement;
+
   constructor(id: string) {
     this.id = id;
     this.main = <HTMLElement>document.getElementById(`main`);
+    this.prevBtn = returnElement({ tag: 'button', classes: ['slider__btn'], textContent: '<' });
+    this.nextBtn = returnElement({ tag: 'button', classes: ['slider__btn'], textContent: '>' });
+    this.sliderImgs = returnElement({
+      tag: 'div',
+      classes: ['slider__images'],
+      attrib: [{ name: 'style', value: 'left: 220px;' }],
+    });
   }
 
   async draw() {
@@ -18,31 +30,49 @@ export default class ProductPage {
     console.log(productData);
 
     const productSectionWrapper = returnElement({ tag: 'section', classes: ['product-details'] });
-    drawElementInParent(this.main, productSectionWrapper);
+    this.main.appendChild(productSectionWrapper);
     const productTitle = returnElement({
       tag: 'h1',
       classes: ['product-details__title'],
       textContent: productData.name[`en-US`],
     });
-    drawElementInParent(productSectionWrapper, productTitle);
+    productSectionWrapper.appendChild(productTitle);
     const productInfoWrapper = returnElement({ tag: 'div', classes: ['product-details__info-wrapper'] });
-    drawElementInParent(productSectionWrapper, productInfoWrapper);
-    const productImgWrapper = returnElement({ tag: 'div', classes: ['product-details__img-wrapper'] });
-    drawElementInParent(productInfoWrapper, productImgWrapper);
+    productSectionWrapper.appendChild(productInfoWrapper);
+    const slider = returnElement({ tag: 'div', classes: ['product-detail__slider', 'slider'] });
+    productInfoWrapper.appendChild(slider);
+    slider.appendChild(this.prevBtn);
+    const sliderImgWrapper = returnElement({ tag: 'div', classes: ['slider__img-wrapper'] });
+    slider.appendChild(sliderImgWrapper);
+    sliderImgWrapper.appendChild(this.sliderImgs);
+    slider.appendChild(this.nextBtn);
     const arrImgs = [].concat(productData.masterVariant.images);
     for (let i = 0; i < arrImgs.length; i += 1) {
       const productImg = returnElement({
         tag: 'img',
-        classes: ['product-details__img'],
+        classes: ['slider__img'],
         attrib: [{ name: 'src', value: productData.masterVariant.images[i].url }],
       });
-      drawElementInParent(productImgWrapper, productImg);
+      this.sliderImgs.appendChild(productImg);
     }
     const productDescription = returnElement({
       tag: 'p',
       classes: ['product-details__description'],
       textContent: productData.description[`en-US`],
     });
-    drawElementInParent(productInfoWrapper, productDescription);
+    productInfoWrapper.appendChild(productDescription);
+    console.log(this.sliderImgs);
+  }
+
+  slideImgs() {
+    console.log('ok');
+    const imgs = this.sliderImgs;
+    console.log(imgs);
+  }
+
+  async addSlider() {
+    await this.draw();
+    this.prevBtn.addEventListener('click', this.slideImgs);
+    this.nextBtn.addEventListener('click', this.slideImgs);
   }
 }

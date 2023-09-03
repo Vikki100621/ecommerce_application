@@ -12,9 +12,22 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 300px;
+    margin: 0 auto;
   }
+}
+
+.slider {
+  display: flex;
+  align-items: center;
 
   &__img-wrapper {
+    max-width: 220px;
+    overflow: hidden;
+  }
+
+  &__images {
+    position: relative;
     display: flex;
     gap: 20px;
     justify-content: space-evenly;
@@ -29,6 +42,6 @@
 
   &__img {
     object-fit: contain;
-    max-width: 200px;
+    min-width: 200px;
   }
 }

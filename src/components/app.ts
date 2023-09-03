@@ -395,7 +395,8 @@ export default class App {
     if (id) {
       this.clearMain();
       const productPage = new ProductPage(id);
-      productPage.draw();
+      // productPage.draw();
+      productPage.addSlider();
     }
   }
 
