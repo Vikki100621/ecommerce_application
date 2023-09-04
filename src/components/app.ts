@@ -347,7 +347,7 @@ export default class App {
     }
   }
 
-  async showProductPage() {
+  async showProductsPage() {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('product__section');
@@ -389,6 +389,11 @@ export default class App {
     }
 
     this.main.appendChild(section);
+  }
+
+  showProductPage(){
+    this.clearMain();
+    console.log('здесь будет один продукт');
   }
 
   // здесь будет отрисовываться инфо о доставке
