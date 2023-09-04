@@ -58,19 +58,19 @@
 }
 
 .category__jewellery {
-  background-image: url("../../img/jewellery.jpg");
+  background-image: url('../../img/jewellery.jpg');
 }
 
 .category__painting {
-  background-image: url("../../img/pictiure.jpg");
+  background-image: url('../../img/pictiure.jpg');
 }
 
 .category__dishes {
-  background-image: url("../../img/dishes.jpg");
+  background-image: url('../../img/dishes.jpg');
 }
 
 .category__allproducts {
-  background-image: url("../../img/allprod.png");
+  background-image: url('../../img/allprod.png');
 }
 
 .product__cart {
@@ -99,9 +99,9 @@
   flex-direction: column;
   row-gap: 30px;
 }
-.filters__container input[type="checkbox"] {
+.filters__container input[type='checkbox'] {
   border: 2px #492f2f solid;
 }
-.filters__container input[type="checkbox"]:checked {
+.filters__container input[type='checkbox']:checked {
   background-color: #498334;
 }

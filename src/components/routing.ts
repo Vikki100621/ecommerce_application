@@ -138,7 +138,7 @@ export default class Routing {
       if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
         window.location.hash = '/login';
       } else {
-        window.location.hash = '/';
+        window.location.hash = '/user';
       }
     } else {
       const selectedRoute = this.routes[index].path;

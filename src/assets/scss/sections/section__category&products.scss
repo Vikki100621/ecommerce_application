@@ -90,11 +90,11 @@
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     border: 2px #492f2f solid;
   }
-  
-  input[type="checkbox"]:checked {
+
+  input[type='checkbox']:checked {
     background-color: #498334;
   }
 }
