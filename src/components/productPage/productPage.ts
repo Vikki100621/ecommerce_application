@@ -1,5 +1,6 @@
 import returnElement from '../common/returnElem';
 import IImage from './IImage';
+import Modal from './modal';
 import Slider from './slider';
 
 interface IProductType {
@@ -134,9 +135,18 @@ export default class ProductPage {
       }
     }
 
+    function showModalWindow(evt: MouseEvent) {
+      const node: HTMLImageElement = <HTMLImageElement>evt.target;
+      if (node.className === 'slider__img') {
+        const modal = new Modal(node);
+        modal.draw();
+      }
+    }
+
     function removeAllListeners() {
       slider.nextBtn.removeEventListener('click', fSlider);
       slider.prevBtn.removeEventListener('click', fSlider);
+      slider.sliderImgs.removeEventListener('click', showModalWindow);
       window.removeEventListener('beforeunload', removeAllListeners);
     }
 
@@ -155,6 +165,7 @@ export default class ProductPage {
 
     slider.nextBtn.addEventListener('click', fSlider);
     slider.prevBtn.addEventListener('click', fSlider);
+    slider.sliderImgs.addEventListener('click', showModalWindow);
     window.addEventListener('load', checkForAloneImg);
     window.addEventListener('beforeunload', removeAllListeners);
   }
