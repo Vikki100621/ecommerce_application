@@ -10,7 +10,8 @@ import Clock from '../assets/img/clock.png';
 import Categories from './category';
 import Products from './product';
 import Sorting from './sort';
-import ProductPage from './api/productPage/productPage';
+import ProductPage from './productPage/productPage';
+import { getProduct } from './api/api';
 
 export default class App {
   public header: HTMLElement;
@@ -394,9 +395,10 @@ export default class App {
   async showProductPage(id: string | null) {
     if (id) {
       this.clearMain();
-      const productPage = new ProductPage(id);
-      // productPage.draw();
-      productPage.addSlider();
+      const responseData = await getProduct(id);
+      const productData = responseData.data;
+      const productPage = new ProductPage(productData);
+      productPage.draw();
     }
   }
 
