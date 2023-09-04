@@ -399,6 +399,8 @@ export default class App {
       const productData = responseData.data;
       const productPage = new ProductPage(productData);
       productPage.draw();
+      productPage.addSlider();
+      productPage.addPrice();
     }
   }
 

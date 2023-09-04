@@ -7,13 +7,19 @@ interface IProductType {
   id: string;
 }
 
+interface IPriceValue {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+}
+
 interface IPrice {
   id: string;
-  value: {
-    type: string;
-    currencyCode: string;
-    centAmount: number;
-    fractionDigits: number;
+  value: IPriceValue;
+  discounted?: {
+    value: IPriceValue;
+    discount: IProductType;
   };
 }
 
@@ -92,8 +98,9 @@ export default class ProductPage {
     });
     this.productInfoWrapper.append(productDescription);
     this.productSectionWrapper.append(this.productInfoWrapper);
+  }
 
-    // add slider
+  addSlider() {
     const slider = new Slider(this.data.masterVariant.images, this.productInfoWrapper);
     slider.draw();
     const imgsNum = this.data.masterVariant.images.length - 1;
@@ -150,5 +157,23 @@ export default class ProductPage {
     slider.prevBtn.addEventListener('click', fSlider);
     window.addEventListener('load', checkForAloneImg);
     window.addEventListener('beforeunload', removeAllListeners);
+  }
+
+  addPrice() {
+    const pricesBlock = returnElement({ tag: 'div', classes: ['slider__prices'] });
+    const usualPriceBlock = returnElement({ tag: 'div', classes: ['slider__price-usual'] });
+    pricesBlock.append(usualPriceBlock);
+    this.productInfoWrapper.prepend(pricesBlock);
+    const prices = this.data.masterVariant.prices[0];
+    const usualPriceValue = (prices.value.centAmount / 100).toFixed(2);
+    if (prices.discounted) {
+      const discountPriceBlock = returnElement({ tag: 'div', classes: ['slider__price-sale'] });
+      pricesBlock.append(discountPriceBlock);
+      const discountedPriceValue = (prices.discounted.value.centAmount / 100).toFixed(2);
+      discountPriceBlock.textContent = `$ ${discountedPriceValue}`;
+      usualPriceBlock.classList.add('slider__price-usual_inactive');
+    }
+
+    usualPriceBlock.textContent = `$ ${usualPriceValue}`;
   }
 }
