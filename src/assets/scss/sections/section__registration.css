@@ -62,7 +62,7 @@
   font-size: 24px;
   text-align: center;
 }
-.fieldset [type=checkbox] {
+.fieldset [type='checkbox'] {
   justify-self: start;
 }
 
@@ -81,14 +81,14 @@
 .message_active::before {
   position: absolute;
   inset: -10px;
-  content: "";
+  content: '';
   border: 5px solid #cccccc;
 }
 
 .message_active::after {
   position: absolute;
   inset: -15px;
-  content: "";
+  content: '';
   border: 10px solid #ffffff;
 }
 
@@ -119,4 +119,4 @@
   .error {
     grid-column: 1;
   }
-}/*# sourceMappingURL=section__registration.css.map */
+} /*# sourceMappingURL=section__registration.css.map */
