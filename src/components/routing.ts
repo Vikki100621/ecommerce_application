@@ -51,7 +51,7 @@ export default class Routing {
       case '/user':
         return () => this.app.showUserPage();
       case `/catalog/${this.id}`:
-        return () => this.app.showProductPage();
+        return () => this.app.showProductPage(this.id);
       default:
         return () => this.app.showHomePage();
     }

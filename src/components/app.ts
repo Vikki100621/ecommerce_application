@@ -187,14 +187,12 @@ export default class App {
     const sort = this.sorting;
     const { sortBlock } = sort;
     const rightContent = sort.rightsideSortBlock;
-   
+
     rightContent?.appendChild(this.productContainer);
 
     productDivs.forEach((productDiv) => {
-  
-        this.productContainer.appendChild(productDiv);
-      })
-
+      this.productContainer.appendChild(productDiv);
+    });
 
     if (sortBlock) {
       section.appendChild(sortBlock);
@@ -202,7 +200,6 @@ export default class App {
 
     this.main.appendChild(section);
   }
-
 
   async showProductPage(id: string | null) {
     if (id) {
@@ -214,6 +211,7 @@ export default class App {
       productPage.addSlider();
       productPage.addPrice();
     }
+  }
 
   // здесь будет отрисовываться инфо о доставке
   showDeliveryPage() {
