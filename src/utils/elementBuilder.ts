@@ -42,7 +42,11 @@ export default class ElementBuilder {
   }
 
   setTextContent(text: string) {
-    this.element.textContent = text;
+    if (this.element instanceof HTMLInputElement) {
+      this.element.value = text;
+    } else {
+      this.element.textContent = text;
+    }
   }
 
   setCallback(event: string, callback: CallBackType) {

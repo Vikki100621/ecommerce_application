@@ -1,10 +1,12 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:400,300,500';
+
 .login__section {
   width: 300px;
   padding-top: 150px;
   padding-bottom: 20px;
   margin: 0 auto;
 }
+
 .login__form {
   position: relative;
   display: flex;
@@ -13,12 +15,14 @@
   width: fit-content;
   padding: 50px 0 0;
 }
+
 .login__title {
   padding-top: 50px;
   font-size: 32px;
   font-weight: 800;
   text-align: center;
 }
+
 .login__button {
   width: 100%;
   padding: 10px;
@@ -29,6 +33,7 @@
   border: none;
   border-radius: 5px;
 }
+
 .login__link {
   display: block;
   margin-top: 10px;
@@ -36,6 +41,7 @@
   color: #433636;
   cursor: pointer;
 }
+
 .login__link:hover {
   text-decoration: underline;
 }
@@ -64,13 +70,15 @@
   border-radius: 3px;
   outline: none;
 }
+
 .input__container input:focus {
-  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+  box-shadow: 0 0 5px 2px #a98d3b;
 }
 
 .input__container input.invalid {
   border: 2px solid #ff0000;
 }
+
 .input__container input.invalid:focus {
   box-shadow: 0 0 5px 2px #ff0000;
 }
@@ -126,4 +134,7 @@
 
 .invalid {
   border: 3px solid #ff0000;
-} /*# sourceMappingURL=section__login.css.map */
+} 
+
+/*# sourceMappingURL=section__login.css.map */
+

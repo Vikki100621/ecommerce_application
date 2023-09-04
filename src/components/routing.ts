@@ -20,11 +20,7 @@ export default class Routing {
       { path: '/register', template: 'register' },
       { path: '/user', template: 'user' },
       { path: '/logout', template: 'log' },
-      { path: '/catalog/dishes', template: 'dishes' },
-      { path: '/catalog/paintings', template: 'paintings' },
-      { path: '/catalog/jewellery', template: 'jewellery' },
-      { path: '/catalog/allproducts', template: 'jewellery' },
-      { path: `/catalog/allproducts/${this.id}`, template: 'product' },
+      { path: `/catalog/${this.id}`, template: 'product' },
     ];
 
     this.updateIdRoutes();
@@ -54,16 +50,8 @@ export default class Routing {
         return () => this.app.showRegisterPage();
       case '/user':
         return () => this.app.showUserPage();
-      case '/catalog/dishes':
-        return () => this.app.showProductsPage();
-      case '/catalog/paintings':
-        return () => this.app.showProductsPage();
-      case '/catalog/jewellery':
-        return () => this.app.showProductsPage();
-      case '/catalog/allproducts':
-        return () => this.app.showProductsPage();
-      case `/catalog/allproducts/${this.id}`:
-        return () => this.app.showProductPage(this.id);
+      case `/catalog/${this.id}`:
+        return () => this.app.showProductPage();
       default:
         return () => this.app.showHomePage();
     }
@@ -138,31 +126,11 @@ export default class Routing {
       if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
         window.location.hash = '/login';
       } else {
-        window.location.hash = '/';
+        window.location.hash = '/user';
       }
     } else {
       const selectedRoute = this.routes[index].path;
       window.location.hash = selectedRoute;
-    }
-  }
-
-  handleCategoryItemClick(event: Event) {
-    if (window.location.hash === '#/catalog') {
-      const clickedElement = event.target as HTMLElement;
-
-      if (clickedElement.classList.contains('category__dishes')) {
-        const selectedRoute = this.routes[9].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__painting')) {
-        const selectedRoute = this.routes[10].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__jewellery')) {
-        const selectedRoute = this.routes[11].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__allproducts')) {
-        const selectedRoute = this.routes[12].path;
-        window.location.hash = selectedRoute;
-      }
     }
   }
 
@@ -173,8 +141,7 @@ export default class Routing {
     if (parentElement && parentElement.hasAttribute('id')) {
       this.id = parentElement.getAttribute('id');
       this.updateId(parentElement.getAttribute('id'));
-      const selectedRoute = this.routes[13].path;
-
+      const selectedRoute = this.routes[9].path;
       window.location.hash = selectedRoute;
     }
   }

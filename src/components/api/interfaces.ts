@@ -57,6 +57,9 @@ export interface Product {
   name: {
     'en-US': string;
   };
+  description: {
+    'en-US': string;
+  };
   categories: Array<Category>;
   categoryId: string;
   masterVariant: {
