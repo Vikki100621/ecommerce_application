@@ -2,7 +2,6 @@ import Routing from './routing';
 import App from './app';
 import BurgerMenu from './burger__menu';
 
-// import { Product } from './api/interfaces';
 
 export default class Controller {
   private routing: Routing;
@@ -254,3 +253,4 @@ export default class Controller {
     this.allHandlers();
   }
 }
+

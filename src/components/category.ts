@@ -61,7 +61,6 @@
     try {
       const categoriesResponse = await getCategories();
       const categories: Array<Category> = categoriesResponse.data.results;
-      console.log(categories);
 
       categories.forEach((categoryData: Category) => {
         const categoryId = categoryData.id;

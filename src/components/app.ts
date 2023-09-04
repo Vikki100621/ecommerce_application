@@ -9,6 +9,8 @@ import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
 import Products from './product';
 import Sorting from './sort';
+import ProductPage from './productPage/productPage';
+import { getProduct } from './api/api';
 import UserView from './user';
 
 export default class App {
@@ -201,10 +203,17 @@ export default class App {
     this.main.appendChild(section);
   }
 
-  showProductPage() {
-    this.clearMain();
-  
-  }
+
+  async showProductPage(id: string | null) {
+    if (id) {
+      this.clearMain();
+      const responseData = await getProduct(id);
+      const productData = responseData.data;
+      const productPage = new ProductPage(productData);
+      productPage.draw();
+      productPage.addSlider();
+      productPage.addPrice();
+    }
 
   // здесь будет отрисовываться инфо о доставке
   showDeliveryPage() {
