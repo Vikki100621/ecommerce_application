@@ -36,9 +36,9 @@ export default class InputFieldBuilder extends ElementBuilder {
     this.element.append(this.labelElement, this.inputElement);
   }
 
-  setValue(value: string) {
-    this.inputElement.value = value;
-  }
+  // setValue(value: string) {
+  //   this.inputElement.value = value;
+  // }
 
   setTextContent(text: string) {
     this.labelElement.textContent = text;

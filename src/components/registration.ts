@@ -343,10 +343,10 @@ export default class Registration {
 
       let userAddresses: CustomerAddress[] = [];
       let versNum: number = 0;
-   
+
       updateCustomer(ID, body)
         .then((response) => {
-          const {data} = response;
+          const { data } = response;
           userAddresses = data.addresses;
           versNum = data.version;
         })
@@ -413,47 +413,47 @@ export default class Registration {
       let userId: string;
 
       postCustomer(email, pass, firstName, lastName)
-      .then((response) => {
-        userId = response.data.customer.id;
-        console.log('User data posted successfully!');
-      })
-      .catch((error) => {
-        console.error('An error occurred while posting customer:', error.message);
-        throw error;
-      })
-      .then(() => updateCustomerInfo(userId))
-      .then(() => {
-        console.log('User data updated successfully!');
-      })
-      .catch((error) => {
-        console.error('An error occurred while updating customer info:', error.message);
-        throw error; 
-      })
-      .then(() => loginCustomer(email, pass))
-      .then((response) => {
-        console.log(response);
-        console.log('User logged in successfully after update!');
-        displayMessage('User successfully created and logged in.');
-        clearForm();
-        localStorage.setItem('isLoggedIn', 'true');
-        setTimeout(() => {
-          hideMessage();
-          window.location.hash = '/';
-          const itemuser = document.querySelector('.item-client .login');
-          const itemlogout = document.querySelector('.item-client .register');
-          if (itemuser && itemlogout) {
-            const elUser = itemuser as HTMLElement;
-            elUser.textContent = 'Profile';
-            const elLogOut = itemlogout as HTMLElement;
-            elLogOut.textContent = 'LogOut';
-          }
-        }, 5000);
-      })
-      .catch((error) => {
-        console.error('An error occurred during login:', error.message);
-        displayMessage(error.message);
-        setTimeout(() => hideMessage(), 5000);
-      });
+        .then((response) => {
+          userId = response.data.customer.id;
+          console.log('User data posted successfully!');
+        })
+        .catch((error) => {
+          console.error('An error occurred while posting customer:', error.message);
+          throw error;
+        })
+        .then(() => updateCustomerInfo(userId))
+        .then(() => {
+          console.log('User data updated successfully!');
+        })
+        .catch((error) => {
+          console.error('An error occurred while updating customer info:', error.message);
+          throw error;
+        })
+        .then(() => loginCustomer(email, pass))
+        .then((response) => {
+          console.log(response);
+          console.log('User logged in successfully after update!');
+          displayMessage('User successfully created and logged in.');
+          clearForm();
+          localStorage.setItem('isLoggedIn', 'true');
+          setTimeout(() => {
+            hideMessage();
+            window.location.hash = '/';
+            const itemuser = document.querySelector('.item-client .login');
+            const itemlogout = document.querySelector('.item-client .register');
+            if (itemuser && itemlogout) {
+              const elUser = itemuser as HTMLElement;
+              elUser.textContent = 'Profile';
+              const elLogOut = itemlogout as HTMLElement;
+              elLogOut.textContent = 'LogOut';
+            }
+          }, 5000);
+        })
+        .catch((error) => {
+          console.error('An error occurred during login:', error.message);
+          displayMessage(error.message);
+          setTimeout(() => hideMessage(), 5000);
+        });
     }
 
     function checkFormInputs(evt: Event) {
