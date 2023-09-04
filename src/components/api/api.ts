@@ -141,3 +141,39 @@ export async function getProduct(id: string): Promise<AxiosResponse> {
   const response = await axios(config);
   return response;
 }
+
+export async function getSortedProducts(data: string): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/?sort=name.en-us ${data}`,
+    method: 'get',
+    params: {
+      limit: 500,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
+
+export async function getSortedProductsByPrice(data: string): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/sort=price&${data}`,
+    method: 'get',
+    params: {
+      limit: 500,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
