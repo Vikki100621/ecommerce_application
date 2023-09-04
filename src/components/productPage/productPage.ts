@@ -1,6 +1,6 @@
 import returnElement from '../common/returnElem';
 import IImage from './IImage';
-import Modal from './modal';
+import Modal from './modalWindow';
 import Slider from './slider';
 
 interface IProductType {
@@ -138,8 +138,16 @@ export default class ProductPage {
     function showModalWindow(evt: MouseEvent) {
       const node: HTMLImageElement = <HTMLImageElement>evt.target;
       if (node.className === 'slider__img') {
-        const modal = new Modal(node);
+        const newNode: HTMLImageElement = <HTMLImageElement>node.cloneNode(true);
+        const modal = new Modal(newNode);
+
+        // eslint-disable-next-line no-inner-declarations
+        function hideModalWindow() {
+          modal.hide();
+          modal.btnClose.removeEventListener('click', hideModalWindow);
+        }
         modal.draw();
+        modal.btnClose.addEventListener('click', hideModalWindow);
       }
     }
 
