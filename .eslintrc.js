@@ -20,11 +20,10 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
   ],
-  ignorePatterns: ['webpack.config.js','jest.config.js'],
+  ignorePatterns: ['webpack.config.js'],
   rules: {
     '@typescript-eslint/no-explicit-any': 2,
     'keyword-spacing': 'off',
     '@typescript-eslint/keyword-spacing': 'off',
   },
 };
-

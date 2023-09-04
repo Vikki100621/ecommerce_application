@@ -7,11 +7,6 @@ import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
-import Categories from './category';
-import Products from './product';
-import Sorting from './sort';
-import ProductPage from './productPage/productPage';
-import { getProduct } from './api/api';
 
 export default class App {
   public header: HTMLElement;
@@ -26,17 +21,11 @@ export default class App {
 
   private registration: Registration;
 
-  public sorting: Sorting;
-
-  public products: Products;
-
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
-    this.products = new Products();
-    this.sorting = new Sorting();
     this.registration = new Registration();
   }
 
@@ -289,7 +278,7 @@ export default class App {
         regBtn.classList.add('reg_btn');
         regBtn.textContent = 'REGISTER';
         if (localStorage.getItem('isLoggedIn') === 'true') {
-          regBtn.disabled = true;
+          regBtn.disabled = true; 
         } else {
           regBtn.onclick = () => {
             window.location.hash = '/register';
@@ -335,73 +324,11 @@ export default class App {
   }
 
   // здесь будет отрисовываться каталог
-  async showCatalogPage() {
+  showCatalogPage() {
     this.clearMain();
     const section = document.createElement('section');
-    section.classList.add('category__section');
-    const categoriesInstance = new Categories();
-    await categoriesInstance.getСategories();
-    const categoryBox = categoriesInstance.categoryContainer;
-    if (categoryBox) {
-      section.appendChild(categoryBox);
-      this.main.appendChild(section);
-    }
-  }
-
-  async showProductsPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('product__section');
-
-    const productsInstance = this.products;
-    const productDivs = await productsInstance.createProducts();
-    const sort = this.sorting;
-    const { sortBlock } = sort;
-    const rightContent = sort.rightsideSortBlock;
-
-    const currentRoute = window.location.hash;
-    const productContainer = document.createElement('div');
-    productContainer.classList.add('product__container');
-
-    let categoryId = '';
-    if (currentRoute === '#/catalog/dishes') {
-      categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
-    } else if (currentRoute === '#/catalog/paintings') {
-      categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
-    } else if (currentRoute === '#/catalog/jewellery') {
-      categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
-    } else if (currentRoute === '#/catalog/allproducts') {
-      productDivs.forEach((productDiv) => {
-        productContainer.appendChild(productDiv);
-      });
-    }
-
-    productDivs.forEach((productDiv) => {
-      const productCategoryId = productDiv.getAttribute('data-category');
-      if (productCategoryId === categoryId) {
-        productContainer.appendChild(productDiv);
-      }
-    });
-
-    rightContent?.appendChild(productContainer);
-
-    if (sortBlock) {
-      section.appendChild(sortBlock);
-    }
-
+    section.innerText = 'Not completed yet';
     this.main.appendChild(section);
-  }
-
-  async showProductPage(id: string | null) {
-    if (id) {
-      this.clearMain();
-      const responseData = await getProduct(id);
-      const productData = responseData.data;
-      const productPage = new ProductPage(productData);
-      productPage.draw();
-      productPage.addSlider();
-      productPage.addPrice();
-    }
   }
 
   // здесь будет отрисовываться инфо о доставке
