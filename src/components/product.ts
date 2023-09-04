@@ -52,15 +52,17 @@ export default class Products {
         const price = document.createElement('p');
 
         const priseValue = productData.masterVariant.prices[0].value.centAmount;
-        price.textContent = `${priseValue}$`;
+        const formattedNumber = (priseValue / 100).toString();
+        price.textContent = `${formattedNumber}$`;
         priceBlock.appendChild(price);
 
         const discountedPrice = productData.masterVariant.prices[0].discounted?.value.centAmount;
         if (discountedPrice) {
+          const formateddiscountedPrice = (discountedPrice / 100).toString();
           const discountedPriceElement = document.createElement('p');
-          discountedPriceElement.classList.add('discounted');
+          discountedPriceElement.classList.add('discounted__price');
           price.classList.add('previous__price');
-          discountedPriceElement.textContent = `${discountedPrice}$`;
+          discountedPriceElement.textContent = `${formateddiscountedPrice}$`;
           priceBlock.appendChild(discountedPriceElement);
         }
 

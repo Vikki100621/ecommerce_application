@@ -100,7 +100,7 @@
 .product__cart .previous__price {
   text-decoration: line-through;
 }
-.product__cart .discounted {
+.product__cart .discounted__price {
   font-weight: 700;
   color: #f01616;
 }

@@ -30,7 +30,6 @@ export default class App {
 
   public productContainer: HTMLElement;
 
-
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
@@ -202,53 +201,62 @@ export default class App {
     const rightContent = sort.rightsideSortBlock;
     const leftContent = sort.leftsideSortBlock;
 
-      rightContent?.appendChild(this.productContainer);
+    rightContent?.appendChild(this.productContainer);
 
-      const currentRoute = window.location.hash;
+    const currentRoute = window.location.hash;
 
-     if (!currentRoute.includes('allproducts')) {
-        const dropdown = leftContent?.querySelector('.category__dropdown');
-        if (dropdown) leftContent?.removeChild(dropdown);
-      }
-      
-      let categoryId = '';
+    let categoryId = '';
 
-      if (currentRoute.includes('dishes')) {
-        categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
-      } 
-      
-      if (currentRoute.includes('paintings')) {
-        categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
-      }
-      
-      if (currentRoute.includes('jewellery')) {
-        categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
-      }
-
-      if(currentRoute.includes('coins')) {
-        categoryId = '9a31e44b-6f15-4f3c-a633-0d4ebc2ae444';
-      }
-
-      productDivs.forEach((productDiv) => {
-        const productCategoryId = productDiv.getAttribute('data-category');
-        if (productCategoryId === categoryId) {
-          this.productContainer.appendChild(productDiv);
-        }
-      });
-  
-      if (currentRoute.includes('/allproducts')) {
-        productDivs.forEach((productDiv) => {
-          this.productContainer?.appendChild(productDiv);
-        });
-      }
-
-      if (sortBlock) {
-        section.appendChild(sortBlock);
-      }
-
-      this.main.appendChild(section) 
+    if (currentRoute.includes('dishes')) {
+      categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
+      this.sorting.selectedCategory = 'dishes';
+      this.sorting.createFilters('dishes');
     }
-  
+
+    if (currentRoute.includes('paintings')) {
+      categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
+      if (!leftContent?.querySelector('.f') )
+      this.sorting.selectedCategory = 'paintings';
+      this.sorting.createFilters('paintings');
+    }
+
+    if (currentRoute.includes('jewellery')) {
+      categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
+      this.sorting.selectedCategory = 'jewellery';
+      this.sorting.createFilters('jewellery');
+    }
+
+    if (currentRoute.includes('coins')) {
+      categoryId = '9a31e44b-6f15-4f3c-a633-0d4ebc2ae444';
+      this.sorting.selectedCategory = 'coins';
+      this.sorting.createFilters('coins');
+
+    }
+
+    productDivs.forEach((productDiv) => {
+      const productCategoryId = productDiv.getAttribute('data-category');
+      if (productCategoryId === categoryId) {
+        this.productContainer.appendChild(productDiv);
+      }
+    });
+
+    if (currentRoute.includes('allproducts')) {
+      productDivs.forEach((productDiv) => {
+        this.sorting.selectedCategory = 'all products';
+        this.sorting.createFilters('all products');
+        this.sorting.createCategoryDropdown();
+        this.productContainer?.appendChild(productDiv);
+      });
+    }
+
+ 
+    if (sortBlock) {
+      section.appendChild(sortBlock);
+    }
+
+    this.main.appendChild(section);
+  }
+
   showProductPage() {
     this.clearMain();
     console.log('здесь будет один продукт');
