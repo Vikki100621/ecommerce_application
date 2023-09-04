@@ -1,16 +1,14 @@
-
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { CustomerUpdateBody } from './interfaces';
 
-const CTP_PROJECT_KEY='rs-school-ecommerce-application'
-const CTP_CLIENT_SECRET='xnIExDv_L553zLUH71kjVzANZ_7bfwyn'
-const CTP_CLIENT_ID='n6NhHNp-SoFneLzkbs6qXWuu'
-const CTP_AUTH_URL='https://auth.europe-west1.gcp.commercetools.com'
-const CTP_API_URL='https://api.europe-west1.gcp.commercetools.com'
-const CTP_SCOPES='manage_project:rs-school-ecommerce-application'
+const CTP_PROJECT_KEY = 'rs-school-ecommerce-application';
+const CTP_CLIENT_SECRET = 'xnIExDv_L553zLUH71kjVzANZ_7bfwyn';
+const CTP_CLIENT_ID = 'n6NhHNp-SoFneLzkbs6qXWuu';
+const CTP_AUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
+const CTP_API_URL = 'https://api.europe-west1.gcp.commercetools.com';
+const CTP_SCOPES = 'manage_project:rs-school-ecommerce-application';
 
 export async function getRegularToken(): Promise<string> {
-
   const config: AxiosRequestConfig = {
     url: `${CTP_AUTH_URL}/oauth/token`,
     method: 'post',
@@ -65,15 +63,11 @@ export async function postCustomer(
 
 export async function updateCustomer(id: string, actions: CustomerUpdateBody): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
-  const response = await axios.post(
-    `${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`,
-      actions,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, actions, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response;
 }
 
@@ -92,6 +86,8 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   );
   return response;
 }
+
+
 
 export async function getProducts(): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();

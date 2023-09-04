@@ -4,11 +4,9 @@ import { Product } from './api/interfaces';
 export default class Products {
   public productDivs: HTMLDivElement[];
 
-  public data: Array<Product> 
+  public data: Array<Product>;
 
- public filteredProductdivs: HTMLDivElement[];
-
-
+  public filteredProductdivs: HTMLDivElement[];
 
   constructor() {
     this.productDivs = [];
@@ -21,8 +19,8 @@ export default class Products {
       const productsResponse = await getProducts();
       const products: Array<Product> = productsResponse.data.results;
       this.data = products;
-      console.log(this.data)
-    
+      console.log(this.data);
+
       products.forEach((productData: Product) => {
         const categoryId = productData.categories[0].id;
         const productId = productData.id;

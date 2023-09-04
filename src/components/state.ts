@@ -1,7 +1,9 @@
-import { Customer } from "../utils/interface";
+import { Customer } from '../utils/interface';
 
 export default class State {
-  public static customer: Customer | null = null;
+  private static customer: Customer | null = null;
+
+  private static password: string | null = null;
 
   public static getCustomer(): Customer | null {
     return State.customer;
@@ -11,11 +13,15 @@ export default class State {
     State.customer = data;
   }
 
-  public static getFN() {
-    return State.customer?.firstName ?? 'МАРИНА'
-  }
-
   public static clearCustomer(): void {
     State.customer = null;
+  }
+
+  public static setPassword(data: string) {
+    State.password = data;
+  }
+
+  public static getPassword() {
+    return State.password;
   }
 }

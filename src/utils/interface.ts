@@ -18,13 +18,12 @@ export interface ParametrsWithAttributes extends ElementParametrs {
   attributes?: TagsAttributes;
 }
 
-
 export interface Addresses {
-  id: string,
-  streetName: string,
-  postalCode: string,
-  city: string,
-  country: string,
+  id: string;
+  streetName: string;
+  postalCode: string;
+  city: string;
+  country: string;
 }
 export interface Customer {
   id: string;
@@ -54,5 +53,4 @@ export interface Customer {
   defaultShippingAddressId: string;
   lastMessageSequenceNumber: number;
   versionModifiedAt: string;
-
 }

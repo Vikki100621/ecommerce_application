@@ -45,7 +45,6 @@ export default class Sorting {
   }
 
   private createSearchInput() {
-
     this.searchInput.type = 'text';
     this.searchInput.placeholder = 'I search...';
     this.searchInput.classList.add('search__input');
@@ -126,7 +125,6 @@ export default class Sorting {
       filtersContainer.appendChild(typeFilter);
       filtersContainer.appendChild(materialFilter);
     } else {
-
       const allMaterials = [
         'Venetian glass',
         'Porcelain',
@@ -181,7 +179,7 @@ export default class Sorting {
     options.forEach((optionText) => {
       const checkboxContainer = document.createElement('label');
       const checkbox = document.createElement('input');
-      checkbox.classList.add('checkbox')
+      checkbox.classList.add('checkbox');
       checkbox.type = 'checkbox';
       checkbox.value = optionText;
       checkboxContainer.appendChild(checkbox);

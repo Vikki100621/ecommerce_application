@@ -1,12 +1,33 @@
+button {
+  font-size: 18px;
+  font-weight: bold;
+  color: #8b4513;
+  text-shadow: 1px 1px #ffffff;
+  cursor: pointer;
+  background-color: #f5deb3;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .user__section {
-  width: 300px;
   padding-top: 150px;
   padding-bottom: 20px;
   margin: 0 auto;
 }
 
+.password__infoBlock {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 10px;
+}
+
 .profile__container,
-.addresses__container {
+.addresses__container,
+.password__container {
+  width: 600px;
+  margin: 0 auto 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -22,14 +43,14 @@
           justify-content: center;
   padding-top: 20px;
   padding-bottom: 20px;
-  margin-bottom: 20px;
   background-color: #f5e6d7;
   border: 2px solid #d7b899;
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
           box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .profile__header,
-.addresses__header {
+.addresses__header,
+.password__header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -45,18 +66,18 @@
 
 .profile__infoBlock {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(3, auto);
   grid-gap: 10px;
 }
-.profile__firstName, .profile__lastName, .profile__dateOfBirth {
+.profile__firstName, .profile__lastName, .profile__dateOfBirth, .profile__email {
   font-weight: bold;
   color: #d7b899;
 }
-.profile__firstNameValue, .profile__lastNameValue, .profile__dateOfBirthValue {
+.profile__firstNameValue, .profile__lastNameValue, .profile__dateOfBirthValue, .profile__emailValue {
   color: #5c3c00;
 }
 
-.address__wrapper {
+.addresses__dataBlock {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: repeat(2, 1fr);
@@ -68,7 +89,51 @@
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
           box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
+.addresses__infoHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
 
 .default {
   border: 2px solid #2d03e9;
+}
+
+.profile__infoBlock .readonly,
+.password__infoBlock .readonly {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.profile__infoBlock .editMode {
+  border: 2px solid #171616;
+  border-radius: 3px;
+  outline: #171616;
+}
+.profile__infoBlock .editMode:focus {
+  -webkit-box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+          box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+}
+
+.buttonsContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.profile__infoBlock input.invalid {
+  border: 2px solid #ff0000;
+}
+
+.profile__infoBlock input.invalid:focus {
+  -webkit-box-shadow: 0 0 5px 2px #ff0000;
+          box-shadow: 0 0 5px 2px #ff0000;
 }
