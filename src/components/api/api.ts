@@ -1,3 +1,6 @@
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { CustomerUpdateBody } from './interfaces';
 
@@ -122,7 +125,6 @@ export async function getProducts(): Promise<AxiosResponse> {
   const response = await axios(config);
   return response;
 }
-
 
 export async function getProduct(id: string): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();

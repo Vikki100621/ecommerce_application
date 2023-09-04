@@ -142,7 +142,6 @@ export default class Routing {
       this.id = parentElement.getAttribute('id');
       this.updateId(parentElement.getAttribute('id'));
       const selectedRoute = this.routes[9].path;
-
       window.location.hash = selectedRoute;
     }
   }

@@ -70,11 +70,10 @@
 
 .category__allproducts {
   background-image: url('../../img/allprod.png');
-}
 
 .category__coins {
   background-image: url("../../img/coins.jpg");
-}
+
 
 .product__cart {
   display: flex;
@@ -115,6 +114,13 @@
   row-gap: 30px;
 }
 
+.filters__container input[type='checkbox'] {
+  border: 2px #492f2f solid;
+}
+.filters__container input[type='checkbox']:checked {
+  background-color: #498334;
+}
+
 .filters__container input[type=checkbox] {
   border: 2px #492f2f solid;
 }
@@ -128,3 +134,4 @@
   background-color: #498334;
 }
 /*# sourceMappingURL=section__category&products.css.map */
+
