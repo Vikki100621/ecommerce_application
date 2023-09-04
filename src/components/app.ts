@@ -7,7 +7,6 @@ import NewCollection from '../assets/img/new-collection.jpg';
 import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
-import Categories from './category';
 import Products from './product';
 import Sorting from './sort';
 
@@ -175,21 +174,7 @@ export default class App {
     this.main.appendChild(section);
   }
 
-  // здесь будет отрисовываться каталог
   async showCatalogPage() {
-    this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('category__section');
-    const categoriesInstance = new Categories();
-    await categoriesInstance.getСategories();
-    const categoryBox = categoriesInstance.categoryContainer;
-    if (categoryBox) {
-      section.appendChild(categoryBox);
-      if (this.main) this.main.appendChild(section);
-    }
-  }
-
-  async showProductsPage() {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('product__section');
@@ -199,57 +184,15 @@ export default class App {
     const sort = this.sorting;
     const { sortBlock } = sort;
     const rightContent = sort.rightsideSortBlock;
-    const leftContent = sort.leftsideSortBlock;
-
+   
     rightContent?.appendChild(this.productContainer);
 
-    const currentRoute = window.location.hash;
-
-    let categoryId = '';
-
-    if (currentRoute.includes('dishes')) {
-      categoryId = 'eb65d601-d77d-48fa-a7fa-7f5ef0d39454';
-      this.sorting.selectedCategory = 'dishes';
-      this.sorting.createFilters('dishes');
-    }
-
-    if (currentRoute.includes('paintings')) {
-      categoryId = 'b92cb37a-12a1-4fae-8c47-496f4540603c';
-      if (!leftContent?.querySelector('.f') )
-      this.sorting.selectedCategory = 'paintings';
-      this.sorting.createFilters('paintings');
-    }
-
-    if (currentRoute.includes('jewellery')) {
-      categoryId = '12b137e5-341a-4d73-8fb5-ae453c745db4';
-      this.sorting.selectedCategory = 'jewellery';
-      this.sorting.createFilters('jewellery');
-    }
-
-    if (currentRoute.includes('coins')) {
-      categoryId = '9a31e44b-6f15-4f3c-a633-0d4ebc2ae444';
-      this.sorting.selectedCategory = 'coins';
-      this.sorting.createFilters('coins');
-
-    }
-
     productDivs.forEach((productDiv) => {
-      const productCategoryId = productDiv.getAttribute('data-category');
-      if (productCategoryId === categoryId) {
+  
         this.productContainer.appendChild(productDiv);
-      }
-    });
+      })
 
-    if (currentRoute.includes('allproducts')) {
-      productDivs.forEach((productDiv) => {
-        this.sorting.selectedCategory = 'all products';
-        this.sorting.createFilters('all products');
-        this.sorting.createCategoryDropdown();
-        this.productContainer?.appendChild(productDiv);
-      });
-    }
 
- 
     if (sortBlock) {
       section.appendChild(sortBlock);
     }
@@ -259,7 +202,7 @@ export default class App {
 
   showProductPage() {
     this.clearMain();
-    console.log('здесь будет один продукт');
+  
   }
 
   // здесь будет отрисовываться инфо о доставке

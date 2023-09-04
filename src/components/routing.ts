@@ -20,12 +20,7 @@ export default class Routing {
       { path: '/register', template: 'register' },
       { path: '/user', template: 'user' },
       { path: '/logout', template: 'log' },
-      { path: '/catalog/dishes', template: 'dishes' },
-      { path: '/catalog/paintings', template: 'paintings' },
-      { path: '/catalog/jewellery', template: 'jewellery' },
-      { path: '/catalog/coins', template: 'coins' },
-      { path: '/catalog/allproducts', template: 'allproducts' },
-      { path: `/catalog/allproducts/${this.id}`, template: 'product' },
+      { path: `/catalog/${this.id}`, template: 'product' },
     ];
 
     this.updateIdRoutes();
@@ -55,16 +50,7 @@ export default class Routing {
         return () => this.app.showRegisterPage();
       case '/user':
         return () => this.app.showUserPage();
-      case '/catalog/dishes':
-      case '/catalog/paintings':
-      case '/catalog/jewellery':
-      case '/catalog/coins':
-      case '/catalog/allproducts':
-        return () => {
-          this.app.productContainer.innerHTML = '';
-          this.app.showProductsPage();
-        };
-      case `/catalog/allproducts/${this.id}`:
+      case `/catalog/${this.id}`:
         return () => this.app.showProductPage();
       default:
         return () => this.app.showHomePage();
@@ -148,29 +134,6 @@ export default class Routing {
     }
   }
 
-  handleCategoryItemClick(event: Event) {
-    if (window.location.hash === '#/catalog') {
-      const clickedElement = event.target as HTMLElement;
-
-      if (clickedElement.classList.contains('category__dishes')) {
-        const selectedRoute = this.routes[9].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__painting')) {
-        const selectedRoute = this.routes[10].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__jewellery')) {
-        const selectedRoute = this.routes[11].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__coins')) {
-        const selectedRoute = this.routes[12].path;
-        window.location.hash = selectedRoute;
-      } else if (clickedElement.classList.contains('category__allproducts')) {
-        const selectedRoute = this.routes[13].path;
-        window.location.hash = selectedRoute;
-      }
-    }
-  }
-
   handleProductItemClick(event: Event) {
     const clickedElement = event.target as HTMLElement;
 
@@ -178,7 +141,7 @@ export default class Routing {
     if (parentElement && parentElement.hasAttribute('id')) {
       this.id = parentElement.getAttribute('id');
       this.updateId(parentElement.getAttribute('id'));
-      const selectedRoute = this.routes[14].path;
+      const selectedRoute = this.routes[9].path;
 
       window.location.hash = selectedRoute;
     }

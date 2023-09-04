@@ -15,7 +15,6 @@ export default class Sorting {
 
   public searchInput: HTMLInputElement;
 
-
   constructor() {
     this.sortBlock = document.createElement('div');
     this.categoryDropdown = document.createElement('select');
@@ -24,6 +23,8 @@ export default class Sorting {
     this.searchInput = document.createElement('input');
     this.selectedCategory = 'all products';
     this.setupSortBlock();
+    this.createCategoryDropdown();
+    this.createFilters('all products');
     this.createPriceAndNameSortDropdowns();
   }
 
@@ -36,11 +37,9 @@ export default class Sorting {
     if (this.leftsideSortBlock) this.sortBlock?.appendChild(this.leftsideSortBlock);
     if (this.rightsideSortBlock) this.sortBlock?.appendChild(this.rightsideSortBlock);
     this.createSearchInput();
-
   }
 
   private createSearchInput() {
-
     this.searchInput.type = 'text';
     this.searchInput.placeholder = 'I search...';
     this.searchInput.classList.add('search__input');
@@ -49,7 +48,6 @@ export default class Sorting {
   }
 
   public createCategoryDropdown() {
-
     const categories = ['all products', 'dishes', 'paintings', 'jewellery', 'coins'];
     categories.forEach((category) => {
       const option = document.createElement('option');
@@ -66,10 +64,10 @@ export default class Sorting {
     if (existingFiltersContainer) {
       existingFiltersContainer.remove();
     }
-   
+
     const filtersContainer = document.createElement('div');
     filtersContainer.classList.add('filters__container');
-    
+
     if (selectedCategory === 'dishes') {
       const materialFilter = this.createDropdownWithCheckboxes('Material', [
         'Venetian glass',
@@ -77,17 +75,11 @@ export default class Sorting {
         'Crystal',
         'Silver',
       ]);
-      const typeFilter = this.createDropdownWithCheckboxes('Type', [
-        'Plate',
-        'Teapot',
-        'Bowl',
-        'Vase',
-        'Cup'
-      ]);
+      const typeFilter = this.createDropdownWithCheckboxes('Type', ['Plate', 'Teapot', 'Cup']);
 
       filtersContainer.appendChild(materialFilter);
       filtersContainer.appendChild(typeFilter);
-    } else if (selectedCategory === 'paintings')   {
+    } else if (selectedCategory === 'paintings') {
       const originFilter = this.createDropdownWithCheckboxes('Origin', ['Asia', 'Europe', 'America']);
       const genreFilter = this.createDropdownWithCheckboxes('Genre', [
         'Portrait',
@@ -101,14 +93,9 @@ export default class Sorting {
       filtersContainer.appendChild(originFilter);
       filtersContainer.appendChild(genreFilter);
     } else if (selectedCategory === 'jewellery') {
-      const typeFilter = this.createDropdownWithCheckboxes('Type', [
-        'Ring',
-        'Necklace',
-        'Earrings'
-      ]);
+      const typeFilter = this.createDropdownWithCheckboxes('Type', ['Ring', 'Necklace', 'Earrings']);
       const materialFilter = this.createDropdownWithCheckboxes('Material', [
         'Yellow gold',
-        'White gold',
         'Diamond',
         'Topaz',
         'Amethyst',
@@ -119,48 +106,36 @@ export default class Sorting {
       filtersContainer.appendChild(materialFilter);
     } else if (selectedCategory === 'coins') {
       const originFilter = this.createDropdownWithCheckboxes('Origin', ['Asia', 'Europe', 'America']);
-      const materialFilter = this.createDropdownWithCheckboxes('Material', [
-        'Yellow gold',
-        'Silver',
-      ]);
+      const materialFilter = this.createDropdownWithCheckboxes('Material', ['Yellow gold', 'Silver']);
       filtersContainer.appendChild(originFilter);
       filtersContainer.appendChild(materialFilter);
     } else {
       const allMaterials = [
-        'Venetian glass',
-        'Porcelain',
-        'Crystal',
-        'Silver',
         'Yellow gold',
-        'White gold',
-        'Red gold',
+        'Silver',
         'Diamond',
         'Topaz',
         'Amethyst',
         'Zircon',
+        'Venetian glass',
+        'Porcelain',
+        'Crystal',
       ];
-      const allTypes = [
-        'Plate',
-        'Teapot',
-        'Bowl',
-        'Vase',
-        'Cup',
-        'Cutlery',
-        'Portrait',
-        'Landscape',
-        'Seascape',
-        'Caricature',
-        'Still life', 
-        'Abstraction',
-        'Ring',
-        'Necklace',
-      ];
+      const allTypes = ['Plate', 'Teapot', 'Cup', 'Ring', 'Necklace', 'Earrings'];
+      const genreFilter = ['Portrait', 'Landscape', 'Seascape', 'Caricature', 'Still life', 'Abstraction'];
+      const OriginFilters = ['Asia', 'Europe', 'America'];
+
       const materialFilter = this.createDropdownWithCheckboxes('Material', allMaterials);
       const typeFilter = this.createDropdownWithCheckboxes('Type', allTypes);
+      const gerneFiltersType = this.createDropdownWithCheckboxes('Gerne', genreFilter);
+      const originTypes = this.createDropdownWithCheckboxes('Origin', OriginFilters);
+
+      filtersContainer.appendChild(gerneFiltersType);
+      filtersContainer.appendChild(originTypes);
       filtersContainer.appendChild(materialFilter);
       filtersContainer.appendChild(typeFilter);
     }
- 
+
     this.leftsideSortBlock?.appendChild(filtersContainer);
   }
 
@@ -174,7 +149,7 @@ export default class Sorting {
     options.forEach((optionText) => {
       const checkboxContainer = document.createElement('label');
       const checkbox = document.createElement('input');
-      checkbox.classList.add('checkbox')
+      checkbox.classList.add('checkbox');
       checkbox.type = 'checkbox';
       checkbox.value = optionText;
       checkboxContainer.appendChild(checkbox);
@@ -189,7 +164,7 @@ export default class Sorting {
   private createSortDropdown(options: string[], label: string, container: HTMLDivElement) {
     const sortLabel = document.createElement('label');
     sortLabel.textContent = label;
-    sortLabel.classList.add('sort__label')
+    sortLabel.classList.add('sort__label');
 
     const sortDropdown = document.createElement('select');
     sortDropdown.classList.add('sort__dropdown');
@@ -211,8 +186,8 @@ export default class Sorting {
   }
 
   private createPriceAndNameSortDropdowns() {
-    const priceSortOptions = ['Sort','Price: Low to High', 'Price: High to Low'];
-    const nameSortOptions = ['Sort','Name: A to Z', 'Name: Z to A'];
+    const priceSortOptions = ['Sort', 'Price: Low to High', 'Price: High to Low'];
+    const nameSortOptions = ['Sort', 'Name: A to Z', 'Name: Z to A'];
     const sortBlock = document.createElement('div');
     sortBlock.classList.add('sort__block');
     this.createSortDropdown(priceSortOptions, 'Price:', sortBlock);
