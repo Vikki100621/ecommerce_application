@@ -76,8 +76,8 @@ export function getClientData(event: Event) {
 
 export function enableEditMode(event: Event) {
   const editBtn = event.target as HTMLElement;
-  console.log(editBtn)
-  console.log(editBtn.dataset.info)
+  console.log(editBtn);
+  console.log(editBtn.dataset.info);
   const buttonsContainer = document.querySelector('.buttonsContainer');
 
   const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
@@ -135,7 +135,7 @@ export function saveChanges() {
     if (firstName instanceof HTMLInputElement) customer.firstName = firstName.value;
     if (lastName instanceof HTMLInputElement) customer.lastName = lastName.value;
     if (date instanceof HTMLInputElement) customer.dateOfBirth = date.value;
-    console.log(customer.version)
+    console.log(customer.version);
     updateCustomer(customer.id, {
       version: Number(customer.version),
       actions: [
@@ -143,9 +143,8 @@ export function saveChanges() {
         { action: 'setLastName', lastName: customer.lastName },
         { action: 'setDateOfBirth', dateOfBirth: customer.dateOfBirth },
       ],
-    })
-    customer.version += 1
-
+    });
+    customer.version += 1;
   }
 
   if (editBtn && buttonsContainer) {

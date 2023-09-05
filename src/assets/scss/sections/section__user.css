@@ -8,7 +8,7 @@ button {
   border: 1px solid #830303;
   border-radius: 5px;
   -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .user__section {
@@ -24,7 +24,7 @@ button {
 }
 .editMode:focus {
   -webkit-box-shadow: 0 0 5px 2px rgb(169, 141, 59);
-          box-shadow: 0 0 5px 2px rgb(169, 141, 59);
+  box-shadow: 0 0 5px 2px rgb(169, 141, 59);
 }
 
 .readonly {
@@ -43,7 +43,7 @@ input.invalid {
 
 input.invalid:focus {
   -webkit-box-shadow: 0 0 5px 2px #ff0000;
-          box-shadow: 0 0 5px 2px #ff0000;
+  box-shadow: 0 0 5px 2px #ff0000;
 }
 
 .password__infoBlock {
@@ -60,14 +60,14 @@ input.invalid:focus {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   width: 600px;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -75,7 +75,7 @@ input.invalid:focus {
   background-color: #f5e6d7;
   border: 2px solid #d7b899;
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
-          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .profile__header,
 .addresses__header,
@@ -85,8 +85,8 @@ input.invalid:focus {
   display: flex;
   gap: 20px;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -105,11 +105,17 @@ input.invalid:focus {
   grid-template-columns: repeat(3, auto);
   grid-gap: 10px;
 }
-.profile__firstName, .profile__lastName, .profile__date, .profile__email {
+.profile__firstName,
+.profile__lastName,
+.profile__date,
+.profile__email {
   font-weight: bold;
   color: #d7b899;
 }
-.profile__firstNameValue, .profile__lastNameValue, .profile__dateValue, .profile__emailValue {
+.profile__firstNameValue,
+.profile__lastNameValue,
+.profile__dateValue,
+.profile__emailValue {
   color: #5c3c00;
 }
 
@@ -123,15 +129,15 @@ input.invalid:focus {
   border: 2px solid #d7b899;
   border-radius: 10px;
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
-          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .addresses__infoHeader {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .default {

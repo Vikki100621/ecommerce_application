@@ -33,7 +33,6 @@ const param = {
     classNames: ['addresses__initHeader'],
   },
 
-
   initTitle: {
     tag: 'div',
     classNames: ['addresses__initTitle'],
@@ -120,13 +119,29 @@ export default class UserAddressesView extends View {
           infoWrapper.getElement().classList.add('default');
         }
         const country = new ElementBuilder({ tag: 'div', textContent: 'Country' });
-        const countryValue = new ElementBuilder({ tag: 'input', classNames: ['readonly'], textContent: `${address.country}` });
+        const countryValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['readonly'],
+          textContent: `${address.country}`,
+        });
         const city = new ElementBuilder({ tag: 'div', textContent: 'City' });
-        const citytValue = new ElementBuilder({ tag: 'input', classNames: ['readonly'],  textContent: `${address.city}` });
+        const citytValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['readonly'],
+          textContent: `${address.city}`,
+        });
         const street = new ElementBuilder({ tag: 'div', textContent: 'Street' });
-        const streetValue = new ElementBuilder({ tag: 'input', classNames: ['readonly'],  textContent: `${address.streetName}` });
+        const streetValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['readonly'],
+          textContent: `${address.streetName}`,
+        });
         const postalCode = new ElementBuilder({ tag: 'div', textContent: 'Postal Code' });
-        const postalCodeValue = new ElementBuilder({ tag: 'input', classNames: ['readonly'],  textContent: `${address.postalCode}` });
+        const postalCodeValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['readonly'],
+          textContent: `${address.postalCode}`,
+        });
         infoWrapper.addInnerElement([
           country,
           countryValue,
