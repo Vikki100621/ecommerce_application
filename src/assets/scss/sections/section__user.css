@@ -54,11 +54,17 @@ button {
   grid-template-columns: repeat(3, auto);
   grid-gap: 10px;
 }
-.profile__firstName, .profile__lastName, .profile__dateOfBirth, .profile__email {
+.profile__firstName,
+.profile__lastName,
+.profile__dateOfBirth,
+.profile__email {
   font-weight: bold;
   color: #d7b899;
 }
-.profile__firstNameValue, .profile__lastNameValue, .profile__dateOfBirthValue, .profile__emailValue {
+.profile__firstNameValue,
+.profile__lastNameValue,
+.profile__dateOfBirthValue,
+.profile__emailValue {
   color: #5c3c00;
 }
 
@@ -112,4 +118,4 @@ button {
 
 .profile__infoBlock input.invalid:focus {
   box-shadow: 0 0 5px 2px #ff0000;
-}/*# sourceMappingURL=section__user.css.map */
+} /*# sourceMappingURL=section__user.css.map */

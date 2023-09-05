@@ -64,10 +64,9 @@ export default class Products {
           discountedPriceElement.textContent = `${formateddiscountedPrice}$`;
           priceBlock.appendChild(discountedPriceElement);
         }
-      
 
         productBox.appendChild(priceBlock);
-  const button = document.createElement('button');
+        const button = document.createElement('button');
         button.classList.add('product__button');
         button.textContent = 'View details';
         productBox.appendChild(button);

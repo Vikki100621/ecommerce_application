@@ -124,7 +124,7 @@
 
 @font-face {
   font-family: Lostar;
-  src: url("../fonts/Lostar/Lostar.ttf");
+  src: url('../fonts/Lostar/Lostar.ttf');
 }
 body {
   box-sizing: content-box;
@@ -181,7 +181,7 @@ body {
   display: flex;
   column-gap: 30px;
   align-items: center;
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 20px;
   font-weight: 700;
 }
@@ -206,7 +206,7 @@ body {
 }
 
 #main .img-background {
-  background-image: url("../img/background.jpg");
+  background-image: url('../img/background.jpg');
   background-position: bottom center;
   background-size: cover;
 }
@@ -264,4 +264,4 @@ body {
   .left-content {
     font-size: 35px;
   }
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

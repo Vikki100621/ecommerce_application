@@ -1,8 +1,8 @@
-import State from "../components/state";
-import { addEditAttribute, saveChanges, undoChanges } from "../utils/callBacks";
-import ElementBuilder from "../utils/elementBuilder";
-import {validatePassword } from "../utils/validation";
-import View from "../utils/view";
+import State from '../components/state';
+import { addEditAttribute, saveChanges, undoChanges } from '../utils/callBacks';
+import ElementBuilder from '../utils/elementBuilder';
+import { validatePassword } from '../utils/validation';
+import View from '../utils/view';
 
 const param = {
   titleDiv: {
@@ -32,7 +32,7 @@ const param = {
     event: 'click',
     callback: saveChanges,
   },
-   cancelParametrs: {
+  cancelParametrs: {
     tag: 'button',
     classNames: ['addresses__edit'],
     textContent: 'Cancel',
@@ -56,8 +56,8 @@ const param = {
     attributes: {
       id: 'password',
       type: 'password',
-      readonly: 'true'
-    }
+      readonly: 'true',
+    },
   },
   newPassword: {
     tag: 'div',
@@ -72,13 +72,16 @@ const param = {
     attributes: {
       id: 'newPassword',
       type: 'password',
-      readonly: 'true'
-    }
+      readonly: 'true',
+    },
   },
-  
 
-  passwordError: {tag: 'span', classNames: ['passwordError', 'errorSpan'], attributes: {id: 'passwordError'}},
-  newPasswordError: {tag: 'span', classNames: ['newPasswordError', 'errorSpan', 'hidden'], attributes: {id: 'newPasswordError'}}
+  passwordError: { tag: 'span', classNames: ['passwordError', 'errorSpan'], attributes: { id: 'passwordError' } },
+  newPasswordError: {
+    tag: 'span',
+    classNames: ['newPasswordError', 'errorSpan', 'hidden'],
+    attributes: { id: 'newPasswordError' },
+  },
 };
 export default class UserPasswordView extends View {
   constructor() {
@@ -87,7 +90,6 @@ export default class UserPasswordView extends View {
       classNames: ['password__container'],
     };
     super(parametrs);
-
 
     this.configureView();
   }
@@ -99,26 +101,24 @@ export default class UserPasswordView extends View {
     const buttonsContainer = new ElementBuilder(param.buttonsContainer);
     const save = new ElementBuilder(param.saveParametrs);
     const cancel = new ElementBuilder(param.cancelParametrs);
-    buttonsContainer.addInnerElement([save, cancel])
+    buttonsContainer.addInnerElement([save, cancel]);
     titleDiv.addInnerElement([title, edit, buttonsContainer]);
-
 
     const infoDiv = new ElementBuilder(param.infoDiv);
     const password = new ElementBuilder(param.password);
     const passwordValue = new ElementBuilder(param.passwordValue);
-    const passwordError = new ElementBuilder(param.passwordError)
+    const passwordError = new ElementBuilder(param.passwordError);
     const newPassword = new ElementBuilder(param.newPassword);
     const newPasswordValue = new ElementBuilder(param.newPasswordValue);
-    const newPasswordError = new ElementBuilder(param.newPasswordError)
+    const newPasswordError = new ElementBuilder(param.newPasswordError);
 
     const currentUser = State.getCustomer();
     if (currentUser) {
       passwordValue.setTextContent(currentUser.password);
-
     }
 
-    infoDiv.addInnerElement([password,passwordValue,passwordError, newPassword, newPasswordValue, newPasswordError]);
+    infoDiv.addInnerElement([password, passwordValue, passwordError, newPassword, newPasswordValue, newPasswordError]);
 
-    this.viewElement.addInnerElement([titleDiv, infoDiv])
- }
+    this.viewElement.addInnerElement([titleDiv, infoDiv]);
+  }
 }
