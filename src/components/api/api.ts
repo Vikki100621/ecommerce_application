@@ -87,8 +87,6 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   return response;
 }
 
-
-
 export async function getProducts(): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 

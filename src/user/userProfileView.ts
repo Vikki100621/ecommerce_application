@@ -1,47 +1,50 @@
 import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
-import { addEditAttribute, saveChanges, undoChanges } from '../utils/callBacks';
+import { enableEditMode, saveChanges, undoChanges } from '../utils/callBacks';
 import { checkAge, checkFirstName, checkLastName, validateEmail } from '../utils/validation';
 
 const param = {
-  titleDiv: {
+  header: {
     tag: 'div',
     classNames: ['profile__header'],
   },
-  titleParametrs: {
+  title: {
     tag: 'h3',
     classNames: ['profile__title'],
     textContent: 'Basic information',
   },
-  editParametrs: {
+  editButton: {
     tag: 'button',
-    classNames: ['profile__edit'],
+    classNames: ['profile__editButton'],
     textContent: '🖉 Edit',
     event: 'click',
-    callback: addEditAttribute,
+    callback: enableEditMode,
+    attributes: {
+      'data-info': 'infoWrapper',
+    },
   },
   buttonsContainer: {
     tag: 'div',
-    classNames: ['buttonsContainer', 'hidden'],
+    classNames: ['profile__buttonsContainer', 'hidden'],
   },
-  saveParametrs: {
+  saveButton: {
     tag: 'button',
-    classNames: ['saveButton'],
+    classNames: ['profile__saveButton'],
     textContent: 'Save',
     event: 'click',
     callback: saveChanges,
   },
-   cancelParametrs: {
+  cancelButton: {
     tag: 'button',
-    classNames: ['addresses__edit'],
+    classNames: ['profile__cancelButton'],
     textContent: 'Cancel',
     event: 'click',
     callback: undoChanges,
   },
-  infoDiv: {
+  infoWrapper: {
     tag: 'div',
-    classNames: ['profile__infoBlock'],
+    classNames: ['profile__infoWrapper'],
   },
   firstName: {
     tag: 'div',
@@ -56,8 +59,8 @@ const param = {
     attributes: {
       id: 'userFirstName',
       type: 'text',
-      readonly: 'true'
-    }
+      readonly: 'true',
+    },
   },
   lastName: {
     tag: 'div',
@@ -72,24 +75,24 @@ const param = {
     attributes: {
       id: 'userLastName',
       type: 'text',
-      readonly: 'true'
-    }
+      readonly: 'true',
+    },
   },
-  dateofBirth: {
+  date: {
     tag: 'div',
-    classNames: ['profile__dateOfBirth'],
+    classNames: ['profile__date'],
     textContent: `Date of Birth`,
   },
-  dateofBirthValue: {
+  dateValue: {
     tag: 'input',
-    classNames: ['dateOfBirth', 'readonly'],
+    classNames: ['date', 'readonly'],
     event: 'input',
     callback: checkAge,
     attributes: {
-      id: 'dateOfBirth',
+      id: 'userDate',
       type: 'date',
-      readonly: 'true'
-    }
+      readonly: 'true',
+    },
   },
   email: {
     tag: 'div',
@@ -102,16 +105,28 @@ const param = {
     event: 'input',
     callback: validateEmail,
     attributes: {
-      id: 'email',
+      id: 'userEmail',
       type: 'email',
-      readonly: 'true'
-    }
+      readonly: 'true',
+    },
   },
 
-  firstNameError: {tag: 'span', classNames: ['userFirstNameError', 'errorSpan'], attributes: {id: 'userFirstNameError'}},
-  lastNameError: {tag: 'span', classNames: ['userLastNameError','errorSpan'], attributes: {id: 'userLastNameError'}},
-  dateOfBirthError: {tag: 'span', classNames: ['userDateOfBirthError', 'errorSpan'], attributes: {id: 'userDateOfBirthError'}},
-  emailError: {tag: 'span', classNames: ['emailError', 'errorSpan'], attributes: {id: 'emailError'}}
+  firstNameError: {
+    tag: 'span',
+    classNames: ['errorSpan'],
+    attributes: { id: 'userFirstNameError' },
+  },
+  lastNameError: {
+    tag: 'span',
+    classNames: ['errorSpan'],
+    attributes: { id: 'userLastNameError' },
+  },
+  dateError: {
+    tag: 'span',
+    classNames: ['errorSpan'],
+    attributes: { id: 'userDateOfBirthError' },
+  },
+  emailError: { tag: 'span', classNames: ['errorSpan'], attributes: { id: 'emailError' } },
 };
 
 export default class UserProfileView extends View {
@@ -122,46 +137,58 @@ export default class UserProfileView extends View {
     };
     super(parametrs);
 
-
     this.configureView();
   }
 
   configureView() {
-    const titleDiv = new ElementBuilder(param.titleDiv);
-    const title = new ElementBuilder(param.titleParametrs);
-    const edit = new ElementBuilder(param.editParametrs);
+    const header = new ElementBuilder(param.header);
+    const title = new ElementBuilder(param.title);
+    const editButton = new ElementBuilder(param.editButton);
+
     const buttonsContainer = new ElementBuilder(param.buttonsContainer);
-    const save = new ElementBuilder(param.saveParametrs);
-    const cancel = new ElementBuilder(param.cancelParametrs);
-    buttonsContainer.addInnerElement([save, cancel])
-    titleDiv.addInnerElement([title, edit, buttonsContainer]);
+    const saveButton = new ElementBuilder(param.saveButton);
+    const cancelButton = new ElementBuilder(param.cancelButton);
 
+    buttonsContainer.addInnerElement([saveButton, cancelButton]);
+    header.addInnerElement([title, editButton, buttonsContainer]);
 
-    const infoDiv = new ElementBuilder(param.infoDiv);
+    const infoWrapper = new ElementBuilder(param.infoWrapper);
     const firstName = new ElementBuilder(param.firstName);
     const firstNameValue = new ElementBuilder(param.firstNameValue);
-    const firstNameError = new ElementBuilder(param.firstNameError)
+    const firstNameError = new ElementBuilder(param.firstNameError);
     const lastName = new ElementBuilder(param.lastName);
     const lastNameValue = new ElementBuilder(param.lastNameValue);
-    const lastNameError = new ElementBuilder(param.lastNameError)
-    const dateofBirth = new ElementBuilder(param.dateofBirth);
-    const dateofBirthValue = new ElementBuilder(param.dateofBirthValue);
-    const dateOfBirthError = new ElementBuilder(param.dateOfBirthError)
-    const email = new ElementBuilder(param.email)
-    const emailValue = new ElementBuilder(param.emailValue)
-    const emailError = new ElementBuilder(param.emailError)
+    const lastNameError = new ElementBuilder(param.lastNameError);
+    const date = new ElementBuilder(param.date);
+    const dateValue = new ElementBuilder(param.dateValue);
+    const dateError = new ElementBuilder(param.dateError);
+    const email = new ElementBuilder(param.email);
+    const emailValue = new ElementBuilder(param.emailValue);
+    const emailError = new ElementBuilder(param.emailError);
 
     const currentUser = State.getCustomer();
     if (currentUser) {
       firstNameValue.setTextContent(currentUser.firstName);
       lastNameValue.setTextContent(currentUser.lastName);
-      dateofBirthValue.setTextContent(currentUser.dateOfBirth);
-      emailValue.setTextContent(currentUser.email)
-      console.log('SADSADSADSD', currentUser.password)
+      dateValue.setTextContent(currentUser.dateOfBirth);
+      emailValue.setTextContent(currentUser.email);
     }
 
-    infoDiv.addInnerElement([firstName, firstNameValue, firstNameError, lastName, lastNameValue, lastNameError, dateofBirth, dateofBirthValue, dateOfBirthError, email, emailValue,emailError]);
+    infoWrapper.addInnerElement([
+      firstName,
+      firstNameValue,
+      firstNameError,
+      lastName,
+      lastNameValue,
+      lastNameError,
+      date,
+      dateValue,
+      dateError,
+      email,
+      emailValue,
+      emailError,
+    ]);
 
-    this.viewElement.addInnerElement([titleDiv, infoDiv])
- }
+    this.viewElement.addInnerElement([header, infoWrapper]);
+  }
 }

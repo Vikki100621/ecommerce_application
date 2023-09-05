@@ -121,7 +121,6 @@
 }
 
 @media (width <=500px) {
-
   .reg-form__user.fieldset,
   .reg-form__person.fieldset,
   .reg-form__address.fieldset {
