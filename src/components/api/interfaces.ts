@@ -3,6 +3,7 @@ export interface CustomerUpdateAction {
   addressId?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   dateOfBirth?: string;
   address?: {
     streetName: string;

@@ -1,8 +1,8 @@
 import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
-import { enableEditMode, saveChanges, undoChanges } from '../utils/callBacks';
-import { checkAge, checkFirstName, checkLastName, validateEmail } from '../utils/validation';
+import { enableEditMode, saveChanges, undoProfileChanges } from '../utils/callBacks';
+import { checkAge, checkEmail, checkFirstName, checkLastName } from '../utils/validation';
 
 const param = {
   header: {
@@ -22,6 +22,7 @@ const param = {
     callback: enableEditMode,
     attributes: {
       'data-info': 'infoWrapper',
+      'data-section': 'profile__'
     },
   },
   buttonsContainer: {
@@ -34,20 +35,24 @@ const param = {
     textContent: 'Save',
     event: 'click',
     callback: saveChanges,
+    attributes: {
+      'data-saveid': `profile`,
+    }
+
   },
   cancelButton: {
     tag: 'button',
     classNames: ['profile__cancelButton'],
     textContent: 'Cancel',
     event: 'click',
-    callback: undoChanges,
+    callback: undoProfileChanges,
   },
   infoWrapper: {
     tag: 'div',
     classNames: ['profile__infoWrapper'],
   },
   firstName: {
-    tag: 'div',
+    tag: 'label',
     classNames: ['profile__firstName'],
     textContent: `Firstname `,
   },
@@ -63,7 +68,7 @@ const param = {
     },
   },
   lastName: {
-    tag: 'div',
+    tag: 'label',
     classNames: ['profile__lastName'],
     textContent: `Lastname `,
   },
@@ -79,7 +84,7 @@ const param = {
     },
   },
   date: {
-    tag: 'div',
+    tag: 'label',
     classNames: ['profile__date'],
     textContent: `Date of Birth`,
   },
@@ -95,7 +100,7 @@ const param = {
     },
   },
   email: {
-    tag: 'div',
+    tag: 'label',
     classNames: ['profile__email'],
     textContent: `Email`,
   },
@@ -103,7 +108,7 @@ const param = {
     tag: 'input',
     classNames: ['email', 'readonly'],
     event: 'input',
-    callback: validateEmail,
+    callback: checkEmail,
     attributes: {
       id: 'userEmail',
       type: 'email',
@@ -126,7 +131,7 @@ const param = {
     classNames: ['errorSpan'],
     attributes: { id: 'userDateOfBirthError' },
   },
-  emailError: { tag: 'span', classNames: ['errorSpan'], attributes: { id: 'emailError' } },
+  emailError: { tag: 'span', classNames: ['errorSpan'], attributes: { id: 'userEmailError' } },
 };
 
 export default class UserProfileView extends View {

@@ -122,3 +122,13 @@ export async function getCategories(): Promise<AxiosResponse> {
   const response = await axios(config);
   return response;
 }
+
+export async function getCustomer(id: string): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+  const response = await axios.get(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+}

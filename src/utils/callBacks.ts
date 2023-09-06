@@ -1,28 +1,8 @@
 import { loginCustomer, updateCustomer } from '../components/api/api';
 import State from '../components/state';
+import { hideModal, showModal } from './modal';
 
-export function showModal(text: string, status: number) {
-  const modal = document.createElement('div');
-  modal.classList.add('modal');
-  const firstline = document.createElement('p');
-  const secondline = document.createElement('p');
-  modal.append(firstline, secondline);
-  if (status === 200) {
-    firstline.innerText = '✔️Login successfully completed';
-    secondline.innerText = 'Welcome';
-  } else {
-    firstline.innerText = `❌${text}`;
-    secondline.innerText = 'Incorrect email or password';
-  }
-  document.body.appendChild(modal);
-}
 
-function hideModal() {
-  const modal = document.querySelector('.modal');
-  if (modal) {
-    modal.remove();
-  }
-}
 
 export function togglePassword() {
   const passwordInput = document.getElementById('password');
@@ -51,8 +31,9 @@ export function getClientData(event: Event) {
     password: returnInputValue('password'),
   };
   loginCustomer(data.email, data.password)
-    .then((customerData) => {
-      State.setCustomer(customerData.data.customer);
+    .then((response) => {
+      State.setId(response.data.customer.id);
+      State.setCustomer(response.data.customer);
       State.setPassword(data.password);
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
@@ -64,7 +45,7 @@ export function getClientData(event: Event) {
         const elLogOut = itemlogout as HTMLElement;
         elLogOut.textContent = 'LogOut';
       }
-      showModal('Login successfully completed', 200);
+      showModal('Login completed', response.status);
       setTimeout(hideModal, 3000);
       return data;
     })
@@ -76,11 +57,19 @@ export function getClientData(event: Event) {
 
 export function enableEditMode(event: Event) {
   const editBtn = event.target as HTMLElement;
-  console.log(editBtn);
-  console.log(editBtn.dataset.info);
-  const buttonsContainer = document.querySelector('.buttonsContainer');
 
-  const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
+  const {section, editid} = editBtn.dataset
+
+  const buttonsContainer = section === 'addresses'
+  ? document.querySelector(`[data-container = "${editid}"]`)
+  : document.querySelector(`.${section}buttonsContainer`);
+
+
+  const infoBlocks = section === 'addresses'
+  ? document.querySelector(`[data-currWrapper = "${editid}"]`)!.querySelectorAll('.readonly')
+  : document.querySelectorAll(`.${section}infoWrapper .readonly`);
+
+
 
   if (editBtn && buttonsContainer) {
     editBtn.classList.add('hidden');
@@ -92,33 +81,37 @@ export function enableEditMode(event: Event) {
   }
 }
 
-export function undoChanges() {
+export function undoProfileChanges() {
   const customer = State.getCustomer();
   const firstName = document.querySelector('.firstName');
   const lastName = document.querySelector('.lastName');
   const date = document.querySelector('.dateOfBirth');
-  const editBtn = document.querySelector('.profile__edit');
-  const buttonsContainer = document.querySelector('.buttonsContainer');
-  const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
-  const errors = document.querySelectorAll('.profile__infoBlock .errorSpan');
+  const email = document.querySelector('.email')
+  const editButton = document.querySelector('.profile__editButton');
+  const saveButton = document.querySelector('.profile__saveButton');
+  const buttonsContainer = document.querySelector('.profile__buttonsContainer');
+  const infoWrapper = document.querySelectorAll('.profile__infoWrapper .readonly');
+  const errors = document.querySelectorAll('.profile__infoWrapper .errorSpan');
+
 
   if (customer) {
     if (firstName instanceof HTMLInputElement) firstName.value = customer?.firstName;
     if (lastName instanceof HTMLInputElement) lastName.value = customer?.lastName;
     if (date instanceof HTMLInputElement) date.value = customer?.dateOfBirth;
+    if (email instanceof HTMLInputElement) email.value = customer.email;
   }
-  if (editBtn && buttonsContainer) {
-    editBtn.classList.remove('hidden');
+  if (editButton && buttonsContainer && saveButton) {
+    editButton.classList.remove('hidden');
     buttonsContainer.classList.add('hidden');
-    infoBlocks.forEach((elem) => {
+    saveButton.removeAttribute('disabled');
+    infoWrapper.forEach((elem) => {
       elem.setAttribute('readonly', 'true');
       elem.classList.remove('editMode');
     });
-
-    for (let index = 0; index < errors.length; index += 1) {
-      errors[index].innerHTML = '';
-      infoBlocks[index].classList.remove('invalid');
-    }
+  }
+  for (let index = 0; index < errors.length; index += 1) {
+    errors[index].innerHTML = '';
+    infoWrapper[index].classList.remove('invalid');
   }
 }
 
@@ -127,37 +120,140 @@ export function saveChanges() {
   const firstName = document.querySelector('.firstName');
   const lastName = document.querySelector('.lastName');
   const date = document.querySelector('.dateOfBirth');
-  const editBtn = document.querySelector('.profile__edit');
-  const buttonsContainer = document.querySelector('.buttonsContainer');
-  const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
+  const email = document.querySelector('.email')
+  const editButton = document.querySelector('.profile__editButton');
+  const buttonsContainer = document.querySelector('.profile__buttonsContainer');
+  const infoWrapper = document.querySelectorAll('.profile__infoWrapper .readonly');
 
   if (customer) {
     if (firstName instanceof HTMLInputElement) customer.firstName = firstName.value;
     if (lastName instanceof HTMLInputElement) customer.lastName = lastName.value;
     if (date instanceof HTMLInputElement) customer.dateOfBirth = date.value;
-    console.log(customer.version);
+    if (email instanceof HTMLInputElement) customer.email = email.value;
     updateCustomer(customer.id, {
       version: Number(customer.version),
       actions: [
         { action: 'setFirstName', firstName: customer.firstName },
         { action: 'setLastName', lastName: customer.lastName },
         { action: 'setDateOfBirth', dateOfBirth: customer.dateOfBirth },
+        { action: 'changeEmail', email: customer.email },
       ],
+    }).then((resp) => {
+      State.setCustomer(resp.data)
+      showModal('Data saved', resp.status);
+      setTimeout(hideModal, 3000);
+    })
+    .catch((error) => {
+      showModal(`${error.message}`, error.code);
+      setTimeout(hideModal, 3000);
     });
-    customer.version += 1;
+
   }
 
-  if (editBtn && buttonsContainer) {
-    editBtn.classList.remove('hidden');
+  if (editButton && buttonsContainer) {
+    editButton.classList.remove('hidden');
     buttonsContainer.classList.add('hidden');
-    infoBlocks.forEach((elem) => {
+    infoWrapper.forEach((elem) => {
       elem.setAttribute('readonly', 'true');
       elem.classList.remove('editMode');
     });
   }
 }
 
-// export function saveAddress () {
-//   const customer = State.getCustomer();
+export function saveAddressChanges(event: Event) {
+  const customer = State.getCustomer();
+  const addressesArr = customer!.addresses
+  const saveButton = event.target as HTMLElement;
+  const {saveid} = saveButton.dataset
+  const index = addressesArr.findIndex(obj => obj.id === saveid)
+  const editButton = document.querySelector(`[data-editId = "${saveid}"]`);
+  const buttonsContainer = document.querySelector(`[data-container = "${saveid}"]`);
+  const infoWrapper = document.querySelector(`[data-currWrapper = "${saveid}"]`)
 
-// }
+  if (customer && infoWrapper) {
+    const country = infoWrapper.querySelector('.country');
+    const city = infoWrapper.querySelector('.city');
+    const street = infoWrapper.querySelector('.street');
+    const postal = infoWrapper.querySelector('.postal');
+
+    const inputArr = infoWrapper.querySelectorAll('.readonly')
+
+    if (country instanceof HTMLInputElement)customer.addresses[index].country = country.value;
+    if (city instanceof HTMLInputElement) customer.addresses[index].city = city.value;
+    if (street instanceof HTMLInputElement) customer.addresses[index].streetName = street.value;
+    if (postal instanceof HTMLInputElement) customer.addresses[index].postalCode = postal.value;
+
+    updateCustomer(customer.id, {
+      version: Number(customer.version),
+      actions: [
+        { action: 'changeAddress', addressId: `${saveid}`, address: {
+          streetName: customer.addresses[index].streetName,
+          postalCode: customer.addresses[index].postalCode,
+          city: customer.addresses[index].city,
+          country: customer.addresses[index].country,
+        } },
+      ],
+    }).then((resp) => {
+      State.setCustomer(resp.data)
+      showModal('Data saved', resp.status);
+      setTimeout(hideModal, 3000);
+    })
+    .catch((error) => {
+      showModal(`${error.message}`, error.code);
+      setTimeout(hideModal, 3000);
+    });
+
+    if (editButton && buttonsContainer) {
+      editButton.classList.remove('hidden');
+      buttonsContainer.classList.add('hidden');
+      inputArr.forEach((elem) => {
+        elem.setAttribute('readonly', 'true');
+        elem.classList.remove('editMode');
+      });
+    }
+  }
+  }
+
+
+  export function undoAddressChanges(event:Event) {
+    const customer = State.getCustomer();
+    const addressesArr = customer!.addresses
+    const cancelButton = event.target as HTMLElement;
+    const {cancelid} = cancelButton.dataset
+    const index = addressesArr.findIndex(obj => obj.id === cancelid)
+    const editButton = document.querySelector(`[data-editid = "${cancelid}"]`);
+    const saveButton = document.querySelector(`[data-saveid = "${cancelid}"]`);
+    const buttonsContainer = document.querySelector(`[data-container = "${cancelid}"]`);
+    const infoWrapper = document.querySelector(`[data-currWrapper = "${cancelid}"]`)
+    
+
+    if (customer && infoWrapper) {
+      const country = infoWrapper.querySelector('.country');
+      const city = infoWrapper.querySelector('.city');
+      const street = infoWrapper.querySelector('.street');
+      const postal = infoWrapper.querySelector('.postal');
+      const inputArr = infoWrapper.querySelectorAll('.readonly')
+      const errors = infoWrapper.querySelectorAll('.errorSpan');
+
+
+    if (country instanceof HTMLInputElement) country.value = customer.addresses[index].country;
+    if (city instanceof HTMLInputElement) city.value = customer.addresses[index].city ;
+    if (street instanceof HTMLInputElement) street.value = customer.addresses[index].streetName;
+    if (postal instanceof HTMLInputElement) postal.value = customer.addresses[index].postalCode;
+
+    if (editButton && buttonsContainer && saveButton) {
+      editButton.classList.remove('hidden');
+      buttonsContainer.classList.add('hidden');
+      saveButton.removeAttribute('disabled');
+      inputArr.forEach((elem) => {
+        elem.setAttribute('readonly', 'true');
+        elem.classList.remove('editMode');
+      });
+    }
+
+    for (let i = 0; i < errors.length; i += 1) {
+      errors[i].innerHTML = '';
+      inputArr[i].classList.remove('invalid');
+    }
+    }
+  }

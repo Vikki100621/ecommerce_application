@@ -1,5 +1,5 @@
 import State from '../components/state';
-import { enableEditMode, saveChanges, undoChanges } from '../utils/callBacks';
+import { enableEditMode, saveChanges } from '../utils/callBacks';
 import ElementBuilder from '../utils/elementBuilder';
 import { validatePassword } from '../utils/validation';
 import View from '../utils/view';
@@ -37,7 +37,7 @@ const param = {
     classNames: ['addresses__edit'],
     textContent: 'Cancel',
     event: 'click',
-    callback: undoChanges,
+    // callback: undoChanges,
   },
   infoDiv: {
     tag: 'div',

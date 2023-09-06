@@ -5,6 +5,8 @@ export default class State {
 
   private static password: string | null = null;
 
+  private static id: string | null = null;
+
   public static getCustomer(): Customer | null {
     return State.customer;
   }
@@ -24,4 +26,14 @@ export default class State {
   public static getPassword() {
     return State.password;
   }
+
+  public static setId(data: string) {
+    State.id = data;
+  }
+
+  public static getId() {
+    return State.id;
+  }
 }
+
+
