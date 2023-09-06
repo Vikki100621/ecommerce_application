@@ -3,6 +3,7 @@ export interface CustomerUpdateAction {
   addressId?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   dateOfBirth?: string;
   address?: {
     streetName: string;
@@ -11,6 +12,13 @@ export interface CustomerUpdateAction {
     country: string;
   };
   // You can add more properties here if needed
+}
+
+export interface PasswordUpdateBody {
+  id: string;
+  version: number;
+  currentPassword: string;
+  newPassword: string;
 }
 
 export interface CustomerUpdateBody {

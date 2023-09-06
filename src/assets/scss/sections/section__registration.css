@@ -110,13 +110,17 @@
   cursor: pointer;
 }
 
-@media (width <= 500px) {
+@media (width <=500px) {
   .reg-form__user.fieldset,
   .reg-form__person.fieldset,
   .reg-form__address.fieldset {
     grid-template-columns: 1fr;
   }
+
   .error {
     grid-column: 1;
   }
-} /*# sourceMappingURL=section__registration.css.map */
+}
+
+/*# sourceMappingURL=section__registration.css.map */
+

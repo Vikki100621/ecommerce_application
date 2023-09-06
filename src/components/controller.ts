@@ -14,14 +14,20 @@ export default class Controller {
     this.routing = new Routing(this.app);
     this.routing.init();
     this.burger = new BurgerMenu();
+
     this.burger.init();
     this.init();
+
   }
 
   private addProductsHandlers() {
     document.addEventListener('click', (event) => {
       event.stopImmediatePropagation();
       const clickedElement = event.target as HTMLElement;
+
+      if (window.location.hash.includes('/catalog') && clickedElement.classList.contains('product__category')) {
+        this.routing.handleCategoryItemClick(event);
+
       if (clickedElement.classList.contains('product__button')) {
         this.routing.handleProductItemClick(event);
       }
@@ -45,12 +51,24 @@ export default class Controller {
     });
   }
 
+
   private checkCheckboxes() {
     const materialCheckboxes = document.querySelectorAll<HTMLInputElement>('.checkbox');
     const selectedMaterials = Array.from(materialCheckboxes)
       .filter((checkbox) => checkbox.checked)
       .map((checkbox) => checkbox.value.toLowerCase());
+
+
+    if (selectedMaterials.length === 0) {
+      const productContainer = document.querySelector('.product__container') as HTMLElement;
+      productContainer.innerHTML = '';
+      this.app.products.productDivs.forEach((productDiv: HTMLElement) => {
+        productContainer.appendChild(productDiv);
+      });
+      return;
+    }
     if (selectedMaterials.length === 0) return;
+
 
     this.app.products.filteredProductdivs = this.app.products.filteredProductdivs.filter((productDiv) => {
       const elID = productDiv.id;
@@ -66,11 +84,23 @@ export default class Controller {
           }
           return accumulator;
         }, [] as string[]);
+
+
+        return selectedMaterials.every((selectedMaterial) => allAttributeValues.includes(selectedMaterial));
+
         return selectedMaterials.some((selectedMaterial) => allAttributeValues.includes(selectedMaterial));
+
       }
 
       return false;
     });
+
+
+    const productContainer = document.querySelector('.product__container') as HTMLElement;
+    productContainer.innerHTML = '';
+    this.app.products.filteredProductdivs.forEach((productDiv: HTMLElement) => {
+      productContainer.appendChild(productDiv);
+
   }
 
   private sortByPrice(order: string) {
@@ -207,6 +237,7 @@ export default class Controller {
   private addNameSortListener() {
     this.app.sorting.nameSortDropdown?.addEventListener('change', () => {
       this.updateFiltersAndSearch();
+
     });
   }
 
@@ -215,6 +246,9 @@ export default class Controller {
       const cat = this.app.sorting.categoryDropdown?.value as string;
       this.filterByCategory(cat);
       this.app.sorting.createFilters(cat);
+
+      this.updateFiltersAndSearch();
+
       this.displayFilteredResults();
       this.addCheckboxesHandlers();
     });
@@ -225,6 +259,19 @@ export default class Controller {
       this.updateFiltersAndSearch();
     });
   }
+
+
+  private addSearchButtionHandlers() {
+    this.app.sorting.searchButton.addEventListener('click', () => {
+      console.log('click');
+      this.checkCheckboxes();
+      this.updateFiltersAndSearch();
+    });
+  }
+
+  public init() {
+    this.burger.init();
+    this.routing.init();
 
   private addProductsClick() {
     this.app.products.filteredProductdivs.forEach((productDiv) => {
@@ -237,8 +284,12 @@ export default class Controller {
 
   private allHandlers() {
     this.addProductsClick();
+
     this.addSearchHandlers();
     this.addSortingHandlers();
+
+    this.addSearchButtionHandlers();
+
     this.addPriceSortListener();
     this.addNameSortListener();
     this.addCheckboxesHandlers();

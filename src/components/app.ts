@@ -201,6 +201,7 @@ export default class App {
     this.main.appendChild(section);
   }
 
+
   async showProductPage(id: string | null) {
     if (id) {
       this.clearMain();
