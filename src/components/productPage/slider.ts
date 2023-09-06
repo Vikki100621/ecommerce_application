@@ -12,7 +12,7 @@ export default class Slider {
 
   sliderElement: HTMLElement;
 
-  arrImgs: IImage[]
+  arrImgs: IImage[];
 
   constructor(arrImgs: IImage[], wrapper: HTMLElement) {
     this.wrapper = wrapper;

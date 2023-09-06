@@ -140,7 +140,7 @@ export function saveChanges() {
         { action: 'setLastName', lastName: customer.lastName },
         { action: 'setDateOfBirth', dateOfBirth: customer.dateOfBirth },
       ],
-    }).then((qwer) => console.log('RESPONSE', qwer));
+    });
   }
 
   if (editBtn && buttonsContainer) {

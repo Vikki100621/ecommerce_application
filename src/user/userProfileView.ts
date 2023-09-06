@@ -167,7 +167,6 @@ export default class UserProfileView extends View {
       lastNameValue.setTextContent(currentUser.lastName);
       dateofBirthValue.setTextContent(currentUser.dateOfBirth);
       emailValue.setTextContent(currentUser.email);
-      console.log('SADSADSADSD', currentUser.password);
     }
 
     infoDiv.addInnerElement([

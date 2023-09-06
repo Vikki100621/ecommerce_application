@@ -415,24 +415,16 @@ export default class Registration {
       postCustomer(email, pass, firstName, lastName)
         .then((response) => {
           userId = response.data.customer.id;
-          console.log('User data posted successfully!');
         })
         .catch((error) => {
-          console.error('An error occurred while posting customer:', error.message);
           throw error;
         })
         .then(() => updateCustomerInfo(userId))
-        .then(() => {
-          console.log('User data updated successfully!');
-        })
         .catch((error) => {
-          console.error('An error occurred while updating customer info:', error.message);
           throw error;
         })
         .then(() => loginCustomer(email, pass))
-        .then((response) => {
-          console.log(response);
-          console.log('User logged in successfully after update!');
+        .then(() => {
           displayMessage('User successfully created and logged in.');
           clearForm();
           localStorage.setItem('isLoggedIn', 'true');
@@ -450,7 +442,6 @@ export default class Registration {
           }, 5000);
         })
         .catch((error) => {
-          console.error('An error occurred during login:', error.message);
           displayMessage(error.message);
           setTimeout(() => hideMessage(), 5000);
         });

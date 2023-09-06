@@ -35,14 +35,12 @@ export function checkFirstName() {
   const currentError = document.getElementById('userFirstNameError');
   if (currentInput instanceof HTMLInputElement && currentError) {
     const saveButton = currentInput.closest('.profile__container')!.querySelector('.saveButton');
-    console.log('saveButton: ', saveButton);
 
     if (saveButton) {
       if (!template.test(currentInput.value) || !currentInput.value.length) {
         currentInput.classList.add('invalid');
         currentError.innerHTML = 'First name must contain at least one character and no special characters or numbers.';
         saveButton.setAttribute('disabled', 'true');
-        console.log('ERRRRRRRRRRRRRRRRRROFTT');
       } else {
         currentInput.classList.remove('invalid');
         currentError.innerHTML = '';
