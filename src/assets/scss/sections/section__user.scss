@@ -128,9 +128,9 @@ input.invalid:focus {
 }
 
 button[disabled] {
-  opacity: 0.5;
+  color: #999999;
   cursor: not-allowed;
   background-color: #cccccc;
   border-color: #999999;
-  color: #999999;
+  opacity: 0.5;
 }
