@@ -1,6 +1,6 @@
-import { updateCustomer, updatePassword } from "../components/api/api";
-import State from "../components/state";
-import { showModal, hideModal } from "./modal";
+import { updateCustomer, updatePassword } from '../components/api/api';
+import State from '../components/state';
+import { showModal, hideModal } from './modal';
 
 export function saveChanges() {
   const customer = State.getCustomer();
@@ -46,8 +46,6 @@ export function saveChanges() {
     });
   }
 }
-
-
 
 export function saveAddressChanges(event: Event) {
   const customer = State.getCustomer();
@@ -111,27 +109,25 @@ export function saveAddressChanges(event: Event) {
 export function savePasswordChanges() {
   const customer = State.getCustomer();
 
-
   const editButton = document.querySelector('.password__editButton');
   const buttonsContainer = document.querySelector('.password__buttonsContainer');
-  const password = document.querySelector('.password') as HTMLInputElement
+  const password = document.querySelector('.password') as HTMLInputElement;
   console.log('password: ', password);
 
-  const currPassword = State.getPassword()
-
+  const currPassword = State.getPassword();
 
   if (customer) {
     if (password instanceof HTMLInputElement) {
       customer.password = password.value;
-    console.log('currPassword: ', currPassword);
-    console.log('NewPAssword', password.value)
+      console.log('currPassword: ', currPassword);
+      console.log('NewPAssword', password.value);
     }
     if (currPassword) {
       updatePassword({
         version: Number(customer.version),
         id: customer.id,
         currentPassword: currPassword,
-        newPassword: customer.password
+        newPassword: customer.password,
       })
         .then((resp) => {
           State.setCustomer(resp.data);
@@ -150,7 +146,7 @@ export function savePasswordChanges() {
       buttonsContainer.classList.add('hidden');
       password.setAttribute('readonly', 'true');
       password.classList.remove('editMode');
-      password.type = 'password'
-      };
+      password.type = 'password';
     }
   }
+}

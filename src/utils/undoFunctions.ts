@@ -1,4 +1,4 @@
-import State from "../components/state";
+import State from '../components/state';
 
 export function undoProfileChanges() {
   const customer = State.getCustomer();
@@ -77,7 +77,7 @@ export function undoAddressChanges(event: Event) {
 export function undoPasswordChanges() {
   const customer = State.getCustomer();
 
-  const password = document.querySelector('.password') as HTMLInputElement
+  const password = document.querySelector('.password') as HTMLInputElement;
   const editButton = document.querySelector('.password__editButton');
   const saveButton = document.querySelector('.password__saveButton');
   const buttonsContainer = document.querySelector('.password__buttonsContainer');
@@ -90,9 +90,9 @@ export function undoPasswordChanges() {
     editButton.classList.remove('hidden');
     buttonsContainer.classList.add('hidden');
     saveButton.removeAttribute('disabled');
-      password.setAttribute('readonly', 'true');
-      password.classList.remove('editMode', 'invalid');
-      password.type = 'password'
-      error.innerHTML = '';
-    };
+    password.setAttribute('readonly', 'true');
+    password.classList.remove('editMode', 'invalid');
+    password.type = 'password';
+    error.innerHTML = '';
   }
+}

@@ -2,7 +2,7 @@ import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
 import { Addresses, Customer } from '../utils/interface';
-import { enableEditMode} from '../utils/callBacks';
+import { enableEditMode } from '../utils/callBacks';
 import { checkCity, checkCountry, checkPostalCode, checkStreet } from '../utils/validation';
 import { saveAddressChanges } from '../utils/saveFunctions';
 import { undoAddressChanges } from '../utils/undoFunctions';
@@ -60,7 +60,7 @@ export default class UserAddressesView extends View {
   getAddresses(addressesDiv: ElementBuilder) {
     if (this.customer) {
       console.log('customer: ', this.customer);
-      const addressArr = this.customer.addresses
+      const addressArr = this.customer.addresses;
       console.log('addressArr: ', addressArr);
       addressArr.forEach((address: Addresses) => {
         const container = new ElementBuilder({

@@ -54,7 +54,7 @@ export function getClientData(event: Event) {
 }
 
 export function enableEditMode(event: Event) {
-  const currPassword = State.getPassword()
+  const currPassword = State.getPassword();
   console.log('currPassword: ', currPassword);
   const editBtn = event.target as HTMLElement;
 
@@ -76,13 +76,13 @@ export function enableEditMode(event: Event) {
     if (infoBlocks[0] instanceof HTMLInputElement && infoBlocks[0].type === 'password') {
       infoBlocks[0].removeAttribute('readonly');
       infoBlocks[0].classList.add('editMode');
-      infoBlocks[0].type = 'text'
-      infoBlocks[0].value = currPassword
+      infoBlocks[0].type = 'text';
+      infoBlocks[0].value = currPassword;
     } else {
       infoBlocks.forEach((elem) => {
         elem.removeAttribute('readonly');
         elem.classList.add('editMode');
-    });
+      });
+    }
   }
-}
 }

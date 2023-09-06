@@ -15,10 +15,10 @@ export interface CustomerUpdateAction {
 }
 
 export interface PasswordUpdateBody {
-  id : string;
-  version : number;
-  currentPassword : string,
-  newPassword : string
+  id: string;
+  version: number;
+  currentPassword: string;
+  newPassword: string;
 }
 
 export interface CustomerUpdateBody {
