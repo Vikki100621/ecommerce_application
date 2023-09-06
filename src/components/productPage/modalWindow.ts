@@ -1,28 +1,51 @@
 import returnElement from '../common/returnElem';
+import IImage from './IImage';
+import Slider from './slider';
 
-export default class Modal {
-  img: HTMLImageElement;
+export default class ModalWindow {
+  imgs: IImage[];
 
   btnClose: HTMLButtonElement;
 
   modalWindow: HTMLElement;
 
-  constructor(img: HTMLImageElement) {
-    this.img = img;
+  slider: Slider;
+
+  prevBtn: HTMLButtonElement;
+
+  nextBtn: HTMLButtonElement;
+
+  constructor(imgs: IImage[]) {
+    this.imgs = imgs;
     this.btnClose = <HTMLButtonElement>(
       returnElement({ tag: 'div', classes: ['modal-window__close'], textContent: '❌' })
     );
     this.modalWindow = returnElement({ tag: 'div', classes: ['modal-window', 'modal-window_unactive'] });
+    let stepSlide = 540;
+    if (window.innerWidth < 681 && window.innerWidth > 580) {
+      stepSlide = 440;
+    } else if (window.innerWidth < 581 && window.innerWidth > 389) {
+      stepSlide = 280;
+    }
+
+    this.slider = new Slider(this.imgs, this.modalWindow, stepSlide);
+    this.prevBtn = this.slider.prevBtn;
+    this.nextBtn = this.slider.nextBtn;
   }
 
   draw() {
-    this.modalWindow.append(this.img, this.btnClose);
+    this.slider.draw();
+    this.modalWindow.append(this.slider.sliderElement, this.btnClose);
     document.body.append(this.modalWindow);
-    this.modalWindow.classList.remove('modal-window_unactive');
   }
 
   hide() {
     this.modalWindow.classList.add('modal-window_unactive');
-    document.body.removeChild(this.modalWindow);
+  }
+
+  show() {
+    this.modalWindow.classList.remove('modal-window_unactive');
+    this.slider.checkForAloneImg();
+    this.slider.checkFirstLast(Number.parseInt(this.slider.sliderImgs.style.left, 10));
   }
 }

@@ -32,9 +32,9 @@ const param = {
   addressesDivTitle: {
     tag: 'div',
     classNames: ['addresses__infoTitle'],
-    textContent: 'Address'
+    textContent: 'Address',
   },
-   buttonsContainer: {
+  buttonsContainer: {
     tag: 'div',
     classNames: ['buttonsContainer', 'hidden'],
   },
@@ -45,17 +45,17 @@ const param = {
     event: 'click',
     // callback: addEditAttribute,
   },
-   cancelParametrs: {
+  cancelParametrs: {
     tag: 'button',
     classNames: ['addresses__edit'],
     textContent: 'Cancel',
     event: 'click',
     // callback: addEditAttribute,
   },
-  infoBlock : {
+  infoBlock: {
     tag: 'div',
-    classNames: ['addresses__dataBlock']
-  }
+    classNames: ['addresses__dataBlock'],
+  },
 };
 
 export default class UserAddressesView extends View {
@@ -82,24 +82,26 @@ export default class UserAddressesView extends View {
     this.viewElement.addInnerElement([titleDiv, addressesDiv]);
   }
 
- 
-
   getAddresses(addressesDiv: ElementBuilder) {
     if (this.customer) {
       this.customer.addresses.forEach((address: Addresses) => {
-        const container = new ElementBuilder({ tag: 'div', classNames: ['address__wrapper'], attributes: {id: address.id}});
+        const container = new ElementBuilder({
+          tag: 'div',
+          classNames: ['address__wrapper'],
+          attributes: { id: address.id },
+        });
 
-        const addressesDivHeader = new ElementBuilder(param.addressesDivHeader)
-        const addressesDivTitle = new ElementBuilder(param.addressesDivTitle)
-        const addressesDivEdit = new ElementBuilder(param.editParametrs)
-        const addressesButtonsContainer = new ElementBuilder(param.buttonsContainer)
-        const saveButton = new ElementBuilder(param.saveParametrs)
-        const cancelButton = new ElementBuilder(param.cancelParametrs)
+        const addressesDivHeader = new ElementBuilder(param.addressesDivHeader);
+        const addressesDivTitle = new ElementBuilder(param.addressesDivTitle);
+        const addressesDivEdit = new ElementBuilder(param.editParametrs);
+        const addressesButtonsContainer = new ElementBuilder(param.buttonsContainer);
+        const saveButton = new ElementBuilder(param.saveParametrs);
+        const cancelButton = new ElementBuilder(param.cancelParametrs);
 
-        const addressesInfoBlock = new ElementBuilder(param.infoBlock)
-        addressesButtonsContainer.addInnerElement([saveButton, cancelButton])
-        addressesDivHeader.addInnerElement([addressesDivTitle, addressesDivEdit, addressesButtonsContainer])
-        container.addInnerElement([addressesDivHeader, addressesInfoBlock])
+        const addressesInfoBlock = new ElementBuilder(param.infoBlock);
+        addressesButtonsContainer.addInnerElement([saveButton, cancelButton]);
+        addressesDivHeader.addInnerElement([addressesDivTitle, addressesDivEdit, addressesButtonsContainer]);
+        container.addInnerElement([addressesDivHeader, addressesInfoBlock]);
 
         if (address.id === this.customer?.defaultBillingAddressId) {
           const defaultBilling = new ElementBuilder({ tag: 'div', textContent: 'Default billing address' });

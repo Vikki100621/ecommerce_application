@@ -14,13 +14,13 @@
 //       const categoriesResponse = await getCategories();
 //       const categories: Array<Category> = categoriesResponse.data.results;
 //       console.log(categories);
-  
+
 //       categories.forEach((categoryData: Category) => {
 //         const categoryId = categoryData.id;
 //         const categoryBox = document.createElement('div');
 //         categoryBox.id = categoryId;
 //         categoryBox.classList.add('product__category');
-  
+
 //         if (categoryData.name['en-US'] === 'Dishes') {
 //           categoryBox.classList.add('category__dishes');
 //           categoryBox.setAttribute('data-category-path', 'dishes');
@@ -40,16 +40,16 @@
 //         categoryBox.appendChild(title);
 //         this.categoryContainer?.appendChild(categoryBox);
 //       });
-  
+
 //       const allProductsCategoryBox = document.createElement('div');
 //       allProductsCategoryBox.classList.add('product__category', 'category__allproducts');
 //       allProductsCategoryBox.setAttribute('data-category-path', 'allproducts');
-  
+
 //       const allProductsTitle = document.createElement('p');
 //       allProductsTitle.classList.add('category__title');
-//       allProductsTitle.textContent = 'All Products'; 
+//       allProductsTitle.textContent = 'All Products';
 //       allProductsCategoryBox.appendChild(allProductsTitle);
-  
+
 //       this.categoryContainer?.appendChild(allProductsCategoryBox);
 //     } catch (error) {
 //       console.log(error);

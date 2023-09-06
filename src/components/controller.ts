@@ -2,7 +2,6 @@ import Routing from './routing';
 import App from './app';
 import BurgerMenu from './burger__menu';
 
-
 export default class Controller {
   private routing: Routing;
 
@@ -21,10 +20,8 @@ export default class Controller {
 
   private addProductsHandlers() {
     document.addEventListener('click', (event) => {
-      console.log('clik')
       event.stopImmediatePropagation();
       const clickedElement = event.target as HTMLElement;
-      console.log(clickedElement)
       if (clickedElement.classList.contains('product__button')) {
         this.routing.handleProductItemClick(event);
       }
@@ -253,4 +250,3 @@ export default class Controller {
     this.allHandlers();
   }
 }
-
