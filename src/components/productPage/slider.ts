@@ -14,10 +14,13 @@ export default class Slider {
 
   arrImgs: IImage[];
 
-  constructor(arrImgs: IImage[], wrapper: HTMLElement) {
+  stepSlide: number;
+
+  constructor(arrImgs: IImage[], wrapper: HTMLElement, stepSlide = 220) {
     this.wrapper = wrapper;
     this.sliderElement = returnElement({ tag: 'div', classes: ['product-detail__slider', 'slider'] });
     this.arrImgs = arrImgs;
+    this.stepSlide = stepSlide;
 
     this.sliderImgs = returnElement({
       tag: 'div',
@@ -53,7 +56,7 @@ export default class Slider {
     if (imgPosition === 0) {
       this.prevBtn.disabled = true;
     }
-    if (imgPosition <= -1 * (imgsNum * 220)) {
+    if (imgPosition <= -1 * (imgsNum * this.stepSlide)) {
       this.nextBtn.disabled = true;
     }
     if (imgsNum === 0) {
@@ -62,14 +65,22 @@ export default class Slider {
     }
   }
 
+  checkForAloneImg() {
+    if (this.arrImgs.length < 2) {
+      setTimeout(() => {
+        this.nextBtn.classList.add('slider__btn_unactive');
+        this.prevBtn.classList.add('slider__btn_unactive');
+      }, 500);
+    }
+  }
+
   slide(direction: string) {
     const imgStartPosition = Number.parseInt(this.sliderImgs.style.left, 10);
-    const step = 220;
     let result = imgStartPosition;
     if (direction === 'next') {
-      result -= step;
+      result -= this.stepSlide;
     } else if (direction === 'prev') {
-      result += step;
+      result += this.stepSlide;
     }
     this.sliderImgs.style.left = `${result}px`;
     this.checkFirstLast(Number.parseInt(this.sliderImgs.style.left, 10));

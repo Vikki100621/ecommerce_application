@@ -1,6 +1,6 @@
 import returnElement from '../common/returnElem';
 import IImage from './IImage';
-import Modal from './modalWindow';
+import ModalWindow from './modalWindow';
 import Slider from './slider';
 
 interface IProductType {
@@ -103,58 +103,46 @@ export default class ProductPage {
 
   addSlider() {
     const slider = new Slider(this.data.masterVariant.images, this.productInfoWrapper);
+    const modalWindow = new ModalWindow(this.data.masterVariant.images);
     slider.draw();
-    const imgsNum = this.data.masterVariant.images.length - 1;
 
-    function fSlider(evt: MouseEvent) {
-      if (evt.target === slider.nextBtn) {
+    function slideImg(evt: MouseEvent) {
+      if (evt.target === slider.nextBtn || evt.target === modalWindow.slider.nextBtn) {
         slider.slide('next');
-      } else if (evt.target === slider.prevBtn) {
+        modalWindow.slider.slide('next');
+      } else if (evt.target === slider.prevBtn || evt.target === modalWindow.slider.prevBtn) {
         slider.slide('prev');
+        modalWindow.slider.slide('prev');
       }
     }
 
-    function showModalWindow(evt: MouseEvent) {
-      const node: HTMLImageElement = <HTMLImageElement>evt.target;
-      if (node.className === 'slider__img') {
-        const newNode: HTMLImageElement = <HTMLImageElement>node.cloneNode(true);
-        const modal = new Modal(newNode);
+    function showModalWindow() {
+      modalWindow.show();
+    }
 
-        // eslint-disable-next-line no-inner-declarations
-        function hideModalWindow() {
-          modal.hide();
-          modal.btnClose.removeEventListener('click', hideModalWindow);
-        }
-        modal.draw();
-        modal.btnClose.addEventListener('click', hideModalWindow);
-      }
+    function hideModalWindow() {
+      modalWindow.hide();
     }
 
     function removeAllListeners() {
-      slider.nextBtn.removeEventListener('click', fSlider);
-      slider.prevBtn.removeEventListener('click', fSlider);
+      slider.nextBtn.removeEventListener('click', slideImg);
+      slider.prevBtn.removeEventListener('click', slideImg);
       slider.sliderImgs.removeEventListener('click', showModalWindow);
+      window.removeEventListener('load', slider.checkForAloneImg);
       window.removeEventListener('beforeunload', removeAllListeners);
     }
 
-    function checkForAloneImg() {
-      if (imgsNum === 0) {
-        setTimeout(() => {
-          slider.nextBtn.classList.add('slider__btn_unactive');
-          slider.prevBtn.classList.add('slider__btn_unactive');
-          window.removeEventListener('load', checkForAloneImg);
-        }, 500);
-      }
-    }
-
     slider.checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
-    checkForAloneImg();
+    modalWindow.draw();
+    slider.checkForAloneImg();
 
-    slider.nextBtn.addEventListener('click', fSlider);
-    slider.prevBtn.addEventListener('click', fSlider);
+    slider.nextBtn.addEventListener('click', slideImg);
+    slider.prevBtn.addEventListener('click', slideImg);
+    modalWindow.nextBtn.addEventListener('click', slideImg);
+    modalWindow.prevBtn.addEventListener('click', slideImg);
     slider.sliderImgs.addEventListener('click', showModalWindow);
-    window.addEventListener('load', checkForAloneImg);
     window.addEventListener('beforeunload', removeAllListeners);
+    modalWindow.btnClose.addEventListener('click', hideModalWindow);
   }
 
   addPrice() {

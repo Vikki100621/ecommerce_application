@@ -122,11 +122,35 @@
   }
 
   .slider__img {
-    min-width: 50%;
+    min-width: 520px;
     min-height: 50%;
 
     &:hover {
       cursor: auto;
     }
+
+    @media (width < 681px) {
+      min-width: 420px;
+    }
+
+    @media (width < 581px) {
+      min-width: 260px;
+    }
+  }
+
+  .slider__img-wrapper {
+    max-width: 520px;
+
+    @media (width < 681px) {
+      max-width: 440px;
+    }
+
+    @media (width < 581px) {
+      max-width: 270px;
+    }
+  }
+
+  .slider__images {
+    height: 90vh;
   }
 }
