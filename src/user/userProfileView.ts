@@ -22,7 +22,7 @@ const param = {
     callback: enableEditMode,
     attributes: {
       'data-info': 'infoWrapper',
-      'data-section': 'profile__'
+      'data-section': 'profile__',
     },
   },
   buttonsContainer: {
@@ -37,8 +37,7 @@ const param = {
     callback: saveChanges,
     attributes: {
       'data-saveid': `profile`,
-    }
-
+    },
   },
   cancelButton: {
     tag: 'button',

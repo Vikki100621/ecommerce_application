@@ -1,11 +1,11 @@
-function checkErrors (error:HTMLElement, button: Element) {
-  let counter = 0
-    if (!error.innerText) counter += 1
-    if (!counter) {
-      button.setAttribute('disabled', 'true');
-    } else {
-      button.removeAttribute('disabled');
-    }
+function checkErrors(error: HTMLElement, button: Element) {
+  let counter = 0;
+  if (!error.innerText) counter += 1;
+  if (!counter) {
+    button.setAttribute('disabled', 'true');
+  } else {
+    button.removeAttribute('disabled');
+  }
 }
 
 // Работает
@@ -52,7 +52,6 @@ export function checkFirstName() {
   if (input instanceof HTMLInputElement && error) {
     const saveButton = input.closest('.profile__container')!.querySelector(`[data-saveid = "profile"]`);
 
-
     if (saveButton) {
       if (!(regex.test(input.value) || input.value.length)) {
         input.classList.add('invalid');
@@ -61,7 +60,7 @@ export function checkFirstName() {
         input.classList.remove('invalid');
         error.innerHTML = '';
       }
-      checkErrors(error, saveButton)
+      checkErrors(error, saveButton);
     }
   }
 }
@@ -75,14 +74,14 @@ export function checkLastName() {
     const saveButton = input.closest('.profile__container')!.querySelector(`[data-saveid = "profile"]`);
 
     if (saveButton) {
-    if (!(regex.test(input.value) || input.value.length)) {
-      input.classList.add('invalid');
-      error.innerHTML = 'Last name must contain at least one character and no special characters or numbers.';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
-    }
-    checkErrors(error, saveButton)
+      if (!(regex.test(input.value) || input.value.length)) {
+        input.classList.add('invalid');
+        error.innerHTML = 'Last name must contain at least one character and no special characters or numbers.';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
   }
 }
@@ -98,20 +97,20 @@ export function checkAge(): void {
     const saveButton = input.closest('.profile__container')!.querySelector(`[data-saveid = "profile"]`);
 
     if (saveButton) {
-    if (minBDate - currentParseValue < 0 || !currentParseValue) {
-      input.classList.add('invalid');
-      error.innerHTML = 'You have not reached the minimum age to use the site.';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
-    }
-    checkErrors(error, saveButton)
+      if (minBDate - currentParseValue < 0 || !currentParseValue) {
+        input.classList.add('invalid');
+        error.innerHTML = 'You have not reached the minimum age to use the site.';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
   }
 }
 
 // Работает
-export function checkEmail(event:Event) {
+export function checkEmail(event: Event) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const input = event.target as HTMLElement;
   const error = document.getElementById('emailError') || document.getElementById('userEmailError');
@@ -120,121 +119,113 @@ export function checkEmail(event:Event) {
     const saveButton = input.closest('.profile__container')!.querySelector(`[data-saveid = "profile"]`);
 
     if (saveButton) {
-    if (!regex.test(input.value)) {
-      input.classList.add('invalid');
-      error.innerHTML = 'Email address must be properly formatted (e.g., user@example.com.';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
+      if (!regex.test(input.value)) {
+        input.classList.add('invalid');
+        error.innerHTML = 'Email address must be properly formatted (e.g., user@example.com.';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
-    checkErrors(error, saveButton)
-  }
   }
 }
 
-
-
-export function checkStreet(event:Event) {
+export function checkStreet(event: Event) {
   const regex = /[^a-zA-Z0-9-]/i;
   const input = event.target as HTMLElement;
 
-  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement
-  const {currwrapper} = infoWrapper!.dataset
+  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement;
+  const { currwrapper } = infoWrapper!.dataset;
 
   const saveButton = document.querySelector(`[data-saveid = "${currwrapper}"]`);
 
   const error = document.getElementById(`streetErr-${currwrapper}`);
 
   if (saveButton) {
-
-  if (input instanceof HTMLInputElement && error) {
-    if (!(regex.test(input.value) || input.value.length)) {
-      input.classList.add('invalid');
-      error.innerHTML = 'Street field must contain at least one character';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
+    if (input instanceof HTMLInputElement && error) {
+      if (!(regex.test(input.value) || input.value.length)) {
+        input.classList.add('invalid');
+        error.innerHTML = 'Street field must contain at least one character';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
-    checkErrors(error, saveButton)
-  }
   }
 }
 
-export function checkCity(event:Event) {
-  const regex = /[a-z]/i;;
+export function checkCity(event: Event) {
+  const regex = /[a-z]/i;
   const input = event.target as HTMLElement;
 
-  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement
-  const {currwrapper} = infoWrapper!.dataset
+  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement;
+  const { currwrapper } = infoWrapper!.dataset;
 
   const saveButton = document.querySelector(`[data-saveid = "${currwrapper}"]`);
 
   const error = document.getElementById(`cityErr-${currwrapper}`);
 
   if (saveButton) {
-
-  if (input instanceof HTMLInputElement && error) {
-    if (!(regex.test(input.value) || input.value.length)) {
-      input.classList.add('invalid');
-      error.innerHTML = 'City field must contain at least one character and no special characters or numbers.';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
+    if (input instanceof HTMLInputElement && error) {
+      if (!(regex.test(input.value) || input.value.length)) {
+        input.classList.add('invalid');
+        error.innerHTML = 'City field must contain at least one character and no special characters or numbers.';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
-    checkErrors(error, saveButton)
-  }
   }
 }
 
-export function checkPostalCode(event:Event) {
+export function checkPostalCode(event: Event) {
   const regex = /[0-9]/i;
   const input = event.target as HTMLElement;
 
-  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement
-  const {currwrapper} = infoWrapper!.dataset
+  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement;
+  const { currwrapper } = infoWrapper!.dataset;
 
   const saveButton = document.querySelector(`[data-saveid = "${currwrapper}"]`);
 
   const error = document.getElementById(`postalErr-${currwrapper}`);
 
   if (saveButton) {
-
-  if (input instanceof HTMLInputElement && error) {
-    if (input.value.length < 5 || !regex.test(input.value)) {
-      input.classList.add('invalid');
-      error.innerHTML = 'Postal code field must follow the format for the country (e.g., 12345 for the U.S.).';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
+    if (input instanceof HTMLInputElement && error) {
+      if (input.value.length < 5 || !regex.test(input.value)) {
+        input.classList.add('invalid');
+        error.innerHTML = 'Postal code field must follow the format for the country (e.g., 12345 for the U.S.).';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
-    checkErrors(error, saveButton)
-  }
   }
 }
 
-export function checkCountry(event:Event) {
+export function checkCountry(event: Event) {
   const input = event.target as HTMLElement;
 
-  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement
-  const {currwrapper} = infoWrapper!.dataset
+  const infoWrapper = input.closest('.addresses__infoWrapper') as HTMLElement;
+  const { currwrapper } = infoWrapper!.dataset;
 
   const saveButton = document.querySelector(`[data-saveid = "${currwrapper}"]`);
 
   const error = document.getElementById(`countryErr-${currwrapper}`);
 
   if (saveButton) {
-
-  if (input instanceof HTMLInputElement && error) {
-    if (input.value !== 'US') {
-      input.classList.add('invalid');
-      error.innerHTML = 'Sorry we only work in the US territory';
-    } else {
-      input.classList.remove('invalid');
-      error.innerHTML = '';
+    if (input instanceof HTMLInputElement && error) {
+      if (input.value !== 'US') {
+        input.classList.add('invalid');
+        error.innerHTML = 'Sorry we only work in the US territory';
+      } else {
+        input.classList.remove('invalid');
+        error.innerHTML = '';
+      }
+      checkErrors(error, saveButton);
     }
-    checkErrors(error, saveButton)
-  }
   }
 }
-
-

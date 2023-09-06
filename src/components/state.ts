@@ -35,5 +35,3 @@ export default class State {
     return State.id;
   }
 }
-
-

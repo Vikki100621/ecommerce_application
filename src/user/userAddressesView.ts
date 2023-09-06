@@ -76,14 +76,15 @@ export default class UserAddressesView extends View {
           attributes: {
             'data-section': 'addresses',
             'data-editid': `${address.id}`,
-          }});
+          },
+        });
 
         const buttonsContainer = new ElementBuilder({
           tag: 'div',
           classNames: ['addresses__buttonsContainer', 'hidden'],
           attributes: {
-            'data-container': `${address.id}`
-          }
+            'data-container': `${address.id}`,
+          },
         });
         const saveButton = new ElementBuilder({
           tag: 'button',
@@ -94,7 +95,7 @@ export default class UserAddressesView extends View {
           attributes: {
             'data-section': 'addresses',
             'data-saveid': `${address.id}`,
-          }
+          },
         });
         const cancelButton = new ElementBuilder({
           tag: 'button',
@@ -105,14 +106,14 @@ export default class UserAddressesView extends View {
           attributes: {
             'data-section': 'addresses',
             'data-cancelid': `${address.id}`,
-          }
+          },
         });
-        const infoWrapper = new ElementBuilder( {
+        const infoWrapper = new ElementBuilder({
           tag: 'div',
           classNames: ['addresses__infoWrapper'],
           attributes: {
-            'data-currWrapper': `${address.id}`
-          }
+            'data-currWrapper': `${address.id}`,
+          },
         });
         buttonsContainer.addInnerElement([saveButton, cancelButton]);
         initHeader.addInnerElement([initTitle, editButton, buttonsContainer]);
@@ -138,8 +139,12 @@ export default class UserAddressesView extends View {
           event: 'input',
           callback: checkCountry,
         });
-        const countryError = new ElementBuilder({ tag: 'span', classNames: ['errorSpan'], attributes: { id: `countryErr-${address.id}`}})
-        const city = new ElementBuilder({ tag: 'label', textContent: 'City'});
+        const countryError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `countryErr-${address.id}` },
+        });
+        const city = new ElementBuilder({ tag: 'label', textContent: 'City' });
         const citytValue = new ElementBuilder({
           tag: 'input',
           classNames: ['city', 'readonly'],
@@ -147,16 +152,24 @@ export default class UserAddressesView extends View {
           event: 'input',
           callback: checkCity,
         });
-        const cityError = new ElementBuilder({ tag: 'span', classNames: ['errorSpan'], attributes: { id: `cityErr-${address.id}`}})
+        const cityError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `cityErr-${address.id}` },
+        });
         const street = new ElementBuilder({ tag: 'label', textContent: 'Street' });
         const streetValue = new ElementBuilder({
           tag: 'input',
           classNames: ['street', 'readonly'],
           textContent: `${address.streetName}`,
           event: 'input',
-          callback: checkStreet
+          callback: checkStreet,
         });
-        const streetError = new ElementBuilder({ tag: 'span', classNames: ['errorSpan'], attributes: { id: `streetErr-${address.id}`}})
+        const streetError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `streetErr-${address.id}` },
+        });
         const postalCode = new ElementBuilder({ tag: 'label', textContent: 'Postal Code' });
         const postalCodeValue = new ElementBuilder({
           tag: 'input',
@@ -165,7 +178,11 @@ export default class UserAddressesView extends View {
           event: 'input',
           callback: checkPostalCode,
         });
-        const postalCodeError = new ElementBuilder({ tag: 'span', classNames: ['errorSpan'], attributes: { id: `postalErr-${address.id}`}})
+        const postalCodeError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `postalErr-${address.id}` },
+        });
         infoWrapper.addInnerElement([
           country,
           countryValue,
