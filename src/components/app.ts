@@ -183,7 +183,9 @@ export default class App {
     section.classList.add('product__section');
 
     const productsInstance = this.products;
-    const productDivs = await productsInstance.createProducts();
+    const productDivs = await productsInstance
+      .createProducts()
+      .then((response) => this.products.renderProducts(response));
     const sort = this.sorting;
     const { sortBlock } = sort;
     const rightContent = sort.rightsideSortBlock;
@@ -200,7 +202,6 @@ export default class App {
 
     this.main.appendChild(section);
   }
-
 
   async showProductPage(id: string | null) {
     if (id) {

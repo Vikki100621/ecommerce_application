@@ -87,3 +87,18 @@ export interface Category {
     'en-US': string;
   };
 }
+
+
+export type Options = {
+  data?: string | undefined;
+  value?: string | undefined;
+  categoryId?: string | undefined;
+  material?: string | undefined;
+  type?: string| undefined;
+  origin?: string |  undefined;
+  genre?: string | undefined;
+  priceRange?: {
+    min: number;
+    max: number;
+  } | undefined; 
+}
