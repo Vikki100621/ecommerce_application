@@ -12,9 +12,12 @@ export default class Slider {
 
   sliderElement: HTMLElement;
 
+  arrImgs: IImage[]
+
   constructor(arrImgs: IImage[], wrapper: HTMLElement) {
     this.wrapper = wrapper;
     this.sliderElement = returnElement({ tag: 'div', classes: ['product-detail__slider', 'slider'] });
+    this.arrImgs = arrImgs;
 
     this.sliderImgs = returnElement({
       tag: 'div',
@@ -23,12 +26,15 @@ export default class Slider {
     });
     this.prevBtn = returnElement({ tag: 'button', classes: ['slider__btn'], textContent: '<' }) as HTMLButtonElement;
     this.nextBtn = returnElement({ tag: 'button', classes: ['slider__btn'], textContent: '>' }) as HTMLButtonElement;
+  }
+
+  draw() {
     const sliderImgWrapper = returnElement({ tag: 'div', classes: ['slider__img-wrapper'] });
-    for (let i = 0; i < arrImgs.length; i += 1) {
+    for (let i = 0; i < this.arrImgs.length; i += 1) {
       const productImg = returnElement({
         tag: 'img',
         classes: ['slider__img'],
-        attrib: [{ name: 'src', value: arrImgs[i].url }],
+        attrib: [{ name: 'src', value: this.arrImgs[i].url }],
       });
       this.sliderImgs.append(productImg);
     }
@@ -36,9 +42,36 @@ export default class Slider {
     this.sliderElement.append(sliderImgWrapper);
     sliderImgWrapper.append(this.sliderImgs);
     this.sliderElement.append(this.nextBtn);
+    this.wrapper.prepend(this.sliderElement);
   }
 
-  draw() {
-    this.wrapper.prepend(this.sliderElement);
+  checkFirstLast(imgPosition: number) {
+    const imgsNum = this.arrImgs.length - 1;
+    this.prevBtn.disabled = false;
+    this.nextBtn.disabled = false;
+
+    if (imgPosition === 0) {
+      this.prevBtn.disabled = true;
+    }
+    if (imgPosition <= -1 * (imgsNum * 220)) {
+      this.nextBtn.disabled = true;
+    }
+    if (imgsNum === 0) {
+      this.prevBtn.disabled = true;
+      this.nextBtn.disabled = true;
+    }
+  }
+
+  slide(direction: string) {
+    const imgStartPosition = Number.parseInt(this.sliderImgs.style.left, 10);
+    const step = 220;
+    let result = imgStartPosition;
+    if (direction === 'next') {
+      result -= step;
+    } else if (direction === 'prev') {
+      result += step;
+    }
+    this.sliderImgs.style.left = `${result}px`;
+    this.checkFirstLast(Number.parseInt(this.sliderImgs.style.left, 10));
   }
 }

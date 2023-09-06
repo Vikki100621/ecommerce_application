@@ -106,32 +106,11 @@ export default class ProductPage {
     slider.draw();
     const imgsNum = this.data.masterVariant.images.length - 1;
 
-    function checkFirstLast(imgPosition: number) {
-      slider.prevBtn.disabled = false;
-      slider.nextBtn.disabled = false;
-
-      if (imgPosition === 0) {
-        slider.prevBtn.disabled = true;
-      }
-      if (imgPosition <= -1 * (imgsNum * 220)) {
-        slider.nextBtn.disabled = true;
-      }
-      if (imgsNum === 0) {
-        slider.prevBtn.disabled = true;
-        slider.nextBtn.disabled = true;
-      }
-    }
-
     function fSlider(evt: MouseEvent) {
-      const imgStartPosition = Number.parseInt(slider.sliderImgs.style.left, 10);
-
-      const step = 220;
       if (evt.target === slider.nextBtn) {
-        slider.sliderImgs.style.left = `${imgStartPosition - step}px`;
-        checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
+        slider.slide('next');
       } else if (evt.target === slider.prevBtn) {
-        slider.sliderImgs.style.left = `${imgStartPosition + step}px`;
-        checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
+        slider.slide('prev');
       }
     }
 
@@ -168,7 +147,7 @@ export default class ProductPage {
       }
     }
 
-    checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
+    slider.checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
     checkForAloneImg();
 
     slider.nextBtn.addEventListener('click', fSlider);
@@ -179,18 +158,18 @@ export default class ProductPage {
   }
 
   addPrice() {
-    const pricesBlock = returnElement({ tag: 'div', classes: ['slider__prices'] });
-    const usualPriceBlock = returnElement({ tag: 'div', classes: ['slider__price-usual'] });
+    const pricesBlock = returnElement({ tag: 'div', classes: ['product-details__prices'] });
+    const usualPriceBlock = returnElement({ tag: 'div', classes: ['product-details__price-usual'] });
     pricesBlock.append(usualPriceBlock);
     this.productInfoWrapper.prepend(pricesBlock);
     const prices = this.data.masterVariant.prices[0];
     const usualPriceValue = (prices.value.centAmount / 100).toFixed(2);
     if (prices.discounted) {
-      const discountPriceBlock = returnElement({ tag: 'div', classes: ['slider__price-sale'] });
+      const discountPriceBlock = returnElement({ tag: 'div', classes: ['product-details__price-sale'] });
       pricesBlock.append(discountPriceBlock);
       const discountedPriceValue = (prices.discounted.value.centAmount / 100).toFixed(2);
       discountPriceBlock.textContent = `$ ${discountedPriceValue}`;
-      usualPriceBlock.classList.add('slider__price-usual_inactive');
+      usualPriceBlock.classList.add('product-details__price-usual_inactive');
     }
 
     usualPriceBlock.textContent = `$ ${usualPriceValue}`;
