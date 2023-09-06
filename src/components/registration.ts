@@ -1,5 +1,6 @@
 import { postCustomer, updateCustomer, loginCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
+import State from './state';
 
 export default class Registration {
   main: HTMLElement;
@@ -431,6 +432,9 @@ export default class Registration {
         })
         .then(() => loginCustomer(email, pass))
         .then((response) => {
+          State.setId(response.data.customer.id);
+          State.setCustomer(response.data.customer);
+          State.setPassword(pass);
           console.log(response);
           console.log('User logged in successfully after update!');
           displayMessage('User successfully created and logged in.');

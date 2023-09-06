@@ -1,8 +1,10 @@
 import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
-import { enableEditMode, saveChanges, undoProfileChanges } from '../utils/callBacks';
+import { enableEditMode} from '../utils/callBacks';
 import { checkAge, checkEmail, checkFirstName, checkLastName } from '../utils/validation';
+import { saveChanges } from '../utils/saveFunctions';
+import { undoProfileChanges } from '../utils/undoFunctions';
 
 const param = {
   header: {

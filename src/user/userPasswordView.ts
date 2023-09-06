@@ -1,6 +1,9 @@
 import State from '../components/state';
-import { enableEditMode, saveChanges } from '../utils/callBacks';
+import { enableEditMode } from '../utils/callBacks';
 import ElementBuilder from '../utils/elementBuilder';
+import { savePasswordChanges } from '../utils/saveFunctions';
+import { undoPasswordChanges } from '../utils/undoFunctions';
+import { checkUserPassword } from '../utils/validation';
 import View from '../utils/view';
 
 const param = {
@@ -33,18 +36,18 @@ const param = {
     classNames: ['password__saveButton'],
     textContent: 'Save',
     event: 'click',
-    callback: saveChanges,
+    callback: savePasswordChanges,
   },
   cancelButton: {
     tag: 'button',
     classNames: ['password__cancelButton'],
     textContent: 'Cancel',
     event: 'click',
-    // callback: undoChanges,
+    callback: undoPasswordChanges,
   },
   infoWrapper: {
     tag: 'div',
-    classNames: ['password__infoBlock'],
+    classNames: ['password__infoWrapper'],
   },
   password: {
     tag: 'label',
@@ -55,7 +58,7 @@ const param = {
     tag: 'input',
     classNames: ['password', 'readonly'],
     event: 'input',
-    // callback: validatePassword,
+    callback: checkUserPassword,
     attributes: {
       id: 'password',
       type: 'password',

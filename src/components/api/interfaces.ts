@@ -14,6 +14,13 @@ export interface CustomerUpdateAction {
   // You can add more properties here if needed
 }
 
+export interface PasswordUpdateBody {
+  id : string;
+  version : number;
+  currentPassword : string,
+  newPassword : string
+}
+
 export interface CustomerUpdateBody {
   version: number;
   actions: CustomerUpdateAction[];

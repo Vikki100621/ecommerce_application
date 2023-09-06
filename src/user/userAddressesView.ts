@@ -2,8 +2,10 @@ import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
 import { Addresses, Customer } from '../utils/interface';
-import { enableEditMode, saveAddressChanges, undoAddressChanges } from '../utils/callBacks';
+import { enableEditMode} from '../utils/callBacks';
 import { checkCity, checkCountry, checkPostalCode, checkStreet } from '../utils/validation';
+import { saveAddressChanges } from '../utils/saveFunctions';
+import { undoAddressChanges } from '../utils/undoFunctions';
 
 const param = {
   header: {
@@ -57,7 +59,10 @@ export default class UserAddressesView extends View {
 
   getAddresses(addressesDiv: ElementBuilder) {
     if (this.customer) {
-      this.customer.addresses.forEach((address: Addresses) => {
+      console.log('customer: ', this.customer);
+      const addressArr = this.customer.addresses
+      console.log('addressArr: ', addressArr);
+      addressArr.forEach((address: Addresses) => {
         const container = new ElementBuilder({
           tag: 'div',
           classNames: ['address__wrapper'],
@@ -119,18 +124,18 @@ export default class UserAddressesView extends View {
         initHeader.addInnerElement([initTitle, editButton, buttonsContainer]);
         container.addInnerElement([initHeader, infoWrapper]);
 
-        if (address.id === this.customer?.defaultBillingAddressId) {
-          const defaultBilling = new ElementBuilder({ tag: 'div', textContent: 'Default billing address' });
-          const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🧾🧾🧾🧾🧾' });
-          infoWrapper.addInnerElement([defaultBilling, attemptImg]);
-          infoWrapper.getElement().classList.add('default');
-        }
-        if (address.id === this.customer?.defaultShippingAddressId) {
-          const defaultShipping = new ElementBuilder({ tag: 'div', textContent: 'Default shipping address' });
-          const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🚚🚚🚚🚚🚚' });
-          infoWrapper.addInnerElement([defaultShipping, attemptImg]);
-          infoWrapper.getElement().classList.add('default');
-        }
+        // if (address.id === this.customer?.defaultBillingAddressId) {
+        //   const defaultBilling = new ElementBuilder({ tag: 'div', textContent: 'Default billing address' });
+        //   const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🧾🧾🧾🧾🧾' });
+        //   infoWrapper.addInnerElement([defaultBilling, attemptImg]);
+        //   infoWrapper.getElement().classList.add('default');
+        // }
+        // if (address.id === this.customer?.defaultShippingAddressId) {
+        //   const defaultShipping = new ElementBuilder({ tag: 'div', textContent: 'Default shipping address' });
+        //   const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🚚🚚🚚🚚🚚' });
+        //   infoWrapper.addInnerElement([defaultShipping, attemptImg]);
+        //   infoWrapper.getElement().classList.add('default');
+        // }
         const country = new ElementBuilder({ tag: 'label', textContent: 'Country' });
         const countryValue = new ElementBuilder({
           tag: 'input',

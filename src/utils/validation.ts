@@ -11,10 +11,10 @@ function checkErrors(error: HTMLElement, button: Element) {
 // Работает
 export function validateEmail(event: Event) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const input = event.target as HTMLElement;
+  const input = event.target as HTMLInputElement;
   const error = document.getElementById('emailError') || document.getElementById('userEmailError');
 
-  if (input instanceof HTMLInputElement && error) {
+  if (input && error) {
     if (!regex.test(input.value)) {
       input.classList.add('invalid');
       error.innerHTML = 'Email address must be properly formatted (e.g., user@example.com.';
@@ -31,6 +31,27 @@ export function validatePassword() {
   const input = document.getElementById('password');
   const error = document.getElementById('passwordError');
   if (input instanceof HTMLInputElement && error) {
+    const saveButton = document.querySelector(`password__saveButton`);
+    if (saveButton) {
+      
+    if (!regex.test(input.value)) {
+      input.classList.add('invalid');
+      error.innerHTML =
+        'Password must contain at least 8 characters, at least one uppercase letter (A-Z) and one lowercase letter (a-z), one digit (0-9) and must not contain leading or trailing whitespace.';
+    } else {
+      input.classList.remove('invalid');
+      error.innerHTML = '';
+    }
+    checkErrors(error, saveButton);
+    }
+  }
+}
+
+export function checkUserPassword(event: Event) {
+  const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?!.*\s).{8,}$/;
+  const input = event.target as HTMLInputElement
+  const error = document.getElementById('passwordError');
+  if (input && error) {
     if (!regex.test(input.value)) {
       input.classList.add('invalid');
       error.innerHTML =
