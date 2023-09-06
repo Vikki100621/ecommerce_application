@@ -5,11 +5,9 @@ export default class Routing {
 
   private routes: { path: string; template: string }[];
 
-  private id: string | null;
-
   constructor(app: App) {
     this.app = app;
-    this.id = null;
+
     this.routes = [
       { path: '/', template: 'home' },
       { path: '/catalog', template: 'catalog' },
@@ -24,18 +22,27 @@ export default class Routing {
       { path: '/catalog/paintings', template: 'paintings' },
       { path: '/catalog/jewellery', template: 'jewellery' },
       { path: '/catalog/allproducts', template: 'jewellery' },
-      { path: `/catalog/allproducts/${this.id}`, template: 'product' },
     ];
-
-    this.updateIdRoutes();
   }
 
+  // // клики на менюшку
+  // addMenuClickHandlers() {
+  //   const menuItems = document.querySelectorAll('.menu-item');
+  //   menuItems.forEach((menuItem, index) => {
+  //     menuItem.addEventListener('click', (event) => this.handleMenuItemClick(index, event));
+  //   });
+  // }
+
+  // роутинг(для register/login так как они в одном родителе)
+
+  // отрисовываем шаблон
   registerTemplates() {
     this.routes.forEach(({ template, path }) => {
       this.app.registerTemplate(template, this.getTemplateFunctionForPath(path));
     });
   }
 
+  // разные варианты отрисовки шаблона
   getTemplateFunctionForPath(path: string) {
     switch (path) {
       case '/':
@@ -55,36 +62,22 @@ export default class Routing {
       case '/user':
         return () => this.app.showUserPage();
       case '/catalog/dishes':
-        return () => this.app.showProductsPage();
+        return () => this.app.showProductPage();
       case '/catalog/paintings':
-        return () => this.app.showProductsPage();
+        return () => this.app.showProductPage();
       case '/catalog/jewellery':
-        return () => this.app.showProductsPage();
+        return () => this.app.showProductPage();
       case '/catalog/allproducts':
-        return () => this.app.showProductsPage();
-      case `/catalog/allproducts/${this.id}`:
         return () => this.app.showProductPage();
       default:
         return () => this.app.showHomePage();
     }
   }
 
-  private updateIdRoutes() {
-    if (this.id !== null) {
-      const productRouteIndex = this.routes.findIndex((route) => route.template === 'product');
-      if (productRouteIndex !== -1) {
-        this.routes[productRouteIndex].path = `/catalog/allproducts/${this.id}`;
-      }
-    }
-  }
-
-  updateId(id: string | null): void {
-    this.id = id;
-    this.updateIdRoutes();
-  }
-
   init() {
     this.registerTemplates();
+    // this.addMenuClickHandlers();
+
     const handleNavigation = () => {
       if (
         localStorage.getItem('isLoggedIn') === 'true' &&
@@ -163,19 +156,6 @@ export default class Routing {
         const selectedRoute = this.routes[12].path;
         window.location.hash = selectedRoute;
       }
-    }
-  }
-
-  handleProductItemClick(event: Event) {
-    const clickedElement = event.target as HTMLElement;
-
-    const { parentElement } = clickedElement;
-    if (parentElement && parentElement.hasAttribute('id')) {
-      this.id = parentElement.getAttribute('id');
-      this.updateId(parentElement.getAttribute('id'));
-      const selectedRoute = this.routes[13].path;
-
-      window.location.hash = selectedRoute;
     }
   }
 }

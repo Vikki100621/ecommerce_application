@@ -87,24 +87,6 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   return response;
 }
 
-export async function getCategories(): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/categories`,
-    method: 'get',
-    params: {
-      limit: 30,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios(config);
-  return response;
-}
-
 export async function getProducts(): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 
@@ -123,14 +105,14 @@ export async function getProducts(): Promise<AxiosResponse> {
   return response;
 }
 
-export async function getProduct(id: string): Promise<AxiosResponse> {
+export async function getCategories(): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 
   const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/${id}`,
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/categories`,
     method: 'get',
     params: {
-      limit: 500,
+      limit: 30,
     },
     headers: {
       Authorization: `Bearer ${token}`,

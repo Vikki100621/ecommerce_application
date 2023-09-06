@@ -14,7 +14,6 @@ export default class Controller {
     this.app = new App();
     this.routing = new Routing(this.app);
     this.burger = new BurgerMenu();
-    this.init();
   }
 
   private addCategoryClickHandlers() {
@@ -22,15 +21,7 @@ export default class Controller {
       event.stopPropagation();
       const clickedElement = event.target as HTMLElement;
       if (window.location.hash.includes('/catalog') && clickedElement.classList.contains('product__category')) {
-        event.stopPropagation();
         this.routing.handleCategoryItemClick(event);
-      } else if (
-        window.location.hash.includes('/catalog/allproducts') ||
-        window.location.hash.includes('/catalog/jewellery') ||
-        window.location.hash.includes('/catalog/paintings') ||
-        window.location.hash.includes('/catalog/dishes')
-      ) {
-        this.routing.handleProductItemClick(event);
       }
     });
   }
@@ -93,103 +84,6 @@ export default class Controller {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private hasSelectedCheckboxes() {
-    const materialCheckboxes = document.querySelectorAll<HTMLInputElement>('.checkbox');
-    return Array.from(materialCheckboxes).some((checkbox) => checkbox.checked);
-  }
-
-  private checkCheckboxes() {
-    this.app.products.filteredProductdivs = this.app.products.productDivs.slice();
-
-    const materialCheckboxes = document.querySelectorAll<HTMLInputElement>('.checkbox');
-    const selectedMaterials = Array.from(materialCheckboxes)
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => checkbox.value.toLowerCase());
-    console.log(selectedMaterials);
-    if (selectedMaterials.length === 0) {
-      const productContainer = document.querySelector('.product__container') as HTMLElement;
-      productContainer.innerHTML = '';
-      this.app.products.productDivs.forEach((productDiv: HTMLElement) => {
-        productContainer.appendChild(productDiv);
-      });
-      return;
-    }
-
-    this.app.products.filteredProductdivs = this.app.products.filteredProductdivs.filter((productDiv) => {
-      const elID = productDiv.id;
-      const product = this.app.products.data.find((item) => item.id === elID);
-
-      if (product) {
-        const { attributes } = product.masterVariant;
-        const allAttributeValues = attributes.reduce((accumulator, attribute) => {
-          if (Array.isArray(attribute.value)) {
-            accumulator.push(...attribute.value.map((value) => value.toLowerCase()));
-          } else {
-            accumulator.push((attribute.value as string).toLowerCase());
-          }
-          return accumulator;
-        }, [] as string[]);
-        console.log(allAttributeValues);
-        return selectedMaterials.every((selectedMaterial) => allAttributeValues.includes(selectedMaterial));
-      }
-
-      return false;
-    });
-    console.log(this.app.products.filteredProductdivs);
-    const productContainer = document.querySelector('.product__container') as HTMLElement;
-    productContainer.innerHTML = '';
-    this.app.products.filteredProductdivs.forEach((productDiv: HTMLElement) => {
-      productContainer.appendChild(productDiv);
-    });
-  }
-
-  private addSortingHandlers() {
-    this.app.sorting.categoryDropdown?.addEventListener('change', () => {
-      const cat = this.app.sorting.categoryDropdown?.value as string;
-      this.app.sorting.createFilters(cat);
-      this.updateFiltersAndSearch();
-      this.addProductsClick();
-    });
-  }
-
-  private addSearchHandlers() {
-    this.app.sorting.searchInput.addEventListener('input', () => {
-      this.checkCheckboxes();
-      this.updateFiltersAndSearch();
-      this.addProductsClick();
-    });
-  }
-
-  private addSearchButtionHandlers() {
-    this.app.sorting.searchButton.addEventListener('click', () => {
-      console.log('click');
-      this.checkCheckboxes();
-      this.addProductsClick();
-    });
-  }
-
-  private addProductsClick() {
-    this.app.products.filteredProductdivs.forEach((productDiv) => {
-      productDiv.addEventListener('click', (event) => {
-        console.log('Child clicked');
-        event.stopPropagation(); // Предотвращаем всплытие события к родительскому элементу
-        this.routing.handleProductItemClick(event);
-      });
-    });
-  }
-
-  public init() {
-    this.burger.init();
-    this.routing.init();
-    this.addProductsClick();
-    this.addSearchHandlers();
-    this.addCategoryClickHandlers();
-    this.addMenuClickHandlers();
-    this.addSortingHandlers();
-    this.addSearchButtionHandlers();
-  }
-
   // private updateFiltersAndSearch() {
   //   const selectedCategory = this.app.sorting.categoryDropdown?.value;
   //   const searchText = this.app.sorting.searchInput.value.toLowerCase().trim();
@@ -246,4 +140,95 @@ export default class Controller {
   //     }
   //     return false;
   //   });
+
+  //   const productContainer = document.querySelector('.product__container') as HTMLElement;
+  //   productContainer.innerHTML = '';
+  //   this.app.products.filteredProductdivs.forEach((productDiv: HTMLElement) => {
+  //     productContainer.appendChild(productDiv);
+  //   });
+  // }
+
+  // eslint-disable-next-line class-methods-use-this
+  private hasSelectedCheckboxes() {
+    const materialCheckboxes = document.querySelectorAll<HTMLInputElement>('.checkbox');
+    return Array.from(materialCheckboxes).some((checkbox) => checkbox.checked);
+  }
+
+  private checkCheckboxes() {
+    this.app.products.filteredProductdivs = this.app.products.productDivs.slice();
+
+    const materialCheckboxes = document.querySelectorAll<HTMLInputElement>('.checkbox');
+    const selectedMaterials = Array.from(materialCheckboxes)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value.toLowerCase());
+
+    if (selectedMaterials.length === 0) {
+      const productContainer = document.querySelector('.product__container') as HTMLElement;
+      productContainer.innerHTML = '';
+      this.app.products.productDivs.forEach((productDiv: HTMLElement) => {
+        productContainer.appendChild(productDiv);
+      });
+      return;
+    }
+
+    this.app.products.filteredProductdivs = this.app.products.filteredProductdivs.filter((productDiv) => {
+      const elID = productDiv.id;
+      const product = this.app.products.data.find((item) => item.id === elID);
+
+      if (product) {
+        const { attributes } = product.masterVariant;
+        const allAttributeValues = attributes.reduce((accumulator, attribute) => {
+          if (Array.isArray(attribute.value)) {
+            accumulator.push(...attribute.value.map((value) => value.toLowerCase()));
+          } else {
+            accumulator.push((attribute.value as string).toLowerCase());
+          }
+          return accumulator;
+        }, [] as string[]);
+
+        return selectedMaterials.every((selectedMaterial) => allAttributeValues.includes(selectedMaterial));
+      }
+
+      return false;
+    });
+
+    const productContainer = document.querySelector('.product__container') as HTMLElement;
+    productContainer.innerHTML = '';
+    this.app.products.filteredProductdivs.forEach((productDiv: HTMLElement) => {
+      productContainer.appendChild(productDiv);
+    });
+  }
+
+  private addSortingHandlers() {
+    this.app.sorting.categoryDropdown?.addEventListener('change', () => {
+      const cat = this.app.sorting.categoryDropdown?.value as string;
+      this.app.sorting.createFilters(cat);
+      this.updateFiltersAndSearch();
+    });
+  }
+
+  private addSearchHandlers() {
+    this.app.sorting.searchInput.addEventListener('input', () => {
+      this.checkCheckboxes();
+      this.updateFiltersAndSearch();
+    });
+  }
+
+  private addSearchButtionHandlers() {
+    this.app.sorting.searchButton.addEventListener('click', () => {
+      console.log('click');
+      this.checkCheckboxes();
+      this.updateFiltersAndSearch();
+    });
+  }
+
+  public init() {
+    this.burger.init();
+    this.routing.init();
+    this.addSearchHandlers();
+    this.addCategoryClickHandlers();
+    this.addMenuClickHandlers();
+    this.addSortingHandlers();
+    this.addSearchButtionHandlers();
+  }
 }
