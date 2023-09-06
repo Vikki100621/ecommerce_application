@@ -123,7 +123,6 @@ export async function getProducts(): Promise<AxiosResponse> {
   return response;
 }
 
-
 export async function getProduct(id: string): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 

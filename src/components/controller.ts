@@ -24,7 +24,12 @@ export default class Controller {
       if (window.location.hash.includes('/catalog') && clickedElement.classList.contains('product__category')) {
         event.stopPropagation();
         this.routing.handleCategoryItemClick(event);
-      } else if (window.location.hash.includes('/catalog/allproducts') || window.location.hash.includes('/catalog/jewellery') || window.location.hash.includes('/catalog/paintings') || window.location.hash.includes('/catalog/dishes')) {
+      } else if (
+        window.location.hash.includes('/catalog/allproducts') ||
+        window.location.hash.includes('/catalog/jewellery') ||
+        window.location.hash.includes('/catalog/paintings') ||
+        window.location.hash.includes('/catalog/dishes')
+      ) {
         this.routing.handleProductItemClick(event);
       }
     });
@@ -88,7 +93,6 @@ export default class Controller {
     });
   }
 
- 
   // eslint-disable-next-line class-methods-use-this
   private hasSelectedCheckboxes() {
     const materialCheckboxes = document.querySelectorAll<HTMLInputElement>('.checkbox');
@@ -166,7 +170,6 @@ export default class Controller {
   }
 
   private addProductsClick() {
-
     this.app.products.filteredProductdivs.forEach((productDiv) => {
       productDiv.addEventListener('click', (event) => {
         console.log('Child clicked');
@@ -187,7 +190,7 @@ export default class Controller {
     this.addSearchButtionHandlers();
   }
 
-    // private updateFiltersAndSearch() {
+  // private updateFiltersAndSearch() {
   //   const selectedCategory = this.app.sorting.categoryDropdown?.value;
   //   const searchText = this.app.sorting.searchInput.value.toLowerCase().trim();
 
@@ -243,5 +246,4 @@ export default class Controller {
   //     }
   //     return false;
   //   });
-
 }

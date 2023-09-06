@@ -255,3 +255,31 @@ export function undoAddressChanges(event: Event) {
     }
   }
 }
+
+export function undoPasswordChanges() {
+  const customer = State.getCustomer();
+
+  const password = document.querySelector('.password');
+  const editButton = document.querySelector('.password__editButton');
+  const saveButton = document.querySelector('.password__saveButton');
+  const buttonsContainer = document.querySelector('.password__buttonsContainer');
+  const infoWrapper = document.querySelectorAll('.profile__infoWrapper .readonly');
+  const errors = document.querySelectorAll('.profile__infoWrapper .errorSpan');
+
+  if (customer) {
+    if (password instanceof HTMLInputElement) password.value = customer.password;
+  }
+  if (editButton && buttonsContainer && saveButton) {
+    editButton.classList.remove('hidden');
+    buttonsContainer.classList.add('hidden');
+    saveButton.removeAttribute('disabled');
+    infoWrapper.forEach((elem) => {
+      elem.setAttribute('readonly', 'true');
+      elem.classList.remove('editMode');
+    });
+  }
+  for (let index = 0; index < errors.length; index += 1) {
+    errors[index].innerHTML = '';
+    infoWrapper[index].classList.remove('invalid');
+  }
+}

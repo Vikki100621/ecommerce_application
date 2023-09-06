@@ -1,87 +1,69 @@
 import State from '../components/state';
 import { enableEditMode, saveChanges } from '../utils/callBacks';
 import ElementBuilder from '../utils/elementBuilder';
-import { validatePassword } from '../utils/validation';
 import View from '../utils/view';
 
 const param = {
-  titleDiv: {
+  header: {
     tag: 'div',
     classNames: ['password__header'],
   },
-  titleParametrs: {
+  title: {
     tag: 'h3',
     classNames: ['password__title'],
     textContent: 'Password information',
   },
-  editParametrs: {
+  editButton: {
     tag: 'button',
-    classNames: ['password__edit'],
+    classNames: ['password__editButton'],
     textContent: '🖉 Edit',
     event: 'click',
     callback: enableEditMode,
+    attributes: {
+      'data-info': 'infoWrapper',
+      'data-section': 'password__',
+    },
   },
   buttonsContainer: {
     tag: 'div',
-    classNames: ['buttonsContainer', 'hidden'],
+    classNames: ['password__buttonsContainer', 'hidden'],
   },
-  saveParametrs: {
+  saveButton: {
     tag: 'button',
-    classNames: ['saveButton'],
+    classNames: ['password__saveButton'],
     textContent: 'Save',
     event: 'click',
     callback: saveChanges,
   },
-  cancelParametrs: {
+  cancelButton: {
     tag: 'button',
-    classNames: ['addresses__edit'],
+    classNames: ['password__cancelButton'],
     textContent: 'Cancel',
     event: 'click',
     // callback: undoChanges,
   },
-  infoDiv: {
+  infoWrapper: {
     tag: 'div',
     classNames: ['password__infoBlock'],
   },
   password: {
-    tag: 'div',
-    classNames: ['passwordLabel'],
+    tag: 'label',
+    classNames: ['password__password'],
     textContent: `Password `,
   },
   passwordValue: {
     tag: 'input',
     classNames: ['password', 'readonly'],
     event: 'input',
-    callback: validatePassword,
+    // callback: validatePassword,
     attributes: {
       id: 'password',
       type: 'password',
       readonly: 'true',
     },
   },
-  newPassword: {
-    tag: 'div',
-    classNames: ['newPasswordLabel', 'hidden'],
-    textContent: `New password `,
-  },
-  newPasswordValue: {
-    tag: 'input',
-    classNames: ['newPassword', 'readonly', 'hidden'],
-    event: 'input',
-    callback: validatePassword,
-    attributes: {
-      id: 'newPassword',
-      type: 'password',
-      readonly: 'true',
-    },
-  },
 
   passwordError: { tag: 'span', classNames: ['passwordError', 'errorSpan'], attributes: { id: 'passwordError' } },
-  newPasswordError: {
-    tag: 'span',
-    classNames: ['newPasswordError', 'errorSpan', 'hidden'],
-    attributes: { id: 'newPasswordError' },
-  },
 };
 export default class UserPasswordView extends View {
   constructor() {
@@ -95,30 +77,27 @@ export default class UserPasswordView extends View {
   }
 
   configureView() {
-    const titleDiv = new ElementBuilder(param.titleDiv);
-    const title = new ElementBuilder(param.titleParametrs);
-    const edit = new ElementBuilder(param.editParametrs);
+    const header = new ElementBuilder(param.header);
+    const title = new ElementBuilder(param.title);
+    const editButton = new ElementBuilder(param.editButton);
     const buttonsContainer = new ElementBuilder(param.buttonsContainer);
-    const save = new ElementBuilder(param.saveParametrs);
-    const cancel = new ElementBuilder(param.cancelParametrs);
-    buttonsContainer.addInnerElement([save, cancel]);
-    titleDiv.addInnerElement([title, edit, buttonsContainer]);
+    const saveButton = new ElementBuilder(param.saveButton);
+    const cancelButton = new ElementBuilder(param.cancelButton);
+    buttonsContainer.addInnerElement([saveButton, cancelButton]);
+    header.addInnerElement([title, editButton, buttonsContainer]);
 
-    const infoDiv = new ElementBuilder(param.infoDiv);
+    const infoWrapper = new ElementBuilder(param.infoWrapper);
     const password = new ElementBuilder(param.password);
     const passwordValue = new ElementBuilder(param.passwordValue);
     const passwordError = new ElementBuilder(param.passwordError);
-    const newPassword = new ElementBuilder(param.newPassword);
-    const newPasswordValue = new ElementBuilder(param.newPasswordValue);
-    const newPasswordError = new ElementBuilder(param.newPasswordError);
 
     const currentUser = State.getCustomer();
     if (currentUser) {
       passwordValue.setTextContent(currentUser.password);
     }
 
-    infoDiv.addInnerElement([password, passwordValue, passwordError, newPassword, newPasswordValue, newPasswordError]);
+    infoWrapper.addInnerElement([password, passwordValue, passwordError]);
 
-    this.viewElement.addInnerElement([titleDiv, infoDiv]);
+    this.viewElement.addInnerElement([header, infoWrapper]);
   }
 }

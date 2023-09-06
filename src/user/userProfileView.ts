@@ -196,3 +196,5 @@ export default class UserProfileView extends View {
     this.viewElement.addInnerElement([header, infoWrapper]);
   }
 }
+
+// ПОСЛЕДНЕЕ Изменение
