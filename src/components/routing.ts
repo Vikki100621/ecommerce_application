@@ -51,7 +51,7 @@ export default class Routing {
       case '/user':
         return () => this.app.showUserPage();
       case `/catalog/${this.id}`:
-        return () => this.app.showProductPage();
+        return () => this.app.showProductPage(this.id);
       default:
         return () => this.app.showHomePage();
     }
@@ -142,7 +142,6 @@ export default class Routing {
       this.id = parentElement.getAttribute('id');
       this.updateId(parentElement.getAttribute('id'));
       const selectedRoute = this.routes[9].path;
-
       window.location.hash = selectedRoute;
     }
   }

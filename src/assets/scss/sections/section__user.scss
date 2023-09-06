@@ -1,4 +1,3 @@
-
 button {
   font-size: 18px;
   font-weight: bold;
@@ -9,7 +8,6 @@ button {
   border: none;
   border-radius: 5px;
   box-shadow: 2px 2px 4px #00000033;
-  
 }
 
 .user {
@@ -22,24 +20,24 @@ button {
 
 .password {
   &__infoBlock {
-      display: grid;
-      grid-template-columns: repeat(3, auto);
-      grid-gap: 10px;
-    }
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 10px;
+  }
 }
 
 .profile,
 .addresses, 
 .password {
   &__container {
-    width: 600px;
-    margin: 0 auto 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 600px;
     padding-top: 20px;
     padding-bottom: 20px;
+    margin: 0 auto 20px;
     background-color: #f5e6d7;
     border: 2px solid #d7b899;
     box-shadow: 2px 2px 5px #00000030;
@@ -65,7 +63,7 @@ button {
   &__firstName,
   &__lastName,
   &__dateOfBirth,
-    &__email {
+  &__email {
     font-weight: bold;
     color: #d7b899;
   }
@@ -80,35 +78,32 @@ button {
 
 .addresses {
   &__dataBlock {
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 20px;
-  margin-bottom: 10px;
-  background-color: #e6d8c4;
-  border: 2px solid #d7b899;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px #00000030;
-}
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: #e6d8c4;
+    border: 2px solid #d7b899;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #00000030;
+  }
 
-&__infoHeader {
-display: flex;
-justify-content: space-between;
+  &__infoHeader {
+    display: flex;
+    justify-content: space-between;
+  }
 }
-}
-
 
 .default {
   border: 2px solid #2d03e9;
 }
-
 
 .profile__infoBlock .readonly,
 .password__infoBlock .readonly {
   background-color: transparent;
   border: none;
   outline: none;
-
 }
 
 .profile__infoBlock .editMode {
@@ -136,6 +131,3 @@ justify-content: space-between;
 .profile__infoBlock input.invalid:focus {
   box-shadow: 0 0 5px 2px #ff0000;
 }
-
-
-
