@@ -73,7 +73,7 @@
 }
 
 .category__coins {
-  background-image: url("../../img/coins.jpg");
+  background-image: url('../../img/coins.jpg');
 }
 
 .product__cart {
@@ -114,17 +114,9 @@
   flex-direction: column;
   row-gap: 30px;
 }
-
-.filters__container input[type=checkbox] {
-  border: 2px #492f2f solid;
-}
-.filters__container input[type=checkbox]:checked {
-  background-color: #498334;
-}
 .filters__container input[type='checkbox'] {
   border: 2px #492f2f solid;
 }
 .filters__container input[type='checkbox']:checked {
   background-color: #498334;
-}
-/*# sourceMappingURL=section__category&products.css.map */
+} /*# sourceMappingURL=section__category&products.css.map */

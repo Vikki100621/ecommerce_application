@@ -1,28 +1,6 @@
-import { loginCustomer, updateCustomer } from '../components/api/api';
+import { loginCustomer } from '../components/api/api';
 import State from '../components/state';
-
-export function showModal(text: string, status: number) {
-  const modal = document.createElement('div');
-  modal.classList.add('modal');
-  const firstline = document.createElement('p');
-  const secondline = document.createElement('p');
-  modal.append(firstline, secondline);
-  if (status === 200) {
-    firstline.innerText = '✔️Login successfully completed';
-    secondline.innerText = 'Welcome';
-  } else {
-    firstline.innerText = `❌${text}`;
-    secondline.innerText = 'Incorrect email or password';
-  }
-  document.body.appendChild(modal);
-}
-
-function hideModal() {
-  const modal = document.querySelector('.modal');
-  if (modal) {
-    modal.remove();
-  }
-}
+import { hideModal, showModal } from './modal';
 
 export function togglePassword() {
   const passwordInput = document.getElementById('password');
@@ -51,9 +29,10 @@ export function getClientData(event: Event) {
     password: returnInputValue('password'),
   };
   loginCustomer(data.email, data.password)
-    .then((customerData) => {
-      State.setCustomer(customerData.data.customer);
-      State.setPassword(data.password)
+    .then((response) => {
+      State.setId(response.data.customer.id);
+      State.setCustomer(response.data.customer);
+      State.setPassword(data.password);
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');
@@ -64,7 +43,7 @@ export function getClientData(event: Event) {
         const elLogOut = itemlogout as HTMLElement;
         elLogOut.textContent = 'LogOut';
       }
-      showModal('Login successfully completed', 200);
+      showModal('Login completed', response.status);
       setTimeout(hideModal, 3000);
       return data;
     })
@@ -74,76 +53,36 @@ export function getClientData(event: Event) {
     });
 }
 
-export function addEditAttribute (event: Event) {
+export function enableEditMode(event: Event) {
+  const currPassword = State.getPassword();
+  console.log('currPassword: ', currPassword);
   const editBtn = event.target as HTMLElement;
-  const buttonsContainer = document.querySelector('.buttonsContainer');
 
-  const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
+  const { section, editid } = editBtn.dataset;
 
-  if(editBtn && buttonsContainer) {
+  const buttonsContainer =
+    section === 'addresses'
+      ? document.querySelector(`[data-container = "${editid}"]`)
+      : document.querySelector(`.${section}buttonsContainer`);
+
+  const infoBlocks =
+    section === 'addresses'
+      ? document.querySelector(`[data-currWrapper = "${editid}"]`)!.querySelectorAll('.readonly')
+      : document.querySelectorAll(`.${section}infoWrapper .readonly`);
+
+  if (editBtn && buttonsContainer && currPassword) {
     editBtn.classList.add('hidden');
-    buttonsContainer.classList.remove('hidden'); 
-    infoBlocks.forEach(elem => {
-      elem.removeAttribute('readonly');
-      elem.classList.add('editMode')
-    })
-  }
-};
-
-
-export function undoChanges () {
-  const customer = State.getCustomer();
-  const firstName = document.querySelector('.firstName')
-  const lastName = document.querySelector('.lastName')
-  const date =  document.querySelector('.dateOfBirth')
-  const editBtn = document.querySelector('.profile__edit');
-  const buttonsContainer = document.querySelector('.buttonsContainer');
-  const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
-  const errors = document.querySelectorAll('.profile__infoBlock .errorSpan');
-
-  if (customer) {
-    if (firstName instanceof HTMLInputElement) firstName.value = customer?.firstName
-    if (lastName instanceof HTMLInputElement) lastName.value = customer?.lastName
-    if (date instanceof HTMLInputElement) date.value = customer?.dateOfBirth
-  }
-  if(editBtn && buttonsContainer) {
-    editBtn.classList.remove('hidden');
-    buttonsContainer.classList.add('hidden');
-    infoBlocks.forEach(elem => {
-      elem.setAttribute('readonly', 'true');
-      elem.classList.remove('editMode')
-    });
-
-    for (let index = 0; index < errors.length; index += 1) {
-      errors[index].innerHTML = ''
-      infoBlocks[index].classList.remove('invalid')
+    buttonsContainer.classList.remove('hidden');
+    if (infoBlocks[0] instanceof HTMLInputElement && infoBlocks[0].type === 'password') {
+      infoBlocks[0].removeAttribute('readonly');
+      infoBlocks[0].classList.add('editMode');
+      infoBlocks[0].type = 'text';
+      infoBlocks[0].value = currPassword;
+    } else {
+      infoBlocks.forEach((elem) => {
+        elem.removeAttribute('readonly');
+        elem.classList.add('editMode');
+      });
     }
-  }
-}
-
-
-export function saveChanges () {
-  const customer = State.getCustomer();
-  const firstName = document.querySelector('.firstName')
-  const lastName = document.querySelector('.lastName')
-  const date =  document.querySelector('.dateOfBirth')
-  const editBtn = document.querySelector('.profile__edit');
-  const buttonsContainer = document.querySelector('.buttonsContainer');
-  const infoBlocks = document.querySelectorAll('.profile__infoBlock .readonly');
-
-  if (customer) {
-    if (firstName instanceof HTMLInputElement) customer.firstName = firstName.value
-    if (lastName instanceof HTMLInputElement) customer.lastName = lastName.value
-    if (date instanceof HTMLInputElement) customer.dateOfBirth = date.value
-    updateCustomer(customer.id, {version: Number(customer.version), actions: [{action: 'setFirstName', firstName: customer.firstName}, {action: 'setLastName', lastName: customer.lastName}, {action: 'setDateOfBirth', dateOfBirth: customer.dateOfBirth}]}).then((qwer) => console.log('RESPONSE', qwer))
-  }
-
-  if(editBtn && buttonsContainer) {
-    editBtn.classList.remove('hidden');
-    buttonsContainer.classList.add('hidden'); 
-    infoBlocks.forEach(elem => {
-      elem.setAttribute('readonly', 'true');
-      elem.classList.remove('editMode')
-    })
   }
 }

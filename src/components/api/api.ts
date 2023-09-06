@@ -1,7 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { CustomerUpdateBody, Options } from './interfaces';
+
+import { CustomerUpdateBody, PasswordUpdateBody, Options } from './interfaces';
 
 const CTP_PROJECT_KEY = 'rs-school-ecommerce-application';
 const CTP_CLIENT_SECRET = 'xnIExDv_L553zLUH71kjVzANZ_7bfwyn';
@@ -89,6 +90,28 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   return response;
 }
 
+export async function getProducts(): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections`,
+    method: 'get',
+    params: {
+
+      limit: 30,
+      expand: 'parent',
+      limit: 500,
+
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
+
 export async function getCategories(): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 
@@ -97,7 +120,6 @@ export async function getCategories(): Promise<AxiosResponse> {
     method: 'get',
     params: {
       limit: 30,
-      expand: 'parent',
     },
     headers: {
       Authorization: `Bearer ${token}`,
@@ -108,39 +130,40 @@ export async function getCategories(): Promise<AxiosResponse> {
   return response;
 }
 
-export async function getProducts(): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections`,
-    method: 'get',
-    params: {
-      limit: 500,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios(config);
-  return response;
-}
 
 export async function getProduct(id: string): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/${id}`,
-    method: 'get',
-    params: {
-      limit: 500,
+
+export async function getCustomer(id: string): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+   const response = await axios.get(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, {
+    headers: {
+     Authorization: `Bearer ${token}`,
     },
+  });
+ return response;
+}
+
+
+export async function updatePassword(body: PasswordUpdateBody): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+  const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/password`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
+  });
+  return response;
+}
 
-  const response = await axios(config);
+export async function getProduct(id: string): Promise<AxiosResponse> {
+
+  const token = (await getRegularToken()).toString();
+  const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/password`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response;
 }
 

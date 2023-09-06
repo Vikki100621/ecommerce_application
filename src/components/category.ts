@@ -9,6 +9,7 @@ export default class Categories {
     this.categoryContainer.classList.add('category__container');
   }
 
+
   async getСategories() {
     try {
       const categoriesResponse = await getCategories();

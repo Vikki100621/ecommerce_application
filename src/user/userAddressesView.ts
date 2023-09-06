@@ -2,60 +2,35 @@ import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
 import { Addresses, Customer } from '../utils/interface';
-import { addEditAttribute } from '../utils/callBacks';
+import { enableEditMode } from '../utils/callBacks';
+import { checkCity, checkCountry, checkPostalCode, checkStreet } from '../utils/validation';
+import { saveAddressChanges } from '../utils/saveFunctions';
+import { undoAddressChanges } from '../utils/undoFunctions';
 
 const param = {
-  titleDiv: {
+  header: {
     tag: 'div',
     classNames: ['addresses__header'],
   },
-  titleParametrs: {
+  title: {
     tag: 'h3',
     classNames: ['addresses__title'],
     textContent: 'Addresses',
   },
-  editParametrs: {
-    tag: 'button',
-    classNames: ['editButton'],
-    textContent: '🖉 Edit',
-    event: 'click',
-    callback: addEditAttribute,
-  },
-  addressesDiv: {
+  roster: {
     tag: 'div',
-    classNames: ['addresses__infoBlock'],
+    classNames: ['addresses__roster'],
   },
-  addressesDivHeader: {
+  initHeader: {
     tag: 'div',
-    classNames: ['addresses__infoHeader'],
+    classNames: ['addresses__initHeader'],
   },
-  addressesDivTitle: {
+
+  initTitle: {
     tag: 'div',
-    classNames: ['addresses__infoTitle'],
-    textContent: 'Address'
+    classNames: ['addresses__initTitle'],
+    textContent: 'Address',
   },
-   buttonsContainer: {
-    tag: 'div',
-    classNames: ['buttonsContainer', 'hidden'],
-  },
-  saveParametrs: {
-    tag: 'button',
-    classNames: ['saveButton'],
-    textContent: 'Save',
-    event: 'click',
-    // callback: addEditAttribute,
-  },
-   cancelParametrs: {
-    tag: 'button',
-    classNames: ['addresses__edit'],
-    textContent: 'Cancel',
-    event: 'click',
-    // callback: addEditAttribute,
-  },
-  infoBlock : {
-    tag: 'div',
-    classNames: ['addresses__dataBlock']
-  }
 };
 
 export default class UserAddressesView extends View {
@@ -72,64 +47,160 @@ export default class UserAddressesView extends View {
   }
 
   configureView() {
-    const titleDiv = new ElementBuilder(param.titleDiv);
-    const title = new ElementBuilder(param.titleParametrs);
-    titleDiv.addInnerElement([title]);
+    const header = new ElementBuilder(param.header);
+    const title = new ElementBuilder(param.title);
+    header.addInnerElement([title]);
 
-    const addressesDiv = new ElementBuilder(param.addressesDiv);
-    this.getAddresses(addressesDiv);
+    const roster = new ElementBuilder(param.roster);
+    this.getAddresses(roster);
 
-    this.viewElement.addInnerElement([titleDiv, addressesDiv]);
+    this.viewElement.addInnerElement([header, roster]);
   }
-
- 
 
   getAddresses(addressesDiv: ElementBuilder) {
     if (this.customer) {
-      this.customer.addresses.forEach((address: Addresses) => {
-        const container = new ElementBuilder({ tag: 'div', classNames: ['address__wrapper'], attributes: {id: address.id}});
+      console.log('customer: ', this.customer);
+      const addressArr = this.customer.addresses;
+      console.log('addressArr: ', addressArr);
+      addressArr.forEach((address: Addresses) => {
+        const container = new ElementBuilder({
+          tag: 'div',
+          classNames: ['address__wrapper'],
+          attributes: { id: address.id },
+        });
 
-        const addressesDivHeader = new ElementBuilder(param.addressesDivHeader)
-        const addressesDivTitle = new ElementBuilder(param.addressesDivTitle)
-        const addressesDivEdit = new ElementBuilder(param.editParametrs)
-        const addressesButtonsContainer = new ElementBuilder(param.buttonsContainer)
-        const saveButton = new ElementBuilder(param.saveParametrs)
-        const cancelButton = new ElementBuilder(param.cancelParametrs)
+        const initHeader = new ElementBuilder(param.initHeader);
+        const initTitle = new ElementBuilder(param.initTitle);
 
-        const addressesInfoBlock = new ElementBuilder(param.infoBlock)
-        addressesButtonsContainer.addInnerElement([saveButton, cancelButton])
-        addressesDivHeader.addInnerElement([addressesDivTitle, addressesDivEdit, addressesButtonsContainer])
-        container.addInnerElement([addressesDivHeader, addressesInfoBlock])
+        const editButton = new ElementBuilder({
+          tag: 'button',
+          classNames: ['addresses__editButton'],
+          textContent: '🖉 Edit',
+          event: 'click',
+          callback: enableEditMode,
+          attributes: {
+            'data-section': 'addresses',
+            'data-editid': `${address.id}`,
+          },
+        });
 
-        if (address.id === this.customer?.defaultBillingAddressId) {
-          const defaultBilling = new ElementBuilder({ tag: 'div', textContent: 'Default billing address' });
-          const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🧾🧾🧾🧾🧾' });
-          addressesInfoBlock.addInnerElement([defaultBilling, attemptImg]);
-          addressesInfoBlock.getElement().classList.add('default');
-        }
-        if (address.id === this.customer?.defaultShippingAddressId) {
-          const defaultShipping = new ElementBuilder({ tag: 'div', textContent: 'Default shipping address' });
-          const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🚚🚚🚚🚚🚚' });
-          addressesInfoBlock.addInnerElement([defaultShipping, attemptImg]);
-          addressesInfoBlock.getElement().classList.add('default');
-        }
-        const country = new ElementBuilder({ tag: 'div', textContent: 'Country' });
-        const countryValue = new ElementBuilder({ tag: 'div', textContent: `${address.country}` });
-        const city = new ElementBuilder({ tag: 'div', textContent: 'City' });
-        const citytValue = new ElementBuilder({ tag: 'div', textContent: `${address.city}` });
-        const street = new ElementBuilder({ tag: 'div', textContent: 'Street' });
-        const streetValue = new ElementBuilder({ tag: 'div', textContent: `${address.streetName}` });
-        const postalCode = new ElementBuilder({ tag: 'div', textContent: 'Postal Code' });
-        const postalCodeValue = new ElementBuilder({ tag: 'div', textContent: `${address.postalCode}` });
-        addressesInfoBlock.addInnerElement([
+        const buttonsContainer = new ElementBuilder({
+          tag: 'div',
+          classNames: ['addresses__buttonsContainer', 'hidden'],
+          attributes: {
+            'data-container': `${address.id}`,
+          },
+        });
+        const saveButton = new ElementBuilder({
+          tag: 'button',
+          classNames: ['addresses__saveButton'],
+          textContent: 'Save',
+          event: 'click',
+          callback: saveAddressChanges,
+          attributes: {
+            'data-section': 'addresses',
+            'data-saveid': `${address.id}`,
+          },
+        });
+        const cancelButton = new ElementBuilder({
+          tag: 'button',
+          classNames: ['addresses__cancelButton'],
+          textContent: 'Cancel',
+          event: 'click',
+          callback: undoAddressChanges,
+          attributes: {
+            'data-section': 'addresses',
+            'data-cancelid': `${address.id}`,
+          },
+        });
+        const infoWrapper = new ElementBuilder({
+          tag: 'div',
+          classNames: ['addresses__infoWrapper'],
+          attributes: {
+            'data-currWrapper': `${address.id}`,
+          },
+        });
+        buttonsContainer.addInnerElement([saveButton, cancelButton]);
+        initHeader.addInnerElement([initTitle, editButton, buttonsContainer]);
+        container.addInnerElement([initHeader, infoWrapper]);
+
+        // if (address.id === this.customer?.defaultBillingAddressId) {
+        //   const defaultBilling = new ElementBuilder({ tag: 'div', textContent: 'Default billing address' });
+        //   const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🧾🧾🧾🧾🧾' });
+        //   infoWrapper.addInnerElement([defaultBilling, attemptImg]);
+        //   infoWrapper.getElement().classList.add('default');
+        // }
+        // if (address.id === this.customer?.defaultShippingAddressId) {
+        //   const defaultShipping = new ElementBuilder({ tag: 'div', textContent: 'Default shipping address' });
+        //   const attemptImg = new ElementBuilder({ tag: 'div', textContent: '🚚🚚🚚🚚🚚' });
+        //   infoWrapper.addInnerElement([defaultShipping, attemptImg]);
+        //   infoWrapper.getElement().classList.add('default');
+        // }
+        const country = new ElementBuilder({ tag: 'label', textContent: 'Country' });
+        const countryValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['country', 'readonly'],
+          textContent: `${address.country}`,
+          event: 'input',
+          callback: checkCountry,
+        });
+        const countryError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `countryErr-${address.id}` },
+        });
+        const city = new ElementBuilder({ tag: 'label', textContent: 'City' });
+        const citytValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['city', 'readonly'],
+          textContent: `${address.city}`,
+          event: 'input',
+          callback: checkCity,
+        });
+        const cityError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `cityErr-${address.id}` },
+        });
+        const street = new ElementBuilder({ tag: 'label', textContent: 'Street' });
+        const streetValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['street', 'readonly'],
+          textContent: `${address.streetName}`,
+          event: 'input',
+          callback: checkStreet,
+        });
+        const streetError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `streetErr-${address.id}` },
+        });
+        const postalCode = new ElementBuilder({ tag: 'label', textContent: 'Postal Code' });
+        const postalCodeValue = new ElementBuilder({
+          tag: 'input',
+          classNames: ['postal', 'readonly'],
+          textContent: `${address.postalCode}`,
+          event: 'input',
+          callback: checkPostalCode,
+        });
+        const postalCodeError = new ElementBuilder({
+          tag: 'span',
+          classNames: ['errorSpan'],
+          attributes: { id: `postalErr-${address.id}` },
+        });
+        infoWrapper.addInnerElement([
           country,
           countryValue,
+          countryError,
           city,
           citytValue,
+          cityError,
           street,
           streetValue,
+          streetError,
           postalCode,
           postalCodeValue,
+          postalCodeError,
         ]);
         addressesDiv.addInnerElement([container]);
       });

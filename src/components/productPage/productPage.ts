@@ -1,6 +1,6 @@
 import returnElement from '../common/returnElem';
 import IImage from './IImage';
-import Modal from './modalWindow';
+import ModalWindow from './modalWindow';
 import Slider from './slider';
 
 interface IProductType {
@@ -103,94 +103,61 @@ export default class ProductPage {
 
   addSlider() {
     const slider = new Slider(this.data.masterVariant.images, this.productInfoWrapper);
+    const modalWindow = new ModalWindow(this.data.masterVariant.images);
     slider.draw();
-    const imgsNum = this.data.masterVariant.images.length - 1;
 
-    function checkFirstLast(imgPosition: number) {
-      slider.prevBtn.disabled = false;
-      slider.nextBtn.disabled = false;
-
-      if (imgPosition === 0) {
-        slider.prevBtn.disabled = true;
-      }
-      if (imgPosition <= -1 * (imgsNum * 220)) {
-        slider.nextBtn.disabled = true;
-      }
-      if (imgsNum === 0) {
-        slider.prevBtn.disabled = true;
-        slider.nextBtn.disabled = true;
+    function slideImg(evt: MouseEvent) {
+      if (evt.target === slider.nextBtn || evt.target === modalWindow.slider.nextBtn) {
+        slider.slide('next');
+        modalWindow.slider.slide('next');
+      } else if (evt.target === slider.prevBtn || evt.target === modalWindow.slider.prevBtn) {
+        slider.slide('prev');
+        modalWindow.slider.slide('prev');
       }
     }
 
-    function fSlider(evt: MouseEvent) {
-      const imgStartPosition = Number.parseInt(slider.sliderImgs.style.left, 10);
-
-      const step = 220;
-      if (evt.target === slider.nextBtn) {
-        slider.sliderImgs.style.left = `${imgStartPosition - step}px`;
-        checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
-      } else if (evt.target === slider.prevBtn) {
-        slider.sliderImgs.style.left = `${imgStartPosition + step}px`;
-        checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
-      }
+    function showModalWindow() {
+      modalWindow.show();
     }
 
-    function showModalWindow(evt: MouseEvent) {
-      const node: HTMLImageElement = <HTMLImageElement>evt.target;
-      if (node.className === 'slider__img') {
-        const newNode: HTMLImageElement = <HTMLImageElement>node.cloneNode(true);
-        const modal = new Modal(newNode);
-
-        // eslint-disable-next-line no-inner-declarations
-        function hideModalWindow() {
-          modal.hide();
-          modal.btnClose.removeEventListener('click', hideModalWindow);
-        }
-        modal.draw();
-        modal.btnClose.addEventListener('click', hideModalWindow);
-      }
+    function hideModalWindow() {
+      modalWindow.hide();
     }
 
     function removeAllListeners() {
-      slider.nextBtn.removeEventListener('click', fSlider);
-      slider.prevBtn.removeEventListener('click', fSlider);
+      slider.nextBtn.removeEventListener('click', slideImg);
+      slider.prevBtn.removeEventListener('click', slideImg);
       slider.sliderImgs.removeEventListener('click', showModalWindow);
+      window.removeEventListener('load', slider.checkForAloneImg);
       window.removeEventListener('beforeunload', removeAllListeners);
     }
 
-    function checkForAloneImg() {
-      if (imgsNum === 0) {
-        setTimeout(() => {
-          slider.nextBtn.classList.add('slider__btn_unactive');
-          slider.prevBtn.classList.add('slider__btn_unactive');
-          window.removeEventListener('load', checkForAloneImg);
-        }, 500);
-      }
-    }
+    slider.checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
+    modalWindow.draw();
+    slider.checkForAloneImg();
 
-    checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
-    checkForAloneImg();
-
-    slider.nextBtn.addEventListener('click', fSlider);
-    slider.prevBtn.addEventListener('click', fSlider);
+    slider.nextBtn.addEventListener('click', slideImg);
+    slider.prevBtn.addEventListener('click', slideImg);
+    modalWindow.nextBtn.addEventListener('click', slideImg);
+    modalWindow.prevBtn.addEventListener('click', slideImg);
     slider.sliderImgs.addEventListener('click', showModalWindow);
-    window.addEventListener('load', checkForAloneImg);
     window.addEventListener('beforeunload', removeAllListeners);
+    modalWindow.btnClose.addEventListener('click', hideModalWindow);
   }
 
   addPrice() {
-    const pricesBlock = returnElement({ tag: 'div', classes: ['slider__prices'] });
-    const usualPriceBlock = returnElement({ tag: 'div', classes: ['slider__price-usual'] });
+    const pricesBlock = returnElement({ tag: 'div', classes: ['product-details__prices'] });
+    const usualPriceBlock = returnElement({ tag: 'div', classes: ['product-details__price-usual'] });
     pricesBlock.append(usualPriceBlock);
     this.productInfoWrapper.prepend(pricesBlock);
     const prices = this.data.masterVariant.prices[0];
     const usualPriceValue = (prices.value.centAmount / 100).toFixed(2);
     if (prices.discounted) {
-      const discountPriceBlock = returnElement({ tag: 'div', classes: ['slider__price-sale'] });
+      const discountPriceBlock = returnElement({ tag: 'div', classes: ['product-details__price-sale'] });
       pricesBlock.append(discountPriceBlock);
       const discountedPriceValue = (prices.discounted.value.centAmount / 100).toFixed(2);
       discountPriceBlock.textContent = `$ ${discountedPriceValue}`;
-      usualPriceBlock.classList.add('slider__price-usual_inactive');
+      usualPriceBlock.classList.add('product-details__price-usual_inactive');
     }
 
     usualPriceBlock.textContent = `$ ${usualPriceValue}`;

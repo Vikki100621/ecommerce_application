@@ -5,11 +5,11 @@ export default class Routing {
 
   private routes: { path: string; template: string }[];
 
-  private id: string | null;
-
   constructor(app: App) {
     this.app = app;
+
     this.id = null;
+
     this.routes = [
       { path: '/', template: 'home' },
       { path: '/catalog', template: 'catalog' },
@@ -21,17 +21,28 @@ export default class Routing {
       { path: '/user', template: 'user' },
       { path: '/logout', template: 'log' },
       { path: `/catalog/${this.id}`, template: 'product' },
-    ];
 
-    this.updateIdRoutes();
+    ];
   }
 
+  // // клики на менюшку
+  // addMenuClickHandlers() {
+  //   const menuItems = document.querySelectorAll('.menu-item');
+  //   menuItems.forEach((menuItem, index) => {
+  //     menuItem.addEventListener('click', (event) => this.handleMenuItemClick(index, event));
+  //   });
+  // }
+
+  // роутинг(для register/login так как они в одном родителе)
+
+  // отрисовываем шаблон
   registerTemplates() {
     this.routes.forEach(({ template, path }) => {
       this.app.registerTemplate(template, this.getTemplateFunctionForPath(path));
     });
   }
 
+  // разные варианты отрисовки шаблона
   getTemplateFunctionForPath(path: string) {
     switch (path) {
       case '/':
@@ -73,6 +84,8 @@ export default class Routing {
 
   init() {
     this.registerTemplates();
+    // this.addMenuClickHandlers();
+
     const handleNavigation = () => {
       if (
         localStorage.getItem('isLoggedIn') === 'true' &&
@@ -133,6 +146,7 @@ export default class Routing {
       window.location.hash = selectedRoute;
     }
   }
+
 
   handleProductItemClick(event: Event) {
     const clickedElement = event.target as HTMLElement;
