@@ -258,7 +258,7 @@ export function undoAddressChanges(event: Event) {
 
 export function undoPasswordChanges() {
   const customer = State.getCustomer();
-  
+
   const password = document.querySelector('.password');
   const editButton = document.querySelector('.password__editButton');
   const saveButton = document.querySelector('.password__saveButton');
@@ -267,7 +267,6 @@ export function undoPasswordChanges() {
   const errors = document.querySelectorAll('.profile__infoWrapper .errorSpan');
 
   if (customer) {
-
     if (password instanceof HTMLInputElement) password.value = customer.password;
   }
   if (editButton && buttonsContainer && saveButton) {

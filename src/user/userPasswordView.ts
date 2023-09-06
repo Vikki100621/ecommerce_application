@@ -64,7 +64,7 @@ const param = {
   },
 
   passwordError: { tag: 'span', classNames: ['passwordError', 'errorSpan'], attributes: { id: 'passwordError' } },
-  };
+};
 export default class UserPasswordView extends View {
   constructor() {
     const parametrs = {
