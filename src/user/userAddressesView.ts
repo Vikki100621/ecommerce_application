@@ -2,7 +2,7 @@ import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
 import { Addresses, Customer } from '../utils/interface';
-import { enableEditMode } from '../utils/callBacks';
+import { addAddress, deleteAddress, enableEditMode } from '../utils/callBacks';
 import { checkCity, checkCountry, checkPostalCode, checkStreet } from '../utils/validation';
 import { saveAddressChanges } from '../utils/saveFunctions';
 import { undoAddressChanges } from '../utils/undoFunctions';
@@ -31,6 +31,13 @@ const param = {
     classNames: ['addresses__initTitle'],
     textContent: 'Address',
   },
+  addButton: {
+    tag: 'button',
+    classNames: ['addresses__addButton'],
+    textContent: 'Add address',
+    event: 'click',
+    callback: addAddress,
+  }
 };
 
 export default class UserAddressesView extends View {
@@ -49,7 +56,8 @@ export default class UserAddressesView extends View {
   configureView() {
     const header = new ElementBuilder(param.header);
     const title = new ElementBuilder(param.title);
-    header.addInnerElement([title]);
+    const addButton = new ElementBuilder(param.addButton)
+    header.addInnerElement([title, addButton]);
 
     const roster = new ElementBuilder(param.roster);
     this.getAddresses(roster);
@@ -71,7 +79,6 @@ export default class UserAddressesView extends View {
 
         const initHeader = new ElementBuilder(param.initHeader);
         const initTitle = new ElementBuilder(param.initTitle);
-
         const editButton = new ElementBuilder({
           tag: 'button',
           classNames: ['addresses__editButton'],
@@ -113,6 +120,17 @@ export default class UserAddressesView extends View {
             'data-cancelid': `${address.id}`,
           },
         });
+        const deleteButton = new ElementBuilder({
+          tag: 'button',
+          classNames: ['password__deleteButton'],
+          textContent: 'Delete',
+          event: 'click',
+          callback: deleteAddress,
+          attributes: {
+            'data-section': 'addresses',
+            'data-deleteid': `${address.id}`,
+          },
+        });
         const infoWrapper = new ElementBuilder({
           tag: 'div',
           classNames: ['addresses__infoWrapper'],
@@ -121,7 +139,7 @@ export default class UserAddressesView extends View {
           },
         });
         buttonsContainer.addInnerElement([saveButton, cancelButton]);
-        initHeader.addInnerElement([initTitle, editButton, buttonsContainer]);
+        initHeader.addInnerElement([initTitle, editButton, deleteButton, buttonsContainer]);
         container.addInnerElement([initHeader, infoWrapper]);
 
         // if (address.id === this.customer?.defaultBillingAddressId) {

@@ -1,4 +1,5 @@
 import App from './app';
+import State from './state';
 
 export default class Routing {
   private app: App;
@@ -123,6 +124,7 @@ export default class Routing {
 
     if (clickedElement.classList.contains('register')) {
       if (clickedElement.textContent === 'LogOut') {
+        State.clearCustomer();
         localStorage.setItem('isLoggedIn', 'false');
         window.location.hash = '/';
         const itemuser = document.querySelector('.item-client .login');
