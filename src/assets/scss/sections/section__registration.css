@@ -82,14 +82,14 @@
 .message_active::before {
   position: absolute;
   inset: -10px;
-  content: "";
+  content: '';
   border: 5px solid #cccccc;
 }
 
 .message_active::after {
   position: absolute;
   inset: -15px;
-  content: "";
+  content: '';
   border: 10px solid #ffffff;
 }
 
@@ -111,7 +111,6 @@
   cursor: pointer;
 }
 
-
 @media (width <=500px) {
   .reg-form__user.fieldset,
   .reg-form__person.fieldset,
@@ -121,7 +120,4 @@
   .error {
     grid-column: 1;
   }
-
-}/*# sourceMappingURL=section__registration.css.map */
-
-
+} /*# sourceMappingURL=section__registration.css.map */

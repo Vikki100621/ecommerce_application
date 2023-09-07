@@ -1,4 +1,4 @@
-import { getProducts, searchProducts} from './api/api';
+import { getProducts, searchProducts } from './api/api';
 import { Options, Product } from './api/interfaces';
 
 export default class Products {
@@ -25,9 +25,8 @@ export default class Products {
     }
   }
 
-  renderProducts(products: Array<Product>  | undefined): HTMLDivElement[] {
-    if(products)
-    this.productDivs = [];
+  renderProducts(products: Array<Product> | undefined): HTMLDivElement[] {
+    if (products) this.productDivs = [];
     products?.forEach((productData: Product) => {
       const categoryId = productData.categories[0].id;
       const productId = productData.id;
@@ -40,7 +39,7 @@ export default class Products {
       img.classList.add('product__img');
       img.src = productData.masterVariant.images[0].url;
       img.alt = productData.name['en-US'];
-  
+
       productBox.appendChild(img);
 
       const title = document.createElement('p');
@@ -89,7 +88,7 @@ export default class Products {
       const products: Array<Product> = productsResponse.data.results;
       this.data = products;
       return this.data;
-      } catch (error) {
+    } catch (error) {
       return undefined;
     }
   }

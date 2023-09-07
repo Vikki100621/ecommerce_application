@@ -120,7 +120,8 @@ export default class Sorting {
       });
     }
 
-    if (this.categoryDropdown) this.leftsideSortBlock?.insertBefore(this.categoryDropdown, this.leftsideSortBlock?.firstChild);;
+    if (this.categoryDropdown)
+      this.leftsideSortBlock?.insertBefore(this.categoryDropdown, this.leftsideSortBlock?.firstChild);
   }
 
   public createFilters(selectedCategory: string) {

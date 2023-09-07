@@ -88,17 +88,18 @@ export interface Category {
   };
 }
 
-
 export type Options = {
   data?: string | undefined;
   value?: string | undefined;
   categoryId?: string | undefined;
   material?: string | undefined;
-  type?: string| undefined;
-  origin?: string |  undefined;
+  type?: string | undefined;
+  origin?: string | undefined;
   genre?: string | undefined;
-  priceRange?: {
-    min: number;
-    max: number;
-  } | undefined; 
-}
+  priceRange?:
+    | {
+        min: number;
+        max: number;
+      }
+    | undefined;
+};
