@@ -64,7 +64,7 @@ export default class Controller {
       .filter((checkbox) => checkbox.checked)
       .map((checkbox) => checkbox.value.toLowerCase());
 
-    const genreCheckboxes = document.querySelectorAll<HTMLInputElement>('.Gerne .checkbox');
+    const genreCheckboxes = document.querySelectorAll<HTMLInputElement>('.Genre .checkbox');
     const selectedGenre = Array.from(genreCheckboxes)
       .filter((checkbox) => checkbox.checked)
       .map((checkbox) => checkbox.value.toLowerCase());
@@ -114,10 +114,10 @@ export default class Controller {
       options.value = 'desc';
     }
 
-    if (!rangeMaxValue || !rangeMinValue) {
+    if (rangeMinValue === 0 && rangeMaxValue === 0) {
       options.priceRange = {
-        min: 200,
-        max: 10000000,
+        min: 300,
+        max: 100000,
       };
     } else {
       options.priceRange = {
