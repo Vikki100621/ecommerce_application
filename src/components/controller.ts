@@ -95,7 +95,7 @@ export default class Controller {
     const rangeMax = this.app.sorting.rangeMaxInput;
     const rangeMaxValue = Number(rangeMax.value);
 
-     const valueSort = this.app.sorting.sortDropdown?.value as string;
+    const valueSort = this.app.sorting.sortDropdown?.value as string;
     if (valueSort === 'Price ⇧') {
       options.data = 'price';
       options.value = 'asc';
@@ -105,7 +105,6 @@ export default class Controller {
       options.value = 'desc';
     }
 
-   
     if (valueSort === 'Name ⇧') {
       options.data = 'name.en-us';
       options.value = 'asc';
@@ -126,7 +125,7 @@ export default class Controller {
         max: rangeMaxValue,
       };
     }
-      
+
     if (selectedCategory) {
       options.categoryId = selectedCategory;
     }
@@ -140,7 +139,6 @@ export default class Controller {
     options.categoryId = selectedCategory;
 
     this.searchProducts(options);
-
   }
 
   private filterBySearchText(product: Product) {
@@ -174,12 +172,11 @@ export default class Controller {
 
   private addPriceRangeMaxListener() {
     const pricerange = this.app.sorting.rangeMaxInput;
-    
+
     pricerange?.addEventListener('input', () => {
       this.updateFiltersAndSearchNew();
     });
   }
-
 
   private addSortingHandlers() {
     this.app.sorting.categoryDropdown?.addEventListener('change', () => {

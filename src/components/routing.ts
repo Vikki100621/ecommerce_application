@@ -6,7 +6,7 @@ export default class Routing {
   private routes: { path: string; template: string }[];
 
   private id: string | null;
-  
+
   constructor(app: App) {
     this.app = app;
 
@@ -23,7 +23,6 @@ export default class Routing {
       { path: '/user', template: 'user' },
       { path: '/logout', template: 'log' },
       { path: `/catalog/${this.id}`, template: 'product' },
-
     ];
   }
 
@@ -148,7 +147,6 @@ export default class Routing {
       window.location.hash = selectedRoute;
     }
   }
-
 
   handleProductItemClick(event: Event) {
     const clickedElement = event.target as HTMLElement;

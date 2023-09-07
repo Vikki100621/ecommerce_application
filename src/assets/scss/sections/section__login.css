@@ -84,15 +84,15 @@
 }
 
 .email label {
-  background-image: url("../../img/email.png");
+  background-image: url('../../img/email.png');
 }
 
 .email label:focus {
-  background-image: url("../../img/password.png");
+  background-image: url('../../img/password.png');
 }
 
 .password label {
-  background-image: url("../../img/password.png");
+  background-image: url('../../img/password.png');
 }
 
 .password {
@@ -107,13 +107,13 @@
   height: 20px;
   color: #000000;
   cursor: pointer;
-  background: url("../../img/close-eye.png") no-repeat;
+  background: url('../../img/close-eye.png') no-repeat;
   background-size: 20px 20px;
   transform: translateY(-50%);
 }
 
 .openPassword {
-  background: url("../../img/open-eye.png") no-repeat;
+  background: url('../../img/open-eye.png') no-repeat;
   background-size: 20px 20px;
 }
 
@@ -126,7 +126,4 @@
 
 .invalid {
   border: 3px solid #ff0000;
-
-}/*# sourceMappingURL=section__login.css.map */
-
-
+} /*# sourceMappingURL=section__login.css.map */

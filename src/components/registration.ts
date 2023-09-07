@@ -1,4 +1,3 @@
-
 import { postCustomer, updateCustomer, loginCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 import State from './state';
