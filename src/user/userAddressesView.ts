@@ -37,7 +37,7 @@ const param = {
     textContent: 'Add address',
     event: 'click',
     callback: addAddress,
-  }
+  },
 };
 
 export default class UserAddressesView extends View {
@@ -56,7 +56,7 @@ export default class UserAddressesView extends View {
   configureView() {
     const header = new ElementBuilder(param.header);
     const title = new ElementBuilder(param.title);
-    const addButton = new ElementBuilder(param.addButton)
+    const addButton = new ElementBuilder(param.addButton);
     header.addInnerElement([title, addButton]);
 
     const roster = new ElementBuilder(param.roster);
