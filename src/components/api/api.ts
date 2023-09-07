@@ -90,6 +90,7 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   return response;
 }
 
+
 export async function getProducts(): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 
@@ -97,11 +98,25 @@ export async function getProducts(): Promise<AxiosResponse> {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections`,
     method: 'get',
     params: {
-
-      limit: 30,
-      expand: 'parent',
       limit: 500,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
+  const response = await axios(config);
+  return response;
+}
+
+export async function getProduct(id: string): Promise<AxiosResponse> {
+  const token = (await getRegularToken()).toString();
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/${id}`,
+    method: 'get',
+    params: {
+      limit: 500,
     },
     headers: {
       Authorization: `Bearer ${token}`,
@@ -131,33 +146,18 @@ export async function getCategories(): Promise<AxiosResponse> {
 }
 
 
-export async function getProduct(id: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-
-export async function getCustomer(id: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-   const response = await axios.get(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, {
-    headers: {
-     Authorization: `Bearer ${token}`,
-    },
-  });
- return response;
-}
+  export async function getCustomer(id: string): Promise<AxiosResponse> {
+    const token = (await getRegularToken()).toString();
+    const response = await axios.get(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
 
 
 export async function updatePassword(body: PasswordUpdateBody): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-  const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/password`, body, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response;
-}
-
-export async function getProduct(id: string): Promise<AxiosResponse> {
-
   const token = (await getRegularToken()).toString();
   const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/password`, body, {
     headers: {
@@ -257,10 +257,9 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   if (material) {
     filters.push(`variants.attributes.material:"${material}"`);
   }
- 
+
   if (type) {
     filters.push(`variants.attributes.type:"${type}"`);
-
   }
 
   if (origin) {
@@ -270,7 +269,6 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   if (genre) {
     filters.push(`variants.attributes.genre:"${genre}"`); // Один фильтр для жанра
   }
-
 
   if (priceRange) {
     filters.push(`variants.price.centAmount:range (${priceRange.min * 100} to ${priceRange.max * 100})`);

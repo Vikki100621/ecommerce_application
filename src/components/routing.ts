@@ -5,6 +5,8 @@ export default class Routing {
 
   private routes: { path: string; template: string }[];
 
+  private id: string | null;
+  
   constructor(app: App) {
     this.app = app;
 
