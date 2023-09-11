@@ -1,0 +1,136 @@
+button {
+  font-size: 20px;
+  font-weight: bold;
+  color: #8b4513;
+  text-shadow: 1px 1px #ffffff;
+  cursor: pointer;
+  background-color: #f5deb3;
+  border: 1px solid #830303;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #00000033;
+}
+
+.user {
+  &__section {
+    padding-top: 150px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+  }
+}git status
+
+.readonly {
+  cursor: default;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+input.invalid {
+  border: 2px solid #ff0000;
+}
+
+input.invalid:focus {
+  box-shadow: 0 0 5px 2px #ff0000;
+}
+
+.password {
+  &__infoBlock {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 10px;
+  }
+}
+
+.profile,
+.addresses,
+.password {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0 auto 20px;
+    background-color: #f5e6d7;
+    border: 2px solid #d7b899;
+    box-shadow: 2px 2px 5px #00000030;
+  }
+
+  &__header {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #d7b899;
+  }
+
+  &__buttonsContainer {
+    display: flex;
+  }
+}
+
+.profile {
+  &__infoWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 10px;
+
+    label {
+      font-weight: bold;
+      color: #d7b899;
+    }
+
+    input {
+      color: #e97d12;
+    }
+  }
+}
+
+.addresses {
+  &__infoWrapper {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: #e6d8c4;
+    border: 2px solid #d7b899;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #00000030;
+  }
+
+  &__initHeader {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.default {
+  border: 2px solid #2d03e9;
+}
+
+.hidden {
+  display: none;
+}
+
+.editMode {
+  border: 2px solid #171616;
+  border-radius: 3px;
+  outline: #171616;
+
+  &:focus {
+    box-shadow: 0 0 5px 2px rgb(169 141 59);
+  }
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #cccccc;
+  border-color: #999999;
+  color: #999999;
+}

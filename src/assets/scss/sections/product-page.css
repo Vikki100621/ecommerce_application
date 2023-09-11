@@ -1,0 +1,112 @@
+.product-details {
+  padding: 150px 40px 20px;
+}
+.product-details__title {
+  padding: 20px 0;
+  font-size: 2em;
+  font-weight: 700;
+  text-align: center;
+}
+.product-details__info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.product-details__description {
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+}
+.slider__img-wrapper {
+  max-width: 220px;
+  overflow: hidden;
+}
+.slider__images {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  height: 300px;
+  padding: 0 10px;
+  transition: 0.3s;
+}
+@media (width < 600px) {
+  .slider__images {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+}
+.slider__img {
+  object-fit: contain;
+  min-width: 200px;
+  max-height: 100%;
+}
+.slider__img:hover {
+  cursor: pointer;
+}
+.slider__btn {
+  opacity: 1;
+  transition: 0.5s;
+}
+.slider__btn:hover {
+  cursor: pointer;
+}
+.slider__btn:hover:disabled {
+  cursor: auto;
+}
+.slider__btn_unactive {
+  opacity: 0;
+}
+.slider__prices {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 700;
+}
+.slider__price-usual_inactive {
+  text-decoration: line-through;
+}
+.slider__price-sale {
+  font-size: 28px;
+  color: #dc143c;
+}
+
+.modal-window {
+  position: fixed;
+  z-index: 196;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f8ff;
+}
+.modal-window_unactive {
+  display: none;
+}
+.modal-window__close {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  border: 2px solid #ff0000;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.modal-window__close:hover {
+  cursor: pointer;
+  background-color: transparent;
+  box-shadow: 0 0 16px 14px rgba(34, 60, 80, 0.2392156863);
+}
+.modal-window .slider__img {
+  min-width: 50%;
+  min-height: 50%;
+} /*# sourceMappingURL=product-page.css.map */
