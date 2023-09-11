@@ -294,3 +294,4 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   console.log(response);
   return response;
 }
+
