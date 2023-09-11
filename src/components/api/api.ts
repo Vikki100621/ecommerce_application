@@ -242,6 +242,8 @@ export async function getSortedProductsByAtributes(material: string): Promise<Ax
   const response = await axios(config);
   return response;
 }
+
+
 export async function searchProducts(options: Options): Promise<AxiosResponse> {
   const token = (await getRegularToken()).toString();
 
@@ -292,3 +294,4 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   console.log(response);
   return response;
 }
+
