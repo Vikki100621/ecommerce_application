@@ -1,10 +1,10 @@
-import { enableEditMode } from "./callBacks";
-import deleteAddress from "./deleteAddress";
-import ElementBuilder from "./elementBuilder";
-import { Addresses } from "./interface";
-import { saveAddressChanges } from "./saveFunctions";
-import { undoAddressChanges } from "./undoFunctions";
-import { checkCountry, checkCity, checkStreet, checkPostalCode } from "./validation";
+import { enableEditMode } from './callBacks';
+import deleteAddress from './deleteAddress';
+import ElementBuilder from './elementBuilder';
+import { Addresses } from './interface';
+import { saveAddressChanges } from './saveFunctions';
+import { undoAddressChanges } from './undoFunctions';
+import { checkCountry, checkCity, checkStreet, checkPostalCode } from './validation';
 
 const param = {
   initHeader: {
@@ -19,7 +19,7 @@ const param = {
   },
 };
 
-export default function drawAddress(address: Addresses,) {
+export default function drawAddress(address: Addresses) {
   const container = new ElementBuilder({
     tag: 'div',
     classNames: ['addresses__wrapper'],
@@ -111,7 +111,7 @@ export default function drawAddress(address: Addresses,) {
     event: 'input',
     callback: checkCountry,
   });
-  country.addInnerElement([countryValue])
+  country.addInnerElement([countryValue]);
   const countryError = new ElementBuilder({
     tag: 'span',
     classNames: ['errorSpan'],
@@ -125,7 +125,7 @@ export default function drawAddress(address: Addresses,) {
     event: 'input',
     callback: checkCity,
   });
-  city.addInnerElement([citytValue])
+  city.addInnerElement([citytValue]);
   const cityError = new ElementBuilder({
     tag: 'span',
     classNames: ['errorSpan'],
@@ -139,7 +139,7 @@ export default function drawAddress(address: Addresses,) {
     event: 'input',
     callback: checkStreet,
   });
-  street.addInnerElement([streetValue])
+  street.addInnerElement([streetValue]);
   const streetError = new ElementBuilder({
     tag: 'span',
     classNames: ['errorSpan'],
@@ -153,7 +153,7 @@ export default function drawAddress(address: Addresses,) {
     event: 'input',
     callback: checkPostalCode,
   });
-  postalCode.addInnerElement([postalCodeValue])
+  postalCode.addInnerElement([postalCodeValue]);
   const postalCodeError = new ElementBuilder({
     tag: 'span',
     classNames: ['errorSpan'],
@@ -169,6 +169,5 @@ export default function drawAddress(address: Addresses,) {
     postalCode,
     postalCodeError,
   ]);
-  return container
+  return container;
 }
-

@@ -1,14 +1,13 @@
 function checkErrors(infoWrapper: HTMLElement, button: Element) {
-const errors = infoWrapper.querySelectorAll('.errorSpan')
-const errorsArr = Array.from(errors) as HTMLElement[]
-const hasText = errorsArr.some((el) => el.textContent !== '');
+  const errors = infoWrapper.querySelectorAll('.errorSpan');
+  const errorsArr = Array.from(errors) as HTMLElement[];
+  const hasText = errorsArr.some((el) => el.textContent !== '');
 
-if (hasText) {
-  button.setAttribute('disabled', 'true');
-} else {
-  button.removeAttribute('disabled');
-}
-
+  if (hasText) {
+    button.setAttribute('disabled', 'true');
+  } else {
+    button.removeAttribute('disabled');
+  }
 }
 
 // Работает
@@ -16,7 +15,6 @@ export function validateEmail() {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const input = document.getElementById('email') || document.getElementById('userEmail');
   const error = document.getElementById('emailError') || document.getElementById('userEmailError');
-
 
   if (input instanceof HTMLInputElement && error) {
     const saveButton = document.querySelector('.profile__saveButton');
@@ -28,12 +26,11 @@ export function validateEmail() {
       error.innerHTML = '';
     }
     if (saveButton) {
-      const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement
+      const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement;
       checkErrors(infoWrapper, saveButton);
     }
   }
 }
-
 
 export function validatePassword() {
   const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?!.*\s).{8,}$/;
@@ -50,7 +47,7 @@ export function validatePassword() {
       error.innerHTML = '';
     }
     if (saveButton) {
-      const infoWrapper = document.querySelector('.password__infoWrapper') as HTMLElement
+      const infoWrapper = document.querySelector('.password__infoWrapper') as HTMLElement;
       checkErrors(infoWrapper, saveButton);
     }
   }
@@ -60,10 +57,10 @@ export function checkFirstName() {
   const regex = /[a-z]/i;
   const input = document.getElementById('userFirstName');
   const error = document.getElementById('userFirstNameError');
-  const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement
+  const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement;
 
   if (input instanceof HTMLInputElement && error) {
-    const saveButton =document.querySelector('.profile__saveButton');
+    const saveButton = document.querySelector('.profile__saveButton');
 
     if (saveButton) {
       if (!(regex.test(input.value) || input.value.length)) {
@@ -82,9 +79,9 @@ export function checkLastName() {
   const regex = /[a-z]/i;
   const input = document.getElementById('userLastName');
   const error = document.getElementById('userLastNameError');
-  const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement
+  const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement;
   if (input instanceof HTMLInputElement && error) {
-    const saveButton =document.querySelector('.profile__saveButton');
+    const saveButton = document.querySelector('.profile__saveButton');
 
     if (saveButton) {
       if (!(regex.test(input.value) || input.value.length)) {
@@ -102,12 +99,12 @@ export function checkLastName() {
 export function checkAge(): void {
   const input = document.getElementById('userDate');
   const error = document.getElementById('userDateOfBirthError');
-  const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement
+  const infoWrapper = document.querySelector('.profile__infoWrapper') as HTMLElement;
   if (input instanceof HTMLInputElement && error) {
     const currentParseValue = Date.parse(input.value);
     const nowDate = new Date();
     const minBDate = Date.parse(`${nowDate.getFullYear() - 13}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`);
-    const saveButton =document.querySelector('.profile__saveButton');
+    const saveButton = document.querySelector('.profile__saveButton');
 
     if (saveButton) {
       if (minBDate - currentParseValue < 0 || !currentParseValue) {
@@ -123,18 +120,18 @@ export function checkAge(): void {
 }
 
 export function checkStreet(event: Event) {
-  const regex = /^.{1,}$/
+  const regex = /^.{1,}$/;
   const currTarget = event.target as HTMLElement;
-  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement
-  const {id} = currWrapper
-  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement
-  const input = infoWrapper.querySelector('.street') as HTMLInputElement
+  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement;
+  const { id } = currWrapper;
+  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement;
+  const input = infoWrapper.querySelector('.street') as HTMLInputElement;
   const saveButton = document.querySelector(`[data-saveid = "${id}"]`);
   const error = document.getElementById(`streetErr-${id}`);
 
   if (saveButton) {
     if (input instanceof HTMLInputElement && error) {
-      if (!(regex.test(input.value)) || input.value.length === 0) {
+      if (!regex.test(input.value) || input.value.length === 0) {
         input.classList.add('invalid');
         error.innerHTML = 'Street field must contain at least one character';
       } else {
@@ -149,16 +146,16 @@ export function checkStreet(event: Event) {
 export function checkCity(event: Event) {
   const regex = /[a-z]/i;
   const currTarget = event.target as HTMLElement;
-  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement
-  const {id} = currWrapper
-  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement
-  const input = infoWrapper.querySelector('.city') as HTMLInputElement
+  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement;
+  const { id } = currWrapper;
+  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement;
+  const input = infoWrapper.querySelector('.city') as HTMLInputElement;
   const saveButton = document.querySelector(`[data-saveid = "${id}"]`);
   const error = document.getElementById(`cityErr-${id}`);
 
   if (saveButton) {
     if (input instanceof HTMLInputElement && error) {
-      if (!(regex.test(input.value)) || input.value.length === 0) {
+      if (!regex.test(input.value) || input.value.length === 0) {
         input.classList.add('invalid');
         error.innerHTML = 'City field must contain at least one character and no special characters or numbers.';
       } else {
@@ -173,10 +170,10 @@ export function checkCity(event: Event) {
 export function checkPostalCode(event: Event) {
   const regex = /[0-9]/i;
   const currTarget = event.target as HTMLElement;
-  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement
-  const {id} = currWrapper
-  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement
-  const input = infoWrapper.querySelector('.postal') as HTMLInputElement
+  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement;
+  const { id } = currWrapper;
+  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement;
+  const input = infoWrapper.querySelector('.postal') as HTMLInputElement;
   const saveButton = document.querySelector(`[data-saveid = "${id}"]`);
   const error = document.getElementById(`postalErr-${id}`);
 
@@ -194,13 +191,12 @@ export function checkPostalCode(event: Event) {
   }
 }
 
-
 export function checkCountry(event: Event) {
   const currTarget = event.target as HTMLElement;
-  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement
-  const {id} = currWrapper
-  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement
-  const input = infoWrapper.querySelector('.country') as HTMLInputElement
+  const currWrapper = currTarget.closest('.addresses__wrapper') as HTMLElement;
+  const { id } = currWrapper;
+  const infoWrapper = document.querySelector(`[data-currwrapper = "${id}"]`) as HTMLElement;
+  const input = infoWrapper.querySelector('.country') as HTMLInputElement;
   const saveButton = document.querySelector(`[data-saveid = "${id}"]`);
   const error = document.getElementById(`countryErr-${id}`);
 
@@ -217,5 +213,3 @@ export function checkCountry(event: Event) {
     }
   }
 }
-
-

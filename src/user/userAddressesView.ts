@@ -2,11 +2,8 @@ import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
 import { Addresses, Customer } from '../utils/interface';
-import drawAddress from '../utils/drawAddress'
+import drawAddress from '../utils/drawAddress';
 import drawNewAddress from '../utils/renderNewAddress';
-
-
-
 
 const param = {
   header: {
@@ -31,10 +28,7 @@ const param = {
   },
 };
 
-
-
 export default class UserAddressesView extends View {
-
   private customer: Customer | null;
 
   constructor() {
@@ -63,12 +57,9 @@ export default class UserAddressesView extends View {
     if (this.customer) {
       const addressArr = this.customer.addresses;
       addressArr.forEach((address: Addresses) => {
-        const container = drawAddress(address)
+        const container = drawAddress(address);
         addressesDiv.append(container.getElement());
       });
-
     }
   }
 }
-
-

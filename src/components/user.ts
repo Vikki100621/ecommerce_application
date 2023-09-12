@@ -21,7 +21,6 @@ export default class UserView extends View {
     const adresses = new UserAddressesView();
     const adressesHTML = adresses.getHtmlElement();
 
-
     this.viewElement.addInnerElement([userHTML, passwordHTML, adressesHTML]);
   }
 }

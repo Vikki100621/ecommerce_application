@@ -113,7 +113,6 @@ export function savePasswordChanges() {
   const buttonsContainer = document.querySelector('.password__buttonsContainer');
   const password = document.querySelector('.password') as HTMLInputElement;
 
-
   const currPassword = State.getPassword();
 
   if (customer) {

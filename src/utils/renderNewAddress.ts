@@ -1,7 +1,7 @@
-import deleteAddress from "./deleteAddress";
-import ElementBuilder from "./elementBuilder";
-import setNewAddress from "./setNewAddress";
-import { checkCountry, checkCity, checkStreet, checkPostalCode } from "./validation";
+import deleteAddress from './deleteAddress';
+import ElementBuilder from './elementBuilder';
+import setNewAddress from './setNewAddress';
+import { checkCountry, checkCity, checkStreet, checkPostalCode } from './validation';
 
 export default function drawNewAddress(event: Event) {
   const addNewAddressButton = event.target as HTMLElement;
@@ -66,7 +66,7 @@ export default function drawNewAddress(event: Event) {
       event: 'input',
       callback: checkCountry,
       attributes: {
-        placeholder: 'Enter the country'
+        placeholder: 'Enter the country',
       },
     });
     const countryError = new ElementBuilder({
@@ -81,7 +81,7 @@ export default function drawNewAddress(event: Event) {
       event: 'input',
       callback: checkCity,
       attributes: {
-        placeholder: 'Enter the city'
+        placeholder: 'Enter the city',
       },
     });
     const cityError = new ElementBuilder({
@@ -96,7 +96,7 @@ export default function drawNewAddress(event: Event) {
       event: 'input',
       callback: checkStreet,
       attributes: {
-        placeholder: 'Enter the street'
+        placeholder: 'Enter the street',
       },
     });
     const streetError = new ElementBuilder({
@@ -111,7 +111,7 @@ export default function drawNewAddress(event: Event) {
       event: 'input',
       callback: checkPostalCode,
       attributes: {
-        placeholder: 'Enter the postal code'
+        placeholder: 'Enter the postal code',
       },
     });
     const postalCodeError = new ElementBuilder({
