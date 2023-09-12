@@ -18,20 +18,7 @@ button {
   }
 }
 
-.readonly {
-  cursor: default;
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
 
-input.invalid {
-  border: 2px solid #ff0000;
-}
-
-input.invalid:focus {
-  box-shadow: 0 0 5px 2px #ff0000;
-}
 
 .password {
   &__infoBlock {
@@ -50,8 +37,7 @@ input.invalid:focus {
     align-items: center;
     justify-content: center;
     width: 600px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     margin: 0 auto 20px;
     background-color: #f5e6d7;
     border: 2px solid #d7b899;
@@ -91,16 +77,42 @@ input.invalid:focus {
 }
 
 .addresses {
+  &__wrapper {
+    padding: 10px;
+    border: 2px solid #d7b899;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #00000030;
+  }
+
   &__infoWrapper {
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 20px;
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
     background-color: #e6d8c4;
     border: 2px solid #d7b899;
     border-radius: 10px;
     box-shadow: 2px 2px 5px #00000030;
+
+    label {
+      display: block;
+        font-weight: bold;
+        color: #d7b899;
+    }
+
+    input {
+      width: 100%;
+        padding: 5px;
+        border-radius: 4px;
+        font-size: 16px;
+        margin: 5px 0;
+        color: #e97d12;
+    }
+
+        span.errorSpan {
+          display: block;
+          margin-bottom: 5px;
+          color: #ff0000;
+        }
   }
 
   &__initHeader {
@@ -117,6 +129,32 @@ input.invalid:focus {
   display: none;
 }
 
+
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #cccccc;
+  border-color: #999999;
+  color: #999999;
+}
+
+
+input.invalid {
+  border: 2px solid #ff0000;
+}
+
+input.invalid:focus {
+  box-shadow: 0 0 5px 2px #ff0000;
+}
+
+.readonly {
+  cursor: default;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 .editMode {
   border: 2px solid #171616;
   border-radius: 3px;
@@ -125,12 +163,4 @@ input.invalid:focus {
   &:focus {
     box-shadow: 0 0 5px 2px rgb(169 141 59);
   }
-}
-
-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #999999;
-  color: #999999;
 }
