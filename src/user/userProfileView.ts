@@ -2,7 +2,7 @@ import ElementBuilder from '../utils/elementBuilder';
 import State from '../components/state';
 import View from '../utils/view';
 import { enableEditMode } from '../utils/callBacks';
-import { checkAge, checkEmail, checkFirstName, checkLastName } from '../utils/validation';
+import { checkAge, checkFirstName, checkLastName, validateEmail } from '../utils/validation';
 import { saveChanges } from '../utils/saveFunctions';
 import { undoProfileChanges } from '../utils/undoFunctions';
 
@@ -109,7 +109,7 @@ const param = {
     tag: 'input',
     classNames: ['email', 'readonly'],
     event: 'input',
-    callback: checkEmail,
+    callback: validateEmail,
     attributes: {
       id: 'userEmail',
       type: 'email',

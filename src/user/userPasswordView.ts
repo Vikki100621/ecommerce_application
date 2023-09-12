@@ -3,7 +3,7 @@ import { enableEditMode } from '../utils/callBacks';
 import ElementBuilder from '../utils/elementBuilder';
 import { savePasswordChanges } from '../utils/saveFunctions';
 import { undoPasswordChanges } from '../utils/undoFunctions';
-import { checkUserPassword } from '../utils/validation';
+import { validatePassword } from '../utils/validation';
 import View from '../utils/view';
 
 const param = {
@@ -58,7 +58,7 @@ const param = {
     tag: 'input',
     classNames: ['password', 'readonly'],
     event: 'input',
-    callback: checkUserPassword,
+    callback: validatePassword,
     attributes: {
       id: 'password',
       type: 'password',

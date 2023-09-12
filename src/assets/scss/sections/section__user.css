@@ -17,22 +17,6 @@ button {
   margin: 0 auto;
 }
 
-.readonly {
-  cursor: default;
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
-
-input.invalid {
-  border: 2px solid #ff0000;
-}
-
-input.invalid:focus {
-  -webkit-box-shadow: 0 0 5px 2px #ff0000;
-  box-shadow: 0 0 5px 2px #ff0000;
-}
-
 .password__infoBlock {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -56,8 +40,7 @@ input.invalid:focus {
   -ms-flex-pack: center;
   justify-content: center;
   width: 600px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   margin: 0 auto 20px;
   background-color: #f5e6d7;
   border: 2px solid #d7b899;
@@ -100,17 +83,45 @@ input.invalid:focus {
   color: #e97d12;
 }
 
+.addresses__wrapper {
+  padding: 10px;
+  border: 2px solid #d7b899;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+}
 .addresses__infoWrapper {
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 20px;
-  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 10px;
   background-color: #e6d8c4;
   border: 2px solid #d7b899;
   border-radius: 10px;
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
+}
+.addresses__infoWrapper label {
+  display: block;
+  font-weight: bold;
+  color: #d7b899;
+}
+.addresses__infoWrapper input {
+  width: 100%;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 16px;
+  margin: 5px 0;
+  color: #e97d12;
+}
+.addresses__infoWrapper span.errorSpan {
+  display: block;
+  margin-bottom: 5px;
+  color: #ff0000;
 }
 .addresses__initHeader {
   display: -webkit-box;
@@ -129,6 +140,30 @@ input.invalid:focus {
   display: none;
 }
 
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #cccccc;
+  border-color: #999999;
+  color: #999999;
+}
+
+input.invalid {
+  border: 2px solid #ff0000;
+}
+
+input.invalid:focus {
+  -webkit-box-shadow: 0 0 5px 2px #ff0000;
+  box-shadow: 0 0 5px 2px #ff0000;
+}
+
+.readonly {
+  cursor: default;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 .editMode {
   border: 2px solid #171616;
   border-radius: 3px;
@@ -137,12 +172,4 @@ input.invalid:focus {
 .editMode:focus {
   -webkit-box-shadow: 0 0 5px 2px rgb(169, 141, 59);
   box-shadow: 0 0 5px 2px rgb(169, 141, 59);
-}
-
-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #999999;
-  color: #999999;
 }
