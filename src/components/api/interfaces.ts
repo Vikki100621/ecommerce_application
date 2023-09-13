@@ -103,3 +103,25 @@ export type Options = {
       }
     | undefined;
 };
+
+export type CartType = {
+  id: string;
+};
+
+export interface CartData {
+  anonymousId: string;
+  cartState: string;
+  country: string;
+  type: string;
+  version: number;
+  versionModifiedAt: string;
+}
+
+export interface LineItemAction {
+  action: string;
+  productId?: string;
+  variantId?: number;
+  sku?: string;
+  quantity?: number;
+  customerId?: string;
+}

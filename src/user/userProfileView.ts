@@ -1,10 +1,11 @@
 import ElementBuilder from '../utils/elementBuilder';
-import State from '../components/state';
+// import State from '../components/state';
 import View from '../utils/view';
 import { enableEditMode } from '../utils/callBacks';
 import { checkAge, checkFirstName, checkLastName, validateEmail } from '../utils/validation';
 import { saveChanges } from '../utils/saveFunctions';
 import { undoProfileChanges } from '../utils/undoFunctions';
+import { getCustomer } from '../components/api/api';
 
 const param = {
   header: {
@@ -146,7 +147,7 @@ export default class UserProfileView extends View {
     this.configureView();
   }
 
-  configureView() {
+  async configureView() {
     const header = new ElementBuilder(param.header);
     const title = new ElementBuilder(param.title);
     const editButton = new ElementBuilder(param.editButton);
@@ -172,7 +173,11 @@ export default class UserProfileView extends View {
     const emailValue = new ElementBuilder(param.emailValue);
     const emailError = new ElementBuilder(param.emailError);
 
-    const currentUser = State.getCustomer();
+    //  const currentUser = State.getCustomer();
+    const currentId = localStorage.getItem('customerID') as string;
+    const currentUser = await getCustomer(currentId).then((responce) => responce.data);
+    console.log(currentUser);
+
     if (currentUser) {
       firstNameValue.setTextContent(currentUser.firstName);
       lastNameValue.setTextContent(currentUser.lastName);

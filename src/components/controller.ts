@@ -2,6 +2,7 @@ import Routing from './routing';
 import App from './app';
 import BurgerMenu from './burger__menu';
 import { Options, Product } from './api/interfaces';
+import Cart from './cart';
 
 export default class Controller {
   private routing: Routing;
@@ -10,7 +11,10 @@ export default class Controller {
 
   private burger: BurgerMenu;
 
+  private cart: Cart;
+
   constructor() {
+    this.cart = new Cart();
     this.app = new App();
     this.routing = new Routing(this.app);
     this.routing.init();
@@ -20,12 +24,13 @@ export default class Controller {
   }
 
   private addProductsHandlers() {
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', async (event) => {
       event.stopImmediatePropagation();
       const clickedElement = event.target as HTMLElement;
-
       if (clickedElement.classList.contains('product__button')) {
         this.routing.handleProductItemClick(event);
+      } else if (clickedElement.classList.contains('cart__button')) {
+        this.cart.handleclickonCart(event);
       }
     });
   }
@@ -35,6 +40,7 @@ export default class Controller {
     menuItems.forEach((menuItem, index) => {
       menuItem.addEventListener('click', (event) => {
         event.stopPropagation();
+
         this.routing.handleMenuItemClick(index, event);
       });
     });
