@@ -4,12 +4,22 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { CustomerUpdateBody, PasswordUpdateBody, Options, LineItemAction } from './interfaces';
 
-const CTP_PROJECT_KEY = 'rs-school-ecommerce-application';
-const CTP_CLIENT_SECRET = 'xnIExDv_L553zLUH71kjVzANZ_7bfwyn';
-const CTP_CLIENT_ID = 'n6NhHNp-SoFneLzkbs6qXWuu';
-const CTP_AUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
-const CTP_API_URL = 'https://api.europe-west1.gcp.commercetools.com';
-const CTP_SCOPES = 'manage_project:rs-school-ecommerce-application';
+const [CTP_PROJECT_KEY, CTP_CLIENT_SECRET, CTP_CLIENT_ID, CTP_AUTH_URL, CTP_API_URL, CTP_SCOPES] = [
+  process.env.CTP_PROJECT_KEY,
+  process.env.CTP_CLIENT_SECRET,
+  process.env.CTP_CLIENT_ID,
+  process.env.CTP_AUTH_URL,
+  process.env.CTP_API_URL,
+  process.env.CTP_SCOPES,
+];
+
+
+// const CTP_PROJECT_KEY = 'rs-school-ecommerce-application';
+// const CTP_CLIENT_SECRET = 'xnIExDv_L553zLUH71kjVzANZ_7bfwyn';
+// const CTP_CLIENT_ID = 'n6NhHNp-SoFneLzkbs6qXWuu';
+// const CTP_AUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
+// const CTP_API_URL = 'https://api.europe-west1.gcp.commercetools.com';
+// const CTP_SCOPES = 'manage_project:rs-school-ecommerce-application';
 
 export async function getRegularToken(): Promise<string> {
   const config: AxiosRequestConfig = {
@@ -21,8 +31,8 @@ export async function getRegularToken(): Promise<string> {
     },
 
     auth: {
-      username: CTP_CLIENT_ID,
-      password: CTP_CLIENT_SECRET,
+      username: <string>CTP_CLIENT_ID,
+      password: <string>CTP_CLIENT_SECRET,
     },
   };
 
@@ -40,8 +50,8 @@ export async function getAnonymusToken(): Promise<AxiosResponse> {
     },
 
     auth: {
-      username: CTP_CLIENT_ID,
-      password: CTP_CLIENT_SECRET,
+      username: <string>CTP_CLIENT_ID,
+      password: <string>CTP_CLIENT_SECRET,
     },
   };
 
@@ -55,8 +65,8 @@ export async function getBoundToken(userEmail: string, userPassword: string): Pr
     method: 'post',
     data: `grant_type=password&username=${userEmail}&password=${userPassword}&scope=${CTP_SCOPES}`,
     auth: {
-      username: CTP_CLIENT_ID,
-      password: CTP_CLIENT_SECRET,
+      username: <string>CTP_CLIENT_ID,
+      password: <string>CTP_CLIENT_SECRET,
     },
   };
 

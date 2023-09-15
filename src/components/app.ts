@@ -283,7 +283,8 @@ export default class App {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('cart__section');
-
+    const createCart = this.cart.createCart();
+    console.log(createCart);
     this.lineItemsWrapper.classList.add('lineitems-wrapper');
     this.lineItemsWrapper.innerHTML = '';
     const cartInstance = this.cart;

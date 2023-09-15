@@ -21,8 +21,23 @@ export default class Cart {
     return version;
   }
 
+  async createCart() {
+    if (!localStorage.getItem('cartId')) {
+      console.log('я создала корзину ');
+      try {
+        const response = await getCart().then((responce) => responce);
+        this.cart = response;
+        localStorage.setItem('cartId', response.data.id);
+        localStorage.setItem('anonymousId', response.data.anonymousId);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   // eslint-disable-next-line class-methods-use-this
   async handleclickonCart(event: Event) {
+    console.log('я вызвалась');
     const clickedElement = event.target as HTMLElement;
     let parentID;
     if (clickedElement.parentElement && clickedElement.parentElement.id) {
@@ -35,6 +50,7 @@ export default class Cart {
         productId: parentID as string,
         quantity: 1,
       };
+      console.log(actions);
       this.getcartById(actions);
     } else {
       try {
@@ -54,6 +70,7 @@ export default class Cart {
           productId: parentID as string,
           quantity: 1,
         };
+        console.log(actions);
         this.getcartById(actions);
       }
     }
@@ -62,6 +79,7 @@ export default class Cart {
   // eslint-disable-next-line class-methods-use-this
   async getcartById(actions: LineItemAction) {
     let versionnumber = Number(localStorage.getItem('cartVersion'));
+  console.log(versionnumber)
     if (versionnumber === 0 || !versionnumber) {
       versionnumber = 1;
     }
@@ -174,6 +192,7 @@ export default class Cart {
   async getUserCartItems() {
     const response = await getUserCart().then((cart) => cart);
     this.lineItems = response.data.lineItems;
+    console.log('я вызвалась');
     return response.data.lineItems;
   }
 
