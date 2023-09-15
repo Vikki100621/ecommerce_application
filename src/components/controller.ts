@@ -4,7 +4,6 @@ import BurgerMenu from './burger__menu';
 import { Options, Product } from './api/interfaces';
 import Cart from './cart';
 
-
 export default class Controller {
   private routing: Routing;
 
@@ -24,6 +23,21 @@ export default class Controller {
     this.init();
   }
 
+  private addCounterClickHandlers() {
+    const removeButtons = document.querySelectorAll('.remove__button')
+    removeButtons.forEach((removeButton) => {
+      removeButton.addEventListener('click', () => {
+         if (removeButton) {
+        const quantity = removeButton.nextElementSibling as HTMLDivElement;
+        const parentID = removeButton.closest('div')?.id as string;
+        const number = parseInt(quantity.textContent || '0', 10);
+        this.cart.changeCartQunity(number, parentID);
+        this.app.showCartPage();
+         }
+      });
+    }); 
+  }
+  
   private addProductsHandlers() {
     document.addEventListener('click', async (event) => {
       event.stopImmediatePropagation();
@@ -38,10 +52,10 @@ export default class Controller {
 
   private addMenuClickHandlers() {
     const menuItems = document.querySelectorAll('.menu-item');
+
     menuItems.forEach((menuItem, index) => {
       menuItem.addEventListener('click', (event) => {
         event.stopPropagation();
-
         this.routing.handleMenuItemClick(index, event);
       });
     });
@@ -223,5 +237,6 @@ export default class Controller {
     this.addProductsHandlers();
     this.addMenuClickHandlers();
     this.allHandlers();
+    this.addCounterClickHandlers();
   }
 }

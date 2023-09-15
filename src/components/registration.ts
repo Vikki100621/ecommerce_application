@@ -412,7 +412,6 @@ export default class Registration {
       const lastName: string = returnInputValue('lname');
 
       let userId: string;
-
       postCustomer(email, pass, firstName, lastName)
         .then((response) => {
           userId = response.data.customer.id;

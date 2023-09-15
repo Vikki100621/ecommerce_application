@@ -12,6 +12,7 @@ import Sorting from './sort';
 import ProductPage from './productPage/productPage';
 import { getProduct } from './api/api';
 import UserView from './user';
+import Cart from './cart';
 
 export default class App {
   public header: HTMLElement;
@@ -32,16 +33,29 @@ export default class App {
 
   public productContainer: HTMLElement;
 
+  public lineItemsWrapper: HTMLElement;
+
+  public cart: Cart;
+
+  public quanity: Promise<number>;
+
+  public cartItems: HTMLDivElement[];
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
+
     this.productContainer = document.createElement('div');
+    this.lineItemsWrapper = document.createElement('div');
     this.productContainer.classList.add('product__container');
     this.products = new Products();
     this.sorting = new Sorting();
     this.registration = new Registration();
+    this.cart = new Cart();
+    this.quanity = this.cart.getQuantity();
+    this.cartItems = [];
   }
 
   registerTemplate(name: string, templateFunction: () => void) {
@@ -62,10 +76,10 @@ export default class App {
     element?.classList.remove('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
+    // const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrc;
-    div.style.border = '2px solid #e4d4be';
+    // div.style.border = '2px solid #e4d4be';
 
     this.main.innerHTML = '';
     this.header.style.color = '#e4d4be';
@@ -121,23 +135,23 @@ export default class App {
         const logBtn = document.createElement('button');
         logBtn.classList.add('login_btn');
         logBtn.textContent = 'LOGIN';
-        logBtn.onclick = () => {
-          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
-            window.location.hash = '/login';
-          } else {
-            window.location.hash = '/';
-          }
-        };
+        // logBtn.onclick = () => {
+        //   if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+        //     window.location.hash = '/login';
+        //   } else {
+        //     window.location.hash = '/';
+        //   }
+        // };
         const regBtn = document.createElement('button');
-        regBtn.classList.add('reg_btn');
-        regBtn.textContent = 'REGISTER';
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-          regBtn.disabled = true;
-        } else {
-          regBtn.onclick = () => {
-            window.location.hash = '/register';
-          };
-        }
+        // regBtn.classList.add('reg_btn');
+        // regBtn.textContent = 'REGISTER';
+        // if (localStorage.getItem('isLoggedIn') === 'true') {
+        //   regBtn.disabled = true;
+        // } else {
+        //   regBtn.onclick = () => {
+        //     window.location.hash = '/register';
+        //   };
+        // }
         btnBlock.appendChild(regBtn);
         btnBlock.appendChild(logBtn);
         el.appendChild(title);
@@ -265,6 +279,34 @@ export default class App {
     this.main.appendChild(userPage.getHtmlElement());
   }
 
+  async showCartPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.classList.add('cart__section');
+
+    this.lineItemsWrapper.classList.add('lineitems-wrapper');
+    this.lineItemsWrapper.innerHTML = '';
+    const cartInstance = this.cart;
+    const lineItems = await cartInstance.getUserCartItems();
+    if (lineItems.length > 0) {
+      const render = await this.cart.renderCartItems(lineItems);
+      this.cartItems = [...lineItems];
+      render.forEach((line) => this.lineItemsWrapper.appendChild(line));
+      section.appendChild(this.lineItemsWrapper);
+
+      const cartdata = await cartInstance.getUserCart().then((response) => response.data);
+      console.log(cartdata);
+      const totalPrice = cartdata.totalPrice.centAmount;
+      const cartBLock = cartInstance.renderCart([totalPrice, totalPrice, totalPrice, totalPrice]);
+      section.appendChild(cartBLock);
+      this.main.appendChild(section);
+    } else {
+      const message = this.cart.messageAboutEmptyCart();
+      section.appendChild(message);
+      this.main.appendChild(section);
+    }
+  }
+
   createHeader() {
     this.header = document.createElement('header');
     this.header.id = 'header';
@@ -328,13 +370,15 @@ export default class App {
 
     const basketLi = document.createElement('li');
     basketLi.classList.add('item-basket');
+    basketLi.classList.add('menu-item');
     const basketImage = document.createElement('img');
-    const numbersOfProducts = document.createElement('div');
-    numbersOfProducts.classList.add('products__numbres');
-    numbersOfProducts.innerHTML = '0';
+    // const numbersOfProducts = document.createElement('div');
+    // numbersOfProducts.classList.add('products__numbres');
+
+    // numbersOfProducts.textContent = `${quantity}`;
     basketImage.src = basketImageSrc;
     basketLi.appendChild(basketImage);
-    basketLi.appendChild(numbersOfProducts);
+    // basketLi.appendChild(numbersOfProducts);
     ul.appendChild(basketLi);
 
     const overLay = document.createElement('div');
@@ -366,10 +410,10 @@ export default class App {
     element?.classList.add('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
+    // const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrcBlack;
-    div.style.border = '2px solid rgb(16, 14, 14)';
+    // div.style.border = '2px solid rgb(16, 14, 14)';
   }
 
   // создаем footer(он не будет меняться больше)

@@ -48,6 +48,7 @@ export interface CustomerAddress {
 }
 
 interface Price {
+  id?: string;
   value: {
     centAmount: number;
     currencyCode: string;
@@ -118,10 +119,46 @@ export interface CartData {
 }
 
 export interface LineItemAction {
-  action: string;
+  action?: string;
   productId?: string;
   variantId?: number;
   sku?: string;
   quantity?: number;
   customerId?: string;
+  activeCartSignInMode?: string;
+}
+
+export interface LineItem {
+  discountedPricePerQuantity: { id: string }; // Замените этот тип на соответствующий тип данных
+  id: string;
+  lastModifiedAt: string;
+  lineItemMode: string;
+  name: {
+    'en-US': string;
+  };
+  variant: {
+    images: { url: string }[];
+  };
+  state: [
+    {
+      quantity: number;
+    },
+  ];
+  price: Price;
+  priceMode: string;
+  productId: string;
+  productKey: string;
+  productSlug: Record<string, string>;
+  productType: {
+    typeId: string;
+    id: string;
+    version: number;
+  };
+  quantity: number;
+  totalPrice: {
+    type: string;
+    currencyCode: string;
+    centAmount: number;
+    fractionDigits: number;
+  };
 }

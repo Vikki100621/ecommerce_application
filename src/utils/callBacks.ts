@@ -1,4 +1,4 @@
-import { getBoundToken, getCartbyId, loginCustomer, updateCustomer } from '../components/api/api';
+import { getBoundToken,  loginCustomer, updateCustomer } from '../components/api/api';
 import State from '../components/state';
 import ElementBuilder from './elementBuilder';
 import { hideModal, showModal } from './modal';
@@ -30,25 +30,21 @@ export function getClientData(event: Event) {
     email: returnInputValue('email'),
     password: returnInputValue('password'),
   };
+
   loginCustomer(data.email, data.password)
     .then(async (response) => {
+      localStorage.setItem('cartId', response.data.cart.id)
+      localStorage.setItem('cartVersion', response.data.cart.version)
+      console.log('ответ логин',response)
       State.setId(response.data.customer.id);
       localStorage.setItem('customerID', response.data.customer.id);
       State.setCustomer(response.data.customer);
       State.setPassword(data.password);
-      localStorage.setItem('isLoggedIn', 'true');
       const responce = await getBoundToken(data.email, data.password);
       const updateToken = responce.data.access_token;
       localStorage.setItem('token', updateToken);
-      const action = {
-        action: 'setCustomerId',
-        customerId: (response.data.customer.id).toString(),
-      };
+      localStorage.setItem('isLoggedIn', 'true');
 
-      const bindCart = await getCartbyId(action);
-       console.log(bindCart.data);
-      localStorage.setItem('cartVersion', bindCart.data.version);
-     
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');
       const itemlogout = document.querySelector('.item-client .register');
@@ -66,10 +62,6 @@ export function getClientData(event: Event) {
       showModal(`${error.message}`, error.code);
       setTimeout(hideModal, 3000);
     });
-
-  // const token = localStorage.getItem('updateToken') as string
-  // // const refreshToken = localStorage.getItem('refreshUpdatedToken')
-  // getCartWithToken(token).then(responce => console.log(responce))
 }
 
 export function enableEditMode(event: Event) {

@@ -19,7 +19,6 @@ export default class Products {
       const productsResponse = await getProducts();
       const products: Array<Product> = productsResponse.data.results;
       this.data = products;
-      console.log(products)
       return this.data;
     } catch (error) {
       return undefined;
@@ -79,12 +78,10 @@ export default class Products {
       button.textContent = 'View details';
       productBox.appendChild(button);
 
-
       const cart = document.createElement('button');
       cart.classList.add('cart__button');
       cart.textContent = 'Add to cart';
       productBox.appendChild(cart);
-
 
       this.productDivs.push(productBox);
     });

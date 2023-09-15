@@ -24,6 +24,7 @@ export default class Routing {
       { path: '/user', template: 'user' },
       { path: '/logout', template: 'log' },
       { path: `/catalog/${this.id}`, template: 'product' },
+      { path: '/cart', template: 'cart' },
     ];
   }
 
@@ -63,6 +64,8 @@ export default class Routing {
         return () => this.app.showUserPage();
       case `/catalog/${this.id}`:
         return () => this.app.showProductPage(this.id);
+      case '/cart':
+        return () => this.app.showCartPage();
       default:
         return () => this.app.showHomePage();
     }
@@ -119,6 +122,7 @@ export default class Routing {
 
   handleMenuItemClick(index: number, event: Event) {
     const clickedElement = event.target as HTMLElement;
+    const parentElement = clickedElement.parentNode as HTMLElement;
 
     if (clickedElement.classList.contains('register')) {
       if (clickedElement.textContent === 'LogOut') {
@@ -128,6 +132,7 @@ export default class Routing {
         localStorage.removeItem('cartId');
         localStorage.removeItem('customerID');
         localStorage.removeItem('cartVersion');
+        localStorage.removeItem('anonymousId');
         window.location.hash = '/';
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');
@@ -146,6 +151,8 @@ export default class Routing {
       } else {
         window.location.hash = '/user';
       }
+    } else if (clickedElement.classList.contains('item-basket') || parentElement.classList.contains('item-basket')) {
+      window.location.hash = '/cart';
     } else {
       const selectedRoute = this.routes[index].path;
       window.location.hash = selectedRoute;
