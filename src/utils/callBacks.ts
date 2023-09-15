@@ -1,4 +1,4 @@
-import { getBoundToken,  loginCustomer, updateCustomer } from '../components/api/api';
+import { getBoundToken, loginCustomer, updateCustomer } from '../components/api/api';
 import State from '../components/state';
 import ElementBuilder from './elementBuilder';
 import { hideModal, showModal } from './modal';
@@ -33,9 +33,9 @@ export function getClientData(event: Event) {
 
   loginCustomer(data.email, data.password)
     .then(async (response) => {
-      localStorage.setItem('cartId', response.data.cart.id)
-      localStorage.setItem('cartVersion', response.data.cart.version)
-      console.log('ответ логин',response)
+      localStorage.setItem('cartId', response.data.cart.id);
+      localStorage.setItem('cartVersion', response.data.cart.version);
+      console.log('ответ логин', response);
       State.setId(response.data.customer.id);
       localStorage.setItem('customerID', response.data.customer.id);
       State.setCustomer(response.data.customer);

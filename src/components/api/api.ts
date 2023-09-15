@@ -107,8 +107,6 @@ export async function updateCustomer(id: string, actions: CustomerUpdateBody): P
   return response;
 }
 
-
-
 interface LoginRequestData {
   email: string;
   password: string;
@@ -116,15 +114,12 @@ interface LoginRequestData {
     id: string;
     typeId: string;
   };
-  activeCartSignInMode?: string,
+  activeCartSignInMode?: string;
   anonymousCartSignInMode?: string;
   anonymousId?: string;
 }
 
-export async function loginCustomer(
-  email: string,
-  password: string,
-): Promise<AxiosResponse> {
+export async function loginCustomer(email: string, password: string): Promise<AxiosResponse> {
   let token;
   if (!localStorage.getItem('token')) {
     token = (await getAnonymusToken()).toString();
@@ -133,10 +128,10 @@ export async function loginCustomer(
     token = localStorage.getItem('token');
   }
 
-  const requestData: LoginRequestData  = {
+  const requestData: LoginRequestData = {
     email,
     password,
-    activeCartSignInMode: 'MergeWithExistingCustomerCart'
+    activeCartSignInMode: 'MergeWithExistingCustomerCart',
   };
 
   const config: AxiosRequestConfig = {
@@ -309,7 +304,7 @@ export async function getCartbyId(
   actions: LineItemAction,
   versionnumber: number
 ): Promise<AxiosResponse> {
-   const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}`,
     method: 'post',
@@ -371,11 +366,8 @@ export async function getUserCart(): Promise<AxiosResponse> {
   return response;
 }
 
-export async function deleteCartbyId(
-  cartID: string,
-  versionnumber: number
-): Promise<AxiosResponse> {
-   const token = localStorage.getItem('token');
+export async function deleteCartbyId(cartID: string, versionnumber: number): Promise<AxiosResponse> {
+  const token = localStorage.getItem('token');
 
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}`,

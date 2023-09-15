@@ -13,7 +13,7 @@
   animation: rotateclock 5s linear infinite;
 }
 .section__error p {
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 20px;
   font-weight: 600;
 }
@@ -36,4 +36,4 @@
   to {
     transform: rotate(360deg);
   }
-}/*# sourceMappingURL=section__error.css.map */
+} /*# sourceMappingURL=section__error.css.map */

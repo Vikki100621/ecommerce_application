@@ -24,20 +24,20 @@ export default class Controller {
   }
 
   private addCounterClickHandlers() {
-    const removeButtons = document.querySelectorAll('.remove__button')
+    const removeButtons = document.querySelectorAll('.remove__button');
     removeButtons.forEach((removeButton) => {
       removeButton.addEventListener('click', () => {
-         if (removeButton) {
-        const quantity = removeButton.nextElementSibling as HTMLDivElement;
-        const parentID = removeButton.closest('div')?.id as string;
-        const number = parseInt(quantity.textContent || '0', 10);
-        this.cart.changeCartQunity(number, parentID);
-        this.app.showCartPage();
-         }
+        if (removeButton) {
+          const quantity = removeButton.nextElementSibling as HTMLDivElement;
+          const parentID = removeButton.closest('div')?.id as string;
+          const number = parseInt(quantity.textContent || '0', 10);
+          this.cart.changeCartQunity(number, parentID);
+          this.app.showCartPage();
+        }
       });
-    }); 
+    });
   }
-  
+
   private addProductsHandlers() {
     document.addEventListener('click', async (event) => {
       event.stopImmediatePropagation();

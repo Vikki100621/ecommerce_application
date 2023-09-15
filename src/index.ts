@@ -5,10 +5,10 @@ import Controller from './components/controller';
 const controller = new Controller();
 controller.init();
 
-const removeButtons = document.querySelectorAll('.remove__button')
+const removeButtons = document.querySelectorAll('.remove__button');
 removeButtons.forEach((removeButton) => {
   removeButton.addEventListener('click', () => {
-console.log('fgbgfb')
+    console.log('fgbgfb');
 
     //  if (removeButton) {
     // const quantity = removeButton.nextElementSibling as HTMLDivElement;

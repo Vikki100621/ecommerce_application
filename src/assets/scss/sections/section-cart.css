@@ -70,7 +70,7 @@
 .product__trash {
   width: 20px;
   height: 30px;
-  background-image: url("../../img/trash.png");
+  background-image: url('../../img/trash.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -111,4 +111,4 @@
 .empty-cart a:hover {
   color: #f7f7ec;
   background-color: #2c2a2a;
-}/*# sourceMappingURL=section-cart.css.map */
+} /*# sourceMappingURL=section-cart.css.map */
