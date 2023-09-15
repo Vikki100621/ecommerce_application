@@ -42,10 +42,10 @@ export default class UserAddressesView extends View {
   }
 
   configureView() {
-    const header = new ElementBuilder(param.header);
-    const title = new ElementBuilder(param.title);
-    const addButton = new ElementBuilder(param.addButton);
-    header.addInnerElement([title, addButton]);
+    const header = new ElementBuilder(param.header).getElement();
+    const title = new ElementBuilder(param.title).getElement();
+    const addButton = new ElementBuilder(param.addButton).getElement();
+    header.append(title, addButton);
 
     const roster = new ElementBuilder(param.roster).getElement();
     this.drawAddresses(roster);

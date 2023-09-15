@@ -54,3 +54,12 @@ export interface Customer {
   lastMessageSequenceNumber: number;
   versionModifiedAt: string;
 }
+
+export interface Member {
+  name: string;
+  country: string;
+  role: string;
+  bio: string;
+  id: string;
+  github: string;
+}

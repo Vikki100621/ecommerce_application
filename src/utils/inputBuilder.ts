@@ -1,60 +1,58 @@
 import ElementBuilder from './elementBuilder';
 import { CallBackType, ParametrsWithAttributes, TagsAttributes } from './interface';
 
-export default class InputFieldBuilder extends ElementBuilder {
-  inputElement: HTMLInputElement;
-
-  labelElement: HTMLLabelElement;
+export default class InputBuilder {
+  element: HTMLInputElement;
 
   constructor(parametrs: ParametrsWithAttributes) {
-    super(parametrs);
-    this.inputElement = document.createElement('input');
-    this.labelElement = document.createElement('label');
-    this.addInputAndLabel(parametrs);
+    this.element = document.createElement('input');
+    this.addAttributes(parametrs);
+  }
+
+  getElement() {
+    return this.element;
+  }
+
+  addInnerElement(elementArray: Array<HTMLElement | InputBuilder | ElementBuilder>) {
+    elementArray.forEach((element) => {
+      if (element instanceof ElementBuilder || element instanceof InputBuilder) {
+        this.element.append(element.getElement());
+      } else {
+        this.element.append(element);
+      }
+    });
   }
 
   addAttributes(parametrs: ParametrsWithAttributes) {
     if (parametrs.classNames !== undefined) {
       this.setCssClasses(parametrs.classNames);
     }
-  }
-
-  addInputAndLabel(parametrs: ParametrsWithAttributes) {
     if (parametrs.textContent !== undefined) {
       this.setTextContent(parametrs.textContent);
-    }
-    if (parametrs.attributes !== undefined) {
-      this.setInputAttributes(parametrs.attributes);
-    }
-    if (parametrs.attributes?.name) {
-      this.setLabelAttributes(parametrs.attributes.name);
     }
     if (parametrs.callback !== undefined && parametrs.event !== undefined) {
       this.setCallback(parametrs.event, parametrs.callback);
     }
-
-    this.element.append(this.labelElement, this.inputElement);
+    if (parametrs.attributes !== undefined) {
+      this.setAttributes(parametrs.attributes);
+    }
   }
 
-  // setValue(value: string) {
-  //   this.inputElement.value = value;
-  // }
+  setCssClasses(arrayOfClasses: string[]) {
+    this.element.classList.add(...arrayOfClasses);
+  }
 
   setTextContent(text: string) {
-    this.labelElement.textContent = text;
-  }
-
-  setInputAttributes(attributes: TagsAttributes) {
-    Object.keys(attributes).forEach((key) => {
-      this.inputElement.setAttribute(key, attributes[key]);
-    });
-  }
-
-  setLabelAttributes(attribute: string) {
-    this.labelElement.setAttribute('for', attribute);
+    this.element.value = text;
   }
 
   setCallback(event: string, callback: CallBackType) {
-    this.inputElement.addEventListener(event, (e) => callback(e));
+    this.element.addEventListener(event, callback);
+  }
+
+  setAttributes(attributes: TagsAttributes) {
+    Object.keys(attributes).forEach((key) => {
+      this.element.setAttribute(key, attributes[key]);
+    });
   }
 }

@@ -12,6 +12,8 @@ import Sorting from './sort';
 import ProductPage from './productPage/productPage';
 import { getProduct } from './api/api';
 import UserView from './user';
+import AboutView from './about/aboutView';
+import team from './about/teamInformation';
 
 export default class App {
   public header: HTMLElement;
@@ -172,9 +174,8 @@ export default class App {
   // здесь будет отрисовываться страница о магазине
   showAboutPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
-    this.main.appendChild(section);
+    const aboutPage = new AboutView(team);
+    this.main.appendChild(aboutPage.getHtmlElement());
   }
 
   async showCatalogPage() {

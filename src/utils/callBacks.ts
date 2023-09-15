@@ -1,4 +1,4 @@
-import { getBoundToken, getCartbyId, loginCustomer } from '../components/api/api';
+import { getBoundToken, loginCustomer } from '../components/api/api';
 import State from '../components/state';
 import { hideModal, showModal } from './modal';
 
@@ -38,14 +38,14 @@ export function getClientData(event: Event) {
       const responce = await getBoundToken(data.email, data.password);
       const updateToken = responce.data.access_token;
       localStorage.setItem('token', updateToken);
-      const action = {
-        action: 'setCustomerId',
-        customerId: response.data.customer.id.toString(),
-      };
+      // const action = {
+      //   action: 'setCustomerId',
+      //   customerId: response.data.customer.id.toString(),
+      // };
 
-      const bindCart = await getCartbyId(action);
-      console.log(bindCart.data);
-      localStorage.setItem('cartVersion', bindCart.data.version);
+      // const bindCart = await getCartbyId(action);
+      // console.log(bindCart.data);
+      // localStorage.setItem('cartVersion', bindCart.data.version);
 
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');

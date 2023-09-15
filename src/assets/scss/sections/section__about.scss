@@ -1,0 +1,40 @@
+.about {
+  &__section {
+    padding-top: 150px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 50px 25px;
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 50px;
+    font-family: Lostar, sans-serif;
+  }
+
+  &__info {
+    font-size: 20px;
+  }
+
+  &__members {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    margin: 0 50px;
+  }
+}
+
+.member__photo {
+  background-image: url('../../img/photo/valery.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 590px;
+  height: 590px;
+
+  
+}

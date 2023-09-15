@@ -1,8 +1,8 @@
 import { validateEmail, validatePassword } from '../utils/validation';
 import ElementBuilder from '../utils/elementBuilder';
-import InputFieldBuilder from '../utils/inputBuilder';
 import View from '../utils/view';
 import { getClientData, togglePassword } from '../utils/callBacks';
+import InputFieldBuilder from '../utils/inputFormBuilder';
 
 const param = {
   titleParametrs: {

@@ -176,7 +176,6 @@ export default class UserProfileView extends View {
     //  const currentUser = State.getCustomer();
     const currentId = localStorage.getItem('customerID') as string;
     const currentUser = await getCustomer(currentId).then((responce) => responce.data);
-    console.log(currentUser);
 
     if (currentUser) {
       firstNameValue.setTextContent(currentUser.firstName);

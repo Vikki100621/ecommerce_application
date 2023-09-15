@@ -1,6 +1,7 @@
 import State from '../components/state';
 import { enableEditMode } from '../utils/callBacks';
 import ElementBuilder from '../utils/elementBuilder';
+import InputBuilder from '../utils/inputBuilder';
 import { savePasswordChanges } from '../utils/saveFunctions';
 import { undoPasswordChanges } from '../utils/undoFunctions';
 import { validatePassword } from '../utils/validation';
@@ -80,19 +81,19 @@ export default class UserPasswordView extends View {
   }
 
   configureView() {
-    const header = new ElementBuilder(param.header);
-    const title = new ElementBuilder(param.title);
-    const editButton = new ElementBuilder(param.editButton);
-    const buttonsContainer = new ElementBuilder(param.buttonsContainer);
-    const saveButton = new ElementBuilder(param.saveButton);
-    const cancelButton = new ElementBuilder(param.cancelButton);
-    buttonsContainer.addInnerElement([saveButton, cancelButton]);
-    header.addInnerElement([title, editButton, buttonsContainer]);
+    const header = new ElementBuilder(param.header).getElement();
+    const title = new ElementBuilder(param.title).getElement();
+    const editButton = new ElementBuilder(param.editButton).getElement();
+    const buttonsContainer = new ElementBuilder(param.buttonsContainer).getElement();
+    const saveButton = new ElementBuilder(param.saveButton).getElement();
+    const cancelButton = new ElementBuilder(param.cancelButton).getElement();
+    buttonsContainer.append(saveButton, cancelButton);
+    header.append(title, editButton, buttonsContainer);
 
     const infoWrapper = new ElementBuilder(param.infoWrapper);
-    const password = new ElementBuilder(param.password);
-    const passwordValue = new ElementBuilder(param.passwordValue);
-    const passwordError = new ElementBuilder(param.passwordError);
+    const password = new ElementBuilder(param.password).getElement();
+    const passwordValue = new InputBuilder(param.passwordValue);
+    const passwordError = new ElementBuilder(param.passwordError).getElement();
 
     const currentUser = State.getCustomer();
     if (currentUser) {
