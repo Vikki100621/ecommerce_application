@@ -23,7 +23,7 @@
 }
 
 .member__photo {
-  background-image: url("../../img/photo/valery.jpg");
+  background-image: url('../../img/photo/valery.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
