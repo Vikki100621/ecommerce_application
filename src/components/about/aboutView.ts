@@ -2,6 +2,7 @@ import ElementBuilder from '../../utils/elementBuilder';
 import { Member } from '../../utils/interface';
 import View from '../../utils/view';
 import MemberView from './member';
+import Popup from './popUp';
 
 const param = {
   header: {
@@ -28,7 +29,7 @@ const param = {
 export default class AboutView extends View {
   members: HTMLElement;
 
-  constructor(team: Member[]) {
+  constructor(membersInfo: Member[]) {
     const parametrs = {
       tag: 'div',
       classNames: ['about__section'],
@@ -37,7 +38,7 @@ export default class AboutView extends View {
 
     this.configureView();
     this.members = new ElementBuilder(param.membersInfo).getElement();
-    this.drawMembers(team);
+    this.drawMembers(membersInfo);
     this.viewElement.addInnerElement([this.members]);
   }
 
@@ -50,9 +51,13 @@ export default class AboutView extends View {
     this.viewElement.addInnerElement([header]);
   }
 
-  drawMembers(team: Member[]) {
-    team.forEach((member) => {
+  drawMembers(membersInfo: Member[]) {
+    membersInfo.forEach((member) => {
       const currMember = new MemberView(member).getHtmlElement();
+      currMember.addEventListener('click', () => {
+        const popup = new Popup(member);
+        popup.open();
+      });
       this.members.append(currMember);
     });
   }

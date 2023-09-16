@@ -1,6 +1,6 @@
 import { Member } from '../../utils/interface';
 
-const team: Member[] = [
+const membersInfo: Member[] = [
   {
     name: 'Valery Matskevich',
     country: 'Belarus',
@@ -10,21 +10,21 @@ const team: Member[] = [
     github: 'https://github.com/ValeryMatskevich',
   },
   {
-    name: 'Valery Matskevich',
-    country: 'Belarus',
-    role: 'funny guy',
+    name: 'Victoriya',
+    country: 'Russia',
+    role: 'Team Lead',
     bio: 'lorem ipsum',
     id: 'victoriya',
     github: 'https://github.com/ValeryMatskevich',
   },
   {
-    name: 'Valery Matskevich',
-    country: 'Belarus',
-    role: 'funny guy',
+    name: 'Alexei',
+    country: 'Russia',
+    role: 'clevar guy',
     bio: 'lorem ipsum',
     id: 'alexei',
     github: 'https://github.com/ValeryMatskevich',
   },
 ];
 
-export default team;
+export default membersInfo;

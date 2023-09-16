@@ -10,10 +10,6 @@ const param = {
     tag: 'div',
     classNames: ['popup__wrapper'],
   },
-  photo: {
-    tag: 'div',
-    classNames: ['popup__photo'],
-  },
   content: {
     tag: 'div',
     classNames: ['popup__content'],
@@ -43,19 +39,51 @@ export default class Popup {
 
   drawPopUp(member: Member) {
     const wrapper = new ElementBuilder(param.wrapper);
-    const photo = new ElementBuilder(param.wrapper);
+    const photo = new ElementBuilder({
+      tag: 'div',
+      classNames: ['popup__photo', `popup__photo-${member.id}`],
+    });
     const content = new ElementBuilder(param.content);
+
+    wrapper.addInnerElement([photo, content]);
 
     const name = new ElementBuilder(param.name);
     name.setTextContent(member.name);
     const country = new ElementBuilder(param.country);
     country.setTextContent(member.country);
-    const bio = new ElementBuilder(param.country);
+    const bio = new ElementBuilder(param.bio);
     bio.setTextContent(member.bio);
 
-    content.addInnerElement([name, country, bio]);
-    wrapper.addInnerElement([photo, content]);
+    const git = new ElementBuilder({
+      tag: 'a',
+      classNames: ['popup__git'],
+      textContent: 'Github',
+      attributes: { href: member.github },
+    });
 
-    this.element.addInnerElement([]);
+    content.addInnerElement([name, country, bio, git]);
+
+    this.element.addInnerElement([wrapper]);
   }
+
+  open() {
+    const popup = this.element.getElement();
+    document.body.appendChild(popup);
+    document.body.classList.add('noscroll');
+    popup.addEventListener('click', this.handlePopupClick);
+  }
+
+  close() {
+    const popup = this.element.getElement();
+    document.body.removeChild(this.element.getElement());
+    document.body.classList.remove('noscroll');
+    popup.removeEventListener('click', this.handlePopupClick);
+  }
+
+  handlePopupClick = (event: Event) => {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('popup')) {
+      this.close();
+    }
+  };
 }

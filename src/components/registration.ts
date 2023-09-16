@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer, loginCustomer } from './api/api';
+import { postCustomer, updateCustomer, loginCustomer, getBoundToken } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 import State from './state';
 
@@ -412,7 +412,6 @@ export default class Registration {
       const lastName: string = returnInputValue('lname');
 
       let userId: string;
-
       postCustomer(email, pass, firstName, lastName)
         .then((response) => {
           userId = response.data.customer.id;
@@ -425,12 +424,16 @@ export default class Registration {
           throw error;
         })
         .then(() => loginCustomer(email, pass))
-        .then((response) => {
+        .then(async (response) => {
           State.setId(response.data.customer.id);
           State.setCustomer(response.data.customer);
           State.setPassword(pass);
           displayMessage('User successfully created and logged in.');
           clearForm();
+          localStorage.setItem('isLoggedIn', 'true');
+          const responce = await getBoundToken(email, pass);
+          const updateToken = responce.data.access_token;
+          localStorage.setItem('token', updateToken);
           localStorage.setItem('isLoggedIn', 'true');
           setTimeout(() => {
             hideMessage();
