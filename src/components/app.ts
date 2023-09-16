@@ -15,6 +15,7 @@ import UserView from './user';
 import Cart from './cart';
 import AboutView from './about/aboutView';
 import team from './about/teamInformation';
+import { LineItem } from './api/interfaces';
 
 export default class App {
   public header: HTMLElement;
@@ -39,8 +40,6 @@ export default class App {
 
   public cart: Cart;
 
-  public quanity: Promise<number>;
-
   public cartItems: HTMLDivElement[];
 
   constructor() {
@@ -56,7 +55,6 @@ export default class App {
     this.sorting = new Sorting();
     this.registration = new Registration();
     this.cart = new Cart();
-    this.quanity = this.cart.getQuantity();
     this.cartItems = [];
   }
 
@@ -284,7 +282,6 @@ export default class App {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('cart__section');
-
     if (!localStorage.getItem('cartId')) {
       try {
         this.cart.createCart().then((responce) => responce);
@@ -298,18 +295,29 @@ export default class App {
       this.lineItemsWrapper.classList.add('lineitems-wrapper');
       this.lineItemsWrapper.innerHTML = '';
       const cartInstance = this.cart;
-      const lineItems = await cartInstance.getUserCartItems();
+      const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
+      console.log(cart.data);
+      const { lineItems } = cart.data;
       if (lineItems.length > 0) {
         const render = await this.cart.renderCartItems(lineItems);
         this.cartItems = [...lineItems];
         render.forEach((line) => this.lineItemsWrapper.appendChild(line));
         section.appendChild(this.lineItemsWrapper);
 
-        const cartdata = await cartInstance.getUserCart().then((response) => response.data);
-        console.log(cartdata);
-        const totalPrice = cartdata.totalPrice.centAmount;
-        const cartBLock = cartInstance.renderCart([totalPrice, totalPrice, totalPrice, totalPrice]);
-        section.appendChild(cartBLock);
+        const totalCentAmount = lineItems.reduce(
+          (total: number, lineItem: LineItem) => total + lineItem.price.value.centAmount,
+          0
+        );
+
+        const totalPrice = cart.data.totalPrice.centAmount;
+        if (cart.data.discountCodes.length === 0) {
+          const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        } else {
+          const cartBLock = cartInstance.renderCartWithDiscount(totalPrice, totalCentAmount) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        }
+
         this.main.appendChild(section);
       } else {
         const message = this.cart.messageAboutEmptyCart();

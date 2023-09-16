@@ -357,8 +357,9 @@ export async function getCart(): Promise<AxiosResponse> {
 
 export async function getUserCart(): Promise<AxiosResponse> {
   let token;
+  console.log('active cart')
   console.log(token);
-  if (!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token')) { 
     token = (await getAnonymusToken()).toString();
     localStorage.setItem('token', token);
   } else {

@@ -413,8 +413,12 @@ export default class Registration {
 
       let userId: string;
       postCustomer(email, pass, firstName, lastName)
-        .then((response) => {
+        .then(async (response) => {
           userId = response.data.customer.id;
+          localStorage.setItem('customerID', userId);
+          const responce = await getBoundToken(email, pass);
+          const updateToken = responce.data.access_token;
+          localStorage.setItem('token', updateToken);
         })
         .catch((error) => {
           throw error;
@@ -425,6 +429,8 @@ export default class Registration {
         })
         .then(() => loginCustomer(email, pass))
         .then(async (response) => {
+          localStorage.setItem('cartId', response.data.cart.id);
+          localStorage.setItem('cartVersion', response.data.cart.version);
           State.setId(response.data.customer.id);
           State.setCustomer(response.data.customer);
           State.setPassword(pass);

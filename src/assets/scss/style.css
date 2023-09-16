@@ -134,7 +134,7 @@
 .modal-window__close:hover {
   cursor: pointer;
   background-color: transparent;
-  box-shadow: 0 0 16px 14px #223c503d;
+  box-shadow: 0 0 16px 14px rgba(34, 60, 80, 0.2392156863);
 }
 
 .modal-window .slider__img {
@@ -180,7 +180,7 @@
 
 @font-face {
   font-family: Lostar;
-  src: url('../fonts/Lostar/Lostar.ttf');
+  src: url("../fonts/Lostar/Lostar.ttf");
 }
 
 body {
@@ -238,7 +238,7 @@ body {
   display: flex;
   column-gap: 30px;
   align-items: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
   font-size: 20px;
   font-weight: 700;
 }
@@ -266,7 +266,7 @@ body {
 }
 
 #main .img-background {
-  background-image: url('../img/background.jpg');
+  background-image: url("../img/background.jpg");
   background-position: bottom center;
   background-size: cover;
 }

@@ -28,7 +28,6 @@ export default class Cart {
         const response = await getCart().then((responce) => responce);
         this.cart = response;
         localStorage.setItem('cartId', response.data.id);
-        localStorage.setItem('anonymousId', response.data.anonymousId);
       } catch (error) {
         console.error(error);
       }
@@ -87,8 +86,10 @@ export default class Cart {
     try {
       const response = await getCartbyId(cartId, actions, versionnumber);
       localStorage.setItem('cartVersion', response.data.version);
+      return response;
     } catch (error) {
       console.error(error);
+      return undefined;
     }
   }
 
@@ -156,9 +157,14 @@ export default class Cart {
       productBox.appendChild(priceBlock);
 
       const totalprice = document.createElement('div');
+      totalprice.classList.add('total_price');
       totalprice.textContent = `${(lineItem.totalPrice.centAmount / 100).toString()}$`;
       productBox.appendChild(totalprice);
-
+      // const totalPriceText = totalprice.textContent;
+      // // if (totalPriceText) {
+      // //   const totalPriceValue = parseFloat(totalPriceText.replace('$', ''));
+      // //   // totalPriceValue содержит число без знака "$"
+      // // }
       const trash = document.createElement('div');
       trash.classList.add('product__trash');
       productBox.appendChild(trash);
@@ -166,9 +172,8 @@ export default class Cart {
       let number = parseInt(quantity.textContent || '0', 10);
 
       trash.addEventListener('click', async () => {
-        this.changeCartQunity(0, id);
-        productBox.remove();
         this.changeCartWrapper(0, id, quantity, totalprice);
+        productBox.remove();
       });
 
       addButton.addEventListener('click', () => {
@@ -177,7 +182,6 @@ export default class Cart {
       });
       removeButton.addEventListener('click', () => {
         number = Math.max(number - 1, 0);
-        this.changeCartQunity(number, id);
         if (number === 0) {
           productBox.remove();
         }
@@ -189,46 +193,117 @@ export default class Cart {
     return this.lineItemsDivs;
   }
 
-  async getUserCartItems() {
-    const response = await getUserCart().then((cart) => cart);
-    this.lineItems = response.data.lineItems;
-    console.log('я вызвалась');
-    return response.data.lineItems;
-  }
-
-  async getQuantity(): Promise<number> {
-    const lineitems = await this.getUserCartItems().then((response) => response);
-    const totalQuantity = lineitems.reduce((total: number, item: LineItem) => total + item.quantity, 0);
-    return totalQuantity;
-  }
-
   async getUserCart() {
     const response = await getUserCart().then((cart) => cart);
     this.cart = response;
     return response;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  renderCart(prices: number[]) {
+  renderCartWithoutDiscount(price: number) {
     const cart = document.createElement('div');
     cart.classList.add('cart-wrapper');
 
-    const itemsNames = ['Total', 'Discount', 'Grand Total', 'Promo Code'];
+    const totalEl = document.createElement('ul');
+    const totalName = document.createElement('div');
+    totalName.textContent = 'Total';
+    const totalPrice = document.createElement('div');
+    totalPrice.textContent = `${(price / 100).toString()}$`;
+    totalEl.appendChild(totalName);
+    totalEl.appendChild(totalPrice);
 
-    itemsNames.forEach((item) => {
-      const itemEl = document.createElement('ul');
-      const itemName = document.createElement('div');
-      itemName.textContent = item;
-      const itemPrice = document.createElement('div');
-      prices.forEach((cartprice) => {
-        itemPrice.textContent = `${(cartprice / 100).toString()}$`;
+    const promocode = document.createElement('button');
+    promocode.classList.add('promo__code');
+    promocode.textContent = 'Apply promo code';
+
+    promocode.addEventListener('click', async () => {
+      const actions = {
+        action: 'addDiscountCode',
+        code: '092023',
+      };
+
+      const cartdata = await this.getcartById(actions).then((cartdatas) => cartdatas);
+
+      const grandtotal = cartdata?.data.totalPrice.centAmount;
+      const lineItems: LineItem[] = cartdata?.data.lineItems;
+      const products = document.querySelectorAll('.product__card');
+      const ids: string[] = [];
+
+      products.forEach((product) => {
+        const buttonsBlock = product.querySelector('.buttonsBlock');
+        const id = buttonsBlock?.getAttribute('id') as string;
+        ids.push(id);
       });
 
-      itemEl.appendChild(itemName);
-      itemEl.appendChild(itemPrice);
-      cart.appendChild(itemEl);
+      lineItems.forEach((lineItem) => {
+        if (ids.includes(lineItem.id)) {
+          const buttonsBlock = document.querySelector(`[id="${lineItem.id}"]`);
+          const productBox = buttonsBlock?.parentNode;
+          const totalPriceProducts = productBox?.querySelector('.total_price');
+          const newPrice = totalPriceProducts as HTMLDivElement;
+          newPrice.textContent = `${(lineItem.totalPrice.centAmount / 100).toString()}$`;
+          newPrice.style.color = '#f01616';
+          newPrice.style.color = '#f01616';
+          newPrice.style.fontWeight = '700';
+        }
+      });
+
+      const totalCentAmount = lineItems.reduce(
+        (total: number, lineItem: LineItem) => total + lineItem.price.value.centAmount,
+        0
+      );
+      this.renderCartWithDiscount(grandtotal, totalCentAmount);
+      promocode.remove();
     });
+
+    cart.appendChild(totalEl);
+    cart.appendChild(promocode);
     return cart;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  renderCartWithDiscount(price: number, lineitemsPrice: number) {
+    const cartContainer = document.createElement('div');
+    cartContainer.classList.add('cart-wrapper');
+    const totalEl = document.createElement('ul');
+    const totalName = document.createElement('div');
+    totalName.textContent = 'Total';
+    const totalPrice = document.createElement('div');
+    totalPrice.textContent = `${(lineitemsPrice / 100).toString()}$`;
+    totalEl.appendChild(totalName);
+    totalEl.appendChild(totalPrice);
+    const discountEl = document.createElement('ul');
+    const discountName = document.createElement('div');
+    discountName.textContent = 'Discount';
+    const discountPrice = document.createElement('div');
+    discountPrice.textContent = '';
+
+    const grandTotalEl = document.createElement('ul');
+    const grandTotalName = document.createElement('div');
+    grandTotalName.textContent = 'Grand Total';
+    const grandTotalPrice = document.createElement('div');
+    grandTotalPrice.textContent = '';
+
+    const discountValue = lineitemsPrice - price;
+
+    discountPrice.textContent = `${(discountValue / 100).toString()}$`;
+    grandTotalPrice.textContent = `${(price / 100).toString()}$`;
+
+    discountEl.appendChild(discountName);
+    discountEl.appendChild(discountPrice);
+    grandTotalEl.appendChild(grandTotalName);
+    grandTotalEl.appendChild(grandTotalPrice);
+
+    cartContainer?.appendChild(totalEl);
+    cartContainer?.appendChild(discountEl);
+    cartContainer?.appendChild(grandTotalEl);
+
+    const existingCartContainer = document.querySelector('.cart-wrapper');
+
+    if (existingCartContainer) {
+      existingCartContainer.replaceWith(cartContainer);
+    }
+
+    return cartContainer;
   }
 
   async changeCartQunity(number: number, productId: string) {
@@ -237,38 +312,52 @@ export default class Cart {
       lineItemId: `${productId}`,
       quantity: number,
     };
-    const responce = await this.getcartById(actions).then((respo) => console.log(respo));
-    console.log(responce);
+    const cart = await this.getcartById(actions).then((cartdata) => cartdata);
+    console.log(cart?.data);
   }
 
   async changeCartWrapper(number: number, id: string, quantityel: HTMLDivElement, totalPriceItem: HTMLDivElement) {
-    const section = document.querySelector('.cart__section');
-    await this.changeCartQunity(number, id);
-    const numbersEl = quantityel;
-    numbersEl.textContent = number.toString();
+    try {
+      const section = document.querySelector('.cart__section');
+      await this.changeCartQunity(number, id);
+      const numbersEl = quantityel;
+      numbersEl.textContent = number.toString();
+      const cartdata = await this.getUserCart().then((response) => response.data);
+      const totalprice = cartdata.totalPrice.centAmount;
+      const { lineItems } = cartdata;
+      const totalCentAmount = lineItems.reduce(
+        (total: number, lineItem: LineItem) => total + lineItem.price.value.centAmount,
+        0
+      );
+      if (lineItems.length === 0) {
+        if (section) section.innerHTML = '';
+        const messageblock = this.messageAboutEmptyCart();
+        section?.appendChild(messageblock);
+      }
+      const filteredLineItem = lineItems.filter((lineitem: { id: string }) => lineitem.id === id);
+      if (filteredLineItem.length > 0) {
+        const newPrice = filteredLineItem[0].totalPrice.centAmount;
+        const total = totalPriceItem;
+        total.textContent = `${(newPrice / 100).toString()}$`;
+      }
+      let cartBLock: HTMLDivElement;
 
-    const cartdata = await this.getUserCart().then((response) => response.data);
-    const totalprice = cartdata.totalPrice.centAmount;
-    const { lineItems } = cartdata;
-    if (lineItems.length === 0) {
-      if (section) section.innerHTML = '';
-      const messageblock = this.messageAboutEmptyCart();
-      section?.appendChild(messageblock);
-    }
-    const filteredLineItem = lineItems.filter((lineitem: { id: string }) => lineitem.id === id);
-    if (filteredLineItem > 0) {
-      const newPrice = filteredLineItem[0].totalPrice.centAmount;
-      const total = totalPriceItem;
-      total.textContent = `${(newPrice / 100).toString()}$`;
-    }
-    const cartwrapper = this.renderCart([totalprice, totalprice, totalprice, totalprice]);
-    const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+      if (cartdata.discountCodes.length === 0) {
+        cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
+      } else {
+        cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount) as HTMLDivElement;
+      }
 
-    if (cartbox) {
-      section?.removeChild(cartbox);
-    }
-    if (lineItems.length > 0) {
-      section?.appendChild(cartwrapper);
+      const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+
+      if (cartbox) {
+        section?.removeChild(cartbox);
+      }
+      if (lineItems.length > 0) {
+        section?.appendChild(cartBLock);
+      }
+    } catch (error) {
+      console.error('Произошла ошибка:', error);
     }
   }
 
