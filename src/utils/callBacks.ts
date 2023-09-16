@@ -1,4 +1,4 @@
-import { getBoundToken, loginCustomer, updateCustomer } from '../components/api/api';
+import { getBoundToken, loginCustomer } from '../components/api/api';
 import State from '../components/state';
 import { hideModal, showModal } from './modal';
 

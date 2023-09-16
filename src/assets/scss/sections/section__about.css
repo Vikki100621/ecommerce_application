@@ -23,7 +23,7 @@
 }
 
 .member__photo {
-  background-image: url("../../img/photo/valery.jpg");
+  background-image: url('../../img/photo/valery.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -43,25 +43,25 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 .popup__wrapper {
   position: relative;
   width: 900px;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-          box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
   background-color: white;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
   color: #000000;
 }
 .popup__content {
@@ -76,13 +76,13 @@
   margin-right: 20px;
 }
 .popup__photo-valery {
-  background-image: url("../../img/photo/valery.jpg");
+  background-image: url('../../img/photo/valery.jpg');
 }
 .popup__photo-victoriya {
-  background-image: url("https://via.placeholder.com/400");
+  background-image: url('https://via.placeholder.com/400');
 }
 .popup__photo-victoriya {
-  background-image: url("https://via.placeholder.com/400");
+  background-image: url('https://via.placeholder.com/400');
 }
 .popup____title {
   font-size: 24px;

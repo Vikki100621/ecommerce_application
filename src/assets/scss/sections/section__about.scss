@@ -37,9 +37,8 @@
   height: 590px;
 }
 
-
 .popup {
-position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -50,18 +49,15 @@ position: fixed;
   justify-content: center;
   align-items: center;
 
-
-
   &__wrapper {
-
     position: relative;
-      width: 900px;
-      border-radius: 10px;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-      background-color: white;
-      display: flex;
-      justify-content: flex-start;
-      color: #000000;
+    width: 900px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+    color: #000000;
   }
   &__content {
     padding: 20px;
@@ -69,20 +65,20 @@ position: fixed;
 
   &__photo {
     width: 600px;
-      height: 600px;
-      background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-      margin-right: 20px;
+    height: 600px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 20px;
   }
 
   &__photo-valery {
     background-image: url('../../img/photo/valery.jpg');
   }
-  
+
   &__photo-victoriya {
     background-image: url('https://via.placeholder.com/400');
-    }
+  }
 
   &__photo-victoriya {
     background-image: url('https://via.placeholder.com/400');
@@ -95,24 +91,24 @@ position: fixed;
 
   &__name {
     font-size: 36px;
-      margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   &__country {
     font-size: 24px;
-      margin-bottom: 20px;
+    margin-bottom: 20px;
   }
 
   &__bio {
     font-size: 18px;
-      line-height: 1.5;
-      margin-bottom: 20px;
+    line-height: 1.5;
+    margin-bottom: 20px;
   }
 
   &__git {
-      font-size: 18px;
-        color: #007bff;
-    }
+    font-size: 18px;
+    color: #007bff;
+  }
 }
 
 .noscroll {
