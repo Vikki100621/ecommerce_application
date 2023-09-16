@@ -1,0 +1,16 @@
+.pagination__num-pages-wrap {
+  display: flex;
+  column-gap: 10px;
+  font-size: 20px;
+}
+
+.pagination__num-pages-pages {
+  display: flex;
+  column-gap: 10px;
+}
+
+.pagination__num-pages-page {
+  &:hover {
+    cursor: pointer;
+  }
+}
