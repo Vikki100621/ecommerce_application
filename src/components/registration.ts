@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer, loginCustomer } from './api/api';
+import { postCustomer, updateCustomer, loginCustomer, getBoundToken } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 import State from './state';
 
@@ -413,8 +413,12 @@ export default class Registration {
 
       let userId: string;
       postCustomer(email, pass, firstName, lastName)
-        .then((response) => {
+        .then(async (response) => {
           userId = response.data.customer.id;
+          localStorage.setItem('customerID', userId);
+          const responce = await getBoundToken(email, pass);
+          const updateToken = responce.data.access_token;
+          localStorage.setItem('token', updateToken);
         })
         .catch((error) => {
           throw error;
@@ -424,7 +428,9 @@ export default class Registration {
           throw error;
         })
         .then(() => loginCustomer(email, pass))
-        .then((response) => {
+        .then(async (response) => {
+          localStorage.setItem('cartId', response.data.cart.id);
+          localStorage.setItem('cartVersion', response.data.cart.version);
           State.setId(response.data.customer.id);
           State.setCustomer(response.data.customer);
           State.setPassword(pass);

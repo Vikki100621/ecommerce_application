@@ -13,7 +13,6 @@ const [CTP_PROJECT_KEY, CTP_CLIENT_SECRET, CTP_CLIENT_ID, CTP_AUTH_URL, CTP_API_
   process.env.CTP_SCOPES,
 ];
 
-
 // const CTP_PROJECT_KEY = 'rs-school-ecommerce-application';
 // const CTP_CLIENT_SECRET = 'xnIExDv_L553zLUH71kjVzANZ_7bfwyn';
 // const CTP_CLIENT_ID = 'n6NhHNp-SoFneLzkbs6qXWuu';
@@ -358,8 +357,9 @@ export async function getCart(): Promise<AxiosResponse> {
 
 export async function getUserCart(): Promise<AxiosResponse> {
   let token;
+  console.log('active cart')
   console.log(token);
-  if (!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token')) { 
     token = (await getAnonymusToken()).toString();
     localStorage.setItem('token', token);
   } else {

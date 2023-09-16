@@ -109,13 +109,17 @@ export type CartType = {
   id: string;
 };
 
+
 export interface CartData {
-  anonymousId: string;
+  anonymousId?: string;
+  customerId?: string;
   cartState: string;
   country: string;
   type: string;
   version: number;
   versionModifiedAt: string;
+  lineItems: LineItem[];
+  discountCodes: Array<{ discountCode: { id: string; typeId: string; } }>;
 }
 
 export interface LineItemAction {
