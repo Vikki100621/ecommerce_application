@@ -109,7 +109,6 @@ export type CartType = {
   id: string;
 };
 
-
 export interface CartData {
   anonymousId?: string;
   customerId?: string;
@@ -119,7 +118,7 @@ export interface CartData {
   version: number;
   versionModifiedAt: string;
   lineItems: LineItem[];
-  discountCodes: Array<{ discountCode: { id: string; typeId: string; } }>;
+  discountCodes: Array<{ discountCode: { id: string; typeId: string } }>;
 }
 
 export interface LineItemAction {

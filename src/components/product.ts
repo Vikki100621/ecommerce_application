@@ -27,7 +27,7 @@ export default class Products {
 
   renderProducts(products: Array<Product> | undefined): HTMLDivElement[] {
     if (products) this.productDivs = [];
-    console.log(products)
+    console.log(products);
     products?.forEach((productData: Product) => {
       const categoryId = productData.categories[0].id;
       const productId = productData.id;
