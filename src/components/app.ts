@@ -196,7 +196,7 @@ export default class App {
     const labelItemsPagination = returnElement({
       tag: 'label',
       classes: ['pagination__choose-label'],
-      textContent: 'Items per page:',
+      textContent: 'Items per page: ',
       attrib: [{ name: 'for', value: 'pagination-select' }],
     });
     const items4 = returnElement({
@@ -222,6 +222,7 @@ export default class App {
     const productsWrapper = this.productContainer;
 
     let currentPage = 0;
+    const numPages: HTMLElement[] = [];
 
     function returnElemPageNum(num: string) {
       const elemPageNum = returnElement({ tag: 'div', classes: ['pagination__num-pages-page'], textContent: num });
@@ -230,10 +231,23 @@ export default class App {
 
     function drawNumPages(num: number) {
       paginationNumPagesList.innerHTML = '';
+      numPages.length = 0;
       for (let i = 1; i <= num; i += 1) {
         const pageItem = returnElemPageNum(String(i));
+        numPages.push(pageItem);
         paginationNumPagesList.append(pageItem);
       }
+    }
+
+    function deSelectCurrentPage() {
+      numPages[currentPage].classList.remove('pagination__num-pages-page_active');
+    }
+
+    function selectCurrentPage() {
+      numPages[0].classList.add('pagination__num-pages-page_active');
+      numPages[currentPage].classList.add('pagination__num-pages-page_active');
+      console.log(numPages);
+      console.log(numPages[0]);
     }
 
     function drawItems() {
@@ -241,7 +255,9 @@ export default class App {
       const numOfPages = Math.ceil(productDivs.length / numOfItems);
 
       if (currentPage > numOfPages - 1) {
+        deSelectCurrentPage();
         currentPage = 0;
+        selectCurrentPage();
       }
 
       const offset = currentPage * numOfItems;
@@ -262,7 +278,9 @@ export default class App {
       const pageNumDiv: HTMLDivElement = <HTMLDivElement>evt.target;
       if (pageNumDiv.classList.contains('pagination__num-pages-page')) {
         const pageNum: string = <string>pageNumDiv.textContent;
+        deSelectCurrentPage();
         currentPage = +pageNum - 1;
+        selectCurrentPage();
         drawItems();
       }
     }
