@@ -10,7 +10,6 @@ function checkErrors(infoWrapper: HTMLElement, button: Element) {
   }
 }
 
-// Работает
 export function validateEmail() {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const input = document.getElementById('email') || document.getElementById('userEmail');

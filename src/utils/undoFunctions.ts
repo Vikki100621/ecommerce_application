@@ -1,7 +1,9 @@
-import State from '../components/state';
+import { getCustomer } from '../components/api/api';
+import { Customer } from './interface';
 
-export function undoProfileChanges() {
-  const customer = State.getCustomer();
+export async function undoProfileChanges() {
+  const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
   const firstName = document.querySelector('.firstName');
   const lastName = document.querySelector('.lastName');
   const date = document.querySelector('.dateOfBirth');
@@ -12,11 +14,11 @@ export function undoProfileChanges() {
   const infoWrapper = document.querySelectorAll('.profile__infoWrapper .readonly');
   const errors = document.querySelectorAll('.profile__infoWrapper .errorSpan');
 
-  if (customer) {
-    if (firstName instanceof HTMLInputElement) firstName.value = customer?.firstName;
-    if (lastName instanceof HTMLInputElement) lastName.value = customer?.lastName;
-    if (date instanceof HTMLInputElement) date.value = customer?.dateOfBirth;
-    if (email instanceof HTMLInputElement) email.value = customer.email;
+  if (currentUser) {
+    if (firstName instanceof HTMLInputElement) firstName.value = currentUser?.firstName;
+    if (lastName instanceof HTMLInputElement) lastName.value = currentUser?.lastName;
+    if (date instanceof HTMLInputElement) date.value = currentUser?.dateOfBirth;
+    if (email instanceof HTMLInputElement) email.value = currentUser.email;
   }
   if (editButton && buttonsContainer && saveButton) {
     editButton.classList.remove('hidden');
@@ -33,9 +35,10 @@ export function undoProfileChanges() {
   }
 }
 
-export function undoAddressChanges(event: Event) {
-  const customer = State.getCustomer();
-  const addressesArr = customer!.addresses;
+export async function undoAddressChanges(event: Event) {
+  const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  const addressesArr = currentUser!.addresses;
   const cancelButton = event.target as HTMLElement;
   const { cancelid } = cancelButton.dataset;
   const index = addressesArr.findIndex((obj) => obj.id === cancelid);
@@ -44,7 +47,7 @@ export function undoAddressChanges(event: Event) {
   const buttonsContainer = document.querySelector(`[data-container = "${cancelid}"]`);
   const infoWrapper = document.querySelector(`[data-currWrapper = "${cancelid}"]`);
 
-  if (customer && infoWrapper) {
+  if (currentUser && infoWrapper) {
     const country = infoWrapper.querySelector('.country');
     const city = infoWrapper.querySelector('.city');
     const street = infoWrapper.querySelector('.street');
@@ -52,10 +55,10 @@ export function undoAddressChanges(event: Event) {
     const inputArr = infoWrapper.querySelectorAll('.readonly');
     const errors = infoWrapper.querySelectorAll('.errorSpan');
 
-    if (country instanceof HTMLInputElement) country.value = customer.addresses[index].country;
-    if (city instanceof HTMLInputElement) city.value = customer.addresses[index].city;
-    if (street instanceof HTMLInputElement) street.value = customer.addresses[index].streetName;
-    if (postal instanceof HTMLInputElement) postal.value = customer.addresses[index].postalCode;
+    if (country instanceof HTMLInputElement) country.value = currentUser.addresses[index].country;
+    if (city instanceof HTMLInputElement) city.value = currentUser.addresses[index].city;
+    if (street instanceof HTMLInputElement) street.value = currentUser.addresses[index].streetName;
+    if (postal instanceof HTMLInputElement) postal.value = currentUser.addresses[index].postalCode;
 
     if (editButton && buttonsContainer && saveButton) {
       editButton.classList.remove('hidden');
@@ -74,19 +77,21 @@ export function undoAddressChanges(event: Event) {
   }
 }
 
-export function undoPasswordChanges() {
-  const customer = State.getCustomer();
+export async function undoPasswordChanges() {
+  const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
 
   const password = document.querySelector('.password') as HTMLInputElement;
   const editButton = document.querySelector('.password__editButton');
   const saveButton = document.querySelector('.password__saveButton');
   const buttonsContainer = document.querySelector('.password__buttonsContainer');
   const error = document.querySelector('.password__infoWrapper .errorSpan');
+  const newpass = document.getElementById('newPasswordLabel');
 
-  if (customer) {
-    if (password instanceof HTMLInputElement) password.value = customer.password;
+  if (currentUser) {
+    if (password instanceof HTMLInputElement) password.value = currentUser.password;
   }
-  if (editButton && buttonsContainer && saveButton && password && error) {
+  if (editButton && buttonsContainer && saveButton && password && error && newpass) {
     editButton.classList.remove('hidden');
     buttonsContainer.classList.add('hidden');
     saveButton.removeAttribute('disabled');
@@ -94,5 +99,6 @@ export function undoPasswordChanges() {
     password.classList.remove('editMode', 'invalid');
     password.type = 'password';
     error.innerHTML = '';
+    newpass.classList.add('hidden');
   }
 }

@@ -1,12 +1,12 @@
-import { updateCustomer } from '../components/api/api';
-import State from '../components/state';
+import { getCustomer, updateCustomer } from '../components/api/api';
 import drawAddress from './drawAddress';
-import { Addresses } from './interface';
+import { Addresses, Customer } from './interface';
 import { showModal, hideModal } from './modal';
 import { checkCountry, checkCity, checkStreet, checkPostalCode } from './validation';
 
-export default function setNewAddress(event: Event) {
-  const customer = State.getCustomer();
+export default async function setNewAddress(event: Event) {
+  const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
   const addButton = event.target as HTMLElement;
   const { saveid } = addButton.dataset;
   const infoWrapper = document.querySelector(`[data-currWrapper = "${saveid}"]`) as HTMLElement;
@@ -18,14 +18,14 @@ export default function setNewAddress(event: Event) {
   checkStreet(event);
   checkPostalCode(event);
 
-  if (infoWrapper && customer && roster && newAddressButton) {
+  if (infoWrapper && currentUser && roster && newAddressButton) {
     const country = <HTMLInputElement>infoWrapper.querySelector('.country');
     const city = <HTMLInputElement>infoWrapper.querySelector('.city');
     const street = <HTMLInputElement>infoWrapper.querySelector('.street');
     const postal = <HTMLInputElement>infoWrapper.querySelector('.postal');
 
-    updateCustomer(customer.id, {
-      version: Number(customer.version),
+    updateCustomer(currentUser.id, {
+      version: Number(currentUser.version),
       actions: [
         {
           action: 'addAddress',
@@ -39,9 +39,8 @@ export default function setNewAddress(event: Event) {
       ],
     })
       .then((resp) => {
-        State.setCustomer(resp.data);
         roster.innerHTML = '';
-        const addressesArr = customer.addresses;
+        const addressesArr = currentUser.addresses;
         addressesArr.forEach((address: Addresses) => {
           const container = drawAddress(address);
           roster.append(container.getElement());

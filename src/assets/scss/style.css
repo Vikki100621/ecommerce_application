@@ -134,7 +134,7 @@
 .modal-window__close:hover {
   cursor: pointer;
   background-color: transparent;
-  box-shadow: 0 0 16px 14px rgba(34, 60, 80, 0.2392156863);
+  box-shadow: 0 0 16px 14px #223c503d;
 }
 
 .modal-window .slider__img {

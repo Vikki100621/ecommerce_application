@@ -173,10 +173,8 @@ export default class UserProfileView extends View {
     const emailValue = new ElementBuilder(param.emailValue);
     const emailError = new ElementBuilder(param.emailError);
 
-    //  const currentUser = State.getCustomer();
     const currentId = localStorage.getItem('customerID') as string;
     const currentUser = await getCustomer(currentId).then((responce) => responce.data);
-    console.log(currentUser);
 
     if (currentUser) {
       firstNameValue.setTextContent(currentUser.firstName);
@@ -203,5 +201,3 @@ export default class UserProfileView extends View {
     this.viewElement.addInnerElement([header, infoWrapper]);
   }
 }
-
-// ПОСЛЕДНЕЕ Изменение

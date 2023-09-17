@@ -1,5 +1,5 @@
-import { getBoundToken, loginCustomer } from '../components/api/api';
-import State from '../components/state';
+import { getBoundToken, getCustomer, loginCustomer } from '../components/api/api';
+import { Customer } from './interface';
 import { hideModal, showModal } from './modal';
 
 export function togglePassword() {
@@ -31,13 +31,12 @@ export function getClientData(event: Event) {
 
   loginCustomer(data.email, data.password)
     .then(async (response) => {
-      localStorage.setItem('cartId', response.data.cart.id);
-      localStorage.setItem('cartVersion', response.data.cart.version);
-      console.log('ответ логин', response);
-      State.setId(response.data.customer.id);
+      // ВОПРОС ПО ЭТО ЧАСТИ
+
+      // localStorage.setItem('cartId', response.data.cart.id);
+      // localStorage.setItem('cartVersion', response.data.cart.version);
       localStorage.setItem('customerID', response.data.customer.id);
-      State.setCustomer(response.data.customer);
-      State.setPassword(data.password);
+
       const responce = await getBoundToken(data.email, data.password);
       const updateToken = responce.data.access_token;
       localStorage.setItem('token', updateToken);
@@ -62,8 +61,11 @@ export function getClientData(event: Event) {
     });
 }
 
-export function enableEditMode(event: Event) {
-  const currPassword = State.getPassword();
+export async function enableEditMode(event: Event) {
+  const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+
+  const currPassword = currentUser.password;
   const editBtn = event.target as HTMLElement;
 
   const { section, editid } = editBtn.dataset;
@@ -81,11 +83,22 @@ export function enableEditMode(event: Event) {
   if (editBtn && buttonsContainer && currPassword) {
     editBtn.classList.add('hidden');
     buttonsContainer.classList.remove('hidden');
-    if (infoBlocks[0] instanceof HTMLInputElement && infoBlocks[0].type === 'password') {
+    if (
+      infoBlocks[0] instanceof HTMLInputElement &&
+      infoBlocks[1] instanceof HTMLInputElement &&
+      infoBlocks[0].type === 'password'
+    ) {
       infoBlocks[0].removeAttribute('readonly');
       infoBlocks[0].classList.add('editMode');
       infoBlocks[0].type = 'text';
-      infoBlocks[0].value = currPassword;
+      infoBlocks[0].value = '';
+
+      const newpass = document.getElementById('newPasswordLabel');
+      newpass!.classList.remove('hidden');
+
+      infoBlocks[1].removeAttribute('readonly');
+      infoBlocks[1].classList.add('editMode');
+      infoBlocks[1].type = 'text';
     } else {
       infoBlocks.forEach((elem) => {
         elem.removeAttribute('readonly');

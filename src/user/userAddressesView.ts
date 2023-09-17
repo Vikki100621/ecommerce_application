@@ -1,9 +1,9 @@
 import ElementBuilder from '../utils/elementBuilder';
-import State from '../components/state';
 import View from '../utils/view';
-import { Addresses, Customer } from '../utils/interface';
+import { Addresses } from '../utils/interface';
 import drawAddress from '../utils/drawAddress';
 import drawNewAddress from '../utils/renderNewAddress';
+import { getCustomer } from '../components/api/api';
 
 const param = {
   header: {
@@ -29,7 +29,7 @@ const param = {
 };
 
 export default class UserAddressesView extends View {
-  private customer: Customer | null;
+  roster: HTMLElement;
 
   constructor() {
     const parametrs = {
@@ -37,7 +37,7 @@ export default class UserAddressesView extends View {
       classNames: ['addresses__container'],
     };
     super(parametrs);
-    this.customer = State.getCustomer();
+    this.roster = new ElementBuilder(param.roster).getElement();
     this.configureView();
   }
 
@@ -47,18 +47,19 @@ export default class UserAddressesView extends View {
     const addButton = new ElementBuilder(param.addButton).getElement();
     header.append(title, addButton);
 
-    const roster = new ElementBuilder(param.roster).getElement();
-    this.drawAddresses(roster);
+    this.drawAddresses();
 
-    this.viewElement.addInnerElement([header, roster]);
+    this.viewElement.addInnerElement([header, this.roster]);
   }
 
-  drawAddresses(addressesDiv: HTMLElement) {
-    if (this.customer) {
-      const addressArr = this.customer.addresses;
+  async drawAddresses() {
+    const currentId = localStorage.getItem('customerID') as string;
+    const currentUser = await getCustomer(currentId).then((responce) => responce.data);
+    if (currentUser) {
+      const addressArr = currentUser.addresses;
       addressArr.forEach((address: Addresses) => {
         const container = drawAddress(address);
-        addressesDiv.append(container.getElement());
+        this.roster.append(container.getElement());
       });
     }
   }

@@ -15,7 +15,7 @@ const membersInfo: Member[] = [
     role: 'Team Lead',
     bio: 'lorem ipsum',
     id: 'victoriya',
-    github: 'https://github.com/ValeryMatskevich',
+    github: 'https://github.com/Vikki100621',
   },
   {
     name: 'Alexei',
@@ -23,7 +23,15 @@ const membersInfo: Member[] = [
     role: 'clevar guy',
     bio: 'lorem ipsum',
     id: 'alexei',
-    github: 'https://github.com/ValeryMatskevich',
+    github: 'https://github.com/a-v-gor',
+  },
+  {
+    name: 'Marina',
+    country: 'Russia',
+    role: 'mentor',
+    bio: 'lorem ipsum',
+    id: 'marina',
+    github: 'https://github.com/a-v-gor',
   },
 ];
 
