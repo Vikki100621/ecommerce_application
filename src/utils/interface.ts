@@ -63,3 +63,12 @@ export interface Member {
   id: string;
   github: string;
 }
+
+export interface Error {
+  statusCode: number;
+  message: string;
+  errors: {
+    code: string;
+    message: string;
+  }[];
+}

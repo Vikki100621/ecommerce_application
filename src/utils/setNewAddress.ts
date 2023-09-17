@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { getCustomer, updateCustomer } from '../components/api/api';
 import drawAddress from './drawAddress';
 import { Addresses, Customer } from './interface';
@@ -50,9 +51,16 @@ export default async function setNewAddress(event: Event) {
         showModal('Address added', resp.status);
         setTimeout(hideModal, 3000);
       })
-      .catch((error) => {
-        showModal(`${error.message}`, error.code);
-        setTimeout(hideModal, 3000);
+      .catch((error: AxiosError) => {
+        const { response } = error;
+        if (response) {
+          const { status } = response;
+          const errorData = response.data as Error;
+          const { message } = errorData;
+
+          showModal(message, status);
+          setTimeout(hideModal, 3000);
+        }
       });
   }
 }

@@ -10,7 +10,7 @@ const membersInfo: Member[] = [
     github: 'https://github.com/ValeryMatskevich',
   },
   {
-    name: 'Victoriya',
+    name: 'Viktoriya Kryuchkova',
     country: 'Russia',
     role: 'Team Lead',
     bio: 'lorem ipsum',
@@ -18,7 +18,7 @@ const membersInfo: Member[] = [
     github: 'https://github.com/Vikki100621',
   },
   {
-    name: 'Alexei',
+    name: 'Alexey Gorbenko',
     country: 'Russia',
     role: 'clevar guy',
     bio: 'lorem ipsum',
@@ -26,12 +26,12 @@ const membersInfo: Member[] = [
     github: 'https://github.com/a-v-gor',
   },
   {
-    name: 'Marina',
+    name: 'Marina Golubeva',
     country: 'Russia',
-    role: 'mentor',
+    role: 'Mentor',
     bio: 'lorem ipsum',
     id: 'marina',
-    github: 'https://github.com/a-v-gor',
+    github: 'https://github.com/golubeva-webmaster',
   },
 ];
 

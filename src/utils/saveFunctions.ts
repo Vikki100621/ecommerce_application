@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { getCustomer, updateCustomer, updatePassword } from '../components/api/api';
 import { Customer } from './interface';
 
@@ -32,9 +33,16 @@ export async function saveChanges() {
         showModal('Data saved', resp.status);
         setTimeout(hideModal, 3000);
       })
-      .catch((error) => {
-        showModal(`${error.message}`, error.code);
-        setTimeout(hideModal, 3000);
+      .catch((error: AxiosError) => {
+        const { response } = error;
+        if (response) {
+          const { status } = response;
+          const errorData = response.data as Error;
+          const { message } = errorData;
+
+          showModal(message, status);
+          setTimeout(hideModal, 3000);
+        }
       });
   }
 
@@ -91,9 +99,16 @@ export async function saveAddressChanges(event: Event) {
         showModal('Data saved', resp.status);
         setTimeout(hideModal, 3000);
       })
-      .catch((error) => {
-        showModal(`${error.message}`, error.code);
-        setTimeout(hideModal, 3000);
+      .catch((error: AxiosError) => {
+        const { response } = error;
+        if (response) {
+          const { status } = response;
+          const errorData = response.data as Error;
+          const { message } = errorData;
+
+          showModal(message, status);
+          setTimeout(hideModal, 3000);
+        }
       });
 
     if (editButton && buttonsContainer) {
@@ -127,9 +142,16 @@ export async function savePasswordChanges() {
         showModal('Data saved', resp.status);
         setTimeout(hideModal, 3000);
       })
-      .catch((error) => {
-        showModal(`${error.message}`, error.code);
-        setTimeout(hideModal, 3000);
+      .catch((error: AxiosError) => {
+        const { response } = error;
+        if (response) {
+          const { status } = response;
+          const errorData = response.data as Error;
+          const { message } = errorData;
+
+          showModal(message, status);
+          setTimeout(hideModal, 3000);
+        }
       });
   }
 

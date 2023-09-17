@@ -31,10 +31,11 @@ export function validateEmail() {
   }
 }
 
-export function validatePassword() {
+export function validatePassword(event: Event) {
   const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?!.*\s).{8,}$/;
-  const input = document.getElementById('password');
-  const error = document.getElementById('passwordError');
+  const input = event.target as HTMLInputElement;
+  const { id } = input;
+  const error = document.getElementById(`${id}Error`);
   if (input instanceof HTMLInputElement && error) {
     const saveButton = document.querySelector(`.password__saveButton`);
     if (!regex.test(input.value)) {

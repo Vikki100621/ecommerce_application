@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { getCustomer, updateCustomer } from '../components/api/api';
 import { Customer } from './interface';
 import { showModal, hideModal } from './modal';
@@ -21,9 +22,16 @@ export default async function deleteAddress(event: Event) {
           showModal('Address deleted', resp.status);
           setTimeout(hideModal, 3000);
         })
-        .catch((error) => {
-          showModal(`${error.message}`, error.code);
-          setTimeout(hideModal, 3000);
+        .catch((error: AxiosError) => {
+          const { response } = error;
+          if (response) {
+            const { status } = response;
+            const errorData = response.data as Error;
+            const { message } = errorData;
+
+            showModal(message, status);
+            setTimeout(hideModal, 3000);
+          }
         });
     } else {
       addButton.removeAttribute('disabled');

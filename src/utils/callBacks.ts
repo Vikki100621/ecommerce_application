@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { getBoundToken, getCustomer, loginCustomer } from '../components/api/api';
 import { Customer } from './interface';
 import { hideModal, showModal } from './modal';
@@ -31,10 +32,10 @@ export function getClientData(event: Event) {
 
   loginCustomer(data.email, data.password)
     .then(async (response) => {
-      // ВОПРОС ПО ЭТО ЧАСТИ
-
-      // localStorage.setItem('cartId', response.data.cart.id);
-      // localStorage.setItem('cartVersion', response.data.cart.version);
+      if (response.data.cart) {
+        localStorage.setItem('cartId', response.data.cart.id);
+        localStorage.setItem('cartVersion', response.data.cart.version);
+      }
       localStorage.setItem('customerID', response.data.customer.id);
 
       const responce = await getBoundToken(data.email, data.password);
@@ -55,9 +56,16 @@ export function getClientData(event: Event) {
       setTimeout(hideModal, 3000);
       return data;
     })
-    .catch((error) => {
-      showModal(`${error.message}`, error.code);
-      setTimeout(hideModal, 3000);
+    .catch((error: AxiosError) => {
+      const { response } = error;
+      if (response) {
+        const { status } = response;
+        const errorData = response.data as Error;
+        const { message } = errorData;
+
+        showModal(message, status);
+        setTimeout(hideModal, 3000);
+      }
     });
 }
 

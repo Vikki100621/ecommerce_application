@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer, loginCustomer, getBoundToken } from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 
 export default class Registration {
@@ -426,10 +426,12 @@ export default class Registration {
         .catch((error) => {
           throw error;
         })
-        .then(() => loginCustomer(email, pass))
-        .then(async () => {
-          // localStorage.setItem('cartId', response.data.cart.id);
-          // localStorage.setItem('cartVersion', response.data.cart.version);
+        .then(() => loginNewCustomer(email, pass))
+        .then(async (response) => {
+          if (response.data.cart) {
+            localStorage.setItem('cartId', response.data.cart.id);
+            localStorage.setItem('cartVersion', response.data.cart.version);
+          }
 
           displayMessage('User successfully created and logged in.');
           clearForm();
