@@ -1,6 +1,5 @@
-import { postCustomer, updateCustomer, loginCustomer } from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
-import State from './state';
 
 export default class Registration {
   main: HTMLElement;
@@ -412,10 +411,13 @@ export default class Registration {
       const lastName: string = returnInputValue('lname');
 
       let userId: string;
-
       postCustomer(email, pass, firstName, lastName)
-        .then((response) => {
+        .then(async (response) => {
           userId = response.data.customer.id;
+          localStorage.setItem('customerID', userId);
+          const responce = await getBoundToken(email, pass);
+          const updateToken = responce.data.access_token;
+          localStorage.setItem('token', updateToken);
         })
         .catch((error) => {
           throw error;
@@ -424,11 +426,12 @@ export default class Registration {
         .catch((error) => {
           throw error;
         })
-        .then(() => loginCustomer(email, pass))
-        .then((response) => {
-          State.setId(response.data.customer.id);
-          State.setCustomer(response.data.customer);
-          State.setPassword(pass);
+        .then(() => loginNewCustomer(email, pass))
+        .then(async (response) => {
+          if (response.data.cart) {
+            localStorage.setItem('cartId', response.data.cart.id);
+            localStorage.setItem('cartVersion', response.data.cart.version);
+          }
           displayMessage('User successfully created and logged in.');
           clearForm();
           localStorage.setItem('isLoggedIn', 'true');

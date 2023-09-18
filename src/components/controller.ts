@@ -2,6 +2,7 @@ import Routing from './routing';
 import App from './app';
 import BurgerMenu from './burger__menu';
 import { Options, Product } from './api/interfaces';
+import Cart from './cart';
 
 export default class Controller {
   private routing: Routing;
@@ -10,7 +11,10 @@ export default class Controller {
 
   private burger: BurgerMenu;
 
+  private cart: Cart;
+
   constructor() {
+    this.cart = new Cart();
     this.app = new App();
     this.routing = new Routing(this.app);
     this.routing.init();
@@ -19,19 +23,36 @@ export default class Controller {
     this.init();
   }
 
+  private addCounterClickHandlers() {
+    const removeButtons = document.querySelectorAll('.remove__button');
+    removeButtons.forEach((removeButton) => {
+      removeButton.addEventListener('click', () => {
+        if (removeButton) {
+          const quantity = removeButton.nextElementSibling as HTMLDivElement;
+          const parentID = removeButton.closest('div')?.id as string;
+          const number = parseInt(quantity.textContent || '0', 10);
+          this.cart.changeCartQunity(number, parentID);
+          this.app.showCartPage();
+        }
+      });
+    });
+  }
+
   private addProductsHandlers() {
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', async (event) => {
       event.stopImmediatePropagation();
       const clickedElement = event.target as HTMLElement;
-
       if (clickedElement.classList.contains('product__button')) {
         this.routing.handleProductItemClick(event);
+      } else if (clickedElement.classList.contains('cart__button')) {
+        this.cart.handleclickonCart(event);
       }
     });
   }
 
   private addMenuClickHandlers() {
     const menuItems = document.querySelectorAll('.menu-item');
+
     menuItems.forEach((menuItem, index) => {
       menuItem.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -216,5 +237,6 @@ export default class Controller {
     this.addProductsHandlers();
     this.addMenuClickHandlers();
     this.allHandlers();
+    this.addCounterClickHandlers();
   }
 }
