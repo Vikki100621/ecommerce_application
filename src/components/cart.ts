@@ -206,7 +206,7 @@ export default class Cart {
 
     deleteCartButton.addEventListener('click', async () => {
       let versionnumber = Number(localStorage.getItem('cartVersion'));
-      console.log(versionnumber)
+      console.log(versionnumber);
       if (versionnumber === 0 || !versionnumber) {
         versionnumber = 1;
       }

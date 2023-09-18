@@ -20,7 +20,7 @@
 }
 .cart__section .lineitems-wrapper .delete__cart button {
   width: 100px;
-  background-image: url("../../img/deleteCart.png");
+  background-image: url('../../img/deleteCart.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
