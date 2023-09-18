@@ -25,7 +25,7 @@
     font-size: 18px;
     font-family: 'Times New Roman', Times, serif;
   }
-  
+
   &__infoPart {
     margin-bottom: 7px;
   }
@@ -90,22 +90,22 @@
     }
 
     &::before {
-        content: "";
-        display: inline-block;
-        position: absolute;
-        top: 0;
-        left: -10px;
-        width: 24px;
-        height: 24px; 
-        background-image: url('../../img/GitHub.png'); 
-        background-size: cover;
-      }
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 24px;
+      height: 24px;
+      background-image: url('../../img/GitHub.png');
+      background-size: cover;
+    }
   }
 
   &__role {
     color: #292727;
-      font-size: 20px;
-      margin-top: 5px;
+    font-size: 20px;
+    margin-top: 5px;
   }
 }
 
@@ -131,7 +131,7 @@
 
   &__wrapper {
     position: relative;
-    
+
     border-radius: 10px;
     box-shadow: 0 0 20px #0000004d;
     background-color: #ffffff;
@@ -149,7 +149,6 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    
   }
 
   &__photo-valery {
