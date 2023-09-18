@@ -1,4 +1,5 @@
-import { getCart, getCartbyId, getUserCart } from './api/api';
+/* eslint-disable class-methods-use-this */
+import { deleteCartbyId, getCart, getCartbyId, getUserCart } from './api/api';
 import { LineItem, LineItemAction } from './api/interfaces';
 import emptyCart from '../assets/img/empty-cart.png';
 
@@ -196,6 +197,40 @@ export default class Cart {
     return response;
   }
 
+  createDeleteButton() {
+    const deleteCart = document.createElement('ul');
+    deleteCart.classList.add('delete__cart');
+    const deleteCartText = document.createElement('div');
+    const deleteCartButton = document.createElement('button');
+    deleteCartText.textContent = 'Clear the cart';
+
+    deleteCartButton.addEventListener('click', async () => {
+      let versionnumber = Number(localStorage.getItem('cartVersion'));
+      console.log(versionnumber)
+      if (versionnumber === 0 || !versionnumber) {
+        versionnumber = 1;
+      }
+      const cartId = localStorage.getItem('cartId') as string;
+      try {
+        const response = await deleteCartbyId(cartId, versionnumber);
+        console.log(response.data);
+        localStorage.removeItem('cartId');
+        localStorage.removeItem('cartVersion');
+        const section = document.querySelector('.cart__section') as HTMLDivElement;
+        const message = this.messageAboutEmptyCart();
+        if (section) section.innerHTML = '';
+        section.appendChild(message);
+        return response;
+      } catch (error) {
+        console.error(error);
+        return undefined;
+      }
+    });
+    deleteCart.appendChild(deleteCartText);
+    deleteCart.appendChild(deleteCartButton);
+    return deleteCart;
+  }
+
   renderCartWithoutDiscount(price: number) {
     const cart = document.createElement('div');
     cart.classList.add('cart-wrapper');
@@ -206,10 +241,12 @@ export default class Cart {
     const totalPrice = document.createElement('div');
     totalPrice.textContent = `${(price / 100).toString()}$`;
     const promoContainer = this.createInputPromo('');
+
     totalEl.appendChild(totalName);
     totalEl.appendChild(totalPrice);
     cart.appendChild(totalEl);
     cart.appendChild(promoContainer);
+
     return cart;
   }
 
@@ -222,7 +259,7 @@ export default class Cart {
 
     const promoInput = document.createElement('input');
     promoInput.classList.add('promo__code-input');
-    promoInput.placeholder = 'Введите промокод';
+    promoInput.placeholder = 'Enter promo code';
 
     const submitButton = document.createElement('button');
     submitButton.classList.add('promo__code-submit');
@@ -280,53 +317,52 @@ export default class Cart {
         const deleteValidPromoCode = await this.getcartById(deleteActions).then((cartdatas) => cartdatas);
         console.log(deleteValidPromoCode);
       }
-        const promoCode = promoInput.value.toString();
+      const promoCode = promoInput.value.toString();
 
-        if (promoCode !== '092023' && promoCode !== '3422') {
-          validPromocode.textContent = 'Invalid promo code';
-        } else {
-          const actions = {
-            action: 'addDiscountCode',
-            code: `${promoCode}`,
-          };
+      if (promoCode !== '092023' && promoCode !== '3422') {
+        validPromocode.textContent = 'Invalid promo code';
+      } else {
+        const actions = {
+          action: 'addDiscountCode',
+          code: `${promoCode}`,
+        };
 
-          const cartdata = await this.getcartById(actions).then((cartdatas) => cartdatas);
-          const discountid = cartdata?.data.discountCodes[0].discountCode.id;
-          const grandtotal = cartdata?.data.totalPrice.centAmount;
-          const lineItems: LineItem[] = cartdata?.data.lineItems;
-          const products = document.querySelectorAll('.product__card');
-          const ids: string[] = [];
+        const cartdata = await this.getcartById(actions).then((cartdatas) => cartdatas);
+        const discountid = cartdata?.data.discountCodes[0].discountCode.id;
+        const grandtotal = cartdata?.data.totalPrice.centAmount;
+        const lineItems: LineItem[] = cartdata?.data.lineItems;
+        const products = document.querySelectorAll('.product__card');
+        const ids: string[] = [];
 
-          products.forEach((product) => {
-            const buttonsBlock = product.querySelector('.buttonsBlock');
-            const id = buttonsBlock?.getAttribute('id') as string;
-            ids.push(id);
-          });
+        products.forEach((product) => {
+          const buttonsBlock = product.querySelector('.buttonsBlock');
+          const id = buttonsBlock?.getAttribute('id') as string;
+          ids.push(id);
+        });
 
-          lineItems.forEach((lineItem) => {
-            if (ids.includes(lineItem.id)) {
-              const buttonsBlock = document.querySelector(`[id="${lineItem.id}"]`);
-              const productBox = buttonsBlock?.parentNode;
-              const totalPriceProducts = productBox?.querySelector('.total_price') as HTMLDivElement;
-              const totalPriceText = totalPriceProducts?.textContent as string;
-              const totalPriceValue = parseFloat(totalPriceText);
-              const newPrice = totalPriceProducts as HTMLDivElement;
-              const centAmount = lineItem.totalPrice.centAmount / 100;
-              newPrice.textContent = `${centAmount.toString()}$`;
+        lineItems.forEach((lineItem) => {
+          if (ids.includes(lineItem.id)) {
+            const buttonsBlock = document.querySelector(`[id="${lineItem.id}"]`);
+            const productBox = buttonsBlock?.parentNode;
+            const totalPriceProducts = productBox?.querySelector('.total_price') as HTMLDivElement;
+            const totalPriceText = totalPriceProducts?.textContent as string;
+            const totalPriceValue = parseFloat(totalPriceText);
+            const newPrice = totalPriceProducts as HTMLDivElement;
+            const centAmount = lineItem.totalPrice.centAmount / 100;
+            newPrice.textContent = `${centAmount.toString()}$`;
 
-              if (centAmount > totalPriceValue) {
-                newPrice.style.color = '#f01616';
-                newPrice.style.fontWeight = '700';
-              }
+            if (centAmount < totalPriceValue) {
+              newPrice.classList.add('new_price');
             }
-          });
+          }
+        });
 
-          const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
-            const prices = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
-            return total + prices * lineItem.quantity;
-          }, 0);
-          this.renderCartWithDiscount(grandtotal, totalCentAmount, discountid);
-        }
+        const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
+          const prices = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+          return total + prices * lineItem.quantity;
+        }, 0);
+        this.renderCartWithDiscount(grandtotal, totalCentAmount, discountid);
+      }
     });
 
     inputContainer.appendChild(promoInput);
@@ -416,7 +452,7 @@ export default class Cart {
       numbersEl.textContent = number.toString();
       const cartdata = await this.getUserCart().then((response) => response.data);
 
-      const discountId = cartdata.discountCodes[0].discountCode.id;
+      const discountId = cartdata.discountCodes[0]?.discountCode.id;
       const totalprice = cartdata.totalPrice.centAmount;
       const { lineItems } = cartdata;
 

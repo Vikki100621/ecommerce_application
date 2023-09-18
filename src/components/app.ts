@@ -168,7 +168,8 @@ export default class App {
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent = 'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
+        offerText.textContent =
+          'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
         offerDiv.appendChild(offerText);
         const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');
@@ -300,6 +301,8 @@ export default class App {
         const render = await this.cart.renderCartItems(lineItems);
         this.cartItems = [...lineItems];
         render.forEach((line) => this.lineItemsWrapper.appendChild(line));
+        const deleteCart = this.cart.createDeleteButton()
+        this.lineItemsWrapper.appendChild(deleteCart)
         section.appendChild(this.lineItemsWrapper);
 
         const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
@@ -308,14 +311,18 @@ export default class App {
         }, 0);
 
         const totalPrice = cart.data.totalPrice.centAmount;
-  
+
         const discountId = cart.data.discountCodes[0]?.discountCode.id;
 
         if (cart.data.discountCodes.length === 0) {
           const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
           section.appendChild(cartBLock);
-        } else { 
-          const cartBLock = cartInstance.renderCartWithDiscount(totalPrice, totalCentAmount, discountId) as HTMLDivElement;
+        } else {
+          const cartBLock = cartInstance.renderCartWithDiscount(
+            totalPrice,
+            totalCentAmount,
+            discountId
+          ) as HTMLDivElement;
           section.appendChild(cartBLock);
         }
 

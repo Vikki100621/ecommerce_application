@@ -13,7 +13,6 @@ const [CTP_PROJECT_KEY, CTP_CLIENT_SECRET, CTP_CLIENT_ID, CTP_AUTH_URL, CTP_API_
   process.env.CTP_SCOPES,
 ];
 
-
 export async function getRegularToken(): Promise<string> {
   const config: AxiosRequestConfig = {
     url: `${CTP_AUTH_URL}/oauth/token`,
@@ -33,7 +32,7 @@ export async function getRegularToken(): Promise<string> {
   return response.data.access_token;
 }
 
-export async function getAnonymusToken(): Promise<{ accessToken: string, refreshToken: string }> {
+export async function getAnonymusToken(): Promise<{ accessToken: string; refreshToken: string }> {
   const config: AxiosRequestConfig = {
     url: `${CTP_AUTH_URL}/oauth/${CTP_PROJECT_KEY}/anonymous/token`,
     method: 'post',
@@ -82,7 +81,7 @@ export async function postCustomer(
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
@@ -109,7 +108,7 @@ export async function updateCustomer(id: string, actions: CustomerUpdateBody): P
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
@@ -144,7 +143,7 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
@@ -179,7 +178,7 @@ export async function loginNewCustomer(email: string, password: string): Promise
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
@@ -214,13 +213,13 @@ export async function getProducts(): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
   }
- 
+
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections`,
     method: 'get',
@@ -245,13 +244,13 @@ export async function getProduct(id: string): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
   }
- 
+
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/${id}`,
     method: 'get',
@@ -276,12 +275,12 @@ export async function getCategories(): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
-  } 
+  }
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/categories`,
     method: 'get',
@@ -306,7 +305,7 @@ export async function getCustomer(id: string): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
@@ -340,12 +339,12 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
-  } 
+  }
   const { data, value, categoryId, material, type, genre, priceRange, origin } = options;
   const filters = [];
 
@@ -417,7 +416,7 @@ export async function getCartbyId(
 }
 
 export async function getCart(): Promise<AxiosResponse> {
- let tokens = {
+  let tokens = {
     accessToken: localStorage.getItem('token')!,
     refreshToken: localStorage.getItem('refreshtoken')!,
   };
@@ -425,12 +424,12 @@ export async function getCart(): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
-  } 
+  }
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts`,
     method: 'post',
@@ -456,12 +455,12 @@ export async function getUserCart(): Promise<AxiosResponse> {
   if (!tokens.accessToken) {
     const tokenResponse = await getAnonymusToken();
     tokens = {
-      accessToken: tokenResponse.accessToken, 
+      accessToken: tokenResponse.accessToken,
       refreshToken: tokenResponse.refreshToken,
     };
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
-  } 
+  }
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/active-cart`,
     method: 'get',
@@ -477,12 +476,8 @@ export async function deleteCartbyId(cartID: string, versionnumber: number): Pro
   const token = localStorage.getItem('token');
 
   const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}`,
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}?version=${versionnumber}`,
     method: 'delete',
-
-    data: {
-      version: versionnumber,
-    },
     headers: {
       Authorization: `Bearer ${token}`,
     },

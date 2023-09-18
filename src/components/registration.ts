@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer,  getBoundToken,  loginNewCustomer } from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 
 export default class Registration {
