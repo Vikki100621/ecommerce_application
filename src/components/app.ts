@@ -12,6 +12,7 @@ import Sorting from './sort';
 import ProductPage from './productPage/productPage';
 import { getProduct } from './api/api';
 import UserView from './user';
+import returnElement from './common/returnElem';
 
 export default class App {
   public header: HTMLElement;
@@ -37,8 +38,7 @@ export default class App {
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
-    this.productContainer = document.createElement('div');
-    this.productContainer.classList.add('product__container');
+    this.productContainer = returnElement({ tag: 'div', classes: ['product__container'] });
     this.products = new Products();
     this.sorting = new Sorting();
     this.registration = new Registration();
@@ -179,8 +179,8 @@ export default class App {
 
   async showCatalogPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('product__section');
+
+    const section = returnElement({ tag: 'section', classes: ['product__section'] });
 
     const productsInstance = this.products;
     const productDivs = await productsInstance
@@ -188,19 +188,114 @@ export default class App {
       .then((response) => this.products.renderProducts(response));
     const sort = this.sorting;
     const { sortBlock } = sort;
-    const rightContent = sort.rightsideSortBlock;
-
-    rightContent?.appendChild(this.productContainer);
-
-    productDivs.forEach((productDiv) => {
-      this.productContainer.appendChild(productDiv);
+    const rightContent: HTMLDivElement = <HTMLDivElement>sort.rightsideSortBlock;
+    const paginationOptions = returnElement({ tag: 'div', classes: ['pagination'] });
+    const itemsPerPageSelect: HTMLSelectElement = <HTMLSelectElement>(
+      returnElement({ tag: 'select', classes: ['pagination__choose-items'], id: 'pagination-select' })
+    );
+    const labelItemsPagination = returnElement({
+      tag: 'label',
+      classes: ['pagination__choose-label'],
+      textContent: 'Items per page: ',
+      attrib: [{ name: 'for', value: 'pagination-select' }],
     });
+    const items4 = returnElement({
+      tag: 'option',
+      classes: ['pagination__num-items'],
+      textContent: '4',
+      attrib: [{ name: 'selected', value: 'true' }],
+    });
+    const items8 = returnElement({ tag: 'option', classes: ['pagination__num-items'], textContent: '8' });
+    const items12 = returnElement({ tag: 'option', classes: ['pagination__num-items'], textContent: '12' });
+    const paginationNumPagesWrapper = returnElement({ tag: 'div', classes: ['pagination__num-pages-wrap'] });
+    const paginationNumPagesTitle = returnElement({
+      tag: 'div',
+      classes: ['pagination__num-pages-title'],
+      textContent: 'Page: ',
+    });
+    const paginationNumPagesList = returnElement({ tag: 'div', classes: ['pagination__num-pages-pages'] });
+    paginationNumPagesWrapper.append(paginationNumPagesTitle, paginationNumPagesList);
+    itemsPerPageSelect.append(items4, items8, items12);
+    paginationOptions.append(labelItemsPagination);
+    paginationOptions.append(itemsPerPageSelect);
+
+    const productsWrapper = this.productContainer;
+
+    let currentPage = 0;
+    const numPages: HTMLElement[] = [];
+
+    function returnElemPageNum(num: string) {
+      const elemPageNum = returnElement({ tag: 'div', classes: ['pagination__num-pages-page'], textContent: num });
+      return elemPageNum;
+    }
+
+    function selectCurrentPage() {
+      numPages[currentPage].classList.add('pagination__num-pages-page_active');
+    }
+
+    function drawNumPages(num: number) {
+      paginationNumPagesList.innerHTML = '';
+      numPages.length = 0;
+      for (let i = 1; i <= num; i += 1) {
+        const pageItem = returnElemPageNum(String(i));
+        numPages.push(pageItem);
+        paginationNumPagesList.append(pageItem);
+      }
+      selectCurrentPage();
+    }
+
+    function deSelectCurrentPage() {
+      numPages[currentPage].classList.remove('pagination__num-pages-page_active');
+    }
+
+    function drawItems() {
+      const numOfItems = Number(itemsPerPageSelect.value);
+      const numOfPages = Math.ceil(productDivs.length / numOfItems);
+
+      if (currentPage > numOfPages - 1) {
+        deSelectCurrentPage();
+        currentPage = 0;
+        selectCurrentPage();
+      }
+
+      const offset = currentPage * numOfItems;
+
+      drawNumPages(numOfPages);
+      productsWrapper.innerHTML = '';
+
+      for (let i = 0 + offset; i < numOfItems + offset; i += 1) {
+        if (productDivs[i]) {
+          productsWrapper.append(productDivs[i]);
+        }
+      }
+    }
+
+    drawItems();
+
+    function choosePage(evt: Event) {
+      const pageNumDiv: HTMLDivElement = <HTMLDivElement>evt.target;
+      if (pageNumDiv.classList.contains('pagination__num-pages-page')) {
+        const pageNum: string = <string>pageNumDiv.textContent;
+        deSelectCurrentPage();
+        currentPage = +pageNum - 1;
+        selectCurrentPage();
+        drawItems();
+      }
+    }
 
     if (sortBlock) {
       section.appendChild(sortBlock);
     }
 
     this.main.appendChild(section);
+
+    if (document.getElementById('pagination-select') === null) {
+      rightContent.append(paginationOptions);
+      rightContent.append(paginationNumPagesWrapper);
+      rightContent.append(this.productContainer);
+      itemsPerPageSelect.addEventListener('change', drawItems);
+      paginationNumPagesList.addEventListener('click', choosePage);
+    }
   }
 
   async showProductPage(id: string | null) {

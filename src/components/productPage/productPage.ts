@@ -124,12 +124,17 @@ export default class ProductPage {
       modalWindow.hide();
     }
 
+    // function removeModalWindow() {
+    //   modalWindow.remove();
+    // }
+
     function removeAllListeners() {
       slider.nextBtn.removeEventListener('click', slideImg);
       slider.prevBtn.removeEventListener('click', slideImg);
       slider.sliderImgs.removeEventListener('click', showModalWindow);
       window.removeEventListener('load', slider.checkForAloneImg);
       window.removeEventListener('beforeunload', removeAllListeners);
+      // window.removeEventListener('beforeunload', removeModalWindow);
     }
 
     slider.checkFirstLast(Number.parseInt(slider.sliderImgs.style.left, 10));
@@ -141,6 +146,7 @@ export default class ProductPage {
     modalWindow.nextBtn.addEventListener('click', slideImg);
     modalWindow.prevBtn.addEventListener('click', slideImg);
     slider.sliderImgs.addEventListener('click', showModalWindow);
+    // window.addEventListener('beforeunload', removeModalWindow);
     window.addEventListener('beforeunload', removeAllListeners);
     modalWindow.btnClose.addEventListener('click', hideModalWindow);
   }
