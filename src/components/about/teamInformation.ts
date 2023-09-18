@@ -21,7 +21,7 @@ const membersInfo: Member[] = [
     bio: "Was born in 1994 in the small town Shakhty in the south of Russia. In 2024, completed a master's degree at Moscow City Pedagogical University with a focus on the German language. Worked in the field of logistics but realized that it wasn't the right fit. In 2022, decided to make a radical change in career path and started studying frontend development at RS School.",
     id: 'victoriya',
     github: 'https://github.com/Vikki100621',
-    contribution: ['Application design', 'Routing', 'Product filter'],
+    contribution: ['Application design', 'Routing', 'Product filter and Basket'],
   },
   {
     name: 'Alexey Gorbenko',

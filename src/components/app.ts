@@ -91,11 +91,7 @@ export default class App {
       'special-offer__section',
       'contact__section',
     ];
-    const sectionTexts = [
-      `${content.welcome}`,
-      `${content.collection}`,
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
-    ];
+    const sectionTexts = [`${content.welcome}`, `${content.collection}`];
 
     for (let i = 0; i < 4; i += 1) {
       const background = document.createElement('div');
@@ -171,8 +167,13 @@ export default class App {
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent =
-          'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
+        offerText.textContent = 'USE PROMO-CODE FOR PAINTINGS: 092023';
+
+        const offerTextTwo = document.createElement('p');
+        offerTextTwo.textContent =
+          'USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
+
+        offerDiv.appendChild(offerTextTwo);
         offerDiv.appendChild(offerText);
         const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');

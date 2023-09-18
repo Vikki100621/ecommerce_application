@@ -38,35 +38,6 @@
   }
 }
 
-.product__category:hover {
-  cursor: pointer;
-  box-shadow: 0 0 5px 2px rgb(169 141 59);
-}
-
-.product__category:hover > .category__title {
-  color: #ffffff;
-  background-color: #492f2f;
-}
-.category__jewellery {
-  background-image: url('../../img/jewellery.jpg');
-}
-
-.category__painting {
-  background-image: url('../../img/pictiure.jpg');
-}
-
-.category__dishes {
-  background-image: url('../../img/dishes.jpg');
-}
-
-.category__allproducts {
-  background-image: url('../../img/allprod.png');
-}
-
-.category__coins {
-  background-image: url('../../img/coins.jpg');
-}
-
 .product__cart {
   display: flex;
   flex-direction: column;

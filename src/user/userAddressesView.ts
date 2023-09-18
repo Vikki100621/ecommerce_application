@@ -53,8 +53,8 @@ export default class UserAddressesView extends View {
   }
 
   async drawAddresses() {
-    const currentId = localStorage.getItem('customerID') as string;
-    const currentUser = await getCustomer(currentId).then((responce) => responce.data);
+    // const currentId = localStorage.getItem('customerID') as string;
+    const currentUser = await getCustomer().then((responce) => responce.data);
     if (currentUser) {
       const addressArr = currentUser.addresses;
       addressArr.forEach((address: Addresses) => {

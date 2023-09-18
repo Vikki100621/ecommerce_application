@@ -36,7 +36,6 @@ export default class Cart {
 
   // eslint-disable-next-line class-methods-use-this
   async handleclickonCart(event: Event) {
-    console.log('я вызвалась');
     const clickedElement = event.target as HTMLElement;
     let parentID;
     if (clickedElement.parentElement && clickedElement.parentElement.id) {
@@ -71,6 +70,42 @@ export default class Cart {
         this.getcartById(actions);
       }
     }
+  }
+
+  async handleclickonAddButton(id: string) {
+    if (localStorage.getItem('cartId')) {
+      const actions = {
+        action: 'addLineItem',
+        productId: `${id}` as string,
+        quantity: 1,
+      };
+      this.getcartById(actions);
+    } else {
+      try {
+        const response = await getCart();
+        localStorage.setItem('cartId', response.data.id);
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (localStorage.getItem('cartId')) {
+        const actions = {
+          action: 'addLineItem',
+          productId: `${id}` as string,
+          quantity: 1,
+        };
+        this.getcartById(actions);
+      }
+    }
+  }
+
+  async handleclickonRemoveButton(id: string) {
+        const actions = {
+          action: 'removeLineItem',
+          productId: `${id}` as string,
+          quantity: 1,
+        };
+        this.getcartById(actions);
   }
 
   // eslint-disable-next-line class-methods-use-this

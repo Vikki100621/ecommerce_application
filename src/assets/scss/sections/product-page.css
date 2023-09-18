@@ -33,6 +33,11 @@
   font-size: 28px;
   color: #dc143c;
 }
+.product-details__basket-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
 
 .slider {
   display: flex;
@@ -87,6 +92,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  top: 0;
   background-color: #f0f8ff;
 }
 .modal-window_unactive {
@@ -138,4 +144,4 @@
 }
 .modal-window .slider__images {
   height: 90vh;
-} /*# sourceMappingURL=product-page.css.map */
+}/*# sourceMappingURL=product-page.css.map */

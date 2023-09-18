@@ -2,6 +2,7 @@ import returnElement from '../common/returnElem';
 import IImage from './IImage';
 import ModalWindow from './modalWindow';
 import Slider from './slider';
+import Cart from '../cart';
 
 interface IProductType {
   typeId: string;
@@ -164,17 +165,38 @@ export default class ProductPage {
   }
 
   addBasketButtons() {
+    const cart = new Cart();
+    const hash = window.location.hash.split('/');
+    console.log(hash)
+    const id = hash[2];
+    console.log(id)
     const buttonsWrapper = returnElement({ tag: 'div', classes: ['product-details__basket-buttons'] });
     const buttonBasketAdd = returnElement({
       tag: 'button',
       classes: ['product-details__btn'],
       textContent: 'Add to basket',
-    });
+    }) as HTMLButtonElement;
     const buttonBasketRemove = returnElement({
       tag: 'button',
       classes: ['product-details__btn'],
       textContent: 'Remove from basket',
+    }) as HTMLButtonElement;;
+    buttonBasketRemove.disabled = true;
+  
+    buttonBasketAdd.addEventListener('click', async () => {
+      const addProduct = await cart.handleclickonAddButton(id).then((responce) => responce);
+      console.log(addProduct);
+      buttonBasketAdd.disabled = true;
+      buttonBasketRemove.disabled = false;
     });
+    buttonBasketRemove.addEventListener('click', async () => {
+      const addProduct = await cart.handleclickonRemoveButton(id).then((responce) => responce);
+      console.log(addProduct);
+      buttonBasketAdd.disabled = false;
+      buttonBasketRemove.disabled = true;
+    });
+
+
     buttonsWrapper.append(buttonBasketAdd, buttonBasketRemove);
     this.productInfoWrapper.prepend(buttonsWrapper);
   }

@@ -6,8 +6,8 @@ import { showModal, hideModal } from './modal';
 import { checkCountry, checkCity, checkStreet, checkPostalCode } from './validation';
 
 export default async function setNewAddress(event: Event) {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
   const addButton = event.target as HTMLElement;
   const { saveid } = addButton.dataset;
   const infoWrapper = document.querySelector(`[data-currWrapper = "${saveid}"]`) as HTMLElement;
@@ -40,7 +40,7 @@ export default async function setNewAddress(event: Event) {
       ],
     })
       .then(async (resp) => {
-        const newUSer: Customer = await getCustomer(currentId).then((responce) => responce.data);
+        const newUSer: Customer = await getCustomer().then((responce) => responce.data);
         roster.innerHTML = '';
         const addressesArr = newUSer.addresses;
         addressesArr.forEach((address: Addresses) => {

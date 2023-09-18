@@ -5,62 +5,119 @@
   padding: 180px 50px;
   margin: 0 auto;
 }
-.sort__container .sort__container-left {
+@media (width < 550px) {
+  .sort__container {
+    flex-wrap: wrap;
+  }
+}
+
+.sort__container-left {
   display: flex;
   flex-direction: column;
   row-gap: 40px;
   max-width: 200px;
   font-family: Montserrat, sans-serif;
 }
-.sort__container .sort__container-left .filters__container {
+
+.filters__container {
   max-width: 300px;
 }
-.sort__container .sort__container-left .filters__container div {
+.filters__container div {
   display: flex;
   flex-direction: column;
 }
-.sort__container .sort__container-left .filters__container div p {
+.filters__container div p {
   padding-bottom: 5px;
   font-weight: 700;
 }
-.sort__container .sort__container-left .price-range-container {
+
+.price-range-container {
   display: flex;
   flex-direction: column;
   row-gap: 3px;
   text-align: center;
 }
-.sort__container .sort__container-left .price-range-container .price-range {
+
+.price-range {
   display: flex;
   flex-direction: column;
   row-gap: 3px;
 }
-.sort__container .sort__container-right {
+
+.sort__container-right {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  column-gap: 10px;
   row-gap: 40px;
-  align-items: flex-end;
+  align-items: flex-start;
+  justify-content: space-between;
   max-width: 1000px;
 }
-.sort__container .sort__container-right .sort__block {
+
+.sort__block {
   display: flex;
   flex-direction: column;
   font-family: Montserrat, sans-serif;
 }
-.sort__container .sort__container-right .sort__block .sort__label .sort__dropdown {
+
+.sort__dropdown {
   width: 100px;
 }
-.sort__container .sort__container-right .product__container {
+
+.product__container {
   display: flex;
   flex-wrap: wrap;
+  align-self: center;
   gap: 20px;
-  justify-content: flex-start;
-  font-family: 'Cormorant Garamond', serif;
+  justify-content: space-around;
+  font-family: "Cormorant Garamond", serif;
+  width: 100%;
+  max-width: 916px;
 }
-.sort__container .sort__container-right .product__container .product__cart {
+.product__container img {
+  width: 100%;
+  object-fit: contain;
+  height: 265px;
+}
+.product__container button {
+  color: #131212;
+  border: 2px #d1cfc6 solid;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.product__title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.product__price {
+  display: flex;
+  justify-content: space-between;
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+}
+
+.previous__price {
+  text-decoration: line-through;
+}
+
+.discounted__price {
+  font-weight: 700;
+  color: #f01616;
+}
+
+.product__description {
+  flex-grow: 1;
+  font-size: 14px;
+  text-align: justify;
+}
+
+.product__cart {
   display: flex;
   flex-direction: column;
   row-gap: 3px;
-  justify-content: space-between;
   width: 200px;
   padding: 5px;
   text-align: center;
@@ -68,43 +125,11 @@
   border: 2px #d1cfc6 solid;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(241, 218, 129, 0.2);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.sort__container .sort__container-right .product__container .product__cart:hover {
+.product__cart:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   transform: scale(1.05);
-}
-.sort__container .sort__container-right .product__container img {
-  width: 100%;
-}
-.sort__container .sort__container-right .product__container .product__title {
-  font-size: 18px;
-  font-weight: 700;
-}
-.sort__container .sort__container-right .product__container .product__price {
-  display: flex;
-  justify-content: space-between;
-  font-family: Montserrat, sans-serif;
-  font-size: 16px;
-}
-.sort__container .sort__container-right .product__container .previous__price {
-  text-decoration: line-through;
-}
-.sort__container .sort__container-right .product__container .discounted__price {
-  font-weight: 700;
-  color: #f01616;
-}
-.sort__container .sort__container-right .product__container .product__description {
-  font-size: 14px;
-  text-align: justify;
-}
-.sort__container .sort__container-right .product__container button {
-  color: #131212;
-  border: 2px #d1cfc6 solid;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 input,
@@ -118,6 +143,6 @@ select {
   flex-direction: column;
   row-gap: 30px;
 }
-.filters__container input[type='checkbox'] {
+.filters__container input[type=checkbox] {
   border: 2px #492f2f solid;
-} /*# sourceMappingURL=sort.css.map */
+}/*# sourceMappingURL=sort.css.map */

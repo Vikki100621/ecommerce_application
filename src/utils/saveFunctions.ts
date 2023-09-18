@@ -5,8 +5,8 @@ import { Customer } from './interface';
 import { showModal, hideModal } from './modal';
 
 export async function saveChanges() {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
   const firstName = document.querySelector('.firstName');
   const lastName = document.querySelector('.lastName');
   const date = document.querySelector('.dateOfBirth');
@@ -57,8 +57,8 @@ export async function saveChanges() {
 }
 
 export async function saveAddressChanges(event: Event) {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
   const addressesArr = currentUser!.addresses;
   const saveButton = event.target as HTMLElement;
   const { saveid } = saveButton.dataset;
@@ -123,8 +123,8 @@ export async function saveAddressChanges(event: Event) {
 }
 
 export async function savePasswordChanges() {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
 
   const editButton = document.querySelector('.password__editButton');
   const buttonsContainer = document.querySelector('.password__buttonsContainer');

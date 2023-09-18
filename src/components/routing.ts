@@ -16,9 +16,7 @@ export default class Routing {
     this.routes = [
       { path: '/', template: 'home' },
       { path: '/catalog', template: 'catalog' },
-      { path: '/delivery', template: 'delivery' },
       { path: '/about', template: 'about' },
-      { path: '/contacts', template: 'contacts' },
       { path: '/login', template: 'login' },
       { path: '/register', template: 'register' },
       { path: '/user', template: 'user' },
@@ -133,6 +131,7 @@ export default class Routing {
         localStorage.removeItem('customerID');
         localStorage.removeItem('cartVersion');
         localStorage.removeItem('anonymousId');
+        localStorage.removeItem('refreshtoken');
         window.location.hash = '/';
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');
@@ -166,7 +165,7 @@ export default class Routing {
     if (parentElement && parentElement.hasAttribute('id')) {
       this.id = parentElement.getAttribute('id');
       this.updateId(parentElement.getAttribute('id'));
-      const selectedRoute = this.routes[9].path;
+      const selectedRoute = this.routes[7].path;
       window.location.hash = selectedRoute;
     }
   }
