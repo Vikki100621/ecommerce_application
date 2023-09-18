@@ -85,20 +85,25 @@ export async function undoPasswordChanges() {
   const editButton = document.querySelector('.password__editButton');
   const saveButton = document.querySelector('.password__saveButton');
   const buttonsContainer = document.querySelector('.password__buttonsContainer');
-  const error = document.querySelector('.password__infoWrapper .errorSpan');
+  const errors = document.querySelectorAll('.password__infoWrapper .errorSpan');
   const newpass = document.getElementById('newPasswordLabel');
+  const newpassValue = document.getElementById('newpassword') as HTMLInputElement;
 
   if (currentUser) {
     if (password instanceof HTMLInputElement) password.value = currentUser.password;
   }
-  if (editButton && buttonsContainer && saveButton && password && error && newpass) {
+  if (editButton && buttonsContainer && saveButton && password && errors && newpass) {
     editButton.classList.remove('hidden');
     buttonsContainer.classList.add('hidden');
     saveButton.removeAttribute('disabled');
     password.setAttribute('readonly', 'true');
     password.classList.remove('editMode', 'invalid');
     password.type = 'password';
-    error.innerHTML = '';
+    for (let i = 0; i < errors.length; i += 1) {
+      errors[i].innerHTML = '';
+    }
+    newpassValue.value = '';
+    newpassValue.classList.remove('invalid');
     newpass.classList.add('hidden');
   }
 }

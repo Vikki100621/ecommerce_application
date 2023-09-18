@@ -62,6 +62,7 @@ export interface Member {
   bio: string;
   id: string;
   github: string;
+  contribution: string[];
 }
 
 export interface Error {

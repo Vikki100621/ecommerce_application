@@ -1,5 +1,6 @@
 button {
   font-size: 20px;
+  width: 100px;
   font-weight: bold;
   color: #8b4513;
   text-shadow: 1px 1px #ffffff;
@@ -34,8 +35,9 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-width: 800px;
     padding: 20px;
-    margin: 0 200px 20px;
+    margin: 0 auto 20px;
     background-color: #f5e6d7;
     border: 2px solid #d7b899;
     box-shadow: 2px 2px 5px #00000030;
@@ -43,8 +45,8 @@ button {
 
   &__header {
     display: flex;
-    gap: 20px;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items:center;
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
@@ -54,21 +56,54 @@ button {
   &__buttonsContainer {
     display: flex;
   }
+
+  &__title {
+    margin-bottom: 10px;
+  }
+
+    &__infoWrapper {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      background-color: #e6d8c4;
+      border: 2px solid #d7b899;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px #00000030;
+  
+      label {
+        text-align: start;
+        width: 300px;
+        font-weight: bold;
+        color: #e7913a;
+      }
+  
+      input {
+        text-align: start;
+        font-size: 18px;
+        font-weight: bold;
+        width: 100%;
+        border-radius: 4px;
+        margin: 5px 0;
+        color: #050300;
+      }
+  
+      span.errorSpan {
+        display: block;
+        width: 300px;
+        margin-bottom: 5px;
+        color: #ff0000;
+      }
+    }
 }
 
-.profile {
-  &__infoWrapper {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-gap: 10px;
-
+.password {
+  &__infoWrapper{
     label {
-      font-weight: bold;
-      color: #d7b899;
+      text-align: center;
     }
 
     input {
-      color: #e97d12;
+      text-align: center;
     }
   }
 }
@@ -81,41 +116,24 @@ button {
     box-shadow: 2px 2px 5px #00000030;
   }
 
-  &__infoWrapper {
+  &__roster {
     display: flex;
-    flex-direction: column;
-    padding: 10px;
-    background-color: #e6d8c4;
-    border: 2px solid #d7b899;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px #00000030;
-
-    label {
-      display: block;
-      font-weight: bold;
-      color: #d7b899;
-    }
-
-    input {
-      width: 100%;
-      padding: 5px;
-      border-radius: 4px;
-      font-size: 16px;
-      margin: 5px 0;
-      color: #e97d12;
-    }
-
-    span.errorSpan {
-      display: block;
-      margin-bottom: 5px;
-      color: #ff0000;
-    }
+    flex-wrap: wrap;
+    gap: 20px;
   }
 
   &__initHeader {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
   }
+
+    &__initTitle {
+      font-size: 20px;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: bold;
+        color: #d7b899;
+    }
 }
 
 .default {

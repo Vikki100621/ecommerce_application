@@ -26,6 +26,11 @@ const param = {
     tag: 'p',
     classNames: ['popup__bio'],
   },
+  contribution: {
+    tag: 'ul',
+    classNames: ['popup__contribution'],
+    textContent: 'Contribution:',
+  },
 };
 
 export default class Popup {
@@ -53,8 +58,15 @@ export default class Popup {
     country.setTextContent(member.country);
     const bio = new ElementBuilder(param.bio);
     bio.setTextContent(member.bio);
+    const contribution = new ElementBuilder(param.contribution);
+    const liArr = member.contribution;
+    liArr.forEach((el) => {
+      const point = new ElementBuilder({ tag: 'li' });
+      point.setTextContent(el);
+      contribution.addInnerElement([point]);
+    });
 
-    content.addInnerElement([name, country, bio]);
+    content.addInnerElement([name, country, bio, contribution]);
 
     this.element.addInnerElement([wrapper]);
   }

@@ -39,9 +39,10 @@ export default async function setNewAddress(event: Event) {
         },
       ],
     })
-      .then((resp) => {
+      .then(async (resp) => {
+        const newUSer: Customer = await getCustomer(currentId).then((responce) => responce.data);
         roster.innerHTML = '';
-        const addressesArr = currentUser.addresses;
+        const addressesArr = newUSer.addresses;
         addressesArr.forEach((address: Addresses) => {
           const container = drawAddress(address);
           roster.append(container.getElement());

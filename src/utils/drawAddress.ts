@@ -13,7 +13,7 @@ const param = {
   },
 
   initTitle: {
-    tag: 'div',
+    tag: 'h3',
     classNames: ['addresses__initTitle'],
     textContent: 'Address',
   },
