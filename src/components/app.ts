@@ -229,6 +229,10 @@ export default class App {
       return elemPageNum;
     }
 
+    function selectCurrentPage() {
+      numPages[currentPage].classList.add('pagination__num-pages-page_active');
+    }
+
     function drawNumPages(num: number) {
       paginationNumPagesList.innerHTML = '';
       numPages.length = 0;
@@ -237,17 +241,11 @@ export default class App {
         numPages.push(pageItem);
         paginationNumPagesList.append(pageItem);
       }
+      selectCurrentPage();
     }
 
     function deSelectCurrentPage() {
       numPages[currentPage].classList.remove('pagination__num-pages-page_active');
-    }
-
-    function selectCurrentPage() {
-      numPages[0].classList.add('pagination__num-pages-page_active');
-      numPages[currentPage].classList.add('pagination__num-pages-page_active');
-      console.log(numPages);
-      console.log(numPages[0]);
     }
 
     function drawItems() {
