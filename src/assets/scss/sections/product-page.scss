@@ -38,6 +38,12 @@
     font-size: 28px;
     color: #dc143c;
   }
+
+  &__basket-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .slider {
