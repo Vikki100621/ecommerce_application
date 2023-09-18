@@ -3,6 +3,8 @@ import { Member } from '../../utils/interface';
 import View from '../../utils/view';
 
 export default class MemberView extends View {
+  photo: ElementBuilder;
+
   constructor(currMember: Member) {
     const parametrs = {
       tag: 'div',
@@ -10,23 +12,28 @@ export default class MemberView extends View {
       id: `${currMember.id}`,
     };
     super(parametrs);
+
+    this.photo = new ElementBuilder({
+      tag: 'div',
+      classNames: ['member__photo', `member__photo-${currMember.id}`],
+    });
     this.configureView(currMember);
   }
 
   configureView(currMember: Member) {
-    const photo = document.createElement('div');
-    photo.className = 'member__photo';
-    photo.classList.add(`member__photo-${currMember.id}`);
     const name = new ElementBuilder({
-      tag: 'h3',
+      tag: 'a',
       classNames: ['member__name'],
       textContent: `${currMember.name}`,
+      attributes: {
+        href: `${currMember.github}`,
+      },
     }).getElement();
-    const country = new ElementBuilder({
+    const role = new ElementBuilder({
       tag: 'h3',
-      classNames: ['member__country'],
-      textContent: `${currMember.country}`,
+      classNames: ['member__role'],
+      textContent: `${currMember.role}`,
     }).getElement();
-    this.viewElement.addInnerElement([photo, name, country]);
+    this.viewElement.addInnerElement([this.photo, name, role]);
   }
 }

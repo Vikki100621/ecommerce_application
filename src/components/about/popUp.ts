@@ -54,14 +54,7 @@ export default class Popup {
     const bio = new ElementBuilder(param.bio);
     bio.setTextContent(member.bio);
 
-    const git = new ElementBuilder({
-      tag: 'a',
-      classNames: ['popup__git'],
-      textContent: 'Github',
-      attributes: { href: member.github },
-    });
-
-    content.addInnerElement([name, country, bio, git]);
+    content.addInnerElement([name, country, bio]);
 
     this.element.addInnerElement([wrapper]);
   }

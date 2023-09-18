@@ -2,12 +2,12 @@ import { Member } from '../../utils/interface';
 
 const membersInfo: Member[] = [
   {
-    name: 'Valery Matskevich',
-    country: 'Belarus',
-    role: 'funny guy',
+    name: 'Marina Golubeva',
+    country: 'Russia',
+    role: 'Mentor',
     bio: 'lorem ipsum',
-    id: 'valery',
-    github: 'https://github.com/ValeryMatskevich',
+    id: 'marina',
+    github: 'https://github.com/golubeva-webmaster',
   },
   {
     name: 'Viktoriya Kryuchkova',
@@ -26,12 +26,12 @@ const membersInfo: Member[] = [
     github: 'https://github.com/a-v-gor',
   },
   {
-    name: 'Marina Golubeva',
-    country: 'Russia',
-    role: 'Mentor',
+    name: 'Valery Matskevich',
+    country: 'Belarus',
+    role: 'funny guy',
     bio: 'lorem ipsum',
-    id: 'marina',
-    github: 'https://github.com/golubeva-webmaster',
+    id: 'valery',
+    github: 'https://github.com/ValeryMatskevich',
   },
 ];
 
