@@ -33,13 +33,11 @@ export function getClientData(event: Event) {
 
   loginCustomer(data.email, data.password)
     .then(async (response) => {
-      localStorage.setItem('cartId', response.data.cart.id);
-      localStorage.setItem('cartVersion', response.data.cart.version);
-      console.log('ответ логин', response);
-      State.setId(response.data.customer.id);
+      if (response.data.cart) {
+        localStorage.setItem('cartId', response.data.cart.id);
+        localStorage.setItem('cartVersion', response.data.cart.version);
+      }
       localStorage.setItem('customerID', response.data.customer.id);
-      State.setCustomer(response.data.customer);
-      State.setPassword(data.password);
       const responce = await getBoundToken(data.email, data.password);
       const updateToken = responce.data.access_token;
       localStorage.setItem('token', updateToken);

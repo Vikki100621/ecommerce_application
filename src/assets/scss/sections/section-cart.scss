@@ -84,10 +84,46 @@
       font-weight: 600;
       cursor: pointer;
     }
+    .promo-container {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;;
+      .inputContainer {
+        display: flex;
+        column-gap: 20px;
+        height: 40px;
+        .promo__code-submit {
+          width: 40px;
+          background-image: url('../../img/submit.png');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+
+      .promo__code-valid {
+        position: relative;
+        width: 150px;
+        text-align: justify;
+        border: 2px solid #000000;
+        border-radius: 10px;
+        padding: 5px;
+
+        button {
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 20%;
+          text-align: center;
+          background-image: url('../../img/delete.png');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
   }
 }
 
-.cart-wrapper button:hover{
+.cart-wrapper button:hover {
   color: #f7f7ec;
   background-color: #2c2a2a;
 }

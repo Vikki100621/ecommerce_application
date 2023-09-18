@@ -133,23 +133,23 @@ export default class App {
         const logBtn = document.createElement('button');
         logBtn.classList.add('login_btn');
         logBtn.textContent = 'LOGIN';
-        // logBtn.onclick = () => {
-        //   if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
-        //     window.location.hash = '/login';
-        //   } else {
-        //     window.location.hash = '/';
-        //   }
-        // };
+        logBtn.onclick = () => {
+          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+            window.location.hash = '/login';
+          } else {
+            window.location.hash = '/';
+          }
+        };
         const regBtn = document.createElement('button');
-        // regBtn.classList.add('reg_btn');
-        // regBtn.textContent = 'REGISTER';
-        // if (localStorage.getItem('isLoggedIn') === 'true') {
-        //   regBtn.disabled = true;
-        // } else {
-        //   regBtn.onclick = () => {
-        //     window.location.hash = '/register';
-        //   };
-        // }
+        regBtn.classList.add('reg_btn');
+        regBtn.textContent = 'REGISTER';
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          regBtn.disabled = true;
+        } else {
+          regBtn.onclick = () => {
+            window.location.hash = '/register';
+          };
+        }
         btnBlock.appendChild(regBtn);
         btnBlock.appendChild(logBtn);
         el.appendChild(title);
@@ -165,11 +165,10 @@ export default class App {
         const offerTitle = document.createElement('h2');
         offerTitle.textContent = 'Special Offer';
         section.appendChild(offerTitle);
-
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent = sectionTexts[i];
+        offerText.textContent = 'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
         offerDiv.appendChild(offerText);
         const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');
@@ -294,27 +293,32 @@ export default class App {
       this.lineItemsWrapper.classList.add('lineitems-wrapper');
       this.lineItemsWrapper.innerHTML = '';
       const cartInstance = this.cart;
-      const cart = await cartInstance.getUserCart().then(cartdata =>  cartdata)
-      console.log(cart.data)
-      const {lineItems} = cart.data;
+      const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
+      console.log(cart.data);
+      const { lineItems } = cart.data;
       if (lineItems.length > 0) {
         const render = await this.cart.renderCartItems(lineItems);
         this.cartItems = [...lineItems];
         render.forEach((line) => this.lineItemsWrapper.appendChild(line));
         section.appendChild(this.lineItemsWrapper);
-    
-        const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => total + lineItem.price.value.centAmount, 0);
-        
 
-       const totalPrice = cart.data.totalPrice.centAmount;
-       if  (cart.data.discountCodes.length === 0) {
-        const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
-         section.appendChild(cartBLock);
-      } else {
-        const cartBLock = cartInstance.renderCartWithDiscount(totalPrice, totalCentAmount) as HTMLDivElement;;
-        section.appendChild(cartBLock);
-      }
-       
+        const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
+          const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+          return total + price * lineItem.quantity;
+        }, 0);
+
+        const totalPrice = cart.data.totalPrice.centAmount;
+  
+        const discountId = cart.data.discountCodes[0]?.discountCode.id;
+
+        if (cart.data.discountCodes.length === 0) {
+          const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        } else { 
+          const cartBLock = cartInstance.renderCartWithDiscount(totalPrice, totalCentAmount, discountId) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        }
+
         this.main.appendChild(section);
       } else {
         const message = this.cart.messageAboutEmptyCart();
