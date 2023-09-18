@@ -5,6 +5,8 @@ import Controller from './components/controller';
 const controller = new Controller();
 controller.init();
 
+// await getCart().then(responce => console.log(responce))
+
 const removeButtons = document.querySelectorAll('.remove__button');
 removeButtons.forEach((removeButton) => {
   removeButton.addEventListener('click', () => {

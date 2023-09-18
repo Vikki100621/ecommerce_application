@@ -281,6 +281,7 @@ export async function getCategories(): Promise<AxiosResponse> {
     localStorage.setItem('token', tokens.accessToken);
     localStorage.setItem('refreshtoken', tokens.refreshToken);
   }
+
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/categories`,
     method: 'get',

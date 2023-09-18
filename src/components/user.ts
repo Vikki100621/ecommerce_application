@@ -16,10 +16,10 @@ export default class UserView extends View {
   configureView() {
     const user = new UserProfileView();
     const userHTML = user.getHtmlElement();
-    const adresses = new UserAddressesView();
-    const adressesHTML = adresses.getHtmlElement();
     const password = new UserPasswordView();
     const passwordHTML = password.getHtmlElement();
+    const adresses = new UserAddressesView();
+    const adressesHTML = adresses.getHtmlElement();
 
     this.viewElement.addInnerElement([userHTML, passwordHTML, adressesHTML]);
   }

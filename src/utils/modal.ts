@@ -8,8 +8,8 @@ export function showModal(text: string, status: number) {
     firstline.innerText = `✔️Successfully`;
     secondline.innerText = `${text}`;
   } else {
-    firstline.innerText = `❌${text}`;
-    secondline.innerText = 'Incorrect email or password';
+    firstline.innerText = `❌Failure`;
+    secondline.innerText = `${text}`;
   }
   document.body.appendChild(modal);
 }

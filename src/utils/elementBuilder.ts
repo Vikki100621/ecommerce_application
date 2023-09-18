@@ -50,7 +50,7 @@ export default class ElementBuilder {
   }
 
   setCallback(event: string, callback: CallBackType) {
-    this.element.addEventListener(event, (e) => callback(e));
+    this.element.addEventListener(event, callback);
   }
 
   setAttributes(attributes: TagsAttributes) {

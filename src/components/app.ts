@@ -13,6 +13,8 @@ import ProductPage from './productPage/productPage';
 import { getProduct } from './api/api';
 import UserView from './user';
 import Cart from './cart';
+import AboutView from './about/aboutView';
+import team from './about/teamInformation';
 import { LineItem } from './api/interfaces';
 import returnElement from './common/returnElem';
 
@@ -185,8 +187,7 @@ export default class App {
   // здесь будет отрисовываться страница о магазине
   showAboutPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
+    const section = new AboutView(team).getHtmlElement();
     this.main.appendChild(section);
   }
 
@@ -402,6 +403,7 @@ export default class App {
         this.lineItemsWrapper.appendChild(deleteCart)
         section.appendChild(this.lineItemsWrapper);
 
+
         const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
           const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
           return total + price * lineItem.quantity;
@@ -415,6 +417,7 @@ export default class App {
           const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
           section.appendChild(cartBLock);
         } else {
+
           const cartBLock = cartInstance.renderCartWithDiscount(
             totalPrice,
             totalCentAmount,

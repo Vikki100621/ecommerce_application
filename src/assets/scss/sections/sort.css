@@ -54,7 +54,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
 }
 .sort__container .sort__container-right .product__container .product__cart {
   display: flex;
@@ -68,7 +68,9 @@
   border: 2px #d1cfc6 solid;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(241, 218, 129, 0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 .sort__container .sort__container-right .product__container .product__cart:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -116,6 +118,6 @@ select {
   flex-direction: column;
   row-gap: 30px;
 }
-.filters__container input[type=checkbox] {
+.filters__container input[type='checkbox'] {
   border: 2px #492f2f solid;
-}/*# sourceMappingURL=sort.css.map */
+} /*# sourceMappingURL=sort.css.map */

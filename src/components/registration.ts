@@ -432,8 +432,13 @@ export default class Registration {
             localStorage.setItem('cartId', response.data.cart.id);
             localStorage.setItem('cartVersion', response.data.cart.version);
           }
+
           displayMessage('User successfully created and logged in.');
           clearForm();
+          localStorage.setItem('isLoggedIn', 'true');
+          const responce = await getBoundToken(email, pass);
+          const updateToken = responce.data.access_token;
+          localStorage.setItem('token', updateToken);
           localStorage.setItem('isLoggedIn', 'true');
           setTimeout(() => {
             hideMessage();
