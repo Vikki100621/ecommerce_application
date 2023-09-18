@@ -475,12 +475,8 @@ export async function deleteCartbyId(cartID: string, versionnumber: number): Pro
   const token = localStorage.getItem('token');
 
   const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}`,
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}?version=${versionnumber}`,
     method: 'delete',
-
-    data: {
-      version: versionnumber,
-    },
     headers: {
       Authorization: `Bearer ${token}`,
     },

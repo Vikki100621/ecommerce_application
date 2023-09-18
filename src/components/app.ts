@@ -398,6 +398,8 @@ export default class App {
         const render = await this.cart.renderCartItems(lineItems);
         this.cartItems = [...lineItems];
         render.forEach((line) => this.lineItemsWrapper.appendChild(line));
+        const deleteCart = this.cart.createDeleteButton()
+        this.lineItemsWrapper.appendChild(deleteCart)
         section.appendChild(this.lineItemsWrapper);
 
         const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {

@@ -1,4 +1,5 @@
-import { getCart, getCartbyId, getUserCart } from './api/api';
+/* eslint-disable class-methods-use-this */
+import { deleteCartbyId, getCart, getCartbyId, getUserCart } from './api/api';
 import { LineItem, LineItemAction } from './api/interfaces';
 import emptyCart from '../assets/img/empty-cart.png';
 
@@ -196,6 +197,40 @@ export default class Cart {
     return response;
   }
 
+  createDeleteButton() {
+    const deleteCart = document.createElement('ul');
+    deleteCart.classList.add('delete__cart');
+    const deleteCartText = document.createElement('div');
+    const deleteCartButton = document.createElement('button');
+    deleteCartText.textContent = 'Clear the cart';
+
+    deleteCartButton.addEventListener('click', async () => {
+      let versionnumber = Number(localStorage.getItem('cartVersion'));
+      console.log(versionnumber)
+      if (versionnumber === 0 || !versionnumber) {
+        versionnumber = 1;
+      }
+      const cartId = localStorage.getItem('cartId') as string;
+      try {
+        const response = await deleteCartbyId(cartId, versionnumber);
+        console.log(response.data);
+        localStorage.removeItem('cartId');
+        localStorage.removeItem('cartVersion');
+        const section = document.querySelector('.cart__section') as HTMLDivElement;
+        const message = this.messageAboutEmptyCart();
+        if (section) section.innerHTML = '';
+        section.appendChild(message);
+        return response;
+      } catch (error) {
+        console.error(error);
+        return undefined;
+      }
+    });
+    deleteCart.appendChild(deleteCartText);
+    deleteCart.appendChild(deleteCartButton);
+    return deleteCart;
+  }
+
   renderCartWithoutDiscount(price: number) {
     const cart = document.createElement('div');
     cart.classList.add('cart-wrapper');
@@ -206,10 +241,12 @@ export default class Cart {
     const totalPrice = document.createElement('div');
     totalPrice.textContent = `${(price / 100).toString()}$`;
     const promoContainer = this.createInputPromo('');
+
     totalEl.appendChild(totalName);
     totalEl.appendChild(totalPrice);
     cart.appendChild(totalEl);
     cart.appendChild(promoContainer);
+
     return cart;
   }
 
@@ -222,7 +259,7 @@ export default class Cart {
 
     const promoInput = document.createElement('input');
     promoInput.classList.add('promo__code-input');
-    promoInput.placeholder = 'Введите промокод';
+    promoInput.placeholder = 'Enter promo code';
 
     const submitButton = document.createElement('button');
     submitButton.classList.add('promo__code-submit');
@@ -314,9 +351,8 @@ export default class Cart {
             const centAmount = lineItem.totalPrice.centAmount / 100;
             newPrice.textContent = `${centAmount.toString()}$`;
 
-            if (centAmount > totalPriceValue) {
-              newPrice.style.color = '#f01616';
-              newPrice.style.fontWeight = '700';
+            if (centAmount < totalPriceValue) {
+              newPrice.classList.add('new_price');
             }
           }
         });
@@ -416,7 +452,7 @@ export default class Cart {
       numbersEl.textContent = number.toString();
       const cartdata = await this.getUserCart().then((response) => response.data);
 
-      const discountId = cartdata.discountCodes[0].discountCode.id;
+      const discountId = cartdata.discountCodes[0]?.discountCode.id;
       const totalprice = cartdata.totalPrice.centAmount;
       const { lineItems } = cartdata;
 
