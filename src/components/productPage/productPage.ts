@@ -162,4 +162,20 @@ export default class ProductPage {
 
     usualPriceBlock.textContent = `$ ${usualPriceValue}`;
   }
+
+  addBasketButtons() {
+    const buttonsWrapper = returnElement({ tag: 'div', classes: ['product-details__basket-buttons'] });
+    const buttonBasketAdd = returnElement({
+      tag: 'button',
+      classes: ['product-details__btn'],
+      textContent: 'Add to basket',
+    });
+    const buttonBasketRemove = returnElement({
+      tag: 'button',
+      classes: ['product-details__btn'],
+      textContent: 'Remove from basket',
+    });
+    buttonsWrapper.append(buttonBasketAdd, buttonBasketRemove);
+    this.productInfoWrapper.prepend(buttonsWrapper);
+  }
 }

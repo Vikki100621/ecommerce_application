@@ -10,6 +10,22 @@
     flex-direction: column;
     justify-content: center;
     max-width: 800px;
+    .delete__cart {
+      display: flex;
+      justify-content: space-between;
+      font-size: 32px;
+      padding: 10px;
+
+      button {
+        width: 100px;
+        background-image: url('../../img/deleteCart.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        padding: 20px;
+        cursor: pointer;
+      }
+    }
     .product__card {
       display: flex;
       justify-content: space-between;
@@ -83,6 +99,56 @@
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
+    }
+    .promo-container {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+      font-family: Montserrat, sans-serif;
+      .inputContainer {
+        display: flex;
+        column-gap: 20px;
+        height: 40px;
+        .promo__code-submit {
+          width: 40px;
+          background-image: url('../../img/submit.png');
+          background-repeat: no-repeat;
+          background-position: center;
+          border: 2px solid #000000;
+          background-color: inherit;
+          &:hover {
+            background-color: #dec536;
+          }
+        }
+      }
+
+      .promo__code-valid {
+        position: relative;
+        width: 150px;
+        text-align: justify;
+        border: 2px solid #000000;
+        border-radius: 10px;
+        padding: 20px;
+
+        button {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 20px;
+          height: 20px;
+          text-align: center;
+          background-image: url('../../img/delete.png');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-color: inherit;
+          border: none;
+          padding: 10px;
+
+          &:hover {
+            scale: 1.5;
+          }
+        }
+      }
     }
   }
 }

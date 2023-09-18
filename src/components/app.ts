@@ -16,6 +16,7 @@ import Cart from './cart';
 import AboutView from './about/aboutView';
 import team from './about/teamInformation';
 import { LineItem } from './api/interfaces';
+import returnElement from './common/returnElem';
 
 export default class App {
   public header: HTMLElement;
@@ -135,23 +136,23 @@ export default class App {
         const logBtn = document.createElement('button');
         logBtn.classList.add('login_btn');
         logBtn.textContent = 'LOGIN';
-        // logBtn.onclick = () => {
-        //   if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
-        //     window.location.hash = '/login';
-        //   } else {
-        //     window.location.hash = '/';
-        //   }
-        // };
+        logBtn.onclick = () => {
+          if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+            window.location.hash = '/login';
+          } else {
+            window.location.hash = '/';
+          }
+        };
         const regBtn = document.createElement('button');
-        // regBtn.classList.add('reg_btn');
-        // regBtn.textContent = 'REGISTER';
-        // if (localStorage.getItem('isLoggedIn') === 'true') {
-        //   regBtn.disabled = true;
-        // } else {
-        //   regBtn.onclick = () => {
-        //     window.location.hash = '/register';
-        //   };
-        // }
+        regBtn.classList.add('reg_btn');
+        regBtn.textContent = 'REGISTER';
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+          regBtn.disabled = true;
+        } else {
+          regBtn.onclick = () => {
+            window.location.hash = '/register';
+          };
+        }
         btnBlock.appendChild(regBtn);
         btnBlock.appendChild(logBtn);
         el.appendChild(title);
@@ -167,11 +168,11 @@ export default class App {
         const offerTitle = document.createElement('h2');
         offerTitle.textContent = 'Special Offer';
         section.appendChild(offerTitle);
-
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent = sectionTexts[i];
+        offerText.textContent =
+          'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
         offerDiv.appendChild(offerText);
         const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');
@@ -192,8 +193,8 @@ export default class App {
 
   async showCatalogPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('product__section');
+
+    const section = returnElement({ tag: 'section', classes: ['product__section'] });
 
     const productsInstance = this.products;
     const productDivs = await productsInstance
@@ -201,19 +202,114 @@ export default class App {
       .then((response) => this.products.renderProducts(response));
     const sort = this.sorting;
     const { sortBlock } = sort;
-    const rightContent = sort.rightsideSortBlock;
-
-    rightContent?.appendChild(this.productContainer);
-
-    productDivs.forEach((productDiv) => {
-      this.productContainer.appendChild(productDiv);
+    const rightContent: HTMLDivElement = <HTMLDivElement>sort.rightsideSortBlock;
+    const paginationOptions = returnElement({ tag: 'div', classes: ['pagination'] });
+    const itemsPerPageSelect: HTMLSelectElement = <HTMLSelectElement>(
+      returnElement({ tag: 'select', classes: ['pagination__choose-items'], id: 'pagination-select' })
+    );
+    const labelItemsPagination = returnElement({
+      tag: 'label',
+      classes: ['pagination__choose-label'],
+      textContent: 'Items per page: ',
+      attrib: [{ name: 'for', value: 'pagination-select' }],
     });
+    const items4 = returnElement({
+      tag: 'option',
+      classes: ['pagination__num-items'],
+      textContent: '4',
+      attrib: [{ name: 'selected', value: 'true' }],
+    });
+    const items8 = returnElement({ tag: 'option', classes: ['pagination__num-items'], textContent: '8' });
+    const items12 = returnElement({ tag: 'option', classes: ['pagination__num-items'], textContent: '12' });
+    const paginationNumPagesWrapper = returnElement({ tag: 'div', classes: ['pagination__num-pages-wrap'] });
+    const paginationNumPagesTitle = returnElement({
+      tag: 'div',
+      classes: ['pagination__num-pages-title'],
+      textContent: 'Page: ',
+    });
+    const paginationNumPagesList = returnElement({ tag: 'div', classes: ['pagination__num-pages-pages'] });
+    paginationNumPagesWrapper.append(paginationNumPagesTitle, paginationNumPagesList);
+    itemsPerPageSelect.append(items4, items8, items12);
+    paginationOptions.append(labelItemsPagination);
+    paginationOptions.append(itemsPerPageSelect);
+
+    const productsWrapper = this.productContainer;
+
+    let currentPage = 0;
+    const numPages: HTMLElement[] = [];
+
+    function returnElemPageNum(num: string) {
+      const elemPageNum = returnElement({ tag: 'div', classes: ['pagination__num-pages-page'], textContent: num });
+      return elemPageNum;
+    }
+
+    function selectCurrentPage() {
+      numPages[currentPage].classList.add('pagination__num-pages-page_active');
+    }
+
+    function drawNumPages(num: number) {
+      paginationNumPagesList.innerHTML = '';
+      numPages.length = 0;
+      for (let i = 1; i <= num; i += 1) {
+        const pageItem = returnElemPageNum(String(i));
+        numPages.push(pageItem);
+        paginationNumPagesList.append(pageItem);
+      }
+      selectCurrentPage();
+    }
+
+    function deSelectCurrentPage() {
+      numPages[currentPage].classList.remove('pagination__num-pages-page_active');
+    }
+
+    function drawItems() {
+      const numOfItems = Number(itemsPerPageSelect.value);
+      const numOfPages = Math.ceil(productDivs.length / numOfItems);
+
+      if (currentPage > numOfPages - 1) {
+        deSelectCurrentPage();
+        currentPage = 0;
+        selectCurrentPage();
+      }
+
+      const offset = currentPage * numOfItems;
+
+      drawNumPages(numOfPages);
+      productsWrapper.innerHTML = '';
+
+      for (let i = 0 + offset; i < numOfItems + offset; i += 1) {
+        if (productDivs[i]) {
+          productsWrapper.append(productDivs[i]);
+        }
+      }
+    }
+
+    drawItems();
+
+    function choosePage(evt: Event) {
+      const pageNumDiv: HTMLDivElement = <HTMLDivElement>evt.target;
+      if (pageNumDiv.classList.contains('pagination__num-pages-page')) {
+        const pageNum: string = <string>pageNumDiv.textContent;
+        deSelectCurrentPage();
+        currentPage = +pageNum - 1;
+        selectCurrentPage();
+        drawItems();
+      }
+    }
 
     if (sortBlock) {
       section.appendChild(sortBlock);
     }
 
     this.main.appendChild(section);
+
+    if (document.getElementById('pagination-select') === null) {
+      rightContent.append(paginationOptions);
+      rightContent.append(paginationNumPagesWrapper);
+      rightContent.append(this.productContainer);
+      itemsPerPageSelect.addEventListener('change', drawItems);
+      paginationNumPagesList.addEventListener('click', choosePage);
+    }
   }
 
   async showProductPage(id: string | null) {
@@ -223,6 +319,7 @@ export default class App {
       const productData = responseData.data;
       const productPage = new ProductPage(productData);
       productPage.draw();
+      productPage.addBasketButtons();
       productPage.addSlider();
       productPage.addPrice();
     }
@@ -302,19 +399,30 @@ export default class App {
         const render = await this.cart.renderCartItems(lineItems);
         this.cartItems = [...lineItems];
         render.forEach((line) => this.lineItemsWrapper.appendChild(line));
+        const deleteCart = this.cart.createDeleteButton()
+        this.lineItemsWrapper.appendChild(deleteCart)
         section.appendChild(this.lineItemsWrapper);
 
-        const totalCentAmount = lineItems.reduce(
-          (total: number, lineItem: LineItem) => total + lineItem.price.value.centAmount,
-          0
-        );
+
+        const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
+          const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+          return total + price * lineItem.quantity;
+        }, 0);
 
         const totalPrice = cart.data.totalPrice.centAmount;
+
+        const discountId = cart.data.discountCodes[0]?.discountCode.id;
+
         if (cart.data.discountCodes.length === 0) {
           const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
           section.appendChild(cartBLock);
         } else {
-          const cartBLock = cartInstance.renderCartWithDiscount(totalPrice, totalCentAmount) as HTMLDivElement;
+
+          const cartBLock = cartInstance.renderCartWithDiscount(
+            totalPrice,
+            totalCentAmount,
+            discountId
+          ) as HTMLDivElement;
           section.appendChild(cartBLock);
         }
 

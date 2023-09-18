@@ -9,6 +9,8 @@ export default class ModalWindow {
 
   modalWindow: HTMLElement;
 
+  main: HTMLElement;
+
   slider: Slider;
 
   prevBtn: HTMLButtonElement;
@@ -21,6 +23,7 @@ export default class ModalWindow {
       returnElement({ tag: 'div', classes: ['modal-window__close'], textContent: '❌' })
     );
     this.modalWindow = returnElement({ tag: 'div', classes: ['modal-window', 'modal-window_unactive'] });
+    this.main = <HTMLElement>document.getElementById(`main`);
     let stepSlide = 540;
     if (window.innerWidth < 681 && window.innerWidth > 580) {
       stepSlide = 440;
@@ -36,7 +39,7 @@ export default class ModalWindow {
   draw() {
     this.slider.draw();
     this.modalWindow.append(this.slider.sliderElement, this.btnClose);
-    document.body.append(this.modalWindow);
+    this.main.append(this.modalWindow);
   }
 
   hide() {
@@ -48,4 +51,8 @@ export default class ModalWindow {
     this.slider.checkForAloneImg();
     this.slider.checkFirstLast(Number.parseInt(this.slider.sliderImgs.style.left, 10));
   }
+
+  // remove() {
+  //   this.modalWindow.remove();
+  // }
 }
