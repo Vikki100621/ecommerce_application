@@ -211,13 +211,13 @@
       font-style: normal;
     }
     li::before {
-        content: "\2022";
-        /* символ маркера */
-        color: #cc9e20;
-        /* цвет маркера */
-        margin-right: 5px;
-        /* отступ от текста */
-      }
+      content: '\2022';
+      /* символ маркера */
+      color: #cc9e20;
+      /* цвет маркера */
+      margin-right: 5px;
+      /* отступ от текста */
+    }
   }
 }
 
@@ -230,5 +230,3 @@
   transform: scale(1.1);
   transition: all 0.4s ease-in-out;
 }
-
-
