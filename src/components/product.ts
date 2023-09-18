@@ -27,6 +27,7 @@ export default class Products {
 
   renderProducts(products: Array<Product> | undefined): HTMLDivElement[] {
     if (products) this.productDivs = [];
+    console.log(products);
     products?.forEach((productData: Product) => {
       const categoryId = productData.categories[0].id;
       const productId = productData.id;
@@ -77,6 +78,12 @@ export default class Products {
       button.classList.add('product__button');
       button.textContent = 'View details';
       productBox.appendChild(button);
+
+      const cart = document.createElement('button');
+      cart.classList.add('cart__button');
+      cart.textContent = 'Add to cart';
+      productBox.appendChild(cart);
+
       this.productDivs.push(productBox);
     });
     return this.productDivs;

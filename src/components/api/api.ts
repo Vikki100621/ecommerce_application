@@ -2,7 +2,7 @@
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { CustomerUpdateBody, PasswordUpdateBody, Options } from './interfaces';
+import { CustomerUpdateBody, PasswordUpdateBody, Options, LineItemAction } from './interfaces';
 
 const [CTP_PROJECT_KEY, CTP_CLIENT_SECRET, CTP_CLIENT_ID, CTP_AUTH_URL, CTP_API_URL, CTP_SCOPES] = [
   process.env.CTP_PROJECT_KEY,
@@ -32,7 +32,26 @@ export async function getRegularToken(): Promise<string> {
   return response.data.access_token;
 }
 
-export async function getBoundToken(userEmail: string, userPassword: string): Promise<string> {
+export async function getAnonymusToken(): Promise<{ accessToken: string; refreshToken: string }> {
+  const config: AxiosRequestConfig = {
+    url: `${CTP_AUTH_URL}/oauth/${CTP_PROJECT_KEY}/anonymous/token`,
+    method: 'post',
+    params: {
+      grant_type: 'client_credentials',
+      scope: CTP_SCOPES,
+    },
+    auth: {
+      username: <string>CTP_CLIENT_ID,
+      password: <string>CTP_CLIENT_SECRET,
+    },
+  };
+
+  const response = await axios(config);
+  const { access_token: accessToken, refresh_token: refreshToken } = response.data;
+  return { accessToken, refreshToken };
+}
+
+export async function getBoundToken(userEmail: string, userPassword: string): Promise<AxiosResponse> {
   const config: AxiosRequestConfig = {
     url: `${CTP_AUTH_URL}/oauth/${CTP_PROJECT_KEY}/customers/token`,
     method: 'post',
@@ -44,7 +63,8 @@ export async function getBoundToken(userEmail: string, userPassword: string): Pr
   };
 
   const response = await axios(config);
-  return response.data.refresh_token;
+
+  return response;
 }
 
 export async function postCustomer(
@@ -53,13 +73,26 @@ export async function postCustomer(
   firstName: string,
   lastName: string
 ): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
   const response = await axios.post(
     `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/signup`,
     { firstName, lastName, email, password },
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokens.accessToken}`,
       },
     }
   );
@@ -67,33 +100,125 @@ export async function postCustomer(
 }
 
 export async function updateCustomer(id: string, actions: CustomerUpdateBody): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
   const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, actions, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokens.accessToken}`,
     },
   });
   return response;
 }
 
+interface LoginRequestData {
+  email: string;
+  password: string;
+  anonymousCart?: {
+    id: string;
+    typeId: string;
+  };
+  activeCartSignInMode?: string;
+  anonymousCartSignInMode?: string;
+  anonymousId?: string;
+}
+
 export async function loginCustomer(email: string, password: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-  const refreshToken = (await getBoundToken(email, password)).toString();
-  localStorage.setItem('refresh_token', refreshToken);
-  const response = await axios.post(
-    `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/login`,
-    { email, password },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
+
+  const requestData: LoginRequestData = {
+    email,
+    password,
+    activeCartSignInMode: 'MergeWithExistingCustomerCart',
+  };
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/login`,
+    method: 'post',
+    data: requestData,
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
+
+export async function loginNewCustomer(email: string, password: string): Promise<AxiosResponse> {
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
+
+  const requestData: LoginRequestData = {
+    email,
+    password,
+    activeCartSignInMode: 'UseAsNewActiveCustomerCart',
+  };
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/login`,
+    method: 'post',
+    data: requestData,
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+    },
+  };
+
+  const response = await axios(config);
   return response;
 }
 
 export async function getProducts(): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
 
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections`,
@@ -102,7 +227,7 @@ export async function getProducts(): Promise<AxiosResponse> {
       limit: 500,
     },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokens.accessToken}`,
     },
   };
 
@@ -111,7 +236,20 @@ export async function getProducts(): Promise<AxiosResponse> {
 }
 
 export async function getProduct(id: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
 
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/${id}`,
@@ -120,7 +258,7 @@ export async function getProduct(id: string): Promise<AxiosResponse> {
       limit: 500,
     },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokens.accessToken}`,
     },
   };
 
@@ -129,8 +267,20 @@ export async function getProduct(id: string): Promise<AxiosResponse> {
 }
 
 export async function getCategories(): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
 
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/categories`,
     method: 'get',
@@ -138,7 +288,7 @@ export async function getCategories(): Promise<AxiosResponse> {
       limit: 30,
     },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokens.accessToken}`,
     },
   };
 
@@ -147,17 +297,31 @@ export async function getCategories(): Promise<AxiosResponse> {
 }
 
 export async function getCustomer(id: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
+
   const response = await axios.get(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/${id}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokens.accessToken}}`,
     },
   });
   return response;
 }
 
 export async function updatePassword(body: PasswordUpdateBody): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  const token = localStorage.getItem('token');
   const response = await axios.post(`${CTP_API_URL}/${CTP_PROJECT_KEY}/customers/password`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -166,86 +330,21 @@ export async function updatePassword(body: PasswordUpdateBody): Promise<AxiosRes
   return response;
 }
 
-export async function getSortedProducts(data: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/?sort=name.en-us ${data}`,
-    method: 'get',
-    params: {
-      limit: 500,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios(config);
-  return response;
-}
-
-export async function getSortedProductsByPrice(data: string, categoryId: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/search`,
-    method: 'get',
-    params: {
-      limit: 500,
-      sort: `price ${data}`,
-      filter: `categories.id: subtree("${categoryId}")`,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios(config);
-  return response;
-}
-
-export async function Sort(): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/search`,
-    method: 'get',
-    params: {
-      limit: 50,
-      filter: 'categories.id',
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios(config);
-  return response;
-}
-
-export async function getSortedProductsByAtributes(material: string): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
-
-  const params = {
-    filter: [`variants.attributes.genre:"${material}"`],
-  };
-
-  const config: AxiosRequestConfig = {
-    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/search`,
-    method: 'get',
-    params,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios(config);
-  return response;
-}
-
 export async function searchProducts(options: Options): Promise<AxiosResponse> {
-  const token = (await getRegularToken()).toString();
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
 
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
   const { data, value, categoryId, material, type, genre, priceRange, origin } = options;
   const filters = [];
 
@@ -283,6 +382,105 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/product-projections/search`,
     method: 'get',
     params,
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
+
+export async function getCartbyId(
+  cartID: string,
+  actions: LineItemAction,
+  versionnumber: number
+): Promise<AxiosResponse> {
+  const token = localStorage.getItem('token');
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}`,
+    method: 'post',
+
+    data: {
+      version: versionnumber,
+      actions: [actions],
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
+
+export async function getCart(): Promise<AxiosResponse> {
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts`,
+    method: 'post',
+    data: {
+      currency: 'USD',
+      country: 'US',
+    },
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+    },
+  };
+
+  const response = await axios(config);
+  return response;
+}
+
+export async function getUserCart(): Promise<AxiosResponse> {
+  let tokens = {
+    accessToken: localStorage.getItem('token')!,
+    refreshToken: localStorage.getItem('refreshtoken')!,
+  };
+
+  if (!tokens.accessToken) {
+    const tokenResponse = await getAnonymusToken();
+    tokens = {
+      accessToken: tokenResponse.accessToken,
+      refreshToken: tokenResponse.refreshToken,
+    };
+    localStorage.setItem('token', tokens.accessToken);
+    localStorage.setItem('refreshtoken', tokens.refreshToken);
+  }
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/active-cart`,
+    method: 'get',
+    headers: {
+      Authorization: `Bearer ${tokens.accessToken}`,
+    },
+  };
+  const response = await axios(config);
+  return response;
+}
+
+export async function deleteCartbyId(cartID: string, versionnumber: number): Promise<AxiosResponse> {
+  const token = localStorage.getItem('token');
+
+  const config: AxiosRequestConfig = {
+    url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/carts/${cartID}`,
+    method: 'delete',
+
+    data: {
+      version: versionnumber,
+    },
     headers: {
       Authorization: `Bearer ${token}`,
     },

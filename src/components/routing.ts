@@ -1,5 +1,5 @@
 import App from './app';
-import State from './state';
+// import State from './state';
 
 export default class Routing {
   private app: App;
@@ -11,7 +11,7 @@ export default class Routing {
   constructor(app: App) {
     this.app = app;
 
-    this.id = null;
+    this.id = this.getIdFromUrl();
 
     this.routes = [
       { path: '/', template: 'home' },
@@ -24,27 +24,26 @@ export default class Routing {
       { path: '/user', template: 'user' },
       { path: '/logout', template: 'log' },
       { path: `/catalog/${this.id}`, template: 'product' },
+      { path: '/cart', template: 'cart' },
     ];
   }
 
-  // // клики на менюшку
-  // addMenuClickHandlers() {
-  //   const menuItems = document.querySelectorAll('.menu-item');
-  //   menuItems.forEach((menuItem, index) => {
-  //     menuItem.addEventListener('click', (event) => this.handleMenuItemClick(index, event));
-  //   });
-  // }
-
-  // роутинг(для register/login так как они в одном родителе)
-
-  // отрисовываем шаблон
   registerTemplates() {
     this.routes.forEach(({ template, path }) => {
       this.app.registerTemplate(template, this.getTemplateFunctionForPath(path));
     });
   }
 
-  // разные варианты отрисовки шаблона
+  // eslint-disable-next-line class-methods-use-this
+  getIdFromUrl() {
+    const parts = window.location.hash.split('/');
+    if (parts.length > 2 && parts[1] === 'catalog') {
+      const thirdPart = parts[2];
+      return thirdPart;
+    }
+    return null;
+  }
+
   getTemplateFunctionForPath(path: string) {
     switch (path) {
       case '/':
@@ -65,6 +64,8 @@ export default class Routing {
         return () => this.app.showUserPage();
       case `/catalog/${this.id}`:
         return () => this.app.showProductPage(this.id);
+      case '/cart':
+        return () => this.app.showCartPage();
       default:
         return () => this.app.showHomePage();
     }
@@ -74,7 +75,7 @@ export default class Routing {
     if (this.id !== null) {
       const productRouteIndex = this.routes.findIndex((route) => route.template === 'product');
       if (productRouteIndex !== -1) {
-        this.routes[productRouteIndex].path = `/catalog/allproducts/${this.id}`;
+        this.routes[productRouteIndex].path = `/catalog/${this.id}`;
       }
     }
   }
@@ -121,11 +122,17 @@ export default class Routing {
 
   handleMenuItemClick(index: number, event: Event) {
     const clickedElement = event.target as HTMLElement;
+    const parentElement = clickedElement.parentNode as HTMLElement;
 
     if (clickedElement.classList.contains('register')) {
       if (clickedElement.textContent === 'LogOut') {
-        State.clearCustomer();
+        localStorage.setItem('customerID', '');
         localStorage.setItem('isLoggedIn', 'false');
+        localStorage.removeItem('token');
+        localStorage.removeItem('cartId');
+        localStorage.removeItem('customerID');
+        localStorage.removeItem('cartVersion');
+        localStorage.removeItem('anonymousId');
         window.location.hash = '/';
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');
@@ -144,6 +151,8 @@ export default class Routing {
       } else {
         window.location.hash = '/user';
       }
+    } else if (clickedElement.classList.contains('item-basket') || parentElement.classList.contains('item-basket')) {
+      window.location.hash = '/cart';
     } else {
       const selectedRoute = this.routes[index].path;
       window.location.hash = selectedRoute;

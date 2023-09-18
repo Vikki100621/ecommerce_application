@@ -12,6 +12,8 @@ import Sorting from './sort';
 import ProductPage from './productPage/productPage';
 import { getProduct } from './api/api';
 import UserView from './user';
+import Cart from './cart';
+import { LineItem } from './api/interfaces';
 import returnElement from './common/returnElem';
 
 export default class App {
@@ -33,15 +35,26 @@ export default class App {
 
   public productContainer: HTMLElement;
 
+  public lineItemsWrapper: HTMLElement;
+
+  public cart: Cart;
+
+  public cartItems: HTMLDivElement[];
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
-    this.productContainer = returnElement({ tag: 'div', classes: ['product__container'] });
+
+    this.productContainer = document.createElement('div');
+    this.lineItemsWrapper = document.createElement('div');
+    this.productContainer.classList.add('product__container');
     this.products = new Products();
     this.sorting = new Sorting();
     this.registration = new Registration();
+    this.cart = new Cart();
+    this.cartItems = [];
   }
 
   registerTemplate(name: string, templateFunction: () => void) {
@@ -62,10 +75,10 @@ export default class App {
     element?.classList.remove('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
+    // const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrc;
-    div.style.border = '2px solid #e4d4be';
+    // div.style.border = '2px solid #e4d4be';
 
     this.main.innerHTML = '';
     this.header.style.color = '#e4d4be';
@@ -153,11 +166,11 @@ export default class App {
         const offerTitle = document.createElement('h2');
         offerTitle.textContent = 'Special Offer';
         section.appendChild(offerTitle);
-
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent = sectionTexts[i];
+        offerText.textContent =
+          'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
         offerDiv.appendChild(offerText);
         const offerImage = document.createElement('img');
         offerImage.classList.add('special-offer__img');
@@ -305,6 +318,7 @@ export default class App {
       const productData = responseData.data;
       const productPage = new ProductPage(productData);
       productPage.draw();
+      productPage.addBasketButtons();
       productPage.addSlider();
       productPage.addPrice();
     }
@@ -358,6 +372,62 @@ export default class App {
     this.clearMain();
     const userPage = new UserView();
     this.main.appendChild(userPage.getHtmlElement());
+  }
+
+  async showCartPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.classList.add('cart__section');
+    if (!localStorage.getItem('cartId')) {
+      try {
+        this.cart.createCart().then((responce) => responce);
+        const message = this.cart.messageAboutEmptyCart();
+        section.appendChild(message);
+        this.main.appendChild(section);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.lineItemsWrapper.classList.add('lineitems-wrapper');
+      this.lineItemsWrapper.innerHTML = '';
+      const cartInstance = this.cart;
+      const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
+      console.log(cart.data);
+      const { lineItems } = cart.data;
+      if (lineItems.length > 0) {
+        const render = await this.cart.renderCartItems(lineItems);
+        this.cartItems = [...lineItems];
+        render.forEach((line) => this.lineItemsWrapper.appendChild(line));
+        section.appendChild(this.lineItemsWrapper);
+
+        const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
+          const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+          return total + price * lineItem.quantity;
+        }, 0);
+
+        const totalPrice = cart.data.totalPrice.centAmount;
+
+        const discountId = cart.data.discountCodes[0]?.discountCode.id;
+
+        if (cart.data.discountCodes.length === 0) {
+          const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        } else {
+          const cartBLock = cartInstance.renderCartWithDiscount(
+            totalPrice,
+            totalCentAmount,
+            discountId
+          ) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        }
+
+        this.main.appendChild(section);
+      } else {
+        const message = this.cart.messageAboutEmptyCart();
+        section.appendChild(message);
+        this.main.appendChild(section);
+      }
+    }
   }
 
   createHeader() {
@@ -423,13 +493,15 @@ export default class App {
 
     const basketLi = document.createElement('li');
     basketLi.classList.add('item-basket');
+    basketLi.classList.add('menu-item');
     const basketImage = document.createElement('img');
-    const numbersOfProducts = document.createElement('div');
-    numbersOfProducts.classList.add('products__numbres');
-    numbersOfProducts.innerHTML = '0';
+    // const numbersOfProducts = document.createElement('div');
+    // numbersOfProducts.classList.add('products__numbres');
+
+    // numbersOfProducts.textContent = `${quantity}`;
     basketImage.src = basketImageSrc;
     basketLi.appendChild(basketImage);
-    basketLi.appendChild(numbersOfProducts);
+    // basketLi.appendChild(numbersOfProducts);
     ul.appendChild(basketLi);
 
     const overLay = document.createElement('div');
@@ -461,10 +533,10 @@ export default class App {
     element?.classList.add('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
+    // const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrcBlack;
-    div.style.border = '2px solid rgb(16, 14, 14)';
+    // div.style.border = '2px solid rgb(16, 14, 14)';
   }
 
   // создаем footer(он не будет меняться больше)

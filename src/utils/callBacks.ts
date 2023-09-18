@@ -1,4 +1,4 @@
-import { loginCustomer, updateCustomer } from '../components/api/api';
+import { getBoundToken, loginCustomer, updateCustomer } from '../components/api/api';
 import State from '../components/state';
 import ElementBuilder from './elementBuilder';
 import { hideModal, showModal } from './modal';
@@ -30,12 +30,19 @@ export function getClientData(event: Event) {
     email: returnInputValue('email'),
     password: returnInputValue('password'),
   };
+
   loginCustomer(data.email, data.password)
-    .then((response) => {
-      State.setId(response.data.customer.id);
-      State.setCustomer(response.data.customer);
-      State.setPassword(data.password);
+    .then(async (response) => {
+      if (response.data.cart) {
+        localStorage.setItem('cartId', response.data.cart.id);
+        localStorage.setItem('cartVersion', response.data.cart.version);
+      }
+      localStorage.setItem('customerID', response.data.customer.id);
+      const responce = await getBoundToken(data.email, data.password);
+      const updateToken = responce.data.access_token;
+      localStorage.setItem('token', updateToken);
       localStorage.setItem('isLoggedIn', 'true');
+
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');
       const itemlogout = document.querySelector('.item-client .register');

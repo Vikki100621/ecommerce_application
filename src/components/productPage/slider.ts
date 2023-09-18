@@ -18,7 +18,7 @@ export default class Slider {
 
   constructor(arrImgs: IImage[], wrapper: HTMLElement, stepSlide = 220) {
     this.wrapper = wrapper;
-    this.sliderElement = returnElement({ tag: 'div', classes: ['product-detail__slider', 'slider'] });
+    this.sliderElement = returnElement({ tag: 'div', classes: ['product-details__slider', 'slider'] });
     this.arrImgs = arrImgs;
     this.stepSlide = stepSlide;
 
