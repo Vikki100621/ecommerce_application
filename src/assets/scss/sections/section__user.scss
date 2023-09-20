@@ -145,12 +145,14 @@
   display: none;
 }
 
-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #999999;
-  color: #999999;
+.user__section {
+  button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #cccccc;
+    border-color: #999999;
+    color: #999999;
+  }
 }
 
 input.invalid {

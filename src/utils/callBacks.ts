@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { getBoundToken, getCustomer, loginCustomer } from '../components/api/api';
+import { getCustomer, loginCustomer } from '../components/api/api';
 import { Customer } from './interface';
 import { hideModal, showModal } from './modal';
 
@@ -36,16 +36,7 @@ export function getClientData(event: Event) {
         localStorage.setItem('cartId', response.data.cart.id);
         localStorage.setItem('cartVersion', response.data.cart.version);
       }
-      localStorage.setItem('customerID', response.data.customer.id);
-
-      const responce = await getBoundToken(data.email, data.password);
-      const updateToken = responce.data.access_token;
-      console.log(updateToken)
-      const refreshToken = responce.data.refresh_token;
-      localStorage.setItem('token', updateToken);
-      localStorage.setItem('refreshtoken', refreshToken);
       localStorage.setItem('isLoggedIn', 'true');
-
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');
       const itemlogout = document.querySelector('.item-client .register');

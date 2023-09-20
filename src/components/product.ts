@@ -1,5 +1,5 @@
-import { getProducts, searchProducts } from './api/api';
-import { Options, Product } from './api/interfaces';
+import { getProducts, getUserCart, searchProducts } from './api/api';
+import { LineItem, Options, Product } from './api/interfaces';
 
 export default class Products {
   public productDivs: HTMLDivElement[];
@@ -28,7 +28,7 @@ export default class Products {
   renderProducts(products: Array<Product> | undefined): HTMLDivElement[] {
     if (products) this.productDivs = [];
     console.log(products);
-    products?.forEach((productData: Product) => {
+    products?.forEach(async (productData: Product) => {
       const categoryId = productData.categories[0].id;
       const productId = productData.id;
       const productBox = document.createElement('div');
@@ -82,11 +82,37 @@ export default class Products {
       const cart = document.createElement('button');
       cart.classList.add('cart__button');
       cart.textContent = 'Add to cart';
-      productBox.appendChild(cart);
 
+      // if (localStorage.getItem('cartId')) {
+      //   const isProductInCart = await this.checkProduct(productId);
+      //   console.log(isProductInCart.data)
+      //   if (isProductInCart) {
+      //     cart.disabled = true;
+      //   } else {
+      //     cart.disabled = false;
+      //   }
+      // }
+      productBox.appendChild(cart);
       this.productDivs.push(productBox);
     });
     return this.productDivs;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async checkProduct(id: string) {
+    try {
+      const cartData = await getUserCart();
+      console.log(cartData.data);
+      const { lineItems } = cartData.data;
+
+      if (lineItems.length > 0) {
+        const productExists = lineItems.some((item: LineItem) => item.productId === id);
+        return productExists;
+      }
+    } catch (error) {
+      console.error('Произошла ошибка при получении корзины:', error);
+    }
+    return false;
   }
 
   async searchProducts(options: Options): Promise<Product[] | undefined> {

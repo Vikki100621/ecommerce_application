@@ -382,6 +382,7 @@ export default class App {
     section.classList.add('cart__section');
     if (!localStorage.getItem('cartId')) {
       try {
+        console.log('я создала корзину')
         this.cart.createCart().then((responce) => responce);
         const message = this.cart.messageAboutEmptyCart();
         section.appendChild(message);
@@ -393,8 +394,8 @@ export default class App {
       this.lineItemsWrapper.classList.add('lineitems-wrapper');
       this.lineItemsWrapper.innerHTML = '';
       const cartInstance = this.cart;
-      const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
-      console.log(cart.data);
+    const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
+      console.log(cart.data)
       const { lineItems } = cart.data;
       if (lineItems.length > 0) {
         const render = await this.cart.renderCartItems(lineItems);

@@ -131,9 +131,30 @@ export interface LineItemAction {
   activeCartSignInMode?: string;
 }
 
+
+interface DiscountedPrice {
+  value: {
+    centAmount: number;
+    currencyCode: string;
+    fractionDigits: number;
+    type: string;
+  };
+  quantity: number;
+}
+
+
 export interface LineItem {
-  discountedPricePerQuantity: { id: string }; // Замените этот тип на соответствующий тип данных
+  discountedPricePerQuantity: {
+    id: string;
+    discountedPrice?: DiscountedPrice[];
+  };
   id: string;
+  discountedPrice?: {
+    value: {
+      centAmount: number;
+      currencyCode: string;
+    };
+  };
   lastModifiedAt: string;
   lineItemMode: string;
   name: {

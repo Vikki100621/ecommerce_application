@@ -130,8 +130,7 @@ export default class Routing {
         localStorage.removeItem('cartId');
         localStorage.removeItem('customerID');
         localStorage.removeItem('cartVersion');
-        localStorage.removeItem('anonymousId');
-        localStorage.removeItem('refreshtoken');
+        localStorage.removeItem('newtoken');
         window.location.hash = '/';
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');

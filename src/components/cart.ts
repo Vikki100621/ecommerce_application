@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this */
+/* eslint-disable no-param-reassign */
 import { deleteCartbyId, getCart, getCartbyId, getUserCart } from './api/api';
 import { LineItem, LineItemAction } from './api/interfaces';
 import emptyCart from '../assets/img/empty-cart.png';
@@ -10,16 +10,29 @@ export default class Cart {
 
   cart = {};
 
+  version: number;
+
+  cartId: string;
+
   constructor() {
     this.cart = {};
     this.lineItems = [];
     this.lineItemsDivs = [];
+    this.version = 1;
+    this.cartId = '';
   }
 
-  // eslint-disable-next-line class-methods-use-this
   changeVersion(number: number) {
-    const version = number;
-    return version;
+    this.version = number;
+    return this.version;
+  }
+
+  getcartId() {
+    return this.cartId;
+  }
+
+  setCartId(id: string) {
+    this.cartId = id;
   }
 
   async createCart() {
@@ -53,7 +66,6 @@ export default class Cart {
       try {
         const response = await getCart();
         localStorage.setItem('cartId', response.data.id);
-        localStorage.setItem('anonymousId', response.data.anonymousId);
       } catch (error) {
         console.error(error);
       }
@@ -100,12 +112,11 @@ export default class Cart {
   }
 
   async handleclickonRemoveButton(id: string) {
-        const actions = {
-          action: 'removeLineItem',
-          productId: `${id}` as string,
-          quantity: 1,
-        };
-        this.getcartById(actions);
+    const actions = {
+      action: 'removeLineItem',
+      lineItemId : `${id}` as string,
+    };
+    this.getcartById(actions);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -130,7 +141,7 @@ export default class Cart {
 
     lineItems.forEach((lineItem) => {
       const { id } = lineItem;
-
+      console.log(id);
       const productBox = document.createElement('div');
       productBox.classList.add('product__card');
       const img = document.createElement('img');
@@ -168,19 +179,20 @@ export default class Cart {
 
       const priceBlock = document.createElement('div');
       priceBlock.classList.add('product__price');
-      const price = document.createElement('p');
+      const price = document.createElement('div');
 
-      const priseValue = lineItem.price.value.centAmount;
+      const priseValue = lineItem.totalPrice.centAmount / lineItem.quantity;
       const formattedNumber = (priseValue / 100).toString();
       price.textContent = `${formattedNumber}$`;
       priceBlock.appendChild(price);
       price.classList.add('current__price');
 
+      const discountedPriceElement = document.createElement('div');
       const discountedPrice = lineItem.price.discounted?.value.centAmount;
       if (discountedPrice) {
-        const formateddiscountedPrice = (discountedPrice / 100).toString();
-        const discountedPriceElement = document.createElement('p');
+        const formateddiscountedPrice = (lineItem.totalPrice.centAmount / lineItem.quantity / 100).toString();
         discountedPriceElement.classList.add('discounted__price');
+        price.textContent = (lineItem.price.value.centAmount / 100).toString();
         price.classList.add('previous__price');
         discountedPriceElement.textContent = `${formateddiscountedPrice}$`;
         priceBlock.appendChild(discountedPriceElement);
@@ -192,11 +204,10 @@ export default class Cart {
       totalprice.classList.add('total_price');
       totalprice.textContent = `${(lineItem.totalPrice.centAmount / 100).toString()}$`;
       productBox.appendChild(totalprice);
-      // const totalPriceText = totalprice.textContent;
-      // // if (totalPriceText) {
-      // //   const totalPriceValue = parseFloat(totalPriceText.replace('$', ''));
-      // //   // totalPriceValue содержит число без знака "$"
-      // // }
+      if (lineItem.discountedPrice) {
+        totalprice.classList.add('new_price');
+      }
+
       const trash = document.createElement('div');
       trash.classList.add('product__trash');
       productBox.appendChild(trash);
@@ -204,13 +215,14 @@ export default class Cart {
       let number = parseInt(quantity.textContent || '0', 10);
 
       trash.addEventListener('click', async () => {
-        this.changeCartWrapper(0, id, quantity, totalprice);
+        // const numberProducts = parseFloat((quantity.textContent) as string)
+        this.changeCartWrapper(0, id, quantity, totalprice, price, discountedPriceElement);
         productBox.remove();
       });
 
       addButton.addEventListener('click', () => {
         number += 1;
-        this.changeCartWrapper(number, id, quantity, totalprice);
+        this.changeCartWrapper(number, id, quantity, totalprice, price, discountedPriceElement);
       });
 
       removeButton.addEventListener('click', () => {
@@ -218,7 +230,7 @@ export default class Cart {
         if (number === 0) {
           productBox.remove();
         }
-        this.changeCartWrapper(number, id, quantity, totalprice);
+        this.changeCartWrapper(number, id, quantity, totalprice, price, discountedPriceElement);
       });
 
       this.lineItemsDivs.push(productBox);
@@ -366,6 +378,8 @@ export default class Cart {
         const discountid = cartdata?.data.discountCodes[0].discountCode.id;
         const grandtotal = cartdata?.data.totalPrice.centAmount;
         const lineItems: LineItem[] = cartdata?.data.lineItems;
+
+        console.log(lineItems);
         const products = document.querySelectorAll('.product__card');
         const ids: string[] = [];
 
@@ -377,17 +391,35 @@ export default class Cart {
 
         lineItems.forEach((lineItem) => {
           if (ids.includes(lineItem.id)) {
+            const discountedPriceLineItem = lineItem.discountedPrice?.value.centAmount;
+
             const buttonsBlock = document.querySelector(`[id="${lineItem.id}"]`);
             const productBox = buttonsBlock?.parentNode;
+            const currentPrice = productBox?.querySelector('.current__price');
+            const discountedPrice = productBox?.querySelector('.discounted__price');
             const totalPriceProducts = productBox?.querySelector('.total_price') as HTMLDivElement;
-            const totalPriceText = totalPriceProducts?.textContent as string;
-            const totalPriceValue = parseFloat(totalPriceText);
+
+            totalPriceProducts.classList.remove('new_price');
+
+            // const totalPriceValue = parseFloat(totalPriceProducts.textContent as string);
+
             const newPrice = totalPriceProducts as HTMLDivElement;
             const centAmount = lineItem.totalPrice.centAmount / 100;
             newPrice.textContent = `${centAmount.toString()}$`;
 
-            if (centAmount < totalPriceValue) {
-              newPrice.classList.add('new_price');
+            if (discountedPriceLineItem) {
+              if (discountedPrice) {
+                const currentDisccounted = lineItem.price.discounted?.value.centAmount;
+                const elDiscountedPrice = discountedPrice;
+                elDiscountedPrice.textContent = `${(discountedPriceLineItem / 100).toFixed(2)}$`;
+                const elCurrentPrice = currentPrice;
+                if (elCurrentPrice && currentDisccounted)
+                  elCurrentPrice.textContent = `${(currentDisccounted / 100).toFixed(2)}$`;
+                newPrice.classList.add('new_price');
+              } else {
+                const elCurrentPrice = currentPrice;
+                if (elCurrentPrice) elCurrentPrice.textContent = `${(discountedPriceLineItem / 100).toFixed(2)}$`;
+              }
             }
           }
         });
@@ -479,13 +511,21 @@ export default class Cart {
     console.log(cart?.data);
   }
 
-  async changeCartWrapper(number: number, id: string, quantityel: HTMLDivElement, totalPriceItem: HTMLDivElement) {
+  async changeCartWrapper(
+    number: number,
+    id: string,
+    quantityel: HTMLDivElement,
+    totalPriceItem: HTMLDivElement,
+    priceelement: HTMLDivElement,
+    discountedelement?: HTMLDivElement
+  ) {
     try {
       const section = document.querySelector('.cart__section');
       await this.changeCartQunity(number, id);
       const numbersEl = quantityel;
       numbersEl.textContent = number.toString();
       const cartdata = await this.getUserCart().then((response) => response.data);
+      console.log(cartdata);
 
       const discountId = cartdata.discountCodes[0]?.discountCode.id;
       const totalprice = cartdata.totalPrice.centAmount;
@@ -493,6 +533,7 @@ export default class Cart {
 
       const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
         const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+
         return total + price * lineItem.quantity;
       }, 0);
 
@@ -501,27 +542,68 @@ export default class Cart {
         const messageblock = this.messageAboutEmptyCart();
         section?.appendChild(messageblock);
       }
+
       const filteredLineItem = lineItems.filter((lineitem: { id: string }) => lineitem.id === id);
+      console.log(filteredLineItem);
+      let cartBLock: HTMLDivElement;
+
+      if (filteredLineItem.length === 0) {
+
+        console.log('я работаю')
+        if (cartdata.discountCodes.length === 0) {
+          console.log(totalprice);
+          cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
+        } else {
+          console.log(totalprice);
+          cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
+        }
+      }
+
       if (filteredLineItem.length > 0) {
         const newPrice = filteredLineItem[0].totalPrice.centAmount;
         const total = totalPriceItem;
         total.textContent = `${(newPrice / 100).toString()}$`;
-      }
-      let cartBLock: HTMLDivElement;
 
-      if (cartdata.discountCodes.length === 0) {
-        cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
-      } else {
-        cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
-      }
+        if (cartdata.discountCodes.length === 0) {
+          console.log(totalprice);
+          cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
+        } else {
+          console.log(totalprice);
+          cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
+        }
 
-      const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+        const discountPrice = filteredLineItem[0].discountedPrice?.value.centAmount;
 
-      if (cartbox) {
-        section?.removeChild(cartbox);
-      }
-      if (lineItems.length > 0) {
-        section?.appendChild(cartBLock);
+        if (discountPrice) {
+          totalPriceItem.classList.add('new_price');
+          if (discountedelement?.textContent !== '') {
+            if (discountedelement) discountedelement.textContent = `${(discountPrice / 100).toString()}$`;
+            priceelement.textContent = `${(filteredLineItem[0].price.discounted.value.centAmount / 100).toString()}$`;
+          } else {
+            priceelement.textContent = `${(filteredLineItem[0].discountedPrice.value.centAmount / 100).toString()}$`;
+          }
+        } else {
+          totalPriceItem.classList.remove('new_price');
+          if (discountedelement?.textContent !== '') {
+            if (discountedelement)
+              discountedelement.textContent = `${(
+                filteredLineItem[0].price.discounted.value.centAmount / 100
+              ).toString()}$`;
+            priceelement.textContent = `${(filteredLineItem[0].price.value.centAmount / 100).toString()}$`;
+          } else {
+            priceelement.textContent = `${(filteredLineItem[0].price.value.centAmount / 100).toString()}$`;
+          }
+        }
+
+        const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+
+        if (cartbox) {
+          section?.removeChild(cartbox);
+        }
+
+        if (lineItems.length > 0) {
+          section?.appendChild(cartBLock);
+        }
       }
     } catch (error) {
       console.error('Произошла ошибка:', error);

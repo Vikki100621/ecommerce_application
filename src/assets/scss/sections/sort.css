@@ -71,7 +71,7 @@
   align-self: center;
   gap: 20px;
   justify-content: space-around;
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
   width: 100%;
   max-width: 916px;
 }
@@ -117,19 +117,52 @@
 .product__cart {
   display: flex;
   flex-direction: column;
-  row-gap: 3px;
+  row-gap: 5px;
   width: 200px;
   padding: 5px;
   text-align: center;
-  cursor: pointer;
-  border: 2px #d1cfc6 solid;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(241, 218, 129, 0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 .product__cart:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   transform: scale(1.05);
+}
+.product__cart button {
+  height: 50px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 30px;
+  margin: 10px 20px;
+  border-radius: 10px;
+  box-shadow:
+    0 0 40px 40px #573a1a inset,
+    0 0 0 0 #573a1a;
+  font-family: Montserrat, sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffffff;
+  transition: 0.15s ease-in-out;
+  cursor: pointer;
+}
+.product__cart button:not(:disabled):hover {
+  box-shadow:
+    0 0 10px 0 #573a1a inset,
+    0 0 10px 4px #573a1a;
+  color: #573a1a;
+}
+.product__cart button:disabled {
+  box-shadow:
+    0 0 10px 0 #573a1a inset,
+    0 0 10px 4px #573a1a;
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+  cursor: not-allowed;
 }
 
 input,
@@ -143,6 +176,6 @@ select {
   flex-direction: column;
   row-gap: 30px;
 }
-.filters__container input[type=checkbox] {
+.filters__container input[type='checkbox'] {
   border: 2px #492f2f solid;
-}/*# sourceMappingURL=sort.css.map */
+} /*# sourceMappingURL=sort.css.map */

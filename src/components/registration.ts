@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer } from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, getrefreshToken, loginNewCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 
 export default class Registration {
@@ -414,10 +414,12 @@ export default class Registration {
       postCustomer(email, pass, firstName, lastName)
         .then(async (response) => {
           userId = response.data.customer.id;
-          localStorage.setItem('customerID', userId);
           const responce = await getBoundToken(email, pass);
-          const updateToken = responce.data.access_token;
-          localStorage.setItem('token', updateToken);
+          localStorage.removeItem('token');
+          const refreshToken = responce.data.refresh_token;
+          const userToken = await getrefreshToken(refreshToken).then((refreshtoken) => refreshtoken);
+          console.log('я засетовал рефреш', userToken.data.access_token);
+          localStorage.setItem('newtoken', userToken.data.access_token);
         })
         .catch((error) => {
           throw error;
@@ -428,18 +430,14 @@ export default class Registration {
         })
         .then(() => loginNewCustomer(email, pass))
         .then(async (response) => {
+          localStorage.setItem('isLoggedIn', 'true');
           if (response.data.cart) {
             localStorage.setItem('cartId', response.data.cart.id);
             localStorage.setItem('cartVersion', response.data.cart.version);
           }
-
           displayMessage('User successfully created and logged in.');
           clearForm();
-          localStorage.setItem('isLoggedIn', 'true');
-          const responce = await getBoundToken(email, pass);
-          const updateToken = responce.data.access_token;
-          localStorage.setItem('token', updateToken);
-          localStorage.setItem('isLoggedIn', 'true');
+
           setTimeout(() => {
             hideMessage();
             window.location.hash = '/';

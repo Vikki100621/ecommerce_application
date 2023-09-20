@@ -82,7 +82,7 @@
   align-self: center;
   gap: 20px;
   justify-content: space-around;
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
   width: 100%;
   max-width: 916px;
 }
@@ -136,7 +136,9 @@
   border: 2px #d1cfc6 solid;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(241, 218, 129, 0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 .product__cart:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -154,7 +156,7 @@ select {
   flex-direction: column;
   row-gap: 30px;
 }
-.filters__container input[type=checkbox] {
+.filters__container input[type='checkbox'] {
   border: 2px #492f2f solid;
 }
 
@@ -326,7 +328,7 @@ select {
 
 @font-face {
   font-family: Lostar;
-  src: url("../fonts/Lostar/Lostar.ttf");
+  src: url('../fonts/Lostar/Lostar.ttf');
 }
 body {
   box-sizing: content-box;
@@ -383,7 +385,7 @@ body {
   display: flex;
   column-gap: 30px;
   align-items: center;
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 20px;
   font-weight: 700;
 }
@@ -408,7 +410,7 @@ body {
 }
 
 #main .img-background {
-  background-image: url("../img/background.jpg");
+  background-image: url('../img/background.jpg');
   background-position: bottom center;
   background-size: cover;
 }
@@ -466,4 +468,4 @@ body {
   .left-content {
     font-size: 35px;
   }
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */
