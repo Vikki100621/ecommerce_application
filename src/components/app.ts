@@ -4,7 +4,6 @@ import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
 import LoginView from './login';
 import Registration from './registration';
 import NewCollection from '../assets/img/new-collection.jpg';
-import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
 import Products from './product';
@@ -167,25 +166,24 @@ export default class App {
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent = 'USE PROMO-CODE FOR PAINTINGS: 092023';
-
+        offerText.textContent = "USE PROMO CODE '092023' FOR A 50% DISCOUNT ON ALL PAINTINGS!";
+        offerText.addEventListener('click', () => {
+          window.location.hash = '/cart';
+        });
         const offerTextTwo = document.createElement('p');
         offerTextTwo.textContent =
-          'USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
-
+          "USE PROMO CODE '3422' FOR A 30% DISCOUNT ON ALL PRODUCTS WHEN YOU PURCHASE 5 OR MORE OF THE SAME ITEM.";
+        offerTextTwo.addEventListener('click', () => {
+          window.location.hash = '/cart';
+        });
         offerDiv.appendChild(offerTextTwo);
         offerDiv.appendChild(offerText);
-        const offerImage = document.createElement('img');
-        offerImage.classList.add('special-offer__img');
-        offerImage.src = Special;
-        offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
       this.main.appendChild(background);
     }
   }
 
-  // здесь будет отрисовываться страница о магазине
   showAboutPage() {
     this.clearMain();
     const section = new AboutView(team).getHtmlElement();
@@ -201,6 +199,20 @@ export default class App {
     const productDivs = await productsInstance
       .createProducts()
       .then((response) => this.products.renderProducts(response));
+    if (localStorage.getItem('cartId')) {
+      productDivs.forEach(async (product) => {
+        const productId = product.id;
+        const isProductInCart = await this.products.checkProduct(productId);
+        const addToCartButton = product.querySelector('.cart__button') as HTMLButtonElement;
+        if (isProductInCart) {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = 'Added to cart';
+        } else {
+          addToCartButton.disabled = false;
+        }
+      });
+    }
+
     const sort = this.sorting;
     const { sortBlock } = sort;
     const rightContent: HTMLDivElement = <HTMLDivElement>sort.rightsideSortBlock;
@@ -382,7 +394,7 @@ export default class App {
     section.classList.add('cart__section');
     if (!localStorage.getItem('cartId')) {
       try {
-        console.log('я создала корзину')
+        console.log('я создала корзину');
         this.cart.createCart().then((responce) => responce);
         const message = this.cart.messageAboutEmptyCart();
         section.appendChild(message);
@@ -394,8 +406,8 @@ export default class App {
       this.lineItemsWrapper.classList.add('lineitems-wrapper');
       this.lineItemsWrapper.innerHTML = '';
       const cartInstance = this.cart;
-    const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
-      console.log(cart.data)
+      const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
+      console.log(cart.data);
       const { lineItems } = cart.data;
       if (lineItems.length > 0) {
         const render = await this.cart.renderCartItems(lineItems);

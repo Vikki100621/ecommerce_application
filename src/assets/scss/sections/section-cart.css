@@ -28,6 +28,7 @@
   justify-content: space-between;
   font-size: 32px;
   padding: 10px;
+  font-family: Montserrat, sans-serif;
 }
 .cart__section .lineitems-wrapper .delete__cart button {
   width: 100px;
@@ -37,6 +38,12 @@
   background-size: contain;
   padding: 20px;
   cursor: pointer;
+  background-color: inherit;
+  border: none;
+  transition: transform 0.3s ease-in-out;
+}
+.cart__section .lineitems-wrapper .delete__cart button:hover {
+  transform: translateY(-10px);
 }
 .cart__section .lineitems-wrapper .product__card {
   display: flex;
@@ -85,6 +92,8 @@
 .cart__section .lineitems-wrapper .product__card .discounted__price {
   font-weight: 700;
   color: #f01616;
+  margin-right: 5px;
+  animation: bounceIn 0.5s ease-in-out;
 }
 .cart__section .lineitems-wrapper .product__card .product__description {
   font-size: 12px;
@@ -216,6 +225,23 @@
   background-color: #2c2a2a;
 }
 
+@keyframes bounce {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 .new_price {
-  color: #2bce19;
+  font-weight: bold;
+  color: #0d7d07;
+  margin-right: 5px;
+  animation: bounce 0.5s ease-in-out;
 }/*# sourceMappingURL=section-cart.css.map */

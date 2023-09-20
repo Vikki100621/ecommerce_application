@@ -170,9 +170,8 @@ export default class ProductPage {
   async addBasketButtons() {
     const cart = new Cart();
     const hash = window.location.hash.split('/');
-    console.log(hash);
     const id = hash[2];
-  
+
     const buttonsWrapper = returnElement({ tag: 'div', classes: ['product-details__basket-buttons'] });
     const buttonBasketAdd = returnElement({
       tag: 'button',
@@ -185,7 +184,7 @@ export default class ProductPage {
       textContent: 'Remove from basket',
     }) as HTMLButtonElement;
     const isProductInCart = await this.checkProduct(id);
-    
+
     if (isProductInCart) {
       buttonBasketRemove.disabled = false;
       buttonBasketAdd.disabled = true;
@@ -201,7 +200,6 @@ export default class ProductPage {
     });
     buttonBasketRemove.addEventListener('click', async () => {
       const removeProduct = this.removeProduct(id);
-   
       console.log(removeProduct);
       buttonBasketAdd.disabled = false;
       buttonBasketRemove.disabled = true;
@@ -211,42 +209,42 @@ export default class ProductPage {
     this.productInfoWrapper.appendChild(buttonsWrapper);
   }
 
- // eslint-disable-next-line class-methods-use-this
- async removeProduct(id:string) {
-  const cart = new Cart();
-      try {
-        let lineItemId;
-        const cartData = await getUserCart();
-        console.log(cartData.data);
-        const { lineItems } = cartData.data;
-  
-        if (lineItems.length > 0) {
-          lineItems.forEach(async (item: LineItem) => {
-            if (item.productId === id) {
-              lineItemId = item.id;
-              const removeProduct = await cart.handleclickonRemoveButton(lineItemId).then((responce) => responce);
-              console.log(removeProduct)
-            }
-          });
-        }
-      } catch (error) { 
-     console.error('Произошла ошибка при получении корзины:', error);
-      }
-    }
+  // eslint-disable-next-line class-methods-use-this
+  async removeProduct(id: string) {
+    const cart = new Cart();
+    try {
+      let lineItemId;
+      const cartData = await getUserCart();
+      console.log(cartData.data);
+      const { lineItems } = cartData.data;
 
-    async checkProduct(id: string) {
-      try {
-        const cartData = await getUserCart();
-        console.log(cartData.data);
-        const { lineItems } = cartData.data;
-    
-        if (lineItems.length > 0) {
-          const productExists = lineItems.some((item: LineItem) => item.productId === id);
-          return productExists;
-        }
-      } catch (error) {
-        console.error('Произошла ошибка при получении корзины:', error);
+      if (lineItems.length > 0) {
+        lineItems.forEach(async (item: LineItem) => {
+          if (item.productId === id) {
+            lineItemId = item.id;
+            const removeProduct = await cart.handleclickonRemoveButton(lineItemId).then((responce) => responce);
+            console.log(removeProduct);
+          }
+        });
       }
-      return false;
+    } catch (error) {
+      console.error('Произошла ошибка при получении корзины:', error);
     }
+  }
+
+  async checkProduct(id: string) {
+    try {
+      const cartData = await getUserCart();
+      console.log(cartData.data);
+      const { lineItems } = cartData.data;
+
+      if (lineItems.length > 0) {
+        const productExists = lineItems.some((item: LineItem) => item.productId === id);
+        return productExists;
+      }
+    } catch (error) {
+      console.error('Произошла ошибка при получении корзины:', error);
+    }
+    return false;
+  }
 }

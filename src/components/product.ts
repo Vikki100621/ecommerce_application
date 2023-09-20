@@ -27,7 +27,6 @@ export default class Products {
 
   renderProducts(products: Array<Product> | undefined): HTMLDivElement[] {
     if (products) this.productDivs = [];
-    console.log(products);
     products?.forEach(async (productData: Product) => {
       const categoryId = productData.categories[0].id;
       const productId = productData.id;
@@ -83,15 +82,6 @@ export default class Products {
       cart.classList.add('cart__button');
       cart.textContent = 'Add to cart';
 
-      // if (localStorage.getItem('cartId')) {
-      //   const isProductInCart = await this.checkProduct(productId);
-      //   console.log(isProductInCart.data)
-      //   if (isProductInCart) {
-      //     cart.disabled = true;
-      //   } else {
-      //     cart.disabled = false;
-      //   }
-      // }
       productBox.appendChild(cart);
       this.productDivs.push(productBox);
     });
@@ -102,7 +92,6 @@ export default class Products {
   async checkProduct(id: string) {
     try {
       const cartData = await getUserCart();
-      console.log(cartData.data);
       const { lineItems } = cartData.data;
 
       if (lineItems.length > 0) {

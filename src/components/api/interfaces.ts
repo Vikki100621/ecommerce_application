@@ -131,7 +131,6 @@ export interface LineItemAction {
   activeCartSignInMode?: string;
 }
 
-
 interface DiscountedPrice {
   value: {
     centAmount: number;
@@ -141,7 +140,6 @@ interface DiscountedPrice {
   };
   quantity: number;
 }
-
 
 export interface LineItem {
   discountedPricePerQuantity: {

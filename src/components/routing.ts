@@ -131,7 +131,7 @@ export default class Routing {
         localStorage.removeItem('customerID');
         localStorage.removeItem('cartVersion');
         localStorage.removeItem('newtoken');
-        window.location.hash = '/';
+
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');
         if (itemuser && itemlogout) {
@@ -140,7 +140,8 @@ export default class Routing {
           const elLogOut = itemlogout as HTMLElement;
           elLogOut.textContent = 'Register';
         }
-      } else if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+        window.location.hash = '/';
+      } else if (clickedElement.textContent === 'Register') {
         window.location.hash = '/register';
       }
     } else if (clickedElement.classList.contains('login')) {

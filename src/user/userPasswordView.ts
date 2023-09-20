@@ -122,7 +122,7 @@ export default class UserPasswordView extends View {
     newPassword.addInnerElement([newPasswordValue]);
     const newPasswordError = new ElementBuilder(param.newPasswordError).getElement();
 
-    // const currentId = localStorage.getItem('customerID') as string;
+   
     const currentUser: Customer = await getCustomer().then((responce) => responce.data);
     if (currentUser.password) {
       passwordValue.setTextContent(currentUser.password);

@@ -54,53 +54,68 @@
 .special-offer__section .special-offer__content {
   display: flex;
   column-gap: 50px;
-  height: max-content;
+  height: 500px;
   padding: 120px 0;
-}
-.special-offer__section .special-offer__content .special-offer__img {
-  max-width: 500px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(140, 134, 134, 0.5);
+  justify-content: center;
 }
 .special-offer__section .special-offer__content p {
   display: flex;
-  flex: 1;
-  align-items: center;
+  align-items: flex-end;
   padding: 10px;
-  font-family: garamond;
-  font-size: 18px;
+  font-family: Garamond, serif;
   line-height: 100%;
-  text-align: left;
-  border: 3px #100e0e solid;
-  border-radius: 5px;
+  border-radius: 21px;
   font-weight: 600;
-  max-height: 70px;
+  height: 329px;
+  max-width: 400px;
+  text-align: justify;
+  background-image: url("../../img/gift.png");
+  background-color: #635542;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  font-size: 20px;
+  color: rgb(2, 2, 0);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+  border: 2px solid #f5a623;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.special-offer__content p:hover {
+  transform: translateY(-10px);
 }
 
 .modal {
   position: fixed;
   inset: 50% 0 0 50%;
-  width: 10%;
+  width: 30%;
   height: 10%;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #635542;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1882352941);
   transform: translate(-50%, -50%);
+  text-align: justify;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+  border: 2px solid #f5a623;
 }
 
 .modal::before {
   position: absolute;
   inset: -10px;
-  content: '';
-  border: 5px solid #cccccc;
+  content: "";
 }
 
 .modal::after {
   position: absolute;
   inset: -15px;
-  content: '';
-  border: 10px solid #ffffff;
+  content: "";
 }
 
 .buy__block {
@@ -165,4 +180,4 @@
   .welcome__section p {
     font-size: 16px;
   }
-} /*# sourceMappingURL=homepage.css.map */
+}/*# sourceMappingURL=homepage.css.map */

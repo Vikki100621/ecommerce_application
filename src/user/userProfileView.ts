@@ -177,7 +177,6 @@ export default class UserProfileView extends View {
     email.addInnerElement([emailValue]);
     const emailError = new ElementBuilder(param.emailError);
 
-    // const currentId = localStorage.getItem('customerID') as string;
     const currentUser = await getCustomer().then((responce) => responce.data);
 
     if (currentUser) {
