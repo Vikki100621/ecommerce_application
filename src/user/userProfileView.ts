@@ -1,10 +1,11 @@
 import ElementBuilder from '../utils/elementBuilder';
-import State from '../components/state';
+// import State from '../components/state';
 import View from '../utils/view';
 import { enableEditMode } from '../utils/callBacks';
-import { checkAge, checkEmail, checkFirstName, checkLastName } from '../utils/validation';
+import { checkAge, checkFirstName, checkLastName, validateEmail } from '../utils/validation';
 import { saveChanges } from '../utils/saveFunctions';
 import { undoProfileChanges } from '../utils/undoFunctions';
+import { getCustomer } from '../components/api/api';
 
 const param = {
   header: {
@@ -55,7 +56,7 @@ const param = {
   firstName: {
     tag: 'label',
     classNames: ['profile__firstName'],
-    textContent: `Firstname `,
+    textContent: `Firstname:`,
   },
   firstNameValue: {
     tag: 'input',
@@ -71,7 +72,7 @@ const param = {
   lastName: {
     tag: 'label',
     classNames: ['profile__lastName'],
-    textContent: `Lastname `,
+    textContent: `Lastname:`,
   },
   lastNameValue: {
     tag: 'input',
@@ -87,7 +88,7 @@ const param = {
   date: {
     tag: 'label',
     classNames: ['profile__date'],
-    textContent: `Date of Birth`,
+    textContent: `Date of Birth:`,
   },
   dateValue: {
     tag: 'input',
@@ -103,13 +104,13 @@ const param = {
   email: {
     tag: 'label',
     classNames: ['profile__email'],
-    textContent: `Email`,
+    textContent: `Email:`,
   },
   emailValue: {
     tag: 'input',
     classNames: ['email', 'readonly'],
     event: 'input',
-    callback: checkEmail,
+    callback: validateEmail,
     attributes: {
       id: 'userEmail',
       type: 'email',
@@ -146,7 +147,7 @@ export default class UserProfileView extends View {
     this.configureView();
   }
 
-  configureView() {
+  async configureView() {
     const header = new ElementBuilder(param.header);
     const title = new ElementBuilder(param.title);
     const editButton = new ElementBuilder(param.editButton);
@@ -161,18 +162,23 @@ export default class UserProfileView extends View {
     const infoWrapper = new ElementBuilder(param.infoWrapper);
     const firstName = new ElementBuilder(param.firstName);
     const firstNameValue = new ElementBuilder(param.firstNameValue);
+    firstName.addInnerElement([firstNameValue]);
     const firstNameError = new ElementBuilder(param.firstNameError);
     const lastName = new ElementBuilder(param.lastName);
     const lastNameValue = new ElementBuilder(param.lastNameValue);
+    lastName.addInnerElement([lastNameValue]);
     const lastNameError = new ElementBuilder(param.lastNameError);
     const date = new ElementBuilder(param.date);
     const dateValue = new ElementBuilder(param.dateValue);
+    date.addInnerElement([dateValue]);
     const dateError = new ElementBuilder(param.dateError);
     const email = new ElementBuilder(param.email);
     const emailValue = new ElementBuilder(param.emailValue);
+    email.addInnerElement([emailValue]);
     const emailError = new ElementBuilder(param.emailError);
 
-    const currentUser = State.getCustomer();
+    const currentUser = await getCustomer().then((responce) => responce.data);
+
     if (currentUser) {
       firstNameValue.setTextContent(currentUser.firstName);
       lastNameValue.setTextContent(currentUser.lastName);
@@ -182,21 +188,15 @@ export default class UserProfileView extends View {
 
     infoWrapper.addInnerElement([
       firstName,
-      firstNameValue,
       firstNameError,
       lastName,
-      lastNameValue,
       lastNameError,
       date,
-      dateValue,
       dateError,
       email,
-      emailValue,
       emailError,
     ]);
 
     this.viewElement.addInnerElement([header, infoWrapper]);
   }
 }
-
-// ПОСЛЕДНЕЕ Изменение

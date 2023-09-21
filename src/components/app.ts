@@ -4,7 +4,6 @@ import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
 import LoginView from './login';
 import Registration from './registration';
 import NewCollection from '../assets/img/new-collection.jpg';
-import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
 import Products from './product';
@@ -12,6 +11,11 @@ import Sorting from './sort';
 import ProductPage from './productPage/productPage';
 import { getProduct } from './api/api';
 import UserView from './user';
+import Cart from './cart';
+import AboutView from './about/aboutView';
+import team from './about/teamInformation';
+import { LineItem } from './api/interfaces';
+import returnElement from './common/returnElem';
 
 export default class App {
   public header: HTMLElement;
@@ -32,16 +36,26 @@ export default class App {
 
   public productContainer: HTMLElement;
 
+  public lineItemsWrapper: HTMLElement;
+
+  public cart: Cart;
+
+  public cartItems: HTMLDivElement[];
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
+
     this.productContainer = document.createElement('div');
+    this.lineItemsWrapper = document.createElement('div');
     this.productContainer.classList.add('product__container');
     this.products = new Products();
     this.sorting = new Sorting();
     this.registration = new Registration();
+    this.cart = new Cart();
+    this.cartItems = [];
   }
 
   registerTemplate(name: string, templateFunction: () => void) {
@@ -62,10 +76,10 @@ export default class App {
     element?.classList.remove('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
+    // const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrc;
-    div.style.border = '2px solid #e4d4be';
+    // div.style.border = '2px solid #e4d4be';
 
     this.main.innerHTML = '';
     this.header.style.color = '#e4d4be';
@@ -76,11 +90,7 @@ export default class App {
       'special-offer__section',
       'contact__section',
     ];
-    const sectionTexts = [
-      `${content.welcome}`,
-      `${content.collection}`,
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
-    ];
+    const sectionTexts = [`${content.welcome}`, `${content.collection}`];
 
     for (let i = 0; i < 4; i += 1) {
       const background = document.createElement('div');
@@ -153,54 +163,166 @@ export default class App {
         const offerTitle = document.createElement('h2');
         offerTitle.textContent = 'Special Offer';
         section.appendChild(offerTitle);
-
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent = sectionTexts[i];
+        offerText.textContent = "USE PROMO CODE '092023' FOR A 50% DISCOUNT ON ALL PAINTINGS!";
+        offerText.addEventListener('click', () => {
+          window.location.hash = '/cart';
+        });
+        const offerTextTwo = document.createElement('p');
+        offerTextTwo.textContent =
+          "USE PROMO CODE '3422' FOR A 30% DISCOUNT ON ALL PRODUCTS WHEN YOU PURCHASE 5 OR MORE OF THE SAME ITEM.";
+        offerTextTwo.addEventListener('click', () => {
+          window.location.hash = '/cart';
+        });
+        offerDiv.appendChild(offerTextTwo);
         offerDiv.appendChild(offerText);
-        const offerImage = document.createElement('img');
-        offerImage.classList.add('special-offer__img');
-        offerImage.src = Special;
-        offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
       this.main.appendChild(background);
     }
   }
 
-  // здесь будет отрисовываться страница о магазине
   showAboutPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.innerText = 'Not completed yet';
+    const section = new AboutView(team).getHtmlElement();
     this.main.appendChild(section);
   }
 
   async showCatalogPage() {
     this.clearMain();
-    const section = document.createElement('section');
-    section.classList.add('product__section');
+
+    const section = returnElement({ tag: 'section', classes: ['product__section'] });
 
     const productsInstance = this.products;
     const productDivs = await productsInstance
       .createProducts()
       .then((response) => this.products.renderProducts(response));
+    if (localStorage.getItem('cartId')) {
+      productDivs.forEach(async (product) => {
+        const productId = product.id;
+        const isProductInCart = await this.products.checkProduct(productId);
+        const addToCartButton = product.querySelector('.cart__button') as HTMLButtonElement;
+        if (isProductInCart) {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = 'Added to cart';
+        } else {
+          addToCartButton.disabled = false;
+        }
+      });
+    }
+
     const sort = this.sorting;
     const { sortBlock } = sort;
-    const rightContent = sort.rightsideSortBlock;
-
-    rightContent?.appendChild(this.productContainer);
-
-    productDivs.forEach((productDiv) => {
-      this.productContainer.appendChild(productDiv);
+    const rightContent: HTMLDivElement = <HTMLDivElement>sort.rightsideSortBlock;
+    const paginationOptions = returnElement({ tag: 'div', classes: ['pagination'] });
+    const itemsPerPageSelect: HTMLSelectElement = <HTMLSelectElement>(
+      returnElement({ tag: 'select', classes: ['pagination__choose-items'], id: 'pagination-select' })
+    );
+    const labelItemsPagination = returnElement({
+      tag: 'label',
+      classes: ['pagination__choose-label'],
+      textContent: 'Items per page: ',
+      attrib: [{ name: 'for', value: 'pagination-select' }],
     });
+    const items4 = returnElement({
+      tag: 'option',
+      classes: ['pagination__num-items'],
+      textContent: '4',
+      attrib: [{ name: 'selected', value: 'true' }],
+    });
+    const items8 = returnElement({ tag: 'option', classes: ['pagination__num-items'], textContent: '8' });
+    const items12 = returnElement({ tag: 'option', classes: ['pagination__num-items'], textContent: '12' });
+    const paginationNumPagesWrapper = returnElement({ tag: 'div', classes: ['pagination__num-pages-wrap'] });
+    const paginationNumPagesTitle = returnElement({
+      tag: 'div',
+      classes: ['pagination__num-pages-title'],
+      textContent: 'Page: ',
+    });
+    const paginationNumPagesList = returnElement({ tag: 'div', classes: ['pagination__num-pages-pages'] });
+    paginationNumPagesWrapper.append(paginationNumPagesTitle, paginationNumPagesList);
+    itemsPerPageSelect.append(items4, items8, items12);
+    paginationOptions.append(labelItemsPagination);
+    paginationOptions.append(itemsPerPageSelect);
+
+    const productsWrapper = this.productContainer;
+
+    let currentPage = 0;
+    const numPages: HTMLElement[] = [];
+
+    function returnElemPageNum(num: string) {
+      const elemPageNum = returnElement({ tag: 'div', classes: ['pagination__num-pages-page'], textContent: num });
+      return elemPageNum;
+    }
+
+    function selectCurrentPage() {
+      numPages[currentPage].classList.add('pagination__num-pages-page_active');
+    }
+
+    function drawNumPages(num: number) {
+      paginationNumPagesList.innerHTML = '';
+      numPages.length = 0;
+      for (let i = 1; i <= num; i += 1) {
+        const pageItem = returnElemPageNum(String(i));
+        numPages.push(pageItem);
+        paginationNumPagesList.append(pageItem);
+      }
+      selectCurrentPage();
+    }
+
+    function deSelectCurrentPage() {
+      numPages[currentPage].classList.remove('pagination__num-pages-page_active');
+    }
+
+    function drawItems() {
+      const numOfItems = Number(itemsPerPageSelect.value);
+      const numOfPages = Math.ceil(productDivs.length / numOfItems);
+
+      if (currentPage > numOfPages - 1) {
+        deSelectCurrentPage();
+        currentPage = 0;
+        selectCurrentPage();
+      }
+
+      const offset = currentPage * numOfItems;
+
+      drawNumPages(numOfPages);
+      productsWrapper.innerHTML = '';
+
+      for (let i = 0 + offset; i < numOfItems + offset; i += 1) {
+        if (productDivs[i]) {
+          productsWrapper.append(productDivs[i]);
+        }
+      }
+    }
+
+    drawItems();
+
+    function choosePage(evt: Event) {
+      const pageNumDiv: HTMLDivElement = <HTMLDivElement>evt.target;
+      if (pageNumDiv.classList.contains('pagination__num-pages-page')) {
+        const pageNum: string = <string>pageNumDiv.textContent;
+        deSelectCurrentPage();
+        currentPage = +pageNum - 1;
+        selectCurrentPage();
+        drawItems();
+      }
+    }
 
     if (sortBlock) {
       section.appendChild(sortBlock);
     }
 
     this.main.appendChild(section);
+
+    if (document.getElementById('pagination-select') === null) {
+      rightContent.append(paginationOptions);
+      rightContent.append(paginationNumPagesWrapper);
+      rightContent.append(this.productContainer);
+      itemsPerPageSelect.addEventListener('change', drawItems);
+      paginationNumPagesList.addEventListener('click', choosePage);
+    }
   }
 
   async showProductPage(id: string | null) {
@@ -210,6 +332,7 @@ export default class App {
       const productData = responseData.data;
       const productPage = new ProductPage(productData);
       productPage.draw();
+      productPage.addBasketButtons();
       productPage.addSlider();
       productPage.addPrice();
     }
@@ -263,6 +386,65 @@ export default class App {
     this.clearMain();
     const userPage = new UserView();
     this.main.appendChild(userPage.getHtmlElement());
+  }
+
+  async showCartPage() {
+    this.clearMain();
+    const section = document.createElement('section');
+    section.classList.add('cart__section');
+    if (!localStorage.getItem('cartId')) {
+      try {
+        console.log('я создала корзину');
+        this.cart.createCart().then((responce) => responce);
+        const message = this.cart.messageAboutEmptyCart();
+        section.appendChild(message);
+        this.main.appendChild(section);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.lineItemsWrapper.classList.add('lineitems-wrapper');
+      this.lineItemsWrapper.innerHTML = '';
+      const cartInstance = this.cart;
+      const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
+      console.log(cart.data);
+      const { lineItems } = cart.data;
+      if (lineItems.length > 0) {
+        const render = await this.cart.renderCartItems(lineItems);
+        this.cartItems = [...lineItems];
+        render.forEach((line) => this.lineItemsWrapper.appendChild(line));
+        const deleteCart = this.cart.createDeleteButton();
+        this.lineItemsWrapper.appendChild(deleteCart);
+        section.appendChild(this.lineItemsWrapper);
+
+        const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
+          const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+          return total + price * lineItem.quantity;
+        }, 0);
+
+        const totalPrice = cart.data.totalPrice.centAmount;
+
+        const discountId = cart.data.discountCodes[0]?.discountCode.id;
+
+        if (cart.data.discountCodes.length === 0) {
+          const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        } else {
+          const cartBLock = cartInstance.renderCartWithDiscount(
+            totalPrice,
+            totalCentAmount,
+            discountId
+          ) as HTMLDivElement;
+          section.appendChild(cartBLock);
+        }
+
+        this.main.appendChild(section);
+      } else {
+        const message = this.cart.messageAboutEmptyCart();
+        section.appendChild(message);
+        this.main.appendChild(section);
+      }
+    }
   }
 
   createHeader() {
@@ -328,13 +510,15 @@ export default class App {
 
     const basketLi = document.createElement('li');
     basketLi.classList.add('item-basket');
+    basketLi.classList.add('menu-item');
     const basketImage = document.createElement('img');
-    const numbersOfProducts = document.createElement('div');
-    numbersOfProducts.classList.add('products__numbres');
-    numbersOfProducts.innerHTML = '0';
+    // const numbersOfProducts = document.createElement('div');
+    // numbersOfProducts.classList.add('products__numbres');
+
+    // numbersOfProducts.textContent = `${quantity}`;
     basketImage.src = basketImageSrc;
     basketLi.appendChild(basketImage);
-    basketLi.appendChild(numbersOfProducts);
+    // basketLi.appendChild(numbersOfProducts);
     ul.appendChild(basketLi);
 
     const overLay = document.createElement('div');
@@ -366,10 +550,10 @@ export default class App {
     element?.classList.add('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    const div = document.querySelector('.item-basket div') as HTMLElement;
+    // const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrcBlack;
-    div.style.border = '2px solid rgb(16, 14, 14)';
+    // div.style.border = '2px solid rgb(16, 14, 14)';
   }
 
   // создаем footer(он не будет меняться больше)

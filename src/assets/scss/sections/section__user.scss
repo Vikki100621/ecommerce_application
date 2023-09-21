@@ -1,36 +1,23 @@
-button {
-  font-size: 20px;
-  font-weight: bold;
-  color: #8b4513;
-  text-shadow: 1px 1px #ffffff;
-  cursor: pointer;
-  background-color: #f5deb3;
-  border: 1px solid #830303;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px #00000033;
+.user__section {
+  button {
+    font-size: 20px;
+    width: 100px;
+    font-weight: bold;
+    color: #8b4513;
+    text-shadow: 1px 1px #ffffff;
+    cursor: pointer;
+    background-color: #f5deb3;
+    border: 1px solid #830303;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px #00000033;
+  }
 }
-
 .user {
   &__section {
     padding-top: 150px;
     padding-bottom: 20px;
     margin: 0 auto;
   }
-}
-
-.readonly {
-  cursor: default;
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
-
-input.invalid {
-  border: 2px solid #ff0000;
-}
-
-input.invalid:focus {
-  box-shadow: 0 0 5px 2px #ff0000;
 }
 
 .password {
@@ -49,9 +36,8 @@ input.invalid:focus {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 600px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    max-width: 800px;
+    padding: 20px;
     margin: 0 auto 20px;
     background-color: #f5e6d7;
     border: 2px solid #d7b899;
@@ -60,8 +46,8 @@ input.invalid:focus {
 
   &__header {
     display: flex;
-    gap: 20px;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
@@ -71,41 +57,83 @@ input.invalid:focus {
   &__buttonsContainer {
     display: flex;
   }
-}
 
-.profile {
+  &__title {
+    margin-bottom: 10px;
+  }
+
   &__infoWrapper {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-gap: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #e6d8c4;
+    border: 2px solid #d7b899;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #00000030;
 
     label {
+      text-align: start;
+      width: 300px;
       font-weight: bold;
-      color: #d7b899;
+      color: #e7913a;
     }
 
     input {
-      color: #e97d12;
+      text-align: start;
+      font-size: 18px;
+      font-weight: bold;
+      width: 100%;
+      border-radius: 4px;
+      margin: 5px 0;
+      color: #050300;
+    }
+
+    span.errorSpan {
+      display: block;
+      width: 300px;
+      margin-bottom: 5px;
+      color: #ff0000;
+    }
+  }
+}
+
+.password {
+  &__infoWrapper {
+    label {
+      text-align: center;
+    }
+
+    input {
+      text-align: center;
     }
   }
 }
 
 .addresses {
-  &__infoWrapper {
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 20px;
-    margin-bottom: 10px;
-    background-color: #e6d8c4;
+  &__wrapper {
+    padding: 10px;
     border: 2px solid #d7b899;
     border-radius: 10px;
     box-shadow: 2px 2px 5px #00000030;
   }
 
+  &__roster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
   &__initHeader {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  &__initTitle {
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color: #d7b899;
   }
 }
 
@@ -117,6 +145,31 @@ input.invalid:focus {
   display: none;
 }
 
+.user__section {
+  button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #cccccc;
+    border-color: #999999;
+    color: #999999;
+  }
+}
+
+input.invalid {
+  border: 2px solid #ff0000;
+}
+
+input.invalid:focus {
+  box-shadow: 0 0 5px 2px #ff0000;
+}
+
+.readonly {
+  cursor: default;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 .editMode {
   border: 2px solid #171616;
   border-radius: 3px;
@@ -125,12 +178,4 @@ input.invalid:focus {
   &:focus {
     box-shadow: 0 0 5px 2px rgb(169 141 59);
   }
-}
-
-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #999999;
-  color: #999999;
 }

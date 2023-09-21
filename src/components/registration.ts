@@ -1,6 +1,5 @@
-import { postCustomer, updateCustomer, loginCustomer } from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, getrefreshToken, loginNewCustomer, getCart } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
-import State from './state';
 
 export default class Registration {
   main: HTMLElement;
@@ -412,10 +411,16 @@ export default class Registration {
       const lastName: string = returnInputValue('lname');
 
       let userId: string;
-
       postCustomer(email, pass, firstName, lastName)
-        .then((response) => {
+        .then(async (response) => {
           userId = response.data.customer.id;
+          const responce = await getBoundToken(email, pass);
+          const refreshToken = responce.data.refresh_token;
+          const userToken = await getrefreshToken(refreshToken).then((refreshtoken) => refreshtoken);
+
+          localStorage.setItem('newtoken', userToken.data.access_token);
+          const createcart = await getCart().then(responsecart => console.log(responsecart))
+          console.log(createcart)
         })
         .catch((error) => {
           throw error;
@@ -424,14 +429,16 @@ export default class Registration {
         .catch((error) => {
           throw error;
         })
-        .then(() => loginCustomer(email, pass))
-        .then((response) => {
-          State.setId(response.data.customer.id);
-          State.setCustomer(response.data.customer);
-          State.setPassword(pass);
+        .then(() => loginNewCustomer(email, pass))
+        .then(async (response) => {
+          localStorage.setItem('isLoggedIn', 'true');
+          if (response.data.cart) {
+            localStorage.setItem('cartId', response.data.cart.id);
+            localStorage.setItem('cartVersion', response.data.cart.version);
+          }
           displayMessage('User successfully created and logged in.');
           clearForm();
-          localStorage.setItem('isLoggedIn', 'true');
+
           setTimeout(() => {
             hideMessage();
             window.location.hash = '/';

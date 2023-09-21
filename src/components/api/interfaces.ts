@@ -48,6 +48,7 @@ export interface CustomerAddress {
 }
 
 interface Price {
+  id?: string;
   value: {
     centAmount: number;
     currencyCode: string;
@@ -103,3 +104,83 @@ export type Options = {
       }
     | undefined;
 };
+
+export type CartType = {
+  id: string;
+};
+
+export interface CartData {
+  anonymousId?: string;
+  customerId?: string;
+  cartState: string;
+  country: string;
+  type: string;
+  version: number;
+  versionModifiedAt: string;
+  lineItems: LineItem[];
+  discountCodes: Array<{ discountCode: { id: string; typeId: string } }>;
+}
+
+export interface LineItemAction {
+  action?: string;
+  productId?: string;
+  variantId?: number;
+  sku?: string;
+  quantity?: number;
+  customerId?: string;
+  activeCartSignInMode?: string;
+}
+
+interface DiscountedPrice {
+  value: {
+    centAmount: number;
+    currencyCode: string;
+    fractionDigits: number;
+    type: string;
+  };
+  quantity: number;
+}
+
+export interface LineItem {
+  discountedPricePerQuantity: {
+    id: string;
+    discountedPrice?: DiscountedPrice[];
+  };
+  id: string;
+  discountedPrice?: {
+    value: {
+      centAmount: number;
+      currencyCode: string;
+    };
+  };
+  lastModifiedAt: string;
+  lineItemMode: string;
+  name: {
+    'en-US': string;
+  };
+  variant: {
+    images: { url: string }[];
+  };
+  state: [
+    {
+      quantity: number;
+    },
+  ];
+  price: Price;
+  priceMode: string;
+  productId: string;
+  productKey: string;
+  productSlug: Record<string, string>;
+  productType: {
+    typeId: string;
+    id: string;
+    version: number;
+  };
+  quantity: number;
+  totalPrice: {
+    type: string;
+    currencyCode: string;
+    centAmount: number;
+    fractionDigits: number;
+  };
+}
