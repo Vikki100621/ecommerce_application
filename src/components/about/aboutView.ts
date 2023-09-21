@@ -46,31 +46,55 @@ const param = {
     tag: 'p',
     classNames: ['about__infoPart'],
     textContent:
-      'The journey of creating a successful product is often filled with challenges and obstacles. However, the team behind the antique store website project proved that with effective collaboration and determination, anything is possible. The team consisted of a diverse group of individuals, each bringing their unique skill sets and expertise to the table. Led by a mentor  the team consisted of three talented developers who also contributed to coding.',
+      'The journey of creating a successful product is often filled with challenges and obstacles. However, we proved that with effective collaboration and determination, anything is possible. The team consisted of a diverse group of individuals, each bringing their unique skill sets and expertise to the table.',
   },
   aboutInfo2: {
-    tag: 'p',
-    classNames: ['about__infoPart'],
-    textContent:
-      'Their mission was clear - to create an antique store website that would not only be visually appealing but also user-friendly. The team worked tirelessly, utilizing the latest technologies and tools to bring their vision to life. They chose Axios for database queries, recognizing its efficiency and reliability. ',
+    tag: 'h3',
+    classNames: ['about__subtitle'],
+    textContent: 'Project Management:',
   },
   aboutInfo3: {
     tag: 'p',
     classNames: ['about__infoPart'],
     textContent:
-      'Each team member played a crucial role in the success of the project. The mentor provided guidance and support, while the team leader ensured that everyone was on track and working towards the same goal. The developers brought their technical expertise to the project, writing clean and efficient code that made the website run smoothly.',
+      'To effectively organize and distribute tasks, we utilized the "GitHub Projects" tool. This allowed us to create task boards, set priorities, track progress, and collaborate seamlessly within the team. Thanks to GitHub Projects, we were able to manage our projects in a more systematic and transparent manner, significantly enhancing our productivity and coordination.',
   },
+
   aboutInfo4: {
-    tag: 'p',
-    classNames: ['about__infoPart'],
-    textContent:
-      "The result of their hard work was a stunning website that featured registration and login forms, a product catalog,  user page, and shopping cart. The website was a testament to the team's dedication and commitment to excellence. It showcased their ability to work together seamlessly and produce exceptional results.",
+    tag: 'h3',
+    classNames: ['about__subtitle'],
+    textContent: 'Development Stack:',
   },
   aboutInfo5: {
     tag: 'p',
     classNames: ['about__infoPart'],
+    textContent: 'Webpack',
+  },
+  aboutInfo6: {
+    tag: 'p',
+    classNames: ['about__infoPart'],
+    textContent: 'TypeScript',
+  },
+  aboutInfo7: {
+    tag: 'p',
+    classNames: ['about__infoPart'],
+    textContent: 'Ecommerce Tool',
+  },
+  aboutInfo8: {
+    tag: 'p',
+    classNames: ['about__infoPart'],
+    textContent: 'Axios',
+  },
+  aboutInfo9: {
+    tag: 'h3',
+    classNames: ['about__subtitle'],
+    textContent: 'Communication and Collaboration:',
+  },
+  aboutInfo10: {
+    tag: 'h3',
+    classNames: ['about__infoPart'],
     textContent:
-      "In conclusion, the antique store website project was a true testament to the power of collaboration and determination. The team's success was a result of their collective efforts, with each member contributing their unique skills and expertise.",
+      'To facilitate effective communication, we relied on Telegram, where daily meetings and information exchange took place.',
   },
   membersInfo: {
     tag: 'div',
@@ -109,7 +133,12 @@ export default class AboutView extends View {
     const part3 = new ElementBuilder(param.aboutInfo3).getElement();
     const part4 = new ElementBuilder(param.aboutInfo4).getElement();
     const part5 = new ElementBuilder(param.aboutInfo5).getElement();
-    aboutInfo.append(part1, part2, part3, part4, part5);
+    const part6 = new ElementBuilder(param.aboutInfo6).getElement();
+    const part7 = new ElementBuilder(param.aboutInfo7).getElement();
+    const part8 = new ElementBuilder(param.aboutInfo8).getElement();
+    const part9 = new ElementBuilder(param.aboutInfo9).getElement();
+    const part10 = new ElementBuilder(param.aboutInfo10).getElement();
+    aboutInfo.append(part1, part2, part3, part4, part5, part6, part7, part8, part9, part10);
     header.append(titleWrapper, aboutInfo);
 
     this.viewElement.addInnerElement([header, this.members, schoolLink]);

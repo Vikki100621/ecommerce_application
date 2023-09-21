@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { getBoundToken, getCustomer, loginCustomer } from '../components/api/api';
+import { getCustomer, loginCustomer } from '../components/api/api';
 import { Customer } from './interface';
 import { hideModal, showModal } from './modal';
 
@@ -36,13 +36,7 @@ export function getClientData(event: Event) {
         localStorage.setItem('cartId', response.data.cart.id);
         localStorage.setItem('cartVersion', response.data.cart.version);
       }
-      localStorage.setItem('customerID', response.data.customer.id);
-
-      const responce = await getBoundToken(data.email, data.password);
-      const updateToken = responce.data.access_token;
-      localStorage.setItem('token', updateToken);
       localStorage.setItem('isLoggedIn', 'true');
-
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');
       const itemlogout = document.querySelector('.item-client .register');
@@ -70,8 +64,8 @@ export function getClientData(event: Event) {
 }
 
 export async function enableEditMode(event: Event) {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
 
   const currPassword = currentUser.password;
   const editBtn = event.target as HTMLElement;

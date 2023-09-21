@@ -1,16 +1,17 @@
-button {
-  font-size: 20px;
-  width: 100px;
-  font-weight: bold;
-  color: #8b4513;
-  text-shadow: 1px 1px #ffffff;
-  cursor: pointer;
-  background-color: #f5deb3;
-  border: 1px solid #830303;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px #00000033;
+.user__section {
+  button {
+    font-size: 20px;
+    width: 100px;
+    font-weight: bold;
+    color: #8b4513;
+    text-shadow: 1px 1px #ffffff;
+    cursor: pointer;
+    background-color: #f5deb3;
+    border: 1px solid #830303;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px #00000033;
+  }
 }
-
 .user {
   &__section {
     padding-top: 150px;
@@ -144,12 +145,14 @@ button {
   display: none;
 }
 
-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #999999;
-  color: #999999;
+.user__section {
+  button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #cccccc;
+    border-color: #999999;
+    color: #999999;
+  }
 }
 
 input.invalid {

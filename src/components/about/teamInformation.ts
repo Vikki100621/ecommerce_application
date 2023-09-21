@@ -5,7 +5,7 @@ const membersInfo: Member[] = [
     name: 'Marina Golubeva',
     country: 'Russia',
     role: 'Mentor',
-    bio: 'lorem ipsum',
+    bio: 'Was born in 1978 in Uzbekistan. In 2000 graduated from the Mathematical Faculty of Volgograd State Pedagogical University with a red diploma. In 2022,  graduated from the RS school courses, after which went there as a mentor.',
     id: 'marina',
     github: 'https://github.com/golubeva-webmaster',
     contribution: [
@@ -18,10 +18,10 @@ const membersInfo: Member[] = [
     name: 'Viktoriya Kryuchkova',
     country: 'Russia',
     role: 'Team Lead',
-    bio: "Was born in 1994 in the small town of Shakhty in the south of Russia. In 2024, completed a master's degree at Moscow City Pedagogical University with a focus on the German language. Worked in the field of logistics but realized that it wasn't the right fit. In 2022, decided to make a radical change in career path and started studying frontend development at RS School.",
+    bio: "Was born in 1994 in the small town Shakhty in the south of Russia. In 2024, completed a master's degree at Moscow City Pedagogical University with a focus on the German language. Worked in the field of logistics but realized that it wasn't the right fit. In 2022, decided to make a radical change in career path and started studying frontend development at RS School.",
     id: 'victoriya',
     github: 'https://github.com/Vikki100621',
-    contribution: ['Application design', 'Routing', 'Product filter'],
+    contribution: ['Application design', 'Routing', 'Product filter and Basket'],
   },
   {
     name: 'Alexey Gorbenko',

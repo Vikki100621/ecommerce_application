@@ -16,9 +16,7 @@ export default class Routing {
     this.routes = [
       { path: '/', template: 'home' },
       { path: '/catalog', template: 'catalog' },
-      { path: '/delivery', template: 'delivery' },
       { path: '/about', template: 'about' },
-      { path: '/contacts', template: 'contacts' },
       { path: '/login', template: 'login' },
       { path: '/register', template: 'register' },
       { path: '/user', template: 'user' },
@@ -132,8 +130,8 @@ export default class Routing {
         localStorage.removeItem('cartId');
         localStorage.removeItem('customerID');
         localStorage.removeItem('cartVersion');
-        localStorage.removeItem('anonymousId');
-        window.location.hash = '/';
+        localStorage.removeItem('newtoken');
+
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');
         if (itemuser && itemlogout) {
@@ -142,7 +140,8 @@ export default class Routing {
           const elLogOut = itemlogout as HTMLElement;
           elLogOut.textContent = 'Register';
         }
-      } else if (!(localStorage.getItem('isLoggedIn') === 'true') || !localStorage.getItem('isLoggedIn')) {
+        window.location.hash = '/';
+      } else if (clickedElement.textContent === 'Register') {
         window.location.hash = '/register';
       }
     } else if (clickedElement.classList.contains('login')) {
@@ -166,7 +165,7 @@ export default class Routing {
     if (parentElement && parentElement.hasAttribute('id')) {
       this.id = parentElement.getAttribute('id');
       this.updateId(parentElement.getAttribute('id'));
-      const selectedRoute = this.routes[9].path;
+      const selectedRoute = this.routes[7].path;
       window.location.hash = selectedRoute;
     }
   }

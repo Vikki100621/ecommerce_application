@@ -1,4 +1,6 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-param-reassign */
 import { deleteCartbyId, getCart, getCartbyId, getUserCart } from './api/api';
 import { LineItem, LineItemAction } from './api/interfaces';
 import emptyCart from '../assets/img/empty-cart.png';
@@ -10,16 +12,29 @@ export default class Cart {
 
   cart = {};
 
+  version: number;
+
+  cartId: string;
+
   constructor() {
     this.cart = {};
     this.lineItems = [];
     this.lineItemsDivs = [];
+    this.version = 1;
+    this.cartId = '';
   }
 
-  // eslint-disable-next-line class-methods-use-this
   changeVersion(number: number) {
-    const version = number;
-    return version;
+    this.version = number;
+    return this.version;
+  }
+
+  getcartId() {
+    return this.cartId;
+  }
+
+  setCartId(id: string) {
+    this.cartId = id;
   }
 
   async createCart() {
@@ -36,7 +51,6 @@ export default class Cart {
 
   // eslint-disable-next-line class-methods-use-this
   async handleclickonCart(event: Event) {
-    console.log('я вызвалась');
     const clickedElement = event.target as HTMLElement;
     let parentID;
     if (clickedElement.parentElement && clickedElement.parentElement.id) {
@@ -54,7 +68,6 @@ export default class Cart {
       try {
         const response = await getCart();
         localStorage.setItem('cartId', response.data.id);
-        localStorage.setItem('anonymousId', response.data.anonymousId);
       } catch (error) {
         console.error(error);
       }
@@ -71,6 +84,41 @@ export default class Cart {
         this.getcartById(actions);
       }
     }
+  }
+
+  async handleclickonAddButton(id: string) {
+    if (localStorage.getItem('cartId')) {
+      const actions = {
+        action: 'addLineItem',
+        productId: `${id}` as string,
+        quantity: 1,
+      };
+      this.getcartById(actions);
+    } else {
+      try {
+        const response = await getCart();
+        localStorage.setItem('cartId', response.data.id);
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (localStorage.getItem('cartId')) {
+        const actions = {
+          action: 'addLineItem',
+          productId: `${id}` as string,
+          quantity: 1,
+        };
+        this.getcartById(actions);
+      }
+    }
+  }
+
+  async handleclickonRemoveButton(id: string) {
+    const actions = {
+      action: 'removeLineItem',
+      lineItemId: `${id}` as string,
+    };
+    this.getcartById(actions);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -95,7 +143,6 @@ export default class Cart {
 
     lineItems.forEach((lineItem) => {
       const { id } = lineItem;
-
       const productBox = document.createElement('div');
       productBox.classList.add('product__card');
       const img = document.createElement('img');
@@ -131,37 +178,56 @@ export default class Cart {
 
       productBox.appendChild(buttonsBlock);
 
+      const discountedPriceLineItem = lineItem.discountedPrice?.value.centAmount;
+
       const priceBlock = document.createElement('div');
       priceBlock.classList.add('product__price');
-      const price = document.createElement('p');
 
-      const priseValue = lineItem.price.value.centAmount;
-      const formattedNumber = (priseValue / 100).toString();
-      price.textContent = `${formattedNumber}$`;
-      priceBlock.appendChild(price);
-      price.classList.add('current__price');
-
+      const discountedPriceElement = document.createElement('div');
       const discountedPrice = lineItem.price.discounted?.value.centAmount;
-      if (discountedPrice) {
-        const formateddiscountedPrice = (discountedPrice / 100).toString();
-        const discountedPriceElement = document.createElement('p');
-        discountedPriceElement.classList.add('discounted__price');
-        price.classList.add('previous__price');
-        discountedPriceElement.textContent = `${formateddiscountedPrice}$`;
-        priceBlock.appendChild(discountedPriceElement);
-      }
+      const price = document.createElement('div');
+      const discounted = lineItem.price.discounted?.value.centAmount;
+      const currPrice = lineItem.price.value.centAmount;
 
+      if (discountedPriceLineItem) {
+        if (discountedPrice) {
+          discountedPriceElement.textContent = `${(discountedPriceLineItem / 100).toString()}$`;
+          discountedPriceElement.classList.add('discounted__price');
+          if (discounted) price.textContent = `${(discounted / 100).toString()}$`;
+          price.classList.remove('current__price');
+          price.classList.add('previous__price');
+          priceBlock.appendChild(discountedPriceElement);
+        } else {
+          discountedPriceElement.textContent = `${(discountedPriceLineItem / 100).toString()}$`;
+          discountedPriceElement.classList.add('discounted__price');
+          price.textContent = `${(currPrice / 100).toString()}$`;
+          price.classList.remove('current__price');
+          price.classList.add('previous__price');
+        }
+      } else {
+        if (discountedPrice) {
+          if (discounted) discountedPriceElement.textContent = `${(discounted / 100).toString()}$`;
+          discountedPriceElement.classList.add('discounted__price');
+          price.textContent = `${(currPrice / 100).toString()}$`;
+          price.classList.add('previous__price');
+        } else {
+          price.textContent = `${(currPrice / 100).toString()}$`;
+          price.classList.remove('previous__price');
+          price.classList.add('current__price');
+        }
+      }
+      priceBlock.appendChild(price);
+      priceBlock.appendChild(discountedPriceElement);
       productBox.appendChild(priceBlock);
 
       const totalprice = document.createElement('div');
       totalprice.classList.add('total_price');
       totalprice.textContent = `${(lineItem.totalPrice.centAmount / 100).toString()}$`;
       productBox.appendChild(totalprice);
-      // const totalPriceText = totalprice.textContent;
-      // // if (totalPriceText) {
-      // //   const totalPriceValue = parseFloat(totalPriceText.replace('$', ''));
-      // //   // totalPriceValue содержит число без знака "$"
-      // // }
+      if (lineItem.discountedPrice) {
+        totalprice.classList.add('new_price');
+      }
+
       const trash = document.createElement('div');
       trash.classList.add('product__trash');
       productBox.appendChild(trash);
@@ -175,7 +241,12 @@ export default class Cart {
 
       addButton.addEventListener('click', () => {
         number += 1;
-        this.changeCartWrapper(number, id, quantity, totalprice);
+
+        if (discountedPrice) {
+          this.changeCartWrapper(number, id, quantity, totalprice);
+        } else {
+          this.changeCartWrapper(number, id, quantity, totalprice);
+        }
       });
 
       removeButton.addEventListener('click', () => {
@@ -183,7 +254,12 @@ export default class Cart {
         if (number === 0) {
           productBox.remove();
         }
-        this.changeCartWrapper(number, id, quantity, totalprice);
+
+        if (discountedPrice) {
+          this.changeCartWrapper(number, id, quantity, totalprice);
+        } else {
+          this.changeCartWrapper(number, id, quantity, totalprice);
+        }
       });
 
       this.lineItemsDivs.push(productBox);
@@ -206,14 +282,13 @@ export default class Cart {
 
     deleteCartButton.addEventListener('click', async () => {
       let versionnumber = Number(localStorage.getItem('cartVersion'));
-      console.log(versionnumber)
+    
       if (versionnumber === 0 || !versionnumber) {
         versionnumber = 1;
       }
       const cartId = localStorage.getItem('cartId') as string;
       try {
         const response = await deleteCartbyId(cartId, versionnumber);
-        console.log(response.data);
         localStorage.removeItem('cartId');
         localStorage.removeItem('cartVersion');
         const section = document.querySelector('.cart__section') as HTMLDivElement;
@@ -269,16 +344,15 @@ export default class Cart {
     if (discountId !== '') {
       validPromocode.classList.add('promo__code-valid');
       if (discountId === '5208150e-6dd4-40f2-8511-f43423d21595') {
-        validPromocode.textContent = 'YOUR PROMO IS 092023(SALE FOR PAINTINGS)';
+        validPromocode.textContent = 'YOUR PROMO CODE IS 092023(SALE FOR PAINTINGS)';
       } else if (discountId === '456f5412-de14-429b-bfee-0ca66435b9b9') {
-        validPromocode.textContent = 'YOUR PROMO IS 3422(SALE FOR ALL IF QUNITY MORE THAN 5)';
+        validPromocode.textContent = 'YOUR PROMO CODE IS 3422(SALE FOR ALL IF QUNITY MORE THAN 5)';
       }
       const removePromoCodeButton = document.createElement('button');
       validPromocode.appendChild(removePromoCodeButton);
       removePromoCodeButton.classList.add('promo__code-remove');
 
       removePromoCodeButton.addEventListener('click', async () => {
-        console.log(discountId);
         const deleteActions = {
           action: 'removeDiscountCode',
           discountCode: {
@@ -344,15 +418,21 @@ export default class Cart {
           if (ids.includes(lineItem.id)) {
             const buttonsBlock = document.querySelector(`[id="${lineItem.id}"]`);
             const productBox = buttonsBlock?.parentNode;
+            const priceBlock = productBox?.querySelector('.product__price');
             const totalPriceProducts = productBox?.querySelector('.total_price') as HTMLDivElement;
-            const totalPriceText = totalPriceProducts?.textContent as string;
-            const totalPriceValue = parseFloat(totalPriceText);
             const newPrice = totalPriceProducts as HTMLDivElement;
             const centAmount = lineItem.totalPrice.centAmount / 100;
             newPrice.textContent = `${centAmount.toString()}$`;
 
-            if (centAmount < totalPriceValue) {
-              newPrice.classList.add('new_price');
+            if(lineItem.discountedPrice) {
+              newPrice.classList.add('new_price')
+            } else {
+              newPrice.classList.remove('new_price')
+            }
+
+            const newPriceContainer = this.renderPrices(lineItem);
+            if (priceBlock) {
+              priceBlock.replaceWith(newPriceContainer);
             }
           }
         });
@@ -441,16 +521,24 @@ export default class Cart {
       quantity: number,
     };
     const cart = await this.getcartById(actions).then((cartdata) => cartdata);
-    console.log(cart?.data);
+    console.log(cart);
   }
 
-  async changeCartWrapper(number: number, id: string, quantityel: HTMLDivElement, totalPriceItem: HTMLDivElement) {
+  async changeCartWrapper(
+    number: number,
+    id: string,
+    quantityel: HTMLDivElement,
+    totalPriceItem: HTMLDivElement
+    // priceelement: HTMLDivElement,
+    // discountedelement?: HTMLDivElement
+  ) {
     try {
       const section = document.querySelector('.cart__section');
       await this.changeCartQunity(number, id);
       const numbersEl = quantityel;
       numbersEl.textContent = number.toString();
       const cartdata = await this.getUserCart().then((response) => response.data);
+      console.log(cartdata);
 
       const discountId = cartdata.discountCodes[0]?.discountCode.id;
       const totalprice = cartdata.totalPrice.centAmount;
@@ -458,6 +546,7 @@ export default class Cart {
 
       const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
         const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
+
         return total + price * lineItem.quantity;
       }, 0);
 
@@ -466,34 +555,98 @@ export default class Cart {
         const messageblock = this.messageAboutEmptyCart();
         section?.appendChild(messageblock);
       }
+
       const filteredLineItem = lineItems.filter((lineitem: { id: string }) => lineitem.id === id);
+      let cartBLock: HTMLDivElement;
+
+      if (filteredLineItem.length === 0) {
+        if (cartdata.discountCodes.length === 0) {
+          cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
+        } else {
+          cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
+        }
+      }
+
       if (filteredLineItem.length > 0) {
         const newPrice = filteredLineItem[0].totalPrice.centAmount;
         const total = totalPriceItem;
         total.textContent = `${(newPrice / 100).toString()}$`;
-      }
-      let cartBLock: HTMLDivElement;
+        
+        if (cartdata.discountCodes.length === 0) {
+          cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
+        } else {
+          cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
+        }
+        const idFilteredProduct = filteredLineItem[0].id;
+        const idElement = document.querySelector(`[id="${idFilteredProduct}"]`);
+        const productBox = idElement?.parentNode;
+        const existingPriceContainer = productBox?.querySelector('.product__price');
 
-      if (cartdata.discountCodes.length === 0) {
-        cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
-      } else {
-        cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
-      }
+        const newPriceContainer = this.renderPrices(filteredLineItem[0]);
+        if (existingPriceContainer) {
+          existingPriceContainer.replaceWith(newPriceContainer);
+        }
 
-      const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+        if (filteredLineItem[0].discountedPrice) {
+          total.classList.add('new_price');
+        } else {
+          total.classList.remove('new_price');
+        }
 
-      if (cartbox) {
-        section?.removeChild(cartbox);
-      }
-      if (lineItems.length > 0) {
-        section?.appendChild(cartBLock);
+        const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+
+        if (cartbox) {
+          section?.removeChild(cartbox);
+        }
+
+        if (lineItems.length > 0) {
+          section?.appendChild(cartBLock);
+        }
       }
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  renderPrices(lineItem: LineItem) {
+    const discountedPriceLineItem = lineItem.discountedPrice?.value.centAmount;
+    const discountedPriceElement = document.createElement('div');
+    const discountedPrice = lineItem.price.discounted?.value.centAmount;
+    const price = document.createElement('div');
+    const discounted = lineItem.price.discounted?.value.centAmount;
+    const currPrice = lineItem.price.value.centAmount;
+
+    if (discountedPriceLineItem) {
+      if (discountedPrice) {
+        discountedPriceElement.textContent = `${(discountedPriceLineItem / 100).toString()}$`;
+        discountedPriceElement.classList.add('discounted__price');
+        if (discounted) price.textContent = `${(discounted / 100).toString()}$`;
+        price.classList.add('previous__price');
+      } else {
+        discountedPriceElement.textContent = `${(discountedPriceLineItem / 100).toString()}$`;
+        discountedPriceElement.classList.add('discounted__price');
+        price.textContent = `${(currPrice / 100).toString()}$`;
+        price.classList.add('previous__price');
+      }
+    } else {
+      if (discountedPrice) {
+        if (discounted) discountedPriceElement.textContent = `${(discounted / 100).toString()}$`;
+        discountedPriceElement.classList.add('discounted__price');
+        price.textContent = `${(currPrice / 100).toString()}$`;
+        price.classList.add('previous__price');
+      } else {
+        price.textContent = `${(currPrice / 100).toString()}$`;
+        price.classList.remove('previous__price');
+        price.classList.add('current__price');
+      }
+    }
+    const priceBlock = document.createElement('div');
+    priceBlock.appendChild(price);
+    priceBlock.appendChild(discountedPriceElement);
+    priceBlock.classList.add('product__price');
+    return priceBlock;
+  }
+
   messageAboutEmptyCart() {
     const messageblock = document.createElement('div');
     const img = document.createElement('img');

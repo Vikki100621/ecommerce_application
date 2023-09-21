@@ -5,8 +5,8 @@ import { showModal, hideModal } from './modal';
 
 export default async function deleteAddress(event: Event) {
   const deleteButton = event.target as HTMLElement;
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
   const id = deleteButton.dataset.deleteid;
   const addressWrapper = document.getElementById(`${id}`);
   const addButton = document.querySelector('.addresses__addButton');

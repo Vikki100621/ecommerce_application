@@ -1,7 +1,11 @@
+/* eslint-disable class-methods-use-this */
 import returnElement from '../common/returnElem';
 import IImage from './IImage';
 import ModalWindow from './modalWindow';
 import Slider from './slider';
+import Cart from '../cart';
+import { getUserCart } from '../api/api';
+import { LineItem } from '../api/interfaces';
 
 interface IProductType {
   typeId: string;
@@ -163,19 +167,84 @@ export default class ProductPage {
     usualPriceBlock.textContent = `$ ${usualPriceValue}`;
   }
 
-  addBasketButtons() {
+  async addBasketButtons() {
+    const cart = new Cart();
+    const hash = window.location.hash.split('/');
+    const id = hash[2];
+
     const buttonsWrapper = returnElement({ tag: 'div', classes: ['product-details__basket-buttons'] });
     const buttonBasketAdd = returnElement({
       tag: 'button',
       classes: ['product-details__btn'],
       textContent: 'Add to basket',
-    });
+    }) as HTMLButtonElement;
     const buttonBasketRemove = returnElement({
       tag: 'button',
       classes: ['product-details__btn'],
       textContent: 'Remove from basket',
+    }) as HTMLButtonElement;
+    const isProductInCart = await this.checkProduct(id);
+
+    if (isProductInCart) {
+      buttonBasketRemove.disabled = false;
+      buttonBasketAdd.disabled = true;
+    } else {
+      buttonBasketRemove.disabled = true;
+      buttonBasketAdd.disabled = false;
+    }
+    buttonBasketAdd.addEventListener('click', async () => {
+      const addProduct = await cart.handleclickonAddButton(id).then((responce) => responce);
+      console.log(addProduct);
+      buttonBasketAdd.disabled = true;
+      buttonBasketRemove.disabled = false;
     });
+    buttonBasketRemove.addEventListener('click', async () => {
+      const removeProduct = this.removeProduct(id);
+      console.log(removeProduct);
+      buttonBasketAdd.disabled = false;
+      buttonBasketRemove.disabled = true;
+    });
+
     buttonsWrapper.append(buttonBasketAdd, buttonBasketRemove);
-    this.productInfoWrapper.prepend(buttonsWrapper);
+    this.productInfoWrapper.appendChild(buttonsWrapper);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async removeProduct(id: string) {
+    const cart = new Cart();
+    try {
+      let lineItemId;
+      const cartData = await getUserCart();
+      console.log(cartData.data);
+      const { lineItems } = cartData.data;
+
+      if (lineItems.length > 0) {
+        lineItems.forEach(async (item: LineItem) => {
+          if (item.productId === id) {
+            lineItemId = item.id;
+            const removeProduct = await cart.handleclickonRemoveButton(lineItemId).then((responce) => responce);
+            console.log(removeProduct);
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Произошла ошибка при получении корзины:', error);
+    }
+  }
+
+  async checkProduct(id: string) {
+    try {
+      const cartData = await getUserCart();
+      console.log(cartData.data);
+      const { lineItems } = cartData.data;
+
+      if (lineItems.length > 0) {
+        const productExists = lineItems.some((item: LineItem) => item.productId === id);
+        return productExists;
+      }
+    } catch (error) {
+      console.error('Произошла ошибка при получении корзины:', error);
+    }
+    return false;
   }
 }

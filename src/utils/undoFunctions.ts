@@ -2,8 +2,8 @@ import { getCustomer } from '../components/api/api';
 import { Customer } from './interface';
 
 export async function undoProfileChanges() {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
   const firstName = document.querySelector('.firstName');
   const lastName = document.querySelector('.lastName');
   const date = document.querySelector('.dateOfBirth');
@@ -36,8 +36,8 @@ export async function undoProfileChanges() {
 }
 
 export async function undoAddressChanges(event: Event) {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
   const addressesArr = currentUser!.addresses;
   const cancelButton = event.target as HTMLElement;
   const { cancelid } = cancelButton.dataset;
@@ -78,8 +78,8 @@ export async function undoAddressChanges(event: Event) {
 }
 
 export async function undoPasswordChanges() {
-  const currentId = localStorage.getItem('customerID') as string;
-  const currentUser: Customer = await getCustomer(currentId).then((responce) => responce.data);
+  // const currentId = localStorage.getItem('customerID') as string;
+  const currentUser: Customer = await getCustomer().then((responce) => responce.data);
 
   const password = document.querySelector('.password') as HTMLInputElement;
   const editButton = document.querySelector('.password__editButton');

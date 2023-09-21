@@ -1,6 +1,6 @@
 const content = {
   title: 'Antique Shop',
-  menuItems: ['Home', 'Catalog', 'Delivery', 'About Us', 'Contacts'],
+  menuItems: ['Home', 'Catalog', 'About Us'],
   login: 'LogIn',
   register: 'Register',
   logout: 'LogOut',

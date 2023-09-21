@@ -82,19 +82,85 @@
 
   &__btn {
     opacity: 1;
-    transition: 0.5s;
+    height: 50px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 30px;
+    margin: 10px 20px;
+    border-radius: 10px;
+    box-shadow:
+      0 0 40px 40px #573a1a inset,
+      0 0 0 0 #573a1a;
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #ffffff;
+    transition: 0.15s ease-in-out;
+    cursor: pointer;
 
-    &:hover {
-      cursor: pointer;
-      &:disabled {
-        cursor: auto;
-      }
+    &:not(:disabled):hover {
+      box-shadow:
+        0 0 10px 0 #573a1a inset,
+        0 0 10px 4px #573a1a;
+      color: #573a1a;
+    }
+    &:disabled {
+      box-shadow:
+        0 0 10px 0 #573a1a inset,
+        0 0 10px 4px #573a1a;
+      color: #573a1a;
+      background-color: #eeeeee;
+      border-color: #eeeeee;
+      cursor: not-allowed;
     }
 
     &_unactive {
       opacity: 0;
     }
   }
+}
+
+.product-details__btn {
+  height: 50px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 30px;
+  margin: 10px 20px;
+  border-radius: 10px;
+  box-shadow:
+    0 0 40px 40px #573a1a inset,
+    0 0 0 0 #573a1a;
+  font-family: Montserrat, sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffffff;
+  transition: 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:not(:disabled):hover {
+    box-shadow:
+      0 0 10px 0 #573a1a inset,
+      0 0 10px 4px #573a1a;
+    color: #573a1a;
+  }
+
+  &:disabled {
+    box-shadow:
+      0 0 10px 0 #573a1a inset,
+      0 0 10px 4px #573a1a;
+    color: #573a1a;
+    background-color: #eeeeee;
+    border-color: #eeeeee;
+    cursor: not-allowed;
+  }
+}
+
+.product-details__description {
+  text-align: justify;
 }
 
 .modal-window {
@@ -122,7 +188,6 @@
     transition: 0.3s;
 
     &:hover {
-      cursor: pointer;
       background-color: transparent;
       box-shadow: 0 0 16px 14px #223c503d;
     }

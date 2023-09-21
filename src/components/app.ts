@@ -4,7 +4,6 @@ import basketImageSrcBlack from '../assets/img/shopping-cart-black.png';
 import LoginView from './login';
 import Registration from './registration';
 import NewCollection from '../assets/img/new-collection.jpg';
-import Special from '../assets/img/special-offer.jpg';
 import Instagram from '../assets/img/instagram.png';
 import Clock from '../assets/img/clock.png';
 import Products from './product';
@@ -91,11 +90,7 @@ export default class App {
       'special-offer__section',
       'contact__section',
     ];
-    const sectionTexts = [
-      `${content.welcome}`,
-      `${content.collection}`,
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing morbi sodales ac. Mauris dictumst risus pulvinar blandit elit. Vestibulum quam ultrices nascetur et viverra suscipit. Proin vitae aliquet leo aliquam amet rutrum. Lectus auctor purus ultrices enim ultrices. Augue fringilla tellus tortor orci ultrices sed. Viverra cras sapien, pellentesque viverra malesuada. Tellus dolor, eget vitae dignissim molestie eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis risus. Pellentesque scelerisque nunc, orci aliquam quis.',
-    ];
+    const sectionTexts = [`${content.welcome}`, `${content.collection}`];
 
     for (let i = 0; i < 4; i += 1) {
       const background = document.createElement('div');
@@ -171,20 +166,24 @@ export default class App {
         const offerDiv = document.createElement('div');
         offerDiv.classList.add('special-offer__content');
         const offerText = document.createElement('p');
-        offerText.textContent =
-          'USE PROMO-CODE FOR PAINTINGS: 092023 OR USE PROMO-CODE FOR All PRODUCTS (IF THE QUANITY OF THE SELECTED PRODUCT MORE THAN 5): 3422';
+        offerText.textContent = "USE PROMO CODE '092023' FOR A 50% DISCOUNT ON ALL PAINTINGS!";
+        offerText.addEventListener('click', () => {
+          window.location.hash = '/cart';
+        });
+        const offerTextTwo = document.createElement('p');
+        offerTextTwo.textContent =
+          "USE PROMO CODE '3422' FOR A 30% DISCOUNT ON ALL PRODUCTS WHEN YOU PURCHASE 5 OR MORE OF THE SAME ITEM.";
+        offerTextTwo.addEventListener('click', () => {
+          window.location.hash = '/cart';
+        });
+        offerDiv.appendChild(offerTextTwo);
         offerDiv.appendChild(offerText);
-        const offerImage = document.createElement('img');
-        offerImage.classList.add('special-offer__img');
-        offerImage.src = Special;
-        offerDiv.appendChild(offerImage);
         section.appendChild(offerDiv);
       }
       this.main.appendChild(background);
     }
   }
 
-  // здесь будет отрисовываться страница о магазине
   showAboutPage() {
     this.clearMain();
     const section = new AboutView(team).getHtmlElement();
@@ -200,6 +199,20 @@ export default class App {
     const productDivs = await productsInstance
       .createProducts()
       .then((response) => this.products.renderProducts(response));
+    if (localStorage.getItem('cartId')) {
+      productDivs.forEach(async (product) => {
+        const productId = product.id;
+        const isProductInCart = await this.products.checkProduct(productId);
+        const addToCartButton = product.querySelector('.cart__button') as HTMLButtonElement;
+        if (isProductInCart) {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = 'Added to cart';
+        } else {
+          addToCartButton.disabled = false;
+        }
+      });
+    }
+
     const sort = this.sorting;
     const { sortBlock } = sort;
     const rightContent: HTMLDivElement = <HTMLDivElement>sort.rightsideSortBlock;
@@ -381,6 +394,7 @@ export default class App {
     section.classList.add('cart__section');
     if (!localStorage.getItem('cartId')) {
       try {
+        console.log('я создала корзину');
         this.cart.createCart().then((responce) => responce);
         const message = this.cart.messageAboutEmptyCart();
         section.appendChild(message);
@@ -399,10 +413,9 @@ export default class App {
         const render = await this.cart.renderCartItems(lineItems);
         this.cartItems = [...lineItems];
         render.forEach((line) => this.lineItemsWrapper.appendChild(line));
-        const deleteCart = this.cart.createDeleteButton()
-        this.lineItemsWrapper.appendChild(deleteCart)
+        const deleteCart = this.cart.createDeleteButton();
+        this.lineItemsWrapper.appendChild(deleteCart);
         section.appendChild(this.lineItemsWrapper);
-
 
         const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
           const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
@@ -417,7 +430,6 @@ export default class App {
           const cartBLock = cartInstance.renderCartWithoutDiscount(totalPrice) as HTMLDivElement;
           section.appendChild(cartBLock);
         } else {
-
           const cartBLock = cartInstance.renderCartWithDiscount(
             totalPrice,
             totalCentAmount,

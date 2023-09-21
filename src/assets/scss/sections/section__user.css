@@ -1,4 +1,4 @@
-button {
+.user__section button {
   font-size: 20px;
   width: 100px;
   font-weight: bold;
@@ -8,7 +8,6 @@ button {
   background-color: #f5deb3;
   border: 1px solid #830303;
   border-radius: 5px;
-  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -27,39 +26,22 @@ button {
 .profile__container,
 .addresses__container,
 .password__container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
   max-width: 800px;
   padding: 20px;
   margin: 0 auto 20px;
   background-color: #f5e6d7;
   border: 2px solid #d7b899;
-  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .profile__header,
 .addresses__header,
 .password__header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 20px;
   font-size: 24px;
@@ -69,8 +51,6 @@ button {
 .profile__buttonsContainer,
 .addresses__buttonsContainer,
 .password__buttonsContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 .profile__title,
@@ -81,18 +61,12 @@ button {
 .profile__infoWrapper,
 .addresses__infoWrapper,
 .password__infoWrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   padding: 10px;
   background-color: #e6d8c4;
   border: 2px solid #d7b899;
   border-radius: 10px;
-  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .profile__infoWrapper label,
@@ -134,29 +108,21 @@ button {
   padding: 10px;
   border: 2px solid #d7b899;
   border-radius: 10px;
-  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .addresses__roster {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   gap: 20px;
 }
 .addresses__initHeader {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 .addresses__initTitle {
   font-size: 20px;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-weight: bold;
   color: #d7b899;
 }
@@ -169,7 +135,7 @@ button {
   display: none;
 }
 
-button[disabled] {
+.user__section button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
   background-color: #cccccc;
@@ -182,7 +148,6 @@ input.invalid {
 }
 
 input.invalid:focus {
-  -webkit-box-shadow: 0 0 5px 2px #ff0000;
   box-shadow: 0 0 5px 2px #ff0000;
 }
 
@@ -199,6 +164,5 @@ input.invalid:focus {
   outline: #171616;
 }
 .editMode:focus {
-  -webkit-box-shadow: 0 0 5px 2px rgb(169, 141, 59);
   box-shadow: 0 0 5px 2px rgb(169, 141, 59);
-}
+}/*# sourceMappingURL=section__user.css.map */
