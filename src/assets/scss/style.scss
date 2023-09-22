@@ -1,0 +1,165 @@
+@import './global/normalize.css';
+@import './global/reset.css';
+@import './homepage/homepage.css';
+@import './sections/section__login.css';
+@import './sections/section__registration.css';
+@import './sections/section__error.css';
+@import './sections/section__about.css';
+@import './sections/section__user.css';
+@import './global/burger_menu.css';
+@import './sections/sort';
+@import './sections/product-page';
+@import './sections/pagination';
+@import './sections/section-cart.css';
+@import 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap';
+
+@font-face {
+  font-family: Lostar;
+  src: url('../fonts/Lostar/Lostar.ttf');
+}
+
+$dark: #100e0e;
+$light: #e4d4be;
+$font-garamond: 'Cormorant Garamond', serif;
+
+body {
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+#header {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  color: $light;
+}
+
+#main {
+  flex: 1 0 auto;
+}
+
+.footer {
+  flex: 0 0 auto;
+}
+
+.wrapper {
+  max-width: 1200px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+.dark-background {
+  background-color: $dark;
+}
+
+.light-background {
+  background-color: $light;
+}
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-content {
+  font-family: Lostar, sans-serif;
+  font-size: 54px;
+  font-weight: 700;
+}
+.menu-list {
+  display: flex;
+  column-gap: 30px;
+  align-items: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  .menu-item {
+    cursor: pointer;
+  }
+  .item-basket,
+  .item-client {
+    display: flex;
+    column-gap: 5px;
+
+    .products__numbres {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      padding: 2px;
+      border: 2px #e4d4be solid;
+      border-radius: 50%;
+    }
+  }
+}
+
+#main .img-background {
+  background-image: url('../img/background.jpg');
+  background-position: bottom center;
+  background-size: cover;
+}
+
+#footer {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  color: $light;
+}
+
+.footer-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+
+  .footer__contact {
+    width: 30%;
+    line-height: 1.5;
+    text-align: justify;
+  }
+  .footer__social {
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+    align-items: center;
+  }
+  .footer__questions {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: center;
+    a {
+      color: inherit;
+    }
+  }
+}
+
+@media (width <= 1250px) {
+  .menu-list {
+    flex-direction: column;
+    row-gap: 30px;
+  }
+}
+
+@media (width <= 800px) {
+  .footer-wrapper {
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    text-align: center;
+    .footer__contact {
+      width: 100%;
+    }
+  }
+}
+
+@media (width <= 500px) {
+  .left-content {
+    font-size: 35px;
+  }
+}

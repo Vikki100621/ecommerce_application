@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "module": "es2022",
+    "target": "es2022",
+    "noImplicitAny": true,
+    "moduleResolution":"node",
+  },
+  "include": ["src/**/*", "__tests__/**/*"],
+}
