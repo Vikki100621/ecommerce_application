@@ -282,7 +282,7 @@ export default class Cart {
 
     deleteCartButton.addEventListener('click', async () => {
       let versionnumber = Number(localStorage.getItem('cartVersion'));
-    
+
       if (versionnumber === 0 || !versionnumber) {
         versionnumber = 1;
       }
@@ -424,10 +424,10 @@ export default class Cart {
             const centAmount = lineItem.totalPrice.centAmount / 100;
             newPrice.textContent = `${centAmount.toString()}$`;
 
-            if(lineItem.discountedPrice) {
-              newPrice.classList.add('new_price')
+            if (lineItem.discountedPrice) {
+              newPrice.classList.add('new_price');
             } else {
-              newPrice.classList.remove('new_price')
+              newPrice.classList.remove('new_price');
             }
 
             const newPriceContainer = this.renderPrices(lineItem);
@@ -571,7 +571,7 @@ export default class Cart {
         const newPrice = filteredLineItem[0].totalPrice.centAmount;
         const total = totalPriceItem;
         total.textContent = `${(newPrice / 100).toString()}$`;
-        
+
         if (cartdata.discountCodes.length === 0) {
           cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
         } else {

@@ -64,16 +64,16 @@
   transition: border-color 0.3s ease-in-out;
 }
 .member__photo-valery {
-  background-image: url("../../img/photo/valery.jpg");
+  background-image: url('../../img/photo/valery.jpg');
 }
 .member__photo-victoriya {
-  background-image: url("../../img/photo/victoriya.jpg");
+  background-image: url('../../img/photo/victoriya.jpg');
 }
 .member__photo-alexei {
-  background-image: url("../../img/photo/alexei.jpg");
+  background-image: url('../../img/photo/alexei.jpg');
 }
 .member__photo-marina {
-  background-image: url("../../img/photo/marina.jpg");
+  background-image: url('../../img/photo/marina.jpg');
 }
 .member__name {
   color: #222222;
@@ -88,14 +88,14 @@
   transition: all 0.4s;
 }
 .member__name::before {
-  content: "";
+  content: '';
   display: inline-block;
   position: absolute;
   top: 0;
   left: -10px;
   width: 24px;
   height: 24px;
-  background-image: url("../../img/GitHub.png");
+  background-image: url('../../img/GitHub.png');
   background-size: cover;
 }
 .member__role {
@@ -144,16 +144,16 @@
   background-position: center;
 }
 .popup__photo-valery {
-  background-image: url("../../img/photo/valery.jpg");
+  background-image: url('../../img/photo/valery.jpg');
 }
 .popup__photo-victoriya {
-  background-image: url("../../img/photo/victoriya.jpg");
+  background-image: url('../../img/photo/victoriya.jpg');
 }
 .popup__photo-alexei {
-  background-image: url("../../img/photo/alexei.jpg");
+  background-image: url('../../img/photo/alexei.jpg');
 }
 .popup__photo-marina {
-  background-image: url("../../img/photo/marina.jpg");
+  background-image: url('../../img/photo/marina.jpg');
 }
 .popup____title {
   font-size: 24px;
@@ -192,7 +192,7 @@
   font-style: normal;
 }
 .popup__contribution li::before {
-  content: "•";
+  content: '•';
   /* символ маркера */
   color: #cc9e20;
   /* цвет маркера */
@@ -208,4 +208,4 @@
   color: #ffffff;
   transform: scale(1.1);
   transition: all 0.4s ease-in-out;
-}/*# sourceMappingURL=section__about.css.map */
+} /*# sourceMappingURL=section__about.css.map */

@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer, getBoundToken, getrefreshToken, loginNewCustomer, getCart } from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer} from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 
 export default class Registration {
@@ -414,13 +414,8 @@ export default class Registration {
       postCustomer(email, pass, firstName, lastName)
         .then(async (response) => {
           userId = response.data.customer.id;
-          const responce = await getBoundToken(email, pass);
-          const refreshToken = responce.data.refresh_token;
-          const userToken = await getrefreshToken(refreshToken).then((refreshtoken) => refreshtoken);
-
-          localStorage.setItem('newtoken', userToken.data.access_token);
-          const createcart = await getCart().then(responsecart => console.log(responsecart))
-          console.log(createcart)
+          const token = (await getBoundToken(email, pass)).accessToken;
+          localStorage.setItem('token', token)
         })
         .catch((error) => {
           throw error;
