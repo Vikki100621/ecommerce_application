@@ -253,3 +253,48 @@
   margin-right: 5px;
   animation: bounce 0.5s ease-in-out;
 }
+
+
+#mymodal {
+  display: none;
+  height: max-content;
+  position: fixed;
+  inset: 50% 0 0 50%;
+  width: 20%;
+  padding: 20px;
+  background-color: #635542;
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+  text-align: justify;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px #00000080;
+  box-shadow: 0 8px 12px #0000004d;
+  border: 2px solid #f5a623;
+}
+
+#mymodal.active {
+  display: block;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  #close {
+    align-self: flex-end;
+    cursor: pointer;
+  }
+  button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+}
+
+#close:hover {
+  color: #ff0000;
+}

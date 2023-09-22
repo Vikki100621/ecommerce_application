@@ -26,6 +26,8 @@ export default class App {
 
   public body: HTMLBodyElement | null;
 
+  public modal: HTMLDivElement;
+
   public templates: { [key: string]: () => void } = {};
 
   private registration: Registration;
@@ -47,7 +49,7 @@ export default class App {
     this.header = this.createHeader();
     this.main = this.createMain();
     this.footer = this.createFooter();
-
+    this.modal = this.showModal();
     this.productContainer = document.createElement('div');
     this.lineItemsWrapper = document.createElement('div');
     this.productContainer.classList.add('product__container');
@@ -388,6 +390,37 @@ export default class App {
     this.main.appendChild(userPage.getHtmlElement());
   }
 
+  showModal() {
+    const modal = document.createElement('div');
+    modal.id = 'mymodal';
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    const closeBtn = document.createElement('div');
+    closeBtn.id = 'close';
+    closeBtn.innerHTML = '&times;';
+
+    const question = document.createElement('p');
+    question.textContent = 'Are you sure you want to clear the cart?';
+
+    const yesBtn = document.createElement('button');
+    yesBtn.id = 'confirmYes';
+    yesBtn.textContent = 'YES';
+
+    const noBtn = document.createElement('button');
+    noBtn.id = 'confirmNo';
+    noBtn.textContent = 'NO';
+
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(question);
+    modalContent.appendChild(yesBtn);
+    modalContent.appendChild(noBtn);
+    modal.appendChild(modalContent);
+    this.body?.appendChild(modal)
+    return this.modal;
+  }
+  
   async showCartPage() {
     this.clearMain();
     const section = document.createElement('section');

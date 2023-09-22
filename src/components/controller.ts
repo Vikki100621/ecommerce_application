@@ -116,6 +116,10 @@ export default class Controller {
     const rangeMax = this.app.sorting.rangeMaxInput;
     const rangeMaxValue = Number(rangeMax.value);
 
+    // const selectedProduct = document.querySelector('pagination__choose-items') as HTMLSelectElement
+
+    // const limitNumber = selectedProduct?.value;
+
     const valueSort = this.app.sorting.sortDropdown?.value as string;
     if (valueSort === 'Price ⇧') {
       options.data = 'price';
@@ -158,7 +162,6 @@ export default class Controller {
     options.origin = checkboxesObject.origin.join(',');
     options.genre = checkboxesObject.genre.join(',');
     options.categoryId = selectedCategory;
-
     this.searchProducts(options);
   }
 
