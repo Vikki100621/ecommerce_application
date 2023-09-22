@@ -3,7 +3,6 @@ import { getBoundToken, getCustomer, loginCustomer } from '../components/api/api
 import { Customer } from './interface';
 import { hideModal, showModal } from './modal';
 
-
 export function togglePassword() {
   const passwordInput = document.getElementById('password');
   const showButton = document.querySelector('.closePassword');
@@ -38,7 +37,7 @@ export function getClientData(event: Event) {
         localStorage.setItem('cartVersion', response.data.cart.version);
       }
       const token = (await getBoundToken(data.email, data.password)).accessToken;
-      localStorage.setItem('token', token)
+      localStorage.setItem('token', token);
       localStorage.setItem('isLoggedIn', 'true');
       window.location.hash = '/';
       const itemuser = document.querySelector('.item-client .login');

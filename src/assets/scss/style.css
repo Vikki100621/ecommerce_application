@@ -82,7 +82,7 @@
   align-self: center;
   gap: 20px;
   justify-content: space-around;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
   width: 100%;
   max-width: 916px;
 }
@@ -134,9 +134,7 @@
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(241, 218, 129, 0.2);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 .product__cart:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -151,9 +149,7 @@
   padding: 15px 30px;
   margin: 10px 20px;
   border-radius: 10px;
-  box-shadow:
-    0 0 40px 40px #573a1a inset,
-    0 0 0 0 #573a1a;
+  box-shadow: 0 0 40px 40px #573a1a inset, 0 0 0 0 #573a1a;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
@@ -162,15 +158,11 @@
   cursor: pointer;
 }
 .product__cart button:not(:disabled):hover {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
 }
 .product__cart button:disabled {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   background-color: #eeeeee;
   border-color: #eeeeee;
   cursor: not-allowed;
@@ -187,7 +179,7 @@ select {
   flex-direction: column;
   row-gap: 30px;
 }
-.filters__container input[type='checkbox'] {
+.filters__container input[type=checkbox] {
   border: 2px #492f2f solid;
 }
 
@@ -273,9 +265,7 @@ select {
   padding: 15px 30px;
   margin: 10px 20px;
   border-radius: 10px;
-  box-shadow:
-    0 0 40px 40px #573a1a inset,
-    0 0 0 0 #573a1a;
+  box-shadow: 0 0 40px 40px #573a1a inset, 0 0 0 0 #573a1a;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
@@ -284,15 +274,11 @@ select {
   cursor: pointer;
 }
 .slider__btn:not(:disabled):hover {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
 }
 .slider__btn:disabled {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
   background-color: #eeeeee;
   border-color: #eeeeee;
@@ -311,9 +297,7 @@ select {
   padding: 15px 30px;
   margin: 10px 20px;
   border-radius: 10px;
-  box-shadow:
-    0 0 40px 40px #573a1a inset,
-    0 0 0 0 #573a1a;
+  box-shadow: 0 0 40px 40px #573a1a inset, 0 0 0 0 #573a1a;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
@@ -322,15 +306,11 @@ select {
   cursor: pointer;
 }
 .product-details__btn:not(:disabled):hover {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
 }
 .product-details__btn:disabled {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
   background-color: #eeeeee;
   border-color: #eeeeee;
@@ -422,7 +402,7 @@ select {
 
 @font-face {
   font-family: Lostar;
-  src: url('../fonts/Lostar/Lostar.ttf');
+  src: url("../fonts/Lostar/Lostar.ttf");
 }
 body {
   box-sizing: content-box;
@@ -479,7 +459,7 @@ body {
   display: flex;
   column-gap: 30px;
   align-items: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
   font-size: 20px;
   font-weight: 700;
 }
@@ -504,7 +484,7 @@ body {
 }
 
 #main .img-background {
-  background-image: url('../img/background.jpg');
+  background-image: url("../img/background.jpg");
   background-position: bottom center;
   background-size: cover;
 }
@@ -562,4 +542,4 @@ body {
   .left-content {
     font-size: 35px;
   }
-} /*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

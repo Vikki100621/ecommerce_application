@@ -62,7 +62,7 @@
   font-size: 24px;
   text-align: center;
 }
-.fieldset [type='checkbox'] {
+.fieldset [type=checkbox] {
   justify-self: start;
 }
 
@@ -76,7 +76,7 @@
   border-radius: 10px;
   transform: translate(-50%, -50%);
   text-align: justify;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 16px;
   color: #ffffff;
   font-weight: 600;
@@ -88,13 +88,13 @@
 .message_active::before {
   position: absolute;
   inset: -10px;
-  content: '';
+  content: "";
 }
 
 .message_active::after {
   position: absolute;
   inset: -15px;
-  content: '';
+  content: "";
 }
 
 #defualt {
@@ -124,4 +124,4 @@
   .error {
     grid-column: 1;
   }
-} /*# sourceMappingURL=section__registration.css.map */
+}/*# sourceMappingURL=section__registration.css.map */

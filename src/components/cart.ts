@@ -273,6 +273,7 @@ export default class Cart {
     return response;
   }
 
+
   createDeleteButton() {
     const deleteCart = document.createElement('ul');
     deleteCart.classList.add('delete__cart');
@@ -280,9 +281,21 @@ export default class Cart {
     const deleteCartButton = document.createElement('button');
     deleteCartText.textContent = 'Clear the cart';
 
-    deleteCartButton.addEventListener('click', async () => {
-      let versionnumber = Number(localStorage.getItem('cartVersion'));
+    const modalWindow = document.getElementById('mymodal') as HTMLDivElement;
+  
 
+    const yesbutton = document.getElementById('confirmYes');
+    const nobutton = document.getElementById('confirmNo');
+    const closebutton = document.getElementById('close');
+
+    deleteCartButton.addEventListener('click', async () => {
+      modalWindow.classList.add('active');
+      console.log('раота');
+    });
+
+    yesbutton?.addEventListener('click', async () => {
+      modalWindow.classList.remove('active');
+      let versionnumber = Number(localStorage.getItem('cartVersion'));
       if (versionnumber === 0 || !versionnumber) {
         versionnumber = 1;
       }
@@ -301,6 +314,15 @@ export default class Cart {
         return undefined;
       }
     });
+
+    nobutton?.addEventListener('click', async () => {
+      modalWindow.classList.remove('active');
+    });
+
+    closebutton?.addEventListener('click', async () => {
+      modalWindow.classList.remove('active');
+    });
+
     deleteCart.appendChild(deleteCartText);
     deleteCart.appendChild(deleteCartButton);
     return deleteCart;

@@ -69,7 +69,7 @@
   }
   .burger__menu-icon::after,
   .burger__menu-icon::before {
-    content: '';
+    content: "";
   }
   .burger__menu-icon::after {
     bottom: 0;
@@ -104,4 +104,4 @@ body._lock {
   .menu {
     left: 0;
   }
-} /*# sourceMappingURL=burger_menu.css.map */
+}/*# sourceMappingURL=burger_menu.css.map */

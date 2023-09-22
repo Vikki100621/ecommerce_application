@@ -80,9 +80,7 @@
   padding: 15px 30px;
   margin: 10px 20px;
   border-radius: 10px;
-  box-shadow:
-    0 0 40px 40px #573a1a inset,
-    0 0 0 0 #573a1a;
+  box-shadow: 0 0 40px 40px #573a1a inset, 0 0 0 0 #573a1a;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
@@ -91,15 +89,11 @@
   cursor: pointer;
 }
 .slider__btn:not(:disabled):hover {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
 }
 .slider__btn:disabled {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
   background-color: #eeeeee;
   border-color: #eeeeee;
@@ -118,9 +112,7 @@
   padding: 15px 30px;
   margin: 10px 20px;
   border-radius: 10px;
-  box-shadow:
-    0 0 40px 40px #573a1a inset,
-    0 0 0 0 #573a1a;
+  box-shadow: 0 0 40px 40px #573a1a inset, 0 0 0 0 #573a1a;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
@@ -129,15 +121,11 @@
   cursor: pointer;
 }
 .product-details__btn:not(:disabled):hover {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
 }
 .product-details__btn:disabled {
-  box-shadow:
-    0 0 10px 0 #573a1a inset,
-    0 0 10px 4px #573a1a;
+  box-shadow: 0 0 10px 0 #573a1a inset, 0 0 10px 4px #573a1a;
   color: #573a1a;
   background-color: #eeeeee;
   border-color: #eeeeee;
@@ -207,4 +195,4 @@
 }
 .modal-window .slider__images {
   height: 90vh;
-} /*# sourceMappingURL=product-page.css.map */
+}/*# sourceMappingURL=product-page.css.map */

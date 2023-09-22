@@ -51,7 +51,7 @@ export async function getBoundToken(
   return { accessToken, refreshToken };
 }
 
-export async function getrefreshToken(refresh: string): Promise<AxiosResponse> {
+export async function getrefreshToken(refresh: string): Promise<{ accessToken: string; refreshToken: string }> {
   const data = new URLSearchParams();
   data.append('grant_type', 'refresh_token');
   data.append('refresh_token', refresh);
@@ -68,21 +68,10 @@ export async function getrefreshToken(refresh: string): Promise<AxiosResponse> {
       password: <string>CTP_CLIENT_SECRET,
     },
   };
-
   const response = await axios(config);
-  return response;
+  const { access_token: accessToken, refresh_token: refreshToken } = response.data;
+  return { accessToken, refreshToken };
 }
-
-// async function getTokenToUse() {
-//   let token = localStorage.getItem('token') as string;
-//   if (!token) {
-//     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-//     console.log(tokenResponse);
-//     token = tokenResponse.accessToken;
-//     localStorage.setItem('token', token);
-//   }
-//   return token;
-// }
 
 export async function postCustomer(
   email: string,
@@ -93,7 +82,6 @@ export async function postCustomer(
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -113,7 +101,6 @@ export async function updateCustomer(id: string, actions: CustomerUpdateBody): P
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -141,13 +128,11 @@ export async function getProducts(): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -170,7 +155,6 @@ export async function getProduct(id: string): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -193,7 +177,6 @@ export async function getCategories(): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -215,7 +198,6 @@ export async function getCustomer(): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -231,7 +213,6 @@ export async function updatePassword(body: PasswordUpdateBody): Promise<AxiosRes
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -269,7 +250,7 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   if (priceRange) {
     filters.push(`variants.price.centAmount:range (${priceRange.min * 100} to ${priceRange.max * 100})`);
   }
-  const params: Record<string, string | number | string[]> = {
+  const params: Record<string, string | number | string[] | undefined> = {
     limit: 500,
     filter: filters,
   };
@@ -280,7 +261,6 @@ export async function searchProducts(options: Options): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -305,7 +285,6 @@ export async function getCartbyId(
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -330,7 +309,6 @@ export async function getCart(): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -354,7 +332,6 @@ export async function getUserCart(): Promise<AxiosResponse> {
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -373,7 +350,6 @@ export async function deleteCartbyId(cartID: string, versionnumber: number): Pro
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -393,7 +369,6 @@ export async function loginCustomer(email: string, password: string): Promise<Ax
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -421,7 +396,6 @@ export async function loginNewCustomer(email: string, password: string): Promise
   let token = localStorage.getItem('token') as string;
   if (!token) {
     const tokenResponse = await getAnonymusToken().then((responce) => responce);
-    console.log(tokenResponse);
     token = tokenResponse.accessToken;
     localStorage.setItem('token', token);
   }
@@ -430,11 +404,6 @@ export async function loginNewCustomer(email: string, password: string): Promise
     password,
     activeCartSignInMode: 'UseAsNewActiveCustomerCart',
   };
-
-  // const cart = await getUserCart().then((cartdata) => cartdata);
-  // if (cart.status === 404) {
-  //   await getCart();
-  // }
 
   const config: AxiosRequestConfig = {
     url: `${CTP_API_URL}/${CTP_PROJECT_KEY}/me/login`,

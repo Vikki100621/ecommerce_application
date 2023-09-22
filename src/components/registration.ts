@@ -1,4 +1,4 @@
-import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer} from './api/api';
+import { postCustomer, updateCustomer, getBoundToken, loginNewCustomer } from './api/api';
 import { CustomerUpdateAction, CustomerUpdateBody, CustomerAddress } from './api/interfaces';
 
 export default class Registration {
@@ -415,7 +415,7 @@ export default class Registration {
         .then(async (response) => {
           userId = response.data.customer.id;
           const token = (await getBoundToken(email, pass)).accessToken;
-          localStorage.setItem('token', token)
+          localStorage.setItem('token', token);
         })
         .catch((error) => {
           throw error;
