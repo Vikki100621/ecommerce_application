@@ -78,7 +78,7 @@ $font-montserrat: 'Montserrat', sans-serif;
       height: 329px;
       max-width: 400px;
       text-align: justify;
-      background-image: url("../../img/gift.png");
+      background-image: url('../../img/gift.png');
       background-color: #635542;
       background-repeat: no-repeat;
       background-size: contain;
@@ -90,13 +90,12 @@ $font-montserrat: 'Montserrat', sans-serif;
       border: 2px solid #f5a623;
       cursor: pointer;
       transition: transform 0.3s ease-in-out;
-     
     }
   }
 }
 
 .special-offer__content p:hover {
-  transform: translateY(-10px); 
+  transform: translateY(-10px);
 }
 
 .modal {
@@ -111,7 +110,7 @@ $font-montserrat: 'Montserrat', sans-serif;
   text-align: justify;
   font-family: 'Courier New', Courier, monospace;
   font-size: 16px;
-  color:#ffffff;
+  color: #ffffff;
   font-weight: 600;
   text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
   box-shadow: 0 8px 12px rgb(0 0 0 / 30%);

@@ -103,6 +103,7 @@ export type Options = {
         max: number;
       }
     | undefined;
+  limit?: number;
 };
 
 export type CartType = {
