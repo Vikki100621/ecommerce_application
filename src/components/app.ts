@@ -9,7 +9,7 @@ import Clock from '../assets/img/clock.png';
 import Products from './product';
 import Sorting from './sort';
 import ProductPage from './productPage/productPage';
-import { getProduct } from './api/api';
+import { getProduct, getUserCart } from './api/api';
 import UserView from './user';
 import Cart from './cart';
 import AboutView from './about/aboutView';
@@ -44,6 +44,8 @@ export default class App {
 
   public cartItems: HTMLDivElement[];
 
+  public quanity: Promise<number>;
+
   constructor() {
     this.body = document.querySelector('body');
     this.header = this.createHeader();
@@ -58,6 +60,7 @@ export default class App {
     this.registration = new Registration();
     this.cart = new Cart();
     this.cartItems = [];
+    this.quanity = this.showQuanity();
   }
 
   registerTemplate(name: string, templateFunction: () => void) {
@@ -78,10 +81,10 @@ export default class App {
     element?.classList.remove('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    // const div = document.querySelector('.item-basket div') as HTMLElement;
+   const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrc;
-    // div.style.border = '2px solid #e4d4be';
+    div.style.border = '2px solid #e4d4be';
 
     this.main.innerHTML = '';
     this.header.style.color = '#e4d4be';
@@ -417,17 +420,33 @@ export default class App {
     modalContent.appendChild(yesBtn);
     modalContent.appendChild(noBtn);
     modal.appendChild(modalContent);
-    this.body?.appendChild(modal)
+    this.body?.appendChild(modal);
     return this.modal;
   }
-  
+
+  // eslint-disable-next-line class-methods-use-this
+  async showQuanity() {
+    const quanityElement = document.querySelector('.products__numbres');
+    const blockQunity = quanityElement;
+    let totalQuantity = 0;
+    if (localStorage.getItem('cartId')) {
+      const usercart = await getUserCart().then((response) => response);
+      console.log(usercart);
+      const items = usercart.data.lineItems;
+      console.log(items);
+      totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+
+      if (blockQunity) blockQunity.textContent = totalQuantity.toString();
+    } else if (blockQunity) blockQunity.textContent = '0';
+    return totalQuantity;
+  }
+
   async showCartPage() {
     this.clearMain();
     const section = document.createElement('section');
     section.classList.add('cart__section');
     if (!localStorage.getItem('cartId')) {
       try {
-        console.log('я создала корзину');
         this.cart.createCart().then((responce) => responce);
         const message = this.cart.messageAboutEmptyCart();
         section.appendChild(message);
@@ -440,7 +459,6 @@ export default class App {
       this.lineItemsWrapper.innerHTML = '';
       const cartInstance = this.cart;
       const cart = await cartInstance.getUserCart().then((cartdata) => cartdata);
-      console.log(cart.data);
       const { lineItems } = cart.data;
       if (lineItems.length > 0) {
         const render = await this.cart.renderCartItems(lineItems);
@@ -545,13 +563,12 @@ export default class App {
     basketLi.classList.add('item-basket');
     basketLi.classList.add('menu-item');
     const basketImage = document.createElement('img');
-    // const numbersOfProducts = document.createElement('div');
-    // numbersOfProducts.classList.add('products__numbres');
+    const numbersOfProducts = document.createElement('div');
+    numbersOfProducts.classList.add('products__numbres');
 
-    // numbersOfProducts.textContent = `${quantity}`;
     basketImage.src = basketImageSrc;
     basketLi.appendChild(basketImage);
-    // basketLi.appendChild(numbersOfProducts);
+    basketLi.appendChild(numbersOfProducts);
     ul.appendChild(basketLi);
 
     const overLay = document.createElement('div');
@@ -583,10 +600,10 @@ export default class App {
     element?.classList.add('dark__color');
 
     const img = document.querySelector('.item-basket img') as HTMLImageElement;
-    // const div = document.querySelector('.item-basket div') as HTMLElement;
+     const div = document.querySelector('.item-basket div') as HTMLElement;
 
     img.src = basketImageSrcBlack;
-    // div.style.border = '2px solid rgb(16, 14, 14)';
+   div.style.border = '2px solid rgb(16, 14, 14)';
   }
 
   // создаем footer(он не будет меняться больше)

@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { getBoundToken, getCustomer, loginCustomer } from '../components/api/api';
 import { Customer } from './interface';
 import { hideModal, showModal } from './modal';
+import { LineItem } from '../components/api/interfaces';
 
 export function togglePassword() {
   const passwordInput = document.getElementById('password');
@@ -34,6 +35,11 @@ export function getClientData(event: Event) {
     .then(async (response) => {
       if (response.data.cart) {
         localStorage.setItem('cartId', response.data.cart.id);
+        const items = response.data.cart.lineItems;
+        const quanityElement = document.querySelector('.products__numbres');
+        const totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+        const blockQunity = quanityElement;
+        if (blockQunity) blockQunity.textContent = totalQuantity.toString();
         localStorage.setItem('cartVersion', response.data.cart.version);
       }
       const token = (await getBoundToken(data.email, data.password)).accessToken;

@@ -193,16 +193,18 @@ export default class ProductPage {
       buttonBasketAdd.disabled = false;
     }
     buttonBasketAdd.addEventListener('click', async () => {
-      const addProduct = await cart.handleclickonAddButton(id).then((responce) => responce);
+      const addProduct = await cart.handleclickonAddButton(id).then((responce) =>  responce);
       console.log(addProduct);
       buttonBasketAdd.disabled = true;
       buttonBasketRemove.disabled = false;
+
     });
     buttonBasketRemove.addEventListener('click', async () => {
-      const removeProduct = this.removeProduct(id);
+      const removeProduct = await this.removeProduct(id);
       console.log(removeProduct);
       buttonBasketAdd.disabled = false;
       buttonBasketRemove.disabled = true;
+
     });
 
     buttonsWrapper.append(buttonBasketAdd, buttonBasketRemove);

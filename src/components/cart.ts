@@ -51,6 +51,7 @@ export default class Cart {
 
   // eslint-disable-next-line class-methods-use-this
   async handleclickonCart(event: Event) {
+    console.log('я работаю');
     const clickedElement = event.target as HTMLElement;
     let parentID;
     if (clickedElement.parentElement && clickedElement.parentElement.id) {
@@ -63,7 +64,12 @@ export default class Cart {
         productId: parentID as string,
         quantity: 1,
       };
-      this.getcartById(actions);
+      const cart = await this.getcartById(actions).then((response) => response);
+      const items = cart?.data.lineItems;
+      const quanityElement = document.querySelector('.products__numbres');
+      const totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+      const blockQunity = quanityElement;
+      if (blockQunity) blockQunity.textContent = totalQuantity.toString();
     } else {
       try {
         const response = await getCart();
@@ -81,9 +87,16 @@ export default class Cart {
           productId: parentID as string,
           quantity: 1,
         };
-        this.getcartById(actions);
+        const cart = await this.getcartById(actions).then((response) => response);
+        const items = cart?.data.lineItems;
+        const quanityElement = document.querySelector('.products__numbres');
+        const totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+        const blockQunity = quanityElement;
+        if (blockQunity) blockQunity.textContent = totalQuantity.toString();
       }
     }
+    // const quanity = await this.showQuanity().then((response) => response);
+    // console.log(quanity);
   }
 
   async handleclickonAddButton(id: string) {
@@ -93,7 +106,12 @@ export default class Cart {
         productId: `${id}` as string,
         quantity: 1,
       };
-      this.getcartById(actions);
+      const cart = await this.getcartById(actions).then((response) => response);
+      const items = cart?.data.lineItems;
+      const quanityElement = document.querySelector('.products__numbres');
+      const totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+      const blockQunity = quanityElement;
+      if (blockQunity) blockQunity.textContent = totalQuantity.toString();
     } else {
       try {
         const response = await getCart();
@@ -108,7 +126,12 @@ export default class Cart {
           productId: `${id}` as string,
           quantity: 1,
         };
-        this.getcartById(actions);
+        const cart = await this.getcartById(actions).then((response) => response);
+        const items = cart?.data.lineItems;
+        const quanityElement = document.querySelector('.products__numbres');
+        const totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+        const blockQunity = quanityElement;
+        if (blockQunity) blockQunity.textContent = totalQuantity.toString();
       }
     }
   }
@@ -118,7 +141,12 @@ export default class Cart {
       action: 'removeLineItem',
       lineItemId: `${id}` as string,
     };
-    this.getcartById(actions);
+    const cart = await this.getcartById(actions).then((response) => response);
+    const items = cart?.data.lineItems;
+    const quanityElement = document.querySelector('.products__numbres');
+    const totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+    const blockQunity = quanityElement;
+    if (blockQunity) blockQunity.textContent = totalQuantity.toString();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -235,7 +263,7 @@ export default class Cart {
       let number = parseInt(quantity.textContent || '0', 10);
 
       trash.addEventListener('click', async () => {
-        this.changeCartWrapper(0, id, quantity, totalprice);
+        this.changeCartWrapper(0, id, quantity);
         productBox.remove();
       });
 
@@ -243,9 +271,9 @@ export default class Cart {
         number += 1;
 
         if (discountedPrice) {
-          this.changeCartWrapper(number, id, quantity, totalprice);
+          this.changeCartWrapper(number, id, quantity);
         } else {
-          this.changeCartWrapper(number, id, quantity, totalprice);
+          this.changeCartWrapper(number, id, quantity);
         }
       });
 
@@ -256,9 +284,9 @@ export default class Cart {
         }
 
         if (discountedPrice) {
-          this.changeCartWrapper(number, id, quantity, totalprice);
+          this.changeCartWrapper(number, id, quantity);
         } else {
-          this.changeCartWrapper(number, id, quantity, totalprice);
+          this.changeCartWrapper(number, id, quantity);
         }
       });
 
@@ -273,7 +301,6 @@ export default class Cart {
     return response;
   }
 
-
   createDeleteButton() {
     const deleteCart = document.createElement('ul');
     deleteCart.classList.add('delete__cart');
@@ -282,7 +309,6 @@ export default class Cart {
     deleteCartText.textContent = 'Clear the cart';
 
     const modalWindow = document.getElementById('mymodal') as HTMLDivElement;
-  
 
     const yesbutton = document.getElementById('confirmYes');
     const nobutton = document.getElementById('confirmNo');
@@ -290,7 +316,6 @@ export default class Cart {
 
     deleteCartButton.addEventListener('click', async () => {
       modalWindow.classList.add('active');
-      console.log('раота');
     });
 
     yesbutton?.addEventListener('click', async () => {
@@ -302,6 +327,10 @@ export default class Cart {
       const cartId = localStorage.getItem('cartId') as string;
       try {
         const response = await deleteCartbyId(cartId, versionnumber);
+
+        const quanityElement = document.querySelector('.products__numbres');
+        const blockQunity = quanityElement;
+        if (blockQunity) blockQunity.textContent = '0';
         localStorage.removeItem('cartId');
         localStorage.removeItem('cartVersion');
         const section = document.querySelector('.cart__section') as HTMLDivElement;
@@ -383,6 +412,7 @@ export default class Cart {
           },
         };
         const deleteValidPromoCode = await this.getcartById(deleteActions).then((cartdatas) => cartdatas);
+        console.log(deleteValidPromoCode?.data);
         const total = deleteValidPromoCode?.data.totalPrice.centAmount;
         const cart = this.renderCartWithoutDiscount(total);
         const existingCartContainer = document.querySelector('.cart-wrapper');
@@ -391,12 +421,19 @@ export default class Cart {
           existingCartContainer.replaceWith(cart);
         }
         const lineItems = deleteValidPromoCode?.data.lineItems;
-        const cartItems = await this.renderCartItems(lineItems);
-        const section = document.querySelector('.lineitems-wrapper') as HTMLDivElement;
-        const wrapper = section;
-        if (wrapper) wrapper.innerHTML = '';
+        const cartItenWrapper = document.querySelector('.lineitems-wrapper') as HTMLDivElement;
+        const cartDelete = document.querySelector('.delete__cart');
+        if (cartItenWrapper) {
+          const products = cartItenWrapper.querySelectorAll('.product__card');
+          Array.prototype.forEach.call(products, (element) => {
+            cartItenWrapper.removeChild(element);
+          });
 
-        cartItems.forEach((item) => wrapper.appendChild(item));
+          const divToRender = await this.renderCartItems(lineItems);
+          divToRender.forEach((item) => {
+            cartItenWrapper.insertBefore(item, cartDelete);
+          });
+        }
       });
     }
 
@@ -427,37 +464,19 @@ export default class Cart {
         const discountid = cartdata?.data.discountCodes[0].discountCode.id;
         const grandtotal = cartdata?.data.totalPrice.centAmount;
         const lineItems: LineItem[] = cartdata?.data.lineItems;
-        const products = document.querySelectorAll('.product__card');
-        const ids: string[] = [];
+        const cartDelete = document.querySelector('.delete__cart');
+        const cartItenWrapper = document.querySelector('.lineitems-wrapper') as HTMLDivElement;
+        if (cartItenWrapper) {
+          const products = cartItenWrapper.querySelectorAll('.product__card');
+          Array.prototype.forEach.call(products, (element) => {
+            cartItenWrapper.removeChild(element);
+          });
 
-        products.forEach((product) => {
-          const buttonsBlock = product.querySelector('.buttonsBlock');
-          const id = buttonsBlock?.getAttribute('id') as string;
-          ids.push(id);
-        });
-
-        lineItems.forEach((lineItem) => {
-          if (ids.includes(lineItem.id)) {
-            const buttonsBlock = document.querySelector(`[id="${lineItem.id}"]`);
-            const productBox = buttonsBlock?.parentNode;
-            const priceBlock = productBox?.querySelector('.product__price');
-            const totalPriceProducts = productBox?.querySelector('.total_price') as HTMLDivElement;
-            const newPrice = totalPriceProducts as HTMLDivElement;
-            const centAmount = lineItem.totalPrice.centAmount / 100;
-            newPrice.textContent = `${centAmount.toString()}$`;
-
-            if (lineItem.discountedPrice) {
-              newPrice.classList.add('new_price');
-            } else {
-              newPrice.classList.remove('new_price');
-            }
-
-            const newPriceContainer = this.renderPrices(lineItem);
-            if (priceBlock) {
-              priceBlock.replaceWith(newPriceContainer);
-            }
-          }
-        });
+          const divToRender = await this.renderCartItems(lineItems);
+          divToRender.forEach((item) => {
+            cartItenWrapper.insertBefore(item, cartDelete);
+          });
+        }
 
         const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
           const prices = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
@@ -543,28 +562,19 @@ export default class Cart {
       quantity: number,
     };
     const cart = await this.getcartById(actions).then((cartdata) => cartdata);
-    console.log(cart);
+    return cart;
   }
 
-  async changeCartWrapper(
-    number: number,
-    id: string,
-    quantityel: HTMLDivElement,
-    totalPriceItem: HTMLDivElement
-    // priceelement: HTMLDivElement,
-    // discountedelement?: HTMLDivElement
-  ) {
+  async changeCartWrapper(number: number, id: string, quantityel: HTMLDivElement) {
     try {
       const section = document.querySelector('.cart__section');
       await this.changeCartQunity(number, id);
       const numbersEl = quantityel;
       numbersEl.textContent = number.toString();
       const cartdata = await this.getUserCart().then((response) => response.data);
-      console.log(cartdata);
-
       const discountId = cartdata.discountCodes[0]?.discountCode.id;
       const totalprice = cartdata.totalPrice.centAmount;
-      const { lineItems } = cartdata;
+      const lineItems = cartdata.lineItems as LineItem[];
 
       const totalCentAmount = lineItems.reduce((total: number, lineItem: LineItem) => {
         const price = lineItem.price.discounted?.value.centAmount || lineItem.price.value.centAmount;
@@ -574,99 +584,64 @@ export default class Cart {
 
       if (lineItems.length === 0) {
         if (section) section.innerHTML = '';
+        localStorage.removeItem('cartId');
+        localStorage.removeItem('cartVersion');
+        const quanityElement = document.querySelector('.products__numbres');
+        const blockQunity = quanityElement;
+        if (blockQunity) blockQunity.textContent = '0';
         const messageblock = this.messageAboutEmptyCart();
         section?.appendChild(messageblock);
       }
 
-      const filteredLineItem = lineItems.filter((lineitem: { id: string }) => lineitem.id === id);
       let cartBLock: HTMLDivElement;
-
-      if (filteredLineItem.length === 0) {
-        if (cartdata.discountCodes.length === 0) {
-          cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
-        } else {
-          cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
-        }
+      if (cartdata.discountCodes.length === 0) {
+        cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
+      } else {
+        cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
       }
 
-      if (filteredLineItem.length > 0) {
-        const newPrice = filteredLineItem[0].totalPrice.centAmount;
-        const total = totalPriceItem;
-        total.textContent = `${(newPrice / 100).toString()}$`;
+      const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
+      const cartDelete = document.querySelector('.delete__cart');
+      const cartItenWrapper = document.querySelector('.lineitems-wrapper') as HTMLDivElement;
+      if (cartItenWrapper) {
+        const products = cartItenWrapper.querySelectorAll('.product__card');
+        Array.prototype.forEach.call(products, (element) => {
+          cartItenWrapper.removeChild(element);
+        });
 
-        if (cartdata.discountCodes.length === 0) {
-          cartBLock = this.renderCartWithoutDiscount(totalprice) as HTMLDivElement;
-        } else {
-          cartBLock = this.renderCartWithDiscount(totalprice, totalCentAmount, discountId) as HTMLDivElement;
-        }
-        const idFilteredProduct = filteredLineItem[0].id;
-        const idElement = document.querySelector(`[id="${idFilteredProduct}"]`);
-        const productBox = idElement?.parentNode;
-        const existingPriceContainer = productBox?.querySelector('.product__price');
+        const divToRender = await this.renderCartItems(lineItems);
+        divToRender.forEach((item) => {
+          cartItenWrapper.insertBefore(item, cartDelete);
+        });
+      }
 
-        const newPriceContainer = this.renderPrices(filteredLineItem[0]);
-        if (existingPriceContainer) {
-          existingPriceContainer.replaceWith(newPriceContainer);
-        }
+      const quanity = await this.showQuanity().then((response) => response);
+      console.log(quanity);
+      if (cartbox) {
+        section?.removeChild(cartbox);
+      }
 
-        if (filteredLineItem[0].discountedPrice) {
-          total.classList.add('new_price');
-        } else {
-          total.classList.remove('new_price');
-        }
-
-        const cartbox = document.querySelector('.cart-wrapper') as HTMLDivElement;
-
-        if (cartbox) {
-          section?.removeChild(cartbox);
-        }
-
-        if (lineItems.length > 0) {
-          section?.appendChild(cartBLock);
-        }
+      if (lineItems.length > 0) {
+        section?.appendChild(cartBLock);
       }
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
   }
 
-  renderPrices(lineItem: LineItem) {
-    const discountedPriceLineItem = lineItem.discountedPrice?.value.centAmount;
-    const discountedPriceElement = document.createElement('div');
-    const discountedPrice = lineItem.price.discounted?.value.centAmount;
-    const price = document.createElement('div');
-    const discounted = lineItem.price.discounted?.value.centAmount;
-    const currPrice = lineItem.price.value.centAmount;
-
-    if (discountedPriceLineItem) {
-      if (discountedPrice) {
-        discountedPriceElement.textContent = `${(discountedPriceLineItem / 100).toString()}$`;
-        discountedPriceElement.classList.add('discounted__price');
-        if (discounted) price.textContent = `${(discounted / 100).toString()}$`;
-        price.classList.add('previous__price');
-      } else {
-        discountedPriceElement.textContent = `${(discountedPriceLineItem / 100).toString()}$`;
-        discountedPriceElement.classList.add('discounted__price');
-        price.textContent = `${(currPrice / 100).toString()}$`;
-        price.classList.add('previous__price');
-      }
-    } else {
-      if (discountedPrice) {
-        if (discounted) discountedPriceElement.textContent = `${(discounted / 100).toString()}$`;
-        discountedPriceElement.classList.add('discounted__price');
-        price.textContent = `${(currPrice / 100).toString()}$`;
-        price.classList.add('previous__price');
-      } else {
-        price.textContent = `${(currPrice / 100).toString()}$`;
-        price.classList.remove('previous__price');
-        price.classList.add('current__price');
-      }
+  async showQuanity() {
+    let totalQuantity = 0;
+    if (localStorage.getItem('cartId')) {
+      const usercart = await getUserCart().then((response) => response);
+      console.log(usercart);
+      const items = usercart.data.lineItems;
+      console.log(items);
+      const quanityElement = document.querySelector('.products__numbres');
+      totalQuantity = items.reduce((total: number, item: LineItem) => total + item.quantity, 0);
+      const blockQunity = quanityElement;
+      if (blockQunity) blockQunity.textContent = totalQuantity.toString();
     }
-    const priceBlock = document.createElement('div');
-    priceBlock.appendChild(price);
-    priceBlock.appendChild(discountedPriceElement);
-    priceBlock.classList.add('product__price');
-    return priceBlock;
+    return totalQuantity;
   }
 
   messageAboutEmptyCart() {

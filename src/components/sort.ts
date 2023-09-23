@@ -218,7 +218,6 @@ export default class Sorting {
     filterContainer.appendChild(filterLabel);
 
     options.forEach((optionText) => {
-
       const checkboxContainer = document.createElement('label');
       const checkbox = document.createElement('input');
       checkbox.classList.add('checkbox');

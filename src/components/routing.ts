@@ -130,8 +130,10 @@ export default class Routing {
         localStorage.removeItem('cartId');
         localStorage.removeItem('customerID');
         localStorage.removeItem('cartVersion');
-        localStorage.removeItem('newtoken');
-
+        const quanityElement = document.querySelector('.products__numbres');
+        const blockQunity = quanityElement;
+        if (blockQunity) blockQunity.textContent = '0';
+        
         const itemuser = document.querySelector('.item-client .login');
         const itemlogout = document.querySelector('.item-client .register');
         if (itemuser && itemlogout) {

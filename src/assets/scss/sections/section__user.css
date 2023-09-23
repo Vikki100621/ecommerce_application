@@ -35,6 +35,7 @@
   margin: 0 auto 20px;
   background-color: #f5e6d7;
   border: 2px solid #d7b899;
+  border-radius: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1882352941);
 }
 .profile__header,
@@ -52,6 +53,7 @@
 .addresses__buttonsContainer,
 .password__buttonsContainer {
   display: flex;
+  column-gap: 20px;
 }
 .profile__title,
 .addresses__title,
@@ -117,8 +119,11 @@
 }
 .addresses__initHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 .addresses__initTitle {
   font-size: 20px;
